@@ -27,7 +27,20 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-font",
+        {
+          "SpectralSC-Bold": "./assets/fonts/SpectralSC-Bold.ttf",
+          "SpectralSC-Medium": "./assets/fonts/SpectralSC-Medium.ttf",
+          "SpectralSC-Regular": "./assets/fonts/SpectralSC-Regular.ttf",
+          "SpectralSC-SemiBold": "./assets/fonts/SpectralSC-SemiBold.ttf",
+          "BerlingskeSerifCn-Bold": "./assets/fonts/BerlingskeSerifCn-Bold.ttf",
+          "BerlingskeSerifCn-DBd": "./assets/fonts/BerlingskeSerifCn-DBd.ttf",
+          "BerlingskeSerifCn-Md": "./assets/fonts/BerlingskeSerifCn-Md.ttf",
+          "BerlingskeSerifCn-Regular": "./assets/fonts/BerlingskeSerifCn-Regular.ttf"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
