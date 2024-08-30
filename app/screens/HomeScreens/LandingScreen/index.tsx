@@ -5,31 +5,13 @@ import Banner from "@/app/components/Banner";
 import SportsCard from "@/app/components/SportsCard";
 import { images } from "@/app/MyAssets";
 import HomeHeader from "@/app/components/HomeHeader";
-
-const allSports = [
-  {
-    name: "Tennis",
-    image: images.tennis,
-  },
-  {
-    name: "Squash",
-    image: images.squash,
-  },
-  {
-    name: "Padel",
-    image: images.padel,
-  },
-  {
-    name: "Cricket",
-    image: images.cricket,
-  },
-];
+import { AllSports } from "@/app/utils/dummyJson";
 
 const LandingScreen = () => {
   return (
     <ScreenWrapper noPadding={true}>
-      <HomeHeader />
-      <Banner />
+      <HomeHeader allSports={AllSports} />
+      {/* <Banner /> */}
       <View
         style={{
           flexWrap: "wrap",
@@ -37,9 +19,9 @@ const LandingScreen = () => {
           justifyContent: "space-between",
         }}
       >
-        {allSports.map((item) => {
+        {/* {allSports.map((item) => {
           return <SportsCard item={item} />;
-        })}
+        })} */}
       </View>
     </ScreenWrapper>
   );

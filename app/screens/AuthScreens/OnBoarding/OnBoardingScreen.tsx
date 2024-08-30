@@ -15,6 +15,8 @@ const OnBoardingScreen = () => {
   return (
     <ScreenWrapper>
       <LogoHeader />
+      <BerlingskeBold>Test Screen</BerlingskeBold>
+
       <BerlingskeBold>"Congratulations" Password Send</BerlingskeBold>
 
       <InputField icon={icons.idCard} placeholder="username" />

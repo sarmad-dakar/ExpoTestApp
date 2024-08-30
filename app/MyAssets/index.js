@@ -8,6 +8,14 @@ export const icons = {
   calendar: require("../MyAssets/icons/calendar.png"),
   bank: require("../MyAssets/icons/palace.png"),
   user: require("../MyAssets/icons/user.png"),
+  email: require("../MyAssets/icons/EmailPop.png"),
+  squash: require("../MyAssets/icons/squash-white.png"),
+  padel: require("../MyAssets/icons/paddle-white.png"),
+  cricket: require("../MyAssets/icons/cricket-white.png"),
+  snooker: require("../MyAssets/icons/Snooker-white.png"),
+  tennis: require("../MyAssets/icons/tennis-green.png"),
+  court: require("../MyAssets/icons/court.png"),
+  dropdown: require("../MyAssets/icons/arrow-circle-down.png"),
 };
 
 export const images = {

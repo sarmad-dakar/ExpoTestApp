@@ -1,16 +1,20 @@
-import { Platform, StyleSheet, Text, View } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React from "react";
 import MainButton from "@/app/components/MainButton";
-import { router, useNavigation } from "expo-router";
 import LogoHeader from "@/app/components/LogoHeader";
-import BerlingskeBold from "@/app/components/TextWrapper/BerlingskeBold";
 import InputField from "@/app/components/InputField";
 import { icons } from "@/app/MyAssets";
 import ScreenWrapper from "@/app/components/ScreenWrapper";
 import PoweredBy from "@/app/components/PoweredBy";
-
 import { colors } from "@/app/utils/theme";
 import { vh } from "@/app/utils/units";
+import { router } from "expo-router";
 
 const LoginScreen = () => {
   return (
@@ -22,6 +26,7 @@ const LoginScreen = () => {
         ]}
       >
         <LogoHeader />
+
         <View style={{ marginTop: vh * 2 }} />
         <InputField icon={icons.idCard} placeholder="Membership Number*" />
         <InputField
@@ -29,8 +34,10 @@ const LoginScreen = () => {
           placeholder="password"
           secureTextEntry={true}
         />
-        <Text style={styles.forgotPass}>Forgot Password ?</Text>
-        <MainButton title="Sign in" />
+        <TouchableOpacity onPress={() => router.replace("/forgotpassword")}>
+          <Text style={styles.forgotPass}>Forgot Password ?</Text>
+        </TouchableOpacity>
+        <MainButton title="Sign in" onPress={() => router.replace("/(tabs)")} />
         <Text style={styles.terms}>
           By signing in, you are agreeing to the online Terms and Conditions of
           the Marsa Sports Club booking regulations.

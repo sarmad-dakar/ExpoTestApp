@@ -7,6 +7,7 @@ const MainNavigation = () => {
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="login" options={{ headerShown: false }} />
+      <Stack.Screen name="forgotpassword" options={{ headerShown: false }} />
     </Stack>
   );
 };

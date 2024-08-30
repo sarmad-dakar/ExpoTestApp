@@ -24,11 +24,9 @@ const InputField = (props) => {
 
   const handleOrientationChange = () => {
     const { width, height } = Dimensions.get("window");
-    console.log(height, "height");
     setWidth(width);
     setHeight(height);
   };
-  console.log(height, "height");
   useEffect(() => {
     // Add dimension change listener
     const unSub = Dimensions.addEventListener(
@@ -102,9 +100,9 @@ const InputField = (props) => {
           />
         </Pressable>
 
-        {props.rightText && (
-          <View style={styles.subText}>
-            <Text>{props.rightText}</Text>
+        {props.rightIcon && (
+          <View style={styles.rightContainer}>
+            <Image source={props.rightIcon} style={styles.rightIcon} />
           </View>
         )}
 

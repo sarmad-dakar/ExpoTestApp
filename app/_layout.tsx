@@ -40,8 +40,8 @@ export default function RootLayout() {
           backgroundColor="transparent"
         />
         <Stack initialRouteName="(navigations)">
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="(navigations)" options={{ headerShown: false }} />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         </Stack>
       </View>
     </ThemeProvider>
