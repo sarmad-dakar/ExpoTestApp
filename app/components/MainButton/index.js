@@ -14,11 +14,9 @@ const MainButton = (props) => {
 
   const handleOrientationChange = () => {
     const { width, height } = Dimensions.get("window");
-    console.log(height, "height");
     setWidth(width);
     setHeight(height);
   };
-  console.log(height, "height");
   useEffect(() => {
     // Add dimension change listener
     const unSub = Dimensions.addEventListener(
@@ -53,13 +51,14 @@ const MainButton = (props) => {
             styles.buttonText,
             {
               borderRadius: 5,
+              fontSize: props.style?.height ? props.style?.height / 3 : 14,
             },
-            height < 420 && { fontSize: 12 },
           ]}
         >
           {props.title}
         </Text>
       )}
+      dx
     </TouchableOpacity>
   );
 };
@@ -68,7 +67,7 @@ export default MainButton;
 
 const styles = StyleSheet.create({
   container: {
-    height: 50,
+    height: 45,
     width: "100%",
     backgroundColor: colors.secondary,
     justifyContent: "center",

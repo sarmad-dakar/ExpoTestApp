@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: "3%",
     justifyContent: "space-between",
     flexDirection: "row",
-    borderRadius: 10,
+    // borderRadius: 10,
   },
   textContainer: {
     flexDirection: "row",
@@ -32,8 +32,8 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   rightIcon: {
-    width: "70%",
-    height: "70%",
+    width: "60%",
+    height: "60%",
     resizeMode: "contain",
   },
   iconContainer: {

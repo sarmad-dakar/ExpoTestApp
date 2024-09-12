@@ -1,7 +1,5 @@
 import { Tabs } from "expo-router";
 import React from "react";
-
-import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -18,7 +16,7 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
         </View>
       </View>
 
-      {state.routes.map((route, index) => {
+      {state.routes.slice(0, 4).map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
           options.tabBarLabel !== undefined
@@ -91,7 +89,7 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="homestack"
         options={{ title: "Home", tabBarIcon: icons.home }}
       />
       <Tabs.Screen

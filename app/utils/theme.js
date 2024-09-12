@@ -3,6 +3,7 @@ export const colors = {
   secondary: "#CCFF05",
   headingColor: "#3B5049",
   background: "white",
+  slotBackground: "#F1F1F1",
   inputBorders: "gray",
   placeholder: "",
   green: "#037A36",

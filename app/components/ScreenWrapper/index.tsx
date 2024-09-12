@@ -4,6 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 type ScreenWrapperProps = {
   children: ReactNode;
+  noPadding: Boolean;
 };
 
 const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
@@ -12,7 +13,7 @@ const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
 }) => {
   return (
     <LinearGradient
-      colors={["white", "white", "white", "white", "#f4f4f4", "#0001"]}
+      colors={["white", "white", "white", "white", "#f4f4f4"]}
       style={[styles.container, noPadding && { paddingHorizontal: 0 }]}
     >
       {children}

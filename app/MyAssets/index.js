@@ -16,6 +16,15 @@ export const icons = {
   tennis: require("../MyAssets/icons/tennis-green.png"),
   court: require("../MyAssets/icons/court.png"),
   dropdown: require("../MyAssets/icons/arrow-circle-down.png"),
+  hamburger: require("../MyAssets/icons/hamburger.png"),
+  reciept: require("../MyAssets/icons/Form-bottom-Bg.png"),
+  cross: require("./icons/closeIcon.png"),
+  clock: require("./icons/time.png"),
+  search: require("./icons/search.png"),
+  starFilled: require("./icons/star-filled.png"),
+  starUnfilled: require("./icons/star-unfilled.png"),
+  tick: require("./icons/tick.png"),
+  euro: require("./icons/euro.png"),
 };
 
 export const images = {

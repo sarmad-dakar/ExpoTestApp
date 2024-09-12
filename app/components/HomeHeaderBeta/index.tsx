@@ -16,6 +16,7 @@ import InputField from "../InputField";
 import MainButton from "../MainButton";
 import BerlingskeRegular from "../TextWrapper/BerlingskeRegular";
 import SlidingDrawer from "../SlidingDrawer";
+import Svg, { Path } from "react-native-svg";
 
 interface Sport {
   name: string;
@@ -27,7 +28,7 @@ interface HomeHeaderProps {
   allSports: Sport[]; // Adjust the type according to your data structure
 }
 
-const HomeHeader: React.FC<HomeHeaderProps> = ({ allSports }) => {
+const HomeHeaderBeta: React.FC<HomeHeaderProps> = ({ allSports }) => {
   const [SelectedSport, setSelectedSport] = useState(allSports[0]);
   const [OtherSports, SetOtherSports] = useState(allSports.slice(1));
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -36,6 +37,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({ allSports }) => {
     setSelectedSport(sport);
     const otherSports = allSports.filter((item) => item.name !== sport.name);
     SetOtherSports(otherSports);
+    setDrawerVisible(false);
   };
 
   return (
@@ -44,7 +46,17 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({ allSports }) => {
         isVisible={drawerVisible}
         onClose={() => setDrawerVisible(false)}
       >
-        <Text>Here is the drawer content!</Text>
+        {OtherSports.map((item) => {
+          return (
+            <TouchableOpacity
+              onPress={() => handleSelectedSport(item)}
+              style={styles.iconContainer}
+            >
+              <Image source={item.icon} style={styles.sideBarIcons} />
+              <Text>{item.name}</Text>
+            </TouchableOpacity>
+          );
+        })}
       </SlidingDrawer>
 
       <View style={styles.container}>
@@ -60,11 +72,16 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({ allSports }) => {
         <BerlingskeMedium style={styles.selectedSport}>
           Tennis Bookings
         </BerlingskeMedium>
-        <View style={{ width: 60 }}></View>
+        <TouchableOpacity
+          onPress={() => setDrawerVisible(true)}
+          style={{ width: 60 }}
+        >
+          <Image source={icons.hamburger} style={[styles.logo]} />
+        </TouchableOpacity>
       </View>
 
       <View style={styles.bottomHeaderContainer}>
-        <View style={styles.sideBar}>
+        {/* <View style={styles.sideBar}>
           {OtherSports.map((item) => {
             return (
               <TouchableOpacity
@@ -76,7 +93,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({ allSports }) => {
               </TouchableOpacity>
             );
           })}
-        </View>
+        </View> */}
         <View style={styles.slotWrapper}>
           <View style={styles.slotContainer}>
             <BerlingskeBold style={styles.slotTitle}>
@@ -90,7 +107,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({ allSports }) => {
             />
             <MainButton
               onPress={() => setDrawerVisible(true)}
-              style={{ height: 40 }}
+              style={{ height: 45 }}
               title="Search Now"
             />
             <View
@@ -106,21 +123,59 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({ allSports }) => {
               </Text>
             </View>
           </View>
+          <View
+            style={{
+              //   backgroundColor: "red",
+              //   height: 40,
+              //   height: 50,
+              overflow: "hidden",
+              //   backgroundColor: "green",
+              flexDirection: "row",
+            }}
+          >
+            {/* <Svg
+              height="20"
+              width="100%"
+              viewBox="0 0 100 10"
+              style={{
+                marginBottom: 10,
+              }}
+            >
+              <Path
+                d="M 0 20 Q 5 5 10 19 T 20 20 T 30 15 T 40 23 T 47 12 T 56 16 T 70 15 T 80 20 T 87 20 T 100 20 L 100 0 L 0 0 Z"
+                fill="white"
+                stroke="#dcdcdc"
+                strokeWidth="1"
+              />
+            </Svg> */}
+            <Image
+              source={icons.reciept}
+              style={{
+                height: 25,
+                width: "100%",
+                resizeMode: "repeat",
+
+                // right: 30,
+              }}
+            />
+          </View>
         </View>
       </View>
     </View>
   );
 };
 
-export default HomeHeader;
+export default HomeHeaderBeta;
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.primary,
-    height: vh * 13,
-    borderBottomRightRadius: 40,
+    height: vh * 20,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
     justifyContent: "space-between",
     flexDirection: "row",
+    paddingBottom: 35,
     alignItems: "center",
     paddingHorizontal: 20,
   },
@@ -134,10 +189,10 @@ const styles = StyleSheet.create({
     color: "white",
   },
   bottomHeaderContainer: {
-    flexDirection: "row",
-    height: vh * 30,
-    backgroundColor: "white",
-    width: "100%",
+    height: vh * 32,
+    width: "80%",
+    alignSelf: "center",
+    marginTop: -50,
   },
   sideBar: {
     backgroundColor: colors.primary,
@@ -149,17 +204,26 @@ const styles = StyleSheet.create({
     // alignItems: "center",
   },
   slotWrapper: {
-    backgroundColor: colors.primary,
     height: "100%",
-    width: "70%",
+    width: "100%",
   },
   slotContainer: {
     height: "100%",
     width: "100%",
-    backgroundColor: "white",
-    borderTopLeftRadius: 40,
-    paddingLeft: 30,
-    paddingTop: 30,
+    backgroundColor: colors.white,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+
+    paddingHorizontal: 30,
+    paddingTop: 20,
+    // shadowColor: "#000",
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 3.84,
+    // elevation: 5,
   },
   sidebarTabs: {
     justifyContent: "center",
@@ -175,5 +239,16 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     tintColor: "black",
     marginRight: 10,
+  },
+  sideBarIcons: {
+    width: 40,
+    height: 40,
+    resizeMode: "contain",
+    tintColor: "black",
+  },
+  iconContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 30,
   },
 });
