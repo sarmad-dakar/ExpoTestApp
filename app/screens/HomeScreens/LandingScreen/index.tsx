@@ -30,17 +30,17 @@ const LandingScreen = () => {
   return (
     <ScreenWrapper noPadding={true}>
       <HomeHeader allSports={AllSports} />
-      {/* <HomeHeaderBeta allSports={AllSports} /> */}
+      {/* <HomeHeaderBeta allSports={AllSports} label={"Tennis Booking"} /> */}
 
       <ScrollView
         style={{ flex: 1, marginTop: 30 }}
         contentContainerStyle={{
           paddingLeft: 20,
-          paddingBottom: 30,
+          paddingBottom: 200,
         }}
       >
-        {/* <BookingCalendar /> */}
-        <AvailableSlots handleBooking={handleBooking} />
+        <BookingCalendar />
+        {/* <AvailableSlots handleBooking={handleBooking} /> */}
       </ScrollView>
       <ConfirmationPopup
         reference={confirmationPopup}

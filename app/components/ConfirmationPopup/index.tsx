@@ -152,7 +152,6 @@ const styles = StyleSheet.create({
   },
   courtImage: {
     height: 250,
-    backgroundColor: "red",
     marginTop: 20,
     borderRadius: 20,
     overflow: "hidden",

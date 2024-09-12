@@ -5,7 +5,11 @@ import { colors } from "@/app/utils/theme";
 import { vh } from "@/app/utils/units";
 import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
 
-const GeneralHeader = () => {
+type headerProps = {
+  title?: string;
+};
+
+const GeneralHeader = ({ title }: headerProps) => {
   return (
     <View style={styles.container}>
       <View style={{ alignItems: "center", width: 60 }}>
@@ -17,9 +21,7 @@ const GeneralHeader = () => {
           {"Tennis"}
         </Text>
       </View>
-      <BerlingskeMedium style={styles.selectedSport}>
-        Tennis Bookings
-      </BerlingskeMedium>
+      <BerlingskeMedium style={styles.selectedSport}>{title}</BerlingskeMedium>
       <View style={{ width: 60 }}></View>
     </View>
   );

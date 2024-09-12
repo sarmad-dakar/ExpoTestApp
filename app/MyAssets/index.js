@@ -25,6 +25,9 @@ export const icons = {
   starUnfilled: require("./icons/star-unfilled.png"),
   tick: require("./icons/tick.png"),
   euro: require("./icons/euro.png"),
+  filter: require("./icons/filter.png"),
+  noBooking: require("./icons/noBooking.png"),
+  more: require("./icons/more.png"),
 };
 
 export const images = {

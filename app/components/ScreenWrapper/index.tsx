@@ -4,7 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 type ScreenWrapperProps = {
   children: ReactNode;
-  noPadding: Boolean;
+  noPadding?: Boolean;
 };
 
 const ScreenWrapper: React.FC<ScreenWrapperProps> = ({

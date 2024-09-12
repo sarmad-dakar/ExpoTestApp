@@ -6,7 +6,9 @@ import BerlingskeMedium from "@/app/components/TextWrapper/BerlingskeMedium";
 import InputField from "@/app/components/InputField";
 import { icons } from "@/app/MyAssets";
 import MainButton from "@/app/components/MainButton";
-import AddPlayerModal from "@/app/components/AddPlayerModal";
+import AddPlayerModal, {
+  addplayerPopupRef,
+} from "@/app/components/AddPlayerModal";
 import { colors } from "@/app/utils/theme";
 import ConfirmationPopup from "@/app/components/ConfirmationPopup";
 
@@ -18,14 +20,14 @@ interface Player {
 }
 
 const BookingDetailScreen = () => {
-  const addPlayerPopup = useRef();
-
+  const addPlayerPopup = useRef<addplayerPopupRef>(null);
   const [selectedPlayers, setSelectedPlayers] = useState<Player[]>([]);
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
       <GeneralHeader />
       <ScrollView
-        style={{ flex: 1, paddingHorizontal: 20, paddingVertical: 40 }}
+        style={{ flex: 1, paddingHorizontal: 20, paddingBottom: 100 }}
       >
         <BerlingskeBold style={styles.heading}>
           Booking Payment & Add Players
@@ -47,7 +49,7 @@ const BookingDetailScreen = () => {
           value="07:00 AM"
         />
         <MainButton
-          onPress={() => addPlayerPopup.current.show()}
+          onPress={() => addPlayerPopup.current?.show()}
           title="Change"
         />
         <BerlingskeMedium>Booking Types</BerlingskeMedium>
@@ -61,7 +63,7 @@ const BookingDetailScreen = () => {
           <MainButton
             title="Add Players"
             style={styles.addPlayer}
-            onPress={() => addPlayerPopup.current.show()}
+            onPress={() => addPlayerPopup.current?.show()}
           />
         </View>
         {selectedPlayers.map((item) => (

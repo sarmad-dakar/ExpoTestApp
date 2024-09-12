@@ -5,6 +5,8 @@ import React, {
   useImperativeHandle,
   RefObject,
   forwardRef,
+  Dispatch,
+  SetStateAction,
 } from "react";
 import {
   Modal,
@@ -41,7 +43,7 @@ export type addplayerPopupRef = {
 };
 
 type addplayerPopupProps = {
-  setSelectedPlayers: ([]) => void;
+  setSelectedPlayers: Dispatch<SetStateAction<Player[]>>;
   reference?: RefObject<addplayerPopupRef>; // Optional if passing forwardRef
 };
 

@@ -1,12 +1,14 @@
 import {
   ActivityIndicator,
   Dimensions,
+  Image,
   StyleSheet,
   Text,
   TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { colors } from "../../utils/theme";
+import { icons } from "@/app/MyAssets";
 
 const MainButton = (props) => {
   const [width, setWidth] = useState(Dimensions.get("window").width);
@@ -43,6 +45,7 @@ const MainButton = (props) => {
         props.style,
       ]}
     >
+      {props.icon && <Image source={props.icon} style={styles.icon} />}
       {props.loading ? (
         <ActivityIndicator size={"small"} color={"white"} />
       ) : (
@@ -58,7 +61,6 @@ const MainButton = (props) => {
           {props.title}
         </Text>
       )}
-      dx
     </TouchableOpacity>
   );
 };
@@ -75,11 +77,19 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     marginVertical: 14,
     alignSelf: "center",
+    flexDirection: "row",
   },
   buttonText: {
     color: "black",
     fontSize: 15,
     fontWeight: "bold",
     textTransform: "uppercase",
+  },
+  icon: {
+    height: 15,
+    width: 15,
+    resizeMode: "contain",
+    tintColor: "black",
+    marginRight: 5,
   },
 });
