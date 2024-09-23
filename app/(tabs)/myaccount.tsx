@@ -1,14 +1,8 @@
-import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import MyAccountScreen from "../screens/HomeScreens/MyAccount";
 
 const myaccount = () => {
-  return (
-    <View>
-      <Text>myaccout</Text>
-    </View>
-  );
+  return <MyAccountScreen />;
 };
 
 export default myaccount;
-
-const styles = StyleSheet.create({});

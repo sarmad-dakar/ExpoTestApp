@@ -7,6 +7,8 @@ const HomeLayout = () => {
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="bookingdetail" options={{ headerShown: false }} />
+      <Stack.Screen name="notifications" options={{ headerShown: false }} />
+
       <Stack.Screen name="test" options={{ headerShown: false }} />
     </Stack>
   );

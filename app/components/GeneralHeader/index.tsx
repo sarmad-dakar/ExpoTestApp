@@ -1,28 +1,36 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { icons } from "@/app/MyAssets";
 import { colors } from "@/app/utils/theme";
 import { vh } from "@/app/utils/units";
 import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
+import { router } from "expo-router";
 
 type headerProps = {
-  title?: string;
+  title: string;
+  back?: boolean;
 };
 
-const GeneralHeader = ({ title }: headerProps) => {
+const GeneralHeader = ({ title, back }: headerProps) => {
   return (
     <View style={styles.container}>
-      <View style={{ alignItems: "center", width: 60 }}>
-        <Image
-          source={icons.tennis}
-          style={[styles.logo, { tintColor: colors.secondary }]}
-        />
-        <Text style={[styles.selectedSport, { color: colors.secondary }]}>
-          {"Tennis"}
-        </Text>
-      </View>
+      {back ? (
+        <TouchableOpacity onPress={() => router.back()}>
+          <Image source={icons.back} style={styles.backIcon} />
+        </TouchableOpacity>
+      ) : (
+        <View style={{ alignItems: "center", width: 60 }}>
+          <Image
+            source={icons.tennis}
+            style={[styles.logo, { tintColor: colors.secondary }]}
+          />
+          <Text style={[styles.selectedSport, { color: colors.secondary }]}>
+            {"Tennis"}
+          </Text>
+        </View>
+      )}
       <BerlingskeMedium style={styles.selectedSport}>{title}</BerlingskeMedium>
-      <View style={{ width: 60 }}></View>
+      <View style={{ width: back ? 22 : 60 }}></View>
     </View>
   );
 };
@@ -47,5 +55,11 @@ const styles = StyleSheet.create({
   },
   selectedSport: {
     color: "white",
+  },
+  backIcon: {
+    height: 22,
+    width: 22,
+    resizeMode: "contain",
+    tintColor: "white",
   },
 });

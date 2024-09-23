@@ -97,8 +97,8 @@ export default function TabLayout() {
         options={{ title: "My Bookings", tabBarIcon: icons.calendar }}
       />
       <Tabs.Screen
-        name="myaccount"
-        options={{ title: "My Account", tabBarIcon: icons.bank }}
+        name="navigationstack"
+        options={{ title: "Navigations", tabBarIcon: icons.hamburger }}
       />
       <Tabs.Screen
         name="myprofile"

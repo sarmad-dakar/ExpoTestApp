@@ -20,6 +20,7 @@ import { router } from "expo-router";
 
 const ForgotPasswordScreen = () => {
   const [step, setStep] = useState(1);
+  const [membershipNumber, setMemberShipNumber] = useState("");
 
   return (
     <ScreenWrapper>
@@ -38,7 +39,11 @@ const ForgotPasswordScreen = () => {
               Recover Your Password
             </BerlingskeMedium>
             <View style={{ marginTop: vh * 2 }} />
-            <InputField icon={icons.idCard} placeholder="Membership Number*" />
+            <InputField
+              icon={icons.idCard}
+              placeholder="Membership Number*"
+              onChangeText={setMemberShipNumber}
+            />
             <MainButton title="Send Email" onPress={() => setStep(2)} />
           </View>
         ) : (

@@ -28,6 +28,17 @@ export const icons = {
   filter: require("./icons/filter.png"),
   noBooking: require("./icons/noBooking.png"),
   more: require("./icons/more.png"),
+  dummyUser: require("./icons/user_1.png"),
+  edit: require("./icons/Edit_rectangle.png"),
+  email: require("./icons/send-email.png"),
+  iphone: require("./icons/iphone.png"),
+  landline: require("./icons/phone-one.png"),
+  callingPhone: require("./icons/phone-call.png"),
+  location: require("./icons/local.png"),
+  global: require("./icons/world.png"),
+  locationPin: require("./icons/local-pin.png"),
+  notificationIcon: require("./icons/notification.png"),
+  camera: require("./icons/camera.png"),
 };
 
 export const images = {
@@ -39,4 +50,9 @@ export const images = {
   padel: require("../MyAssets/images/padel.png"),
   squash: require("../MyAssets/images/squash.png"),
   cricket: require("../MyAssets/images/cricket.png"),
+  dummyAvatar: require("../MyAssets/images/dummyAvatar.jpg"),
+  cricket_OB: require("../MyAssets/images/cricket_OB.png"),
+  tennis_OB: require("../MyAssets/images/tennis_OB.png"),
+  squash_OB: require("../MyAssets/images/squash_OB.png"),
+  padel_OB: require("../MyAssets/images/Padel_OB.png"),
 };

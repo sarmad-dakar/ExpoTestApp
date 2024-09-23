@@ -56,10 +56,15 @@ const InputField = (props) => {
     }).start();
   };
   const handleInputPress = () => {
-    if (props.reference) {
-      props.reference.current.focus();
-    } else {
-      inputRef.current.focus();
+    if (!props.dropdown) {
+      if (props.reference) {
+        props.reference.current.focus();
+      } else {
+        inputRef.current.focus();
+      }
+    }
+    if (props.onPress) {
+      props.onPress();
     }
   };
   return (
@@ -84,20 +89,26 @@ const InputField = (props) => {
               <Image source={props.icon} style={styles.rightIcon} />
             </View>
           )}
-          <TextInput
-            onFocus={() => {
-              tintColorAnimation();
-            }}
-            onBlur={() => {
-              tintOut();
-            }}
-            ref={props?.reference ? props?.reference : inputRef}
-            style={styles.input}
-            placeholderTextColor={"#c1c1c1"}
-            maxFontSizeMultiplier={1}
-            {...props}
-            secureTextEntry={showPassword}
-          />
+          {props.dropdown ? (
+            <View>
+              <Text>{props.value}</Text>
+            </View>
+          ) : (
+            <TextInput
+              onFocus={() => {
+                tintColorAnimation();
+              }}
+              onBlur={() => {
+                tintOut();
+              }}
+              ref={props?.reference ? props?.reference : inputRef}
+              style={styles.input}
+              placeholderTextColor={"#c1c1c1"}
+              maxFontSizeMultiplier={1}
+              {...props}
+              secureTextEntry={showPassword}
+            />
+          )}
         </Pressable>
 
         {props.rightIcon && (

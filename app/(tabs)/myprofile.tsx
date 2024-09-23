@@ -1,12 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import ProfileHeader from "../components/ProfileHeader";
+import ProfileScreen from "../screens/HomeScreens/ProfileScreen";
 
 const myprofile = () => {
-  return (
-    <View>
-      <Text>myprofile</Text>
-    </View>
-  );
+  return <ProfileScreen />;
 };
 
 export default myprofile;

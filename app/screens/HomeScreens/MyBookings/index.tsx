@@ -6,21 +6,25 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import ScreenWrapper from "@/app/components/ScreenWrapper";
 import GeneralHeader from "@/app/components/GeneralHeader";
 import { colors } from "@/app/utils/theme";
 import MainButton from "@/app/components/MainButton";
 import { icons } from "@/app/MyAssets";
 import BookedSlots from "@/app/components/BookedSlots";
+import BookingFilterPopup, {
+  BookingFilterPopupRef,
+} from "@/app/components/BookingFilterPopup";
 
 const MyBookingsScreen = () => {
   const tabs = ["All", "Tennis", "Squash", "Padel", "Cricket"];
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
-
+  const bookingFilterPopup = useRef<BookingFilterPopupRef>(null);
   return (
     <View style={styles.screenContainer}>
       <GeneralHeader title={"My Bookings"} />
+      <BookingFilterPopup reference={bookingFilterPopup} />
       <ScreenWrapper>
         <View style={styles.tabContainer}>
           {tabs.map((item) => (
@@ -42,7 +46,12 @@ const MyBookingsScreen = () => {
             </TouchableOpacity>
           ))}
         </View>
-        <MainButton title="Filters" style={styles.btn} icon={icons.filter} />
+        <MainButton
+          onPress={() => bookingFilterPopup.current?.show()}
+          title="Filters"
+          style={styles.btn}
+          icon={icons.filter}
+        />
 
         <FlatList
           data={[1, 2, 3]}

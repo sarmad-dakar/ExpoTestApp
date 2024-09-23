@@ -44,6 +44,7 @@ export type addplayerPopupRef = {
 
 type addplayerPopupProps = {
   setSelectedPlayers: Dispatch<SetStateAction<Player[]>>;
+  selectedPlayers: Player[];
   reference?: RefObject<addplayerPopupRef>; // Optional if passing forwardRef
 };
 
@@ -52,7 +53,6 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
     const translateY = useRef(new Animated.Value(height)).current; // Initial position (off-screen)
     const [visible, setVisible] = useState(false);
     const tabs = ["Favourites", "All Members"];
-    const [selectedPlayers, setSelectedPlayers] = useState<Player[]>([]);
     const [allPlayers, setAllPlayers] = useState<Player[]>(dummyPlayers);
     const [selectedTab, setSelectedTab] = useState(tabs[0]);
     useImperativeHandle(props?.reference, () => ({
@@ -62,7 +62,7 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
 
     const hide = () => {
       setVisible(false);
-      props.setSelectedPlayers(selectedPlayers);
+      props.setSelectedPlayers(props.selectedPlayers);
     };
 
     const show = () => {
@@ -96,19 +96,22 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
     };
 
     const handleSelection = (player: Player) => {
-      const alreadyAdded = selectedPlayers.find((item) => item.id == player.id);
+      const alreadyAdded = props.selectedPlayers.find(
+        (item) => item.id == player.id
+      );
       if (!alreadyAdded) {
-        setSelectedPlayers([...selectedPlayers, player]);
+        props.setSelectedPlayers([...props.selectedPlayers, player]);
       } else {
-        const removePlayer = selectedPlayers.filter(
+        const removePlayer = props.selectedPlayers.filter(
           (item) => item.id !== player.id
         );
-        setSelectedPlayers(removePlayer);
+        props.setSelectedPlayers(removePlayer);
       }
     };
-
     const handleCheckIsExist = (player: Player) => {
-      const isExist = selectedPlayers.find((item) => item.id == player.id);
+      const isExist = props.selectedPlayers.find(
+        (item) => item.id == player.id
+      );
       if (isExist) {
         return true;
       } else {
@@ -171,7 +174,7 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
                           styles.listTile,
                           {
                             backgroundColor:
-                              index % 2 !== 0 ? "white" : "#F2F2F2",
+                              index % 2 !== 0 ? "white" : colors.lightShade,
                           },
                         ]}
                       >

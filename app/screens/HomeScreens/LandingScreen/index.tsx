@@ -7,16 +7,16 @@ import { images } from "@/app/MyAssets";
 import HomeHeader from "@/app/components/HomeHeader";
 import { AllSports } from "@/app/utils/dummyJson";
 import HomeHeaderBeta from "@/app/components/HomeHeaderBeta";
-import BookingCalendar from "@/app/components/BookingCalendar";
+import SelectDropDown from "@/app/components/Dropdown";
 import AvailableSlots from "@/app/components/AvailableSlots";
 import ConfirmationPopup, {
   ConfirmationPopupRef,
 } from "@/app/components/ConfirmationPopup";
 import { router } from "expo-router";
+import BookingCalendar from "@/app/components/BookingCalendar";
 
 const LandingScreen = () => {
   const confirmationPopup = useRef<ConfirmationPopupRef>(null);
-
   const handleBooking = () => {
     // router.navigate("/homestack/bookingdetail")
     confirmationPopup.current?.show();
@@ -27,9 +27,16 @@ const LandingScreen = () => {
     router.navigate("/homestack/bookingdetail");
   };
 
+  const onNotificationPress = () => {
+    router.navigate("/homestack/notifications");
+  };
+
   return (
     <ScreenWrapper noPadding={true}>
-      <HomeHeader allSports={AllSports} />
+      <HomeHeader
+        onNotificationPress={onNotificationPress}
+        allSports={AllSports}
+      />
       {/* <HomeHeaderBeta allSports={AllSports} label={"Tennis Booking"} /> */}
 
       <ScrollView

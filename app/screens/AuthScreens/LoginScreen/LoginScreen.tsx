@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import MainButton from "@/app/components/MainButton";
 import LogoHeader from "@/app/components/LogoHeader";
 import InputField from "@/app/components/InputField";
@@ -17,6 +17,14 @@ import { vh } from "@/app/utils/units";
 import { router } from "expo-router";
 
 const LoginScreen = () => {
+  const [membershipNumber, setMemberShipNumber] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSignInPress = () => {
+    console.log(membershipNumber);
+    console.log(password);
+    router.replace("/(tabs)");
+  };
   return (
     <ScreenWrapper>
       <View
@@ -28,8 +36,13 @@ const LoginScreen = () => {
         <LogoHeader />
 
         <View style={{ marginTop: vh * 2 }} />
-        <InputField icon={icons.idCard} placeholder="Membership Number*" />
         <InputField
+          onChangeText={setMemberShipNumber}
+          icon={icons.idCard}
+          placeholder="Membership Number*"
+        />
+        <InputField
+          onChangeText={setPassword}
           icon={icons.lock}
           placeholder="password"
           secureTextEntry={true}
@@ -37,7 +50,7 @@ const LoginScreen = () => {
         <TouchableOpacity onPress={() => router.replace("/forgotpassword")}>
           <Text style={styles.forgotPass}>Forgot Password ?</Text>
         </TouchableOpacity>
-        <MainButton title="Sign in" onPress={() => router.replace("/(tabs)")} />
+        <MainButton title="Sign in" onPress={handleSignInPress} />
         <Text style={styles.terms}>
           By signing in, you are agreeing to the online Terms and Conditions of
           the Marsa Sports Club booking regulations.

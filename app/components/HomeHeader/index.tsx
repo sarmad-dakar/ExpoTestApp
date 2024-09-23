@@ -6,7 +6,7 @@ import {
   ImageSourcePropType,
   TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { colors } from "@/app/utils/theme";
 import { vh } from "@/app/utils/units";
 import { icons, images } from "@/app/MyAssets";
@@ -16,6 +16,8 @@ import InputField from "../InputField";
 import MainButton from "../MainButton";
 import BerlingskeRegular from "../TextWrapper/BerlingskeRegular";
 import SlidingDrawer from "../SlidingDrawer";
+import SelectDropDown from "../Dropdown";
+import { ConfirmationPopupRef } from "../ConfirmationPopup";
 
 interface Sport {
   name: string;
@@ -25,12 +27,17 @@ interface Sport {
 
 interface HomeHeaderProps {
   allSports: Sport[]; // Adjust the type according to your data structure
+  onNotificationPress: () => void;
 }
 
-const HomeHeader: React.FC<HomeHeaderProps> = ({ allSports }) => {
+const HomeHeader: React.FC<HomeHeaderProps> = ({
+  allSports,
+  onNotificationPress,
+}) => {
   const [SelectedSport, setSelectedSport] = useState(allSports[0]);
   const [OtherSports, SetOtherSports] = useState(allSports.slice(1));
   const [drawerVisible, setDrawerVisible] = useState(false);
+  const dropdown = useRef<ConfirmationPopupRef>(null);
 
   const handleSelectedSport = (sport: Sport) => {
     setSelectedSport(sport);
@@ -60,7 +67,12 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({ allSports }) => {
         <BerlingskeMedium style={styles.selectedSport}>
           Tennis Bookings
         </BerlingskeMedium>
-        <View style={{ width: 60 }}></View>
+        <TouchableOpacity
+          onPress={onNotificationPress}
+          style={styles.iconContainer}
+        >
+          <Image source={icons.notificationIcon} style={styles.icon} />
+        </TouchableOpacity>
       </View>
 
       <View style={styles.bottomHeaderContainer}>
@@ -89,7 +101,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({ allSports }) => {
               value="07/07/2024"
             />
             <MainButton
-              onPress={() => setDrawerVisible(true)}
+              onPress={() => dropdown.current?.show()}
               style={{ height: 40 }}
               title="Search Now"
             />
@@ -108,6 +120,10 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({ allSports }) => {
           </View>
         </View>
       </View>
+      <SelectDropDown
+        reference={dropdown}
+        values={[{ value: "test", label: "test" }]}
+      />
     </View>
   );
 };
@@ -175,5 +191,17 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     tintColor: "black",
     marginRight: 10,
+  },
+  iconContainer: {
+    height: 60,
+    width: 60,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  icon: {
+    width: "50%",
+    height: "50%",
+    resizeMode: "contain",
+    tintColor: "white",
   },
 });
