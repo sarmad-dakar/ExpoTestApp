@@ -5,7 +5,7 @@ import {
   Text,
   View,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import MainButton from "../../../components/MainButton";
 import InputField from "../../../components/InputField";
 import { icons, images } from "../../../MyAssets";
@@ -16,9 +16,20 @@ import BerlingskeBold from "../../../components/TextWrapper/BerlingskeBold";
 import Swiper from "react-native-swiper";
 import { colors } from "@/app/utils/theme";
 import BerlingskeMedium from "@/app/components/TextWrapper/BerlingskeMedium";
+import { useSelector } from "react-redux";
 
 const OnBoardingScreen = () => {
+  const user = useSelector((state: any) => state.user.user);
+
+  useEffect(() => {
+    console.log(user, "user");
+  }, []);
+
   const handleNavigation = () => {
+    // if (user) {
+    //   router.replace("/(tabs)");
+    //   return;
+    // }
     router.replace("/login");
   };
   return (

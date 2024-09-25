@@ -11,6 +11,8 @@ import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { StatusBar, View } from "react-native";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -32,18 +34,23 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={DefaultTheme}>
-      <View style={{ flex: 1, backgroundColor: "white" }}>
-        <StatusBar
-          translucent={true}
-          barStyle={"light-content"}
-          backgroundColor="transparent"
-        />
-        <Stack initialRouteName="(navigations)">
-          <Stack.Screen name="(navigations)" options={{ headerShown: false }} />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        </Stack>
-      </View>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider value={DefaultTheme}>
+        <View style={{ flex: 1, backgroundColor: "white" }}>
+          <StatusBar
+            translucent={true}
+            barStyle={"light-content"}
+            backgroundColor="transparent"
+          />
+          <Stack initialRouteName="(navigations)">
+            <Stack.Screen
+              name="(navigations)"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          </Stack>
+        </View>
+      </ThemeProvider>
+    </Provider>
   );
 }

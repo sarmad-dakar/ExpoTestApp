@@ -1,4 +1,5 @@
 import {
+  Alert,
   Platform,
   StyleSheet,
   Text,
@@ -15,15 +16,26 @@ import PoweredBy from "@/app/components/PoweredBy";
 import { colors } from "@/app/utils/theme";
 import { vh } from "@/app/utils/units";
 import { router } from "expo-router";
-
+import { loginApi } from "@/app/api/Auth";
+import { useDispatch } from "react-redux";
+import { saveLoginDetails } from "@/app/store/slices/userSlice";
 const LoginScreen = () => {
   const [membershipNumber, setMemberShipNumber] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignInPress = () => {
-    console.log(membershipNumber);
-    console.log(password);
-    router.replace("/(tabs)");
+  const dispatch = useDispatch();
+  const handleSignInPress = async () => {
+    let data = {
+      LoginName: membershipNumber,
+      UserPassword: password,
+    };
+    const response = await loginApi(data);
+    if (response.data.msgCode == "200") {
+      dispatch(saveLoginDetails(response.data.data));
+      router.replace("/(tabs)");
+    } else {
+      Alert.alert(response.data.msgDescription);
+    }
   };
   return (
     <ScreenWrapper>

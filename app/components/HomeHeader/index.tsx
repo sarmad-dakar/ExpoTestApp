@@ -16,7 +16,7 @@ import InputField from "../InputField";
 import MainButton from "../MainButton";
 import BerlingskeRegular from "../TextWrapper/BerlingskeRegular";
 import SlidingDrawer from "../SlidingDrawer";
-import SelectDropDown from "../Dropdown";
+import SelectDropDown, { SelectDropdownRef } from "../Dropdown";
 import { ConfirmationPopupRef } from "../ConfirmationPopup";
 
 interface Sport {
@@ -37,7 +37,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
   const [SelectedSport, setSelectedSport] = useState(allSports[0]);
   const [OtherSports, SetOtherSports] = useState(allSports.slice(1));
   const [drawerVisible, setDrawerVisible] = useState(false);
-  const dropdown = useRef<ConfirmationPopupRef>(null);
+  const dropdown = useRef<SelectDropdownRef>(null);
 
   const handleSelectedSport = (sport: Sport) => {
     setSelectedSport(sport);

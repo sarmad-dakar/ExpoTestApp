@@ -18,7 +18,7 @@ import AddPlayerModal, {
 } from "@/app/components/AddPlayerModal";
 import { colors } from "@/app/utils/theme";
 import { ConfirmationPopupRef } from "@/app/components/ConfirmationPopup";
-import SelectDropDown from "@/app/components/Dropdown";
+import SelectDropDown, { SelectDropdownRef } from "@/app/components/Dropdown";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
@@ -31,12 +31,17 @@ interface Player {
   isFav: boolean;
 }
 
-const bookingTypeDD = [
+interface dropdownTypes {
+  value: string;
+  label: string;
+}
+
+const bookingTypeDD: dropdownTypes[] = [
   { value: "single", label: "Single" },
   { value: "double", label: "Doubles" },
 ];
 
-const courtsDD = [
+const courtsDD: dropdownTypes[] = [
   { value: "court 1", label: "Court 1" },
   { value: "court 2", label: "Court 2" },
   { value: "court 3", label: "Court 3" },
@@ -46,11 +51,13 @@ const BookingDetailScreen = () => {
   const addPlayerPopup = useRef<addplayerPopupRef>(null);
   const [selectedPlayers, setSelectedPlayers] = useState<Player[]>([]);
   const [checkedPlayers, setCheckedPlayers] = useState<Player[]>([]);
-  const [bookingType, setBookingType] = useState(bookingTypeDD[0]);
-  const [courts, setCourts] = useState(courtsDD[0]);
+  const [bookingType, setBookingType] = useState<dropdownTypes>(
+    bookingTypeDD[0]
+  );
+  const [courts, setCourts] = useState<dropdownTypes>(courtsDD[0]);
 
-  const dropdownRef = useRef<ConfirmationPopupRef>(null);
-  const courtsDropdownRef = useRef<ConfirmationPopupRef>(null);
+  const dropdownRef = useRef<SelectDropdownRef>(null);
+  const courtsDropdownRef = useRef<SelectDropdownRef>(null);
 
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState("10:00 AM");

@@ -2,8 +2,9 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import { colors } from "@/app/utils/theme";
 import { icons } from "@/app/MyAssets";
+import moment from "moment";
 
-const BookedSlots = () => {
+const BookedSlots = ({ booking }: any) => {
   const [enablePopup, setEnablePopup] = useState(false);
   return (
     <View style={styles.container}>
@@ -42,11 +43,13 @@ const BookedSlots = () => {
         <Text style={styles.bold}>Booking Member: </Text>Mr David Schranz
       </Text>
       <Text>
-        <Text style={styles.bold}>Player: </Text>Mr David Schranz and Mr Anthony
-        Schranz
+        <Text style={styles.bold}>Description: </Text>
+        {booking.description}
       </Text>
       <Text style={styles.footerText}>
-        Monday, 29th July 2024, 05:30 PM-Court 5
+        {/* Monday, 29th July 2024, 05:30 PM-Court 5 */}
+        {/* {moment(booking.date, "DD/MM/YYYY").day()} */}
+        {moment(booking.date, "DD/MM/YYYY").format("dddd, DD MMM YYYY")}
       </Text>
     </View>
   );
