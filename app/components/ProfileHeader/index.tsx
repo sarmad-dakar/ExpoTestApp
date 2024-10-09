@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, ImageProps, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { icons, images } from "@/app/MyAssets";
 import { colors } from "@/app/utils/theme";
@@ -7,9 +7,10 @@ import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
 
 type headerProps = {
   title: string;
+  image: ImageProps;
 };
 
-const ProfileHeader = ({ title }: headerProps) => {
+const ProfileHeader = ({ title, image }: headerProps) => {
   return (
     <View style={styles.container}>
       <View
@@ -29,7 +30,10 @@ const ProfileHeader = ({ title }: headerProps) => {
       </View>
 
       <View style={styles.profileConatiner}>
-        <Image source={images.dummyAvatar} style={styles.image} />
+        <Image
+          source={image ? { uri: image } : images.dummyAvatar}
+          style={styles.image}
+        />
         <View style={styles.cameraContainer}>
           <Image source={icons.camera} style={styles.cameraLogo} />
         </View>

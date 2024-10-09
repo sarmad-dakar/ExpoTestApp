@@ -15,4 +15,8 @@ export const colors = {
   white: "white",
   cyan: "#91d3d5",
   lightGray: "#e3e3e3",
+  unAvailable: "#F6CECE",
+  booked: "#EBFFCF",
+  expiredSeesion: "#E8E8E8",
+  available: "white",
 };

@@ -1,4 +1,11 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  ImageProps,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React from "react";
 import { icons } from "@/app/MyAssets";
 import { colors } from "@/app/utils/theme";
@@ -9,9 +16,13 @@ import { router } from "expo-router";
 type headerProps = {
   title: string;
   back?: boolean;
+  sport?: {
+    name: string;
+    icon: ImageProps;
+  };
 };
 
-const GeneralHeader = ({ title, back }: headerProps) => {
+const GeneralHeader = ({ title, back, sport }: headerProps) => {
   return (
     <View style={styles.container}>
       {back ? (
@@ -21,11 +32,11 @@ const GeneralHeader = ({ title, back }: headerProps) => {
       ) : (
         <View style={{ alignItems: "center", width: 60 }}>
           <Image
-            source={icons.tennis}
+            source={sport?.icon || icons.tennis}
             style={[styles.logo, { tintColor: colors.secondary }]}
           />
           <Text style={[styles.selectedSport, { color: colors.secondary }]}>
-            {"Tennis"}
+            {sport?.name || "Tennis"}
           </Text>
         </View>
       )}

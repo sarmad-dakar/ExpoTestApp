@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MainButton from "@/app/components/MainButton";
 import LogoHeader from "@/app/components/LogoHeader";
 import InputField from "@/app/components/InputField";
@@ -22,21 +22,45 @@ import { saveLoginDetails } from "@/app/store/slices/userSlice";
 const LoginScreen = () => {
   const [membershipNumber, setMemberShipNumber] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({ membership: "", password: "" });
+  const [membershipError, setMemberShipError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const dispatch = useDispatch();
+
   const handleSignInPress = async () => {
-    let data = {
-      LoginName: membershipNumber,
-      UserPassword: password,
-    };
-    const response = await loginApi(data);
-    if (response.data.msgCode == "200") {
-      dispatch(saveLoginDetails(response.data.data));
-      router.replace("/(tabs)");
-    } else {
-      Alert.alert(response.data.msgDescription);
+    setMemberShipError("");
+    setPasswordError("");
+    if (!membershipNumber) {
+      setMemberShipError("This Field is required");
+    }
+    if (!password) {
+      setPasswordError("This Field is required");
+    }
+    if (membershipNumber && password) {
+      let data = {
+        LoginName: membershipNumber,
+        UserPassword: password,
+      };
+
+      const response = await loginApi(data);
+      if (response.data.msgCode == "200") {
+        dispatch(saveLoginDetails(response.data.data));
+        router.replace("/(tabs)");
+      } else {
+        Alert.alert(response.data.msgDescription);
+      }
     }
   };
+
+  useEffect(() => {
+    if (membershipNumber) {
+      setMemberShipError("");
+    }
+    if (password) {
+      setPasswordError("");
+    }
+  }, [membershipNumber, password]);
   return (
     <ScreenWrapper>
       <View
@@ -51,9 +75,11 @@ const LoginScreen = () => {
         <InputField
           onChangeText={setMemberShipNumber}
           icon={icons.idCard}
+          error={membershipError}
           placeholder="Membership Number*"
         />
         <InputField
+          error={passwordError}
           onChangeText={setPassword}
           icon={icons.lock}
           placeholder="password"

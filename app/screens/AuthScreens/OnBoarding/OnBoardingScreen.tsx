@@ -22,14 +22,16 @@ const OnBoardingScreen = () => {
   const user = useSelector((state: any) => state.user.user);
 
   useEffect(() => {
-    console.log(user, "user");
+    // handleNavigation();
   }, []);
 
   const handleNavigation = () => {
-    // if (user) {
-    //   router.replace("/(tabs)");
-    //   return;
-    // }
+    if (user) {
+      setTimeout(() => {
+        router.replace("/(tabs)");
+      }, 2000);
+      return;
+    }
     router.replace("/login");
   };
   return (

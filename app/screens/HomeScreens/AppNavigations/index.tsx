@@ -11,9 +11,12 @@ import ScreenWrapper from "@/app/components/ScreenWrapper";
 import { colors } from "@/app/utils/theme";
 import BerlingskeMedium from "@/app/components/TextWrapper/BerlingskeMedium";
 import { router } from "expo-router";
+import { useDispatch } from "react-redux";
+import { logout } from "@/app/store/slices/userSlice";
 
 const AppNavigationScreen = () => {
   const activeOpacity = 0.5;
+  const dispatch = useDispatch();
   const AppSettings = [
     {
       name: "Notification",
@@ -24,7 +27,10 @@ const AppNavigationScreen = () => {
       name: "My Accounts",
       onPress: () => router.navigate("/navigationstack/myaccount"),
     },
-    { name: "My Subscriptions" },
+    {
+      name: "My Subscriptions",
+      onPress: () => router.navigate("/navigationstack/mysubscription"),
+    },
   ];
   const HelpNavigation = [
     {
@@ -45,6 +51,10 @@ const AppNavigationScreen = () => {
       onPress: () => router.navigate("/navigationstack/termscondition"),
     },
   ];
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
   return (
     <View style={{ flex: 1 }}>
       <GeneralHeader title="App Navigations" back={true} />
@@ -76,6 +86,7 @@ const AppNavigationScreen = () => {
         ))}
 
         <TouchableOpacity
+          onPress={handleLogout}
           activeOpacity={activeOpacity}
           style={styles.subHeading}
         >

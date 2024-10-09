@@ -23,8 +23,10 @@ type selectDropdownProp = {
 
 // Define the type for the individual items in the dropdown
 type DropdownItem = {
-  label: string;
-  value: string;
+  label?: string;
+  value?: string;
+  title?: string;
+  key?: string;
 };
 
 const SelectDropDown = forwardRef<SelectDropdownRef, selectDropdownProp>(
@@ -47,8 +49,8 @@ const SelectDropDown = forwardRef<SelectDropdownRef, selectDropdownProp>(
       if (props?.values?.length > 18) {
         return vh * 90;
       }
-      if (props?.values?.length > 10) {
-        return vh * 20;
+      if (props?.values?.length > 5) {
+        return vh * 50;
       }
     };
 
@@ -79,7 +81,7 @@ const SelectDropDown = forwardRef<SelectDropdownRef, selectDropdownProp>(
               }
             }}
           >
-            <Text style={styles.h1}>{item.label}</Text>
+            <Text style={styles.h1}>{item.label || item.title}</Text>
           </TouchableOpacity>
         </Animated.View>
       );

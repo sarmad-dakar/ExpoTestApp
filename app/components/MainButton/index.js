@@ -43,6 +43,7 @@ const MainButton = (props) => {
         styles.container,
         height < 420 && { height: 35, borderRadius: 7 },
         props.style,
+        props.disabled && { backgroundColor: colors.gray },
       ]}
     >
       {props.icon && <Image source={props.icon} style={styles.icon} />}

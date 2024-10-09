@@ -30,7 +30,7 @@ export type AddChildrenPopupRef = {
 
 type AddChildrenPopupProps = {
   reference?: RefObject<AddChildrenPopupRef>; // Optional if passing forwardRef
-  onSavePress: (name: string) => void;
+  onSavePress: ({ name, dateOfBirth }: any) => void;
 };
 
 const AddChildrenPopup = forwardRef<AddChildrenPopupRef, AddChildrenPopupProps>(

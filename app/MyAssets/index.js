@@ -39,6 +39,10 @@ export const icons = {
   locationPin: require("./icons/local-pin.png"),
   notificationIcon: require("./icons/notification.png"),
   camera: require("./icons/camera.png"),
+  baby: require("./icons/baby.png"),
+  vehicle: require("./icons/car.png"),
+  backArrow: require("./icons/backArrow.png"),
+  nextArrow: require("./icons/nextArrow.png"),
 };
 
 export const images = {

@@ -4,7 +4,7 @@ import { colors } from "@/app/utils/theme";
 import { icons } from "@/app/MyAssets";
 import moment from "moment";
 
-const BookedSlots = ({ booking }: any) => {
+const BookedSlots = ({ booking, selectedSport }: any) => {
   const [enablePopup, setEnablePopup] = useState(false);
   return (
     <View style={styles.container}>
@@ -38,7 +38,7 @@ const BookedSlots = ({ booking }: any) => {
         </View>
       )}
 
-      <Text style={styles.heading}>Tennis Booking</Text>
+      <Text style={styles.heading}>{selectedSport} Booking</Text>
       <Text>
         <Text style={styles.bold}>Booking Member: </Text>Mr David Schranz
       </Text>

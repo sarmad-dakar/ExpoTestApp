@@ -18,6 +18,10 @@ import BerlingskeRegular from "../TextWrapper/BerlingskeRegular";
 import SlidingDrawer from "../SlidingDrawer";
 import SelectDropDown, { SelectDropdownRef } from "../Dropdown";
 import { ConfirmationPopupRef } from "../ConfirmationPopup";
+import DateTimePicker, {
+  DateTimePickerEvent,
+} from "@react-native-community/datetimepicker";
+import moment from "moment";
 
 interface Sport {
   name: string;
@@ -28,21 +32,42 @@ interface Sport {
 interface HomeHeaderProps {
   allSports: Sport[]; // Adjust the type according to your data structure
   onNotificationPress: () => void;
+  setSelectedDate: (date: any) => void;
+  selectedDate: Date;
+  onSearchPress: () => void;
+  getCalendarData: (date: any, sport: Sport) => void;
+  selectedSport: Sport;
+  setSelectedSport: React.Dispatch<React.SetStateAction<Sport>>;
 }
 
 const HomeHeader: React.FC<HomeHeaderProps> = ({
   allSports,
   onNotificationPress,
+  setSelectedDate,
+  selectedDate,
+  onSearchPress,
+  getCalendarData,
+  setSelectedSport,
+  selectedSport,
 }) => {
-  const [SelectedSport, setSelectedSport] = useState(allSports[0]);
   const [OtherSports, SetOtherSports] = useState(allSports.slice(1));
   const [drawerVisible, setDrawerVisible] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
   const dropdown = useRef<SelectDropdownRef>(null);
 
   const handleSelectedSport = (sport: Sport) => {
     setSelectedSport(sport);
     const otherSports = allSports.filter((item) => item.name !== sport.name);
     SetOtherSports(otherSports);
+  };
+
+  const onChangeDate = (event: DateTimePickerEvent, selectedDate?: Date) => {
+    setShowDatePicker(false); // Close the picker
+    console.log(moment(selectedDate).format("hh:mm"));
+    setSelectedDate(selectedDate);
+    getCalendarData(selectedDate, selectedSport);
+    // setDate(currentDate);
   };
 
   return (
@@ -53,15 +78,23 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
       >
         <Text>Here is the drawer content!</Text>
       </SlidingDrawer>
+      {showDatePicker && (
+        <DateTimePicker
+          value={selectedDate}
+          mode="date"
+          display="default"
+          onChange={onChangeDate}
+        />
+      )}
 
       <View style={styles.container}>
         <View style={{ alignItems: "center", width: 60 }}>
           <Image
-            source={SelectedSport.icon}
+            source={selectedSport.icon}
             style={[styles.logo, { tintColor: colors.secondary }]}
           />
           <Text style={[styles.selectedSport, { color: colors.secondary }]}>
-            {SelectedSport.name}
+            {selectedSport.name}
           </Text>
         </View>
         <BerlingskeMedium style={styles.selectedSport}>
@@ -80,7 +113,10 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
           {OtherSports.map((item) => {
             return (
               <TouchableOpacity
-                onPress={() => handleSelectedSport(item)}
+                onPress={() => {
+                  handleSelectedSport(item);
+                  getCalendarData(selectedDate, item);
+                }}
                 style={styles.sidebarTabs}
               >
                 <Image source={item.icon} style={styles.logo} />
@@ -96,15 +132,17 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
             </BerlingskeBold>
             <InputField
               // style={{ width: 250 }}
+              dropdown={true}
+              onPress={() => setShowDatePicker(true)}
               icon={icons.calendar}
               rightIcon={icons.dropdown}
-              value="07/07/2024"
+              value={moment(selectedDate).format("DD/MM/YYYY")}
             />
-            <MainButton
-              onPress={() => dropdown.current?.show()}
+            {/* <MainButton
+              onPress={onSearchPress}
               style={{ height: 40 }}
               title="Search Now"
-            />
+            /> */}
             <View
               style={{
                 flexDirection: "row",
@@ -114,7 +152,9 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
             >
               <Image source={icons.court} style={styles.courtIcon} />
               <Text style={{ color: "black", fontSize: 14 }}>
-                {"Marsa Sport Club (MSC)\nTennis Booking\n 07 July 2024"}
+                {`Marsa Sport Club (MSC)\nTennis Booking\n ${moment(
+                  selectedDate
+                ).format("DD MMM YYYY")}`}
               </Text>
             </View>
           </View>

@@ -18,6 +18,7 @@ import {
 } from "react-native";
 import BerlingskeBold from "../TextWrapper/BerlingskeBold";
 import { images } from "@/app/MyAssets";
+import moment from "moment";
 
 // Get screen dimensions
 const { height } = Dimensions.get("window");
@@ -28,7 +29,7 @@ export type ConfirmationPopupRef = {
 };
 
 type ConfirmationPopupProps = {
-  onAccept: () => void;
+  onAccept: (item: any) => void;
   reference?: RefObject<ConfirmationPopupRef>; // Optional if passing forwardRef
 };
 
@@ -38,6 +39,10 @@ const ConfirmationPopup = forwardRef<
 >((props, ref) => {
   const translateY = useRef(new Animated.Value(height)).current; // Initial position (off-screen)
   const [visible, setVisible] = useState(false);
+  const [image, setImage] = useState("");
+  const [courtDetail, setCourtDetail] = useState();
+  const [sessionDetail, setSessionDetail] = useState();
+  const [selectedDate, setSelectedDate] = useState();
 
   useImperativeHandle(ref || props.reference, () => ({
     hide: hide,
@@ -48,8 +53,12 @@ const ConfirmationPopup = forwardRef<
     setVisible(false);
   };
 
-  const show = () => {
+  const show = (court, session, date) => {
+    setImage(court.resources[0]);
+    setCourtDetail(court);
+    setSessionDetail(session);
     setVisible(true);
+    setSelectedDate(moment(date).format("DD/MM/YYYY"));
   };
 
   useEffect(() => {
@@ -78,6 +87,15 @@ const ConfirmationPopup = forwardRef<
     }).start(() => setVisible(false)); // Call onClose after animation
   };
 
+  const handleAccept = () => {
+    let data = {
+      courtDetail,
+      sessionDetail,
+      selectedDate,
+    };
+    props.onAccept(data);
+  };
+
   return (
     <Modal
       transparent
@@ -101,24 +119,26 @@ const ConfirmationPopup = forwardRef<
           <BerlingskeBold>Tennis booking</BerlingskeBold>
           <Text>Are you sure you want to book</Text>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text style={{ fontWeight: "700" }}>Court 2 </Text>
+            <Text style={{ fontWeight: "700" }}>
+              {courtDetail?.title} ({courtDetail?.courtType}){" "}
+            </Text>
             <Text>for </Text>
-            <Text style={{ fontWeight: "700" }}>07/07/2024 </Text>
+            <Text style={{ fontWeight: "700" }}>{selectedDate} </Text>
             <Text>at </Text>
-            <Text style={{ fontWeight: "700" }}>07:00 AM</Text>
+            <Text style={{ fontWeight: "700" }}>{sessionDetail?.slot}</Text>
           </View>
 
           <View style={styles.courtImage}>
-            <Image source={images.tennis} style={styles.image} />
+            <Image source={{ uri: image }} style={styles.image} />
           </View>
           <View style={styles.rowDirection}>
-            <TouchableOpacity style={styles.btn}>
+            <TouchableOpacity onPress={hide} style={styles.btn}>
               <Text style={{ color: "white" }}>NO</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={[styles.btn, { backgroundColor: "#6AAF2E" }]}
-              onPress={props.onAccept}
+              onPress={handleAccept}
             >
               <Text style={{ color: "white" }}>YES</Text>
             </TouchableOpacity>

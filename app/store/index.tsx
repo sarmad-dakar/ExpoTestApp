@@ -1,5 +1,8 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import userSlice from "./slices/userSlice";
+import generalSlice from "./slices/generalSlice";
+import bookingSlice from "./slices/bookingSlice";
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   persistStore,
@@ -18,6 +21,8 @@ const persistedConfig = {
 };
 const reducers = combineReducers({
   user: userSlice,
+  general: generalSlice,
+  booking: bookingSlice,
 });
 const persistedStore = persistReducer(persistedConfig, reducers);
 
@@ -31,5 +36,9 @@ const store = configureStore({
     }),
 });
 const persistor = persistStore(store);
+
+// Define RootState and AppDispatch types
+export type RootState = ReturnType<typeof store.getState>; // This will infer the shape of the root state
+export type AppDispatch = typeof store.dispatch; // The type of dispatch
 
 export { store, persistor };

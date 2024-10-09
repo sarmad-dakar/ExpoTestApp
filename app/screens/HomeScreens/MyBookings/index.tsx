@@ -20,35 +20,46 @@ import InputField from "@/app/components/InputField";
 import moment from "moment";
 import { FetchMyBookings } from "@/app/api/Bookings";
 import SelectDropDown, { SelectDropdownRef } from "@/app/components/Dropdown";
+import { AllSports } from "@/app/utils/dummyJson";
 
 const monthsData = [
-  { value: "01", label: "January" },
-  { value: "02", label: "February" },
-  { value: "03", label: "March" },
-  { value: "04", label: "April" },
+  { value: "01", label: "Jan" },
+  { value: "02", label: "Feb" },
+  { value: "03", label: "Mar" },
+  { value: "04", label: "Apr" },
   { value: "05", label: "May" },
-  { value: "06", label: "June" },
-  { value: "07", label: "July" },
-  { value: "08", label: "August" },
-  { value: "09", label: "September" },
-  { value: "10", label: "October" },
-  { value: "11", label: "November" },
-  { value: "12", label: "December" },
+  { value: "06", label: "Jun" },
+  { value: "07", label: "Jul" },
+  { value: "08", label: "Aug" },
+  { value: "09", label: "Sep" },
+  { value: "10", label: "Oct" },
+  { value: "11", label: "Nov" },
+  { value: "12", label: "Dec" },
 ];
+
 interface Booking {
-  // Define the structure of a booking, e.g., an object with properties
-  sessions: [];
+  sessions: [
+    {
+      time: string;
+      description: string;
+      date: string;
+      bookingKey: string;
+    }
+  ];
   bookingCount: string;
   bookingAmount: string;
   bookingPayByMe: string;
 }
 
 interface BookingsData {
-  [key: string]: Booking;
+  [sport: string]: {
+    [year: string]: Booking;
+  };
 }
+
 const MyBookingsScreen = () => {
   const tabs = ["Tennis", "Squash", "Padel", "Cricket"];
-  const [selectedTab, setSelectedTab] = useState(tabs[0]);
+  const [selectedTab, setSelectedTab] = useState(AllSports[0]);
   const [tenyearsDD, setTenYearsDD] = useState<
     { value: string; label: string }[]
   >([]);
@@ -56,7 +67,7 @@ const MyBookingsScreen = () => {
     moment(new Date()).format("YYYY")
   );
   const [selectedMonth, setSelectedMonth] = useState(
-    moment(new Date()).format("MMM")
+    moment(new Date()).format("MM")
   );
   const [bookingsData, setBookingsData] = useState<BookingsData>({});
   const yearDropdownRef = useRef<SelectDropdownRef>(null);
@@ -64,8 +75,8 @@ const MyBookingsScreen = () => {
 
   useEffect(() => {
     generateTenYearsArray();
-    fetchData(selectedDate);
-  }, []);
+    fetchData(selectedTab?.name, selectedDate);
+  }, [selectedTab, selectedDate]);
 
   const generateTenYearsArray = () => {
     const currentYear = new Date().getFullYear();
@@ -78,25 +89,44 @@ const MyBookingsScreen = () => {
     setTenYearsDD(tenYearsDD);
   };
 
-  const fetchData = async (year: string) => {
-    if (bookingsData[year]) {
+  const fetchData = async (sport: string, year: string) => {
+    // Check if data for this sport and year is already fetched
+    if (bookingsData[sport]?.[year]) {
       return null;
     }
+
     let data = {
-      sport: selectedTab.toUpperCase(),
+      sport: sport.toUpperCase(),
       year: year,
     };
     const response = await FetchMyBookings(data);
+
     if (response.data.msgCode == "200") {
-      setBookingsData({ ...bookingsData, [year]: response.data.data });
+      setBookingsData((prevData) => ({
+        ...prevData,
+        [sport]: {
+          ...(prevData[sport] || {}),
+          [year]: response.data.data,
+        },
+      }));
     }
   };
-  console.log(JSON.stringify(bookingsData));
 
   const showSelectedYearData = () => {
-    if (bookingsData[selectedDate]) {
-      const data = bookingsData[selectedDate];
-      return data.sessions;
+    const sportData = bookingsData[selectedTab.name];
+    if (sportData && sportData[selectedDate]) {
+      const data = sportData[selectedDate];
+      let filterWithMonth;
+      if (data.sessions) {
+        filterWithMonth = data.sessions.filter((item) => {
+          const dateParts = item.date.split("/");
+          if (dateParts[1] == selectedMonth) {
+            return true;
+          }
+        });
+      }
+
+      return filterWithMonth;
     } else {
       return [];
     }
@@ -105,39 +135,43 @@ const MyBookingsScreen = () => {
   const bookingFilterPopup = useRef<BookingFilterPopupRef>(null);
   return (
     <View style={styles.screenContainer}>
-      <GeneralHeader title={"My Bookings"} />
+      <GeneralHeader title={"My Bookings"} sport={selectedTab} />
       <BookingFilterPopup reference={bookingFilterPopup} />
       <SelectDropDown
         reference={yearDropdownRef}
         onChangeValue={(value) => {
           setSelectedDate(value.value);
-          fetchData(value.value);
+          fetchData(selectedTab?.name, value.value);
         }}
         values={tenyearsDD}
       />
       <SelectDropDown
         reference={monthDropdownRef}
-        onChangeValue={(value) => console.log(value)}
+        onChangeValue={(value) => setSelectedMonth(value.value)}
         values={monthsData}
       />
 
       <ScreenWrapper>
         <View style={styles.tabContainer}>
-          {tabs.map((item) => (
+          {AllSports.map((item) => (
             <TouchableOpacity
+              key={item.name}
               activeOpacity={0.6}
-              onPress={() => setSelectedTab(item)}
+              onPress={() => {
+                setSelectedTab(item);
+                fetchData(item.name, selectedDate); // Fetch data when switching tabs
+              }}
             >
               <Text
                 style={[
                   styles.heading,
-                  selectedTab == item && {
+                  selectedTab.name == item.name && {
                     color: colors.green,
                     textDecorationLine: "underline",
                   },
                 ]}
               >
-                {item}
+                {item.name}
               </Text>
             </TouchableOpacity>
           ))}
@@ -153,28 +187,26 @@ const MyBookingsScreen = () => {
           <InputField
             icon={icons.calendar}
             rightIcon={icons.dropdown}
-            value={selectedMonth}
+            value={moment(selectedMonth, "MM").format("MMM")}
             dropdown={true}
             onPress={() => monthDropdownRef.current?.show()}
           />
         </View>
         <FlatList
           data={showSelectedYearData()}
-          ListEmptyComponent={() => {
-            return (
-              <View style={styles.noBookingContainer}>
-                <Image source={icons.noBooking} style={styles.noBookingIcon} />
-                <Text style={styles.title}>Bookings</Text>
-                <Text style={{ textAlign: "center" }}>
-                  Currently, there are no Bookings available for display. Please
-                  Check again later
-                </Text>
-              </View>
-            );
-          }}
-          renderItem={({ item, index }) => {
-            return <BookedSlots booking={item} />;
-          }}
+          ListEmptyComponent={() => (
+            <View style={styles.noBookingContainer}>
+              <Image source={icons.noBooking} style={styles.noBookingIcon} />
+              <Text style={styles.title}>Bookings</Text>
+              <Text style={{ textAlign: "center" }}>
+                Currently, there are no Bookings available for display. Please
+                Check again later
+              </Text>
+            </View>
+          )}
+          renderItem={({ item }) => (
+            <BookedSlots booking={item} selectedSport={selectedTab?.name} />
+          )}
         />
       </ScreenWrapper>
     </View>
@@ -182,6 +214,7 @@ const MyBookingsScreen = () => {
 };
 
 export default MyBookingsScreen;
+
 const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,

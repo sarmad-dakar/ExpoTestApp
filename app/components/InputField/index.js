@@ -74,10 +74,7 @@ const InputField = (props) => {
         style={[
           styles.container,
           {
-            borderColor: borderAnimation.interpolate({
-              inputRange: [0, 1],
-              outputRange: [colors.inputBorders, colors.primary], // 0 : 150, 0.5 : 75, 1 : 0
-            }),
+            borderColor: props?.invalid ? "red" : "gray",
           },
           height < 420 && { height: 35, marginVertical: 5, borderRadius: 7 },
           props.style,
@@ -86,7 +83,13 @@ const InputField = (props) => {
         <Pressable onPress={handleInputPress} style={styles.textContainer}>
           {props.icon && (
             <View style={styles.iconContainer}>
-              <Image source={props.icon} style={styles.rightIcon} />
+              <Image
+                source={props.icon}
+                style={[
+                  styles.rightIcon,
+                  props.invalid && { tintColor: colors.red },
+                ]}
+              />
             </View>
           )}
           {props.dropdown ? (
@@ -102,7 +105,7 @@ const InputField = (props) => {
                 tintOut();
               }}
               ref={props?.reference ? props?.reference : inputRef}
-              style={styles.input}
+              style={[styles.input, props.invalid && { color: colors.red }]}
               placeholderTextColor={"#c1c1c1"}
               maxFontSizeMultiplier={1}
               {...props}
@@ -140,6 +143,9 @@ const InputField = (props) => {
         )}
       </Animated.View>
       {props.error && <Text style={styles.error}>{props?.error}</Text>}
+      {props.invalid && (
+        <Text style={styles.error}>Balance is less. Kindly topup</Text>
+      )}
     </View>
   );
 };

@@ -31,10 +31,10 @@ import MainButton from "../MainButton";
 const { height } = Dimensions.get("window");
 
 interface Player {
-  id: number;
+  gender: string;
   name: string;
-  score: number;
-  isFav: boolean;
+  memberCode: string;
+  isFavourite: boolean;
 }
 
 export type addplayerPopupRef = {
@@ -46,6 +46,7 @@ type addplayerPopupProps = {
   setSelectedPlayers: Dispatch<SetStateAction<Player[]>>;
   selectedPlayers: Player[];
   reference?: RefObject<addplayerPopupRef>; // Optional if passing forwardRef
+  allPlayers: Player[];
 };
 
 const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
@@ -53,7 +54,6 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
     const translateY = useRef(new Animated.Value(height)).current; // Initial position (off-screen)
     const [visible, setVisible] = useState(false);
     const tabs = ["Favourites", "All Members"];
-    const [allPlayers, setAllPlayers] = useState<Player[]>(dummyPlayers);
     const [selectedTab, setSelectedTab] = useState(tabs[0]);
     useImperativeHandle(props?.reference, () => ({
       hide: hide,
@@ -97,20 +97,20 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
 
     const handleSelection = (player: Player) => {
       const alreadyAdded = props.selectedPlayers.find(
-        (item) => item.id == player.id
+        (item) => item.memberCode == player.memberCode
       );
       if (!alreadyAdded) {
         props.setSelectedPlayers([...props.selectedPlayers, player]);
       } else {
         const removePlayer = props.selectedPlayers.filter(
-          (item) => item.id !== player.id
+          (item) => item.memberCode !== player.memberCode
         );
         props.setSelectedPlayers(removePlayer);
       }
     };
     const handleCheckIsExist = (player: Player) => {
       const isExist = props.selectedPlayers.find(
-        (item) => item.id == player.id
+        (item) => item.memberCode == player.memberCode
       );
       if (isExist) {
         return true;
@@ -166,7 +166,7 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
             <View style={styles.listContainer}>
               <View style={{ flex: 1 }}>
                 <FlatList
-                  data={allPlayers}
+                  data={props.allPlayers}
                   renderItem={({ item, index }) => {
                     return (
                       <View

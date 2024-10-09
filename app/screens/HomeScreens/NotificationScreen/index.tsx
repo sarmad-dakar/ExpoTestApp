@@ -1,21 +1,30 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import GeneralHeader from "@/app/components/GeneralHeader";
 import { colors } from "@/app/utils/theme";
 import ScreenWrapper from "@/app/components/ScreenWrapper";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMyNotifications } from "@/app/store/slices/bookingSlice";
+import moment from "moment";
 
 const NotificationScreen = () => {
-  const renderNotifications = () => {
+  const dispatch = useDispatch();
+  const notificationData = useSelector(
+    (state) => state.booking.notificationsData
+  );
+  console.log(notificationData, "notifications data");
+  useEffect(() => {
+    dispatch(fetchMyNotifications());
+  }, []);
+
+  const renderNotifications = ({ item }) => {
     return (
       <View style={styles.card}>
-        <Text style={styles.heading}>Continue Payment</Text>
+        <Text style={styles.heading}>{item.heading}</Text>
 
-        <Text>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore....
-        </Text>
+        <Text>{item.description}</Text>
         <Text style={styles.footerText}>
-          Monday, 29th July 2024, 05:30 PM-Court 5
+          {moment(item.date).format("DD MMM YYYY , hh:mm A")}
         </Text>
       </View>
     );
@@ -25,7 +34,7 @@ const NotificationScreen = () => {
     <View style={styles.container}>
       <GeneralHeader title="Notifications" back={true} />
       <ScreenWrapper>
-        <FlatList data={[1, 2, 3, 4, 5, 6]} renderItem={renderNotifications} />
+        <FlatList data={notificationData} renderItem={renderNotifications} />
       </ScreenWrapper>
     </View>
   );

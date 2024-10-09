@@ -4,9 +4,12 @@ import { logout } from "../store/slices/userSlice";
 import { toggleGeneralLoader } from "../store/slices/generalSlice";
 
 const version = "v1/";
+const liveUrl = "https://api.mscbookings.com/api/";
+
+const testUrl = "http://mscapi.dakarhr.com/api/";
 
 const instance = axios.create({
-  baseURL: `http://mscapi.dakarhr.com/api/` + version,
+  baseURL: liveUrl + version,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
@@ -31,7 +34,6 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => {
-    console.log(response, "response of api");
     store.dispatch(toggleGeneralLoader(false));
 
     // Check for successful response status codes (e.g., 2xx)

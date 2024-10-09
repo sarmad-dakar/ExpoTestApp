@@ -4,31 +4,35 @@ import GeneralHeader from "@/app/components/GeneralHeader";
 import SearchField from "@/app/components/SearchField";
 import ScreenWrapper from "@/app/components/ScreenWrapper";
 import { colors } from "@/app/utils/theme";
-import { FetchMyBookings, GetAccountData } from "@/app/api/Bookings";
+import { GetAccountData, GetSubscriptionData } from "@/app/api/Bookings";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchMyAccount } from "@/app/store/slices/bookingSlice";
+import { fetchMySubscription } from "@/app/store/slices/bookingSlice";
 
-interface AccountData {
+interface SubscriptionData {
   date: string;
-  transactionNumber: string;
-  section: string;
-  category: string;
-  remarks: string;
-  amount: string;
+  type: string;
+  invoiceNo: string;
+  details: string;
+  dueAmount: string;
+  paidAmount: string;
 }
 
-const MyAccountScreen = () => {
-  // const [accountData, setAccountData] = useState<AccountData[]>([]);
-  const accountData = useSelector((state) => state.booking.accountData);
-  const windowWidth = Dimensions.get("window").width;
+const MySubscriptionScreen = () => {
+  const subscriptionData = useSelector(
+    (state) => state.booking.subscriptionData
+  );
+
+  console.log(subscriptionData, "subscription Datt");
   const dispatch = useDispatch();
+  const windowWidth = Dimensions.get("window").width;
+
   useEffect(() => {
-    dispatch(fetchMyAccount());
+    dispatch(fetchMySubscription());
   }, []);
 
   return (
     <View style={styles.container}>
-      <GeneralHeader title="My Account" />
+      <GeneralHeader title="My Subscription" back={true} />
       {/* Fixed Header */}
       <ScreenWrapper>
         <SearchField />
@@ -39,15 +43,17 @@ const MyAccountScreen = () => {
           <ScrollView style={{ marginTop: 0 }}>
             <View style={[styles.headerRow, { width: windowWidth }]}>
               <Text style={[styles.headerText, { width: 150 }]}>Date</Text>
-              <Text style={[styles.headerText, { width: 100 }]}>
-                Transaction #
+              <Text style={[styles.headerText, { width: 100 }]}>Type</Text>
+              <Text style={[styles.headerText, { width: 100 }]}>Invoice #</Text>
+              <Text style={[styles.headerText, { width: 140 }]}>Details</Text>
+              <Text style={[styles.headerText, { width: 120 }]}>
+                Amount Due
               </Text>
-              <Text style={[styles.headerText, { width: 100 }]}>Section</Text>
-              <Text style={[styles.headerText, { width: 120 }]}>Category</Text>
-              <Text style={[styles.headerText, { width: 220 }]}>Remarks</Text>
-              <Text style={[styles.headerText, { width: 80 }]}>Amount</Text>
+              <Text style={[styles.headerText, { width: 120 }]}>
+                Amount Paid
+              </Text>
             </View>
-            {accountData.map((item, index) => (
+            {subscriptionData.map((item, index) => (
               <View
                 key={index}
                 style={[
@@ -59,19 +65,19 @@ const MyAccountScreen = () => {
                 ]}
               >
                 <Text style={[styles.cell, { width: 150 }]}>{item.date}</Text>
+                <Text style={[styles.cell, { width: 100 }]}>{item.type}</Text>
                 <Text style={[styles.cell, { width: 100 }]}>
-                  {item.transactionNumber}
+                  {item.invoiceNo}
                 </Text>
-                <Text style={[styles.cell, { width: 100 }]}>
-                  {item.section}
+                <Text style={[styles.cell, { width: 140 }]}>
+                  {item.details}
                 </Text>
                 <Text style={[styles.cell, { width: 120 }]}>
-                  {item.category}
+                  {item.dueAmount}
                 </Text>
-                <Text style={[styles.cell, { width: 220 }]}>
-                  {item.remarks}
+                <Text style={[styles.cell, { width: 120 }]}>
+                  {item.paidAmount}
                 </Text>
-                <Text style={[styles.cell, { width: 80 }]}>{item.amount}</Text>
               </View>
             ))}
           </ScrollView>
@@ -81,7 +87,7 @@ const MyAccountScreen = () => {
   );
 };
 
-export default MyAccountScreen;
+export default MySubscriptionScreen;
 
 const styles = StyleSheet.create({
   container: {

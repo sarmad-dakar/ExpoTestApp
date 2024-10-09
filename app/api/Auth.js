@@ -5,4 +5,8 @@ const loginApi = async (data) => {
   return instance.post(endpoints.login, data);
 };
 
-export { loginApi };
+const getMyProfile = async () => {
+  return instance.get(endpoints.getMyProfile);
+};
+
+export { loginApi, getMyProfile };

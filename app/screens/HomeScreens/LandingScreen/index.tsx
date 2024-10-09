@@ -1,5 +1,12 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useRef } from "react";
+import {
+  ActivityIndicator,
+  ImageSourcePropType,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import React, { useEffect, useRef, useState } from "react";
 import ScreenWrapper from "@/app/components/ScreenWrapper";
 import Banner from "@/app/components/Banner";
 import SportsCard from "@/app/components/SportsCard";
@@ -14,49 +21,144 @@ import ConfirmationPopup, {
 } from "@/app/components/ConfirmationPopup";
 import { router } from "expo-router";
 import BookingCalendar from "@/app/components/BookingCalendar";
+import { getMyProfile } from "@/app/api/Auth";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMyProfile } from "@/app/store/slices/userSlice";
+import { AnyAction, ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
+import { RootState } from "@/app/store";
+import type { AppDispatch } from "@/app/store/index"; // Path to your store.ts
+import { FetchCalendarData } from "@/app/api/Bookings";
+import moment from "moment";
+import { vh, vw } from "@/app/utils/units";
+import { colors } from "@/app/utils/theme";
+import BookingCalendarVersion2 from "@/app/components/BookingCalendar/BookingCalendarVersion2";
+
+// Define types for calendar data and booking sessions
+interface CalendarData {
+  bookingSessions: Array<any>; // You may want to replace `any` with the correct session structure
+  timeSlots: Array<string>;
+}
+
+interface Sport {
+  name: string;
+  icon: ImageSourcePropType;
+  // add other fields as needed
+}
+
+export const useAppDispatch: () => AppDispatch = useDispatch;
 
 const LandingScreen = () => {
   const confirmationPopup = useRef<ConfirmationPopupRef>(null);
-  const handleBooking = () => {
-    // router.navigate("/homestack/bookingdetail")
-    confirmationPopup.current?.show();
+  const dispatch = useAppDispatch();
+
+  // Define state with appropriate types
+  const [calendarData, setCalendarData] = useState<CalendarData | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [SelectedSport, setSelectedSport] = useState(AllSports[0]);
+  const loader = useSelector((state) => state.general.generalLoader);
+
+  useEffect(() => {
+    getProfile();
+    getCalendarData(selectedDate, SelectedSport);
+  }, [selectedDate]);
+
+  // Define return type for async function
+  const getProfile = async (): Promise<void> => {
+    dispatch(fetchMyProfile());
   };
 
-  const onAcceptBooking = () => {
+  // Define the type of 'date' as Date and return type as Promise<void>
+  const getCalendarData = async (date: Date, sport: Sport): Promise<void> => {
+    const formattedDate = moment(date).format("DD-MM-YYYY");
+    let data = {
+      date: formattedDate,
+      sport: sport.name.toLowerCase(),
+    };
+    console.log(data);
+    const response = await FetchCalendarData(data);
+
+    if (response && response.data && response.data.data) {
+      setCalendarData(response.data.data);
+    }
+  };
+
+  const onSearchPress = () => {
+    getCalendarData(selectedDate, SelectedSport);
+  };
+
+  const onAcceptBooking = (data) => {
     confirmationPopup.current?.hide();
-    router.navigate("/homestack/bookingdetail");
+    router.push({
+      pathname: "/homestack/bookingdetail",
+      params: {
+        bookingData: JSON.stringify({ ...data, selectedSport: SelectedSport }),
+      }, // Use if you have any URL params to send (optional)
+      state: {}, // Pass the large object here
+    });
+    // router.navigate("/homestack/bookingdetail" );
   };
 
   const onNotificationPress = () => {
     router.navigate("/homestack/notifications");
   };
 
+  const onBookingPress = (court, session) => {
+    confirmationPopup.current?.show(court, session, selectedDate);
+  };
+
   return (
-    <ScreenWrapper noPadding={true}>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       <HomeHeader
         onNotificationPress={onNotificationPress}
         allSports={AllSports}
+        setSelectedDate={setSelectedDate}
+        selectedDate={selectedDate}
+        onSearchPress={onSearchPress}
+        getCalendarData={getCalendarData}
+        setSelectedSport={setSelectedSport}
+        selectedSport={SelectedSport}
       />
       {/* <HomeHeaderBeta allSports={AllSports} label={"Tennis Booking"} /> */}
-
-      <ScrollView
-        style={{ flex: 1, marginTop: 30 }}
+      {/* <ScrollView
+        style={{ flex: 1, marginTop: 10 }}
         contentContainerStyle={{
           paddingLeft: 20,
-          paddingBottom: 200,
+          paddingBottom: calendarData?.timeSlots?.length * 30 || 100,
         }}
-      >
-        <BookingCalendar />
-        {/* <AvailableSlots handleBooking={handleBooking} /> */}
-      </ScrollView>
+      > */}
+      <View style={{ flex: 1, padding: 10 }}>
+        {calendarData && (
+          <BookingCalendarVersion2
+            onBookingPress={onBookingPress}
+            data={calendarData}
+            date={selectedDate}
+          />
+        )}
+      </View>
+      {/* <AvailableSlots handleBooking={handleBooking} /> */}
+      {/* </ScrollView> */}
       <ConfirmationPopup
         reference={confirmationPopup}
         onAccept={onAcceptBooking}
       />
-    </ScreenWrapper>
+      {loader && (
+        <View style={styles.loader}>
+          <ActivityIndicator size={"large"} color={colors.secondary} />
+        </View>
+      )}
+    </View>
   );
 };
 
 export default LandingScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  loader: {
+    height: vh * 100,
+    width: vw * 100,
+    backgroundColor: "#0000004a",
+    position: "absolute",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
