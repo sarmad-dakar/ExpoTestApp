@@ -17,7 +17,7 @@ import AddPlayerModal, {
   addplayerPopupRef,
 } from "@/app/components/AddPlayerModal";
 import { colors } from "@/app/utils/theme";
-import { ConfirmationPopupRef } from "@/app/components/ConfirmationPopup";
+
 import SelectDropDown, { SelectDropdownRef } from "@/app/components/Dropdown";
 import DateTimePicker, {
   DateTimePickerEvent,
@@ -62,12 +62,15 @@ const BookingDetailScreen = () => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [disableBooking, setDisableBooking] = useState(false);
+  const [maximumPlayers, setMaximumPlayers] = useState(0);
 
   const user = useSelector((state: any) => state.user.profile);
   const profile = useSelector((state: any) => state.user.user);
-  console.log(profile, "profile");
+  console.log(user, "user");
+
   useEffect(() => {
     getMembers();
+    calculateMaxPlayers();
     if (bookingData) {
       setBookingType(bookingData.courtDetail.bookingTypes[0]);
     }
@@ -85,9 +88,15 @@ const BookingDetailScreen = () => {
     }
   }, [playersAmountData]);
 
+  const calculateMaxPlayers = () => {
+    const maximumPlayers =
+      bookingData?.selectedSport?.bookingSetting?.maximumPlayers;
+    setMaximumPlayers(maximumPlayers - 1);
+  };
+
   const getMembers = async () => {
     let data = {
-      sport: bookingData?.selectedSport?.name.toLowerCase(),
+      sport: bookingData?.sportServiceSetting?.title?.name.toLowerCase(),
     };
 
     const response = await FetchMembers(data);
@@ -102,7 +111,8 @@ const BookingDetailScreen = () => {
       IsHalfSession: 0,
       PayerCode: profile?.memberCode,
       PlayerCodes: profile?.memberCode,
-      Service: bookingData?.selectedSport?.name.toLowerCase(),
+      Service:
+        bookingData?.selectedSport?.sportServiceSetting.title.toLowerCase(),
     };
     if (checkedPlayers.length) {
       let currentPayers = data.PayerCode;
@@ -204,7 +214,6 @@ const BookingDetailScreen = () => {
     console.log(result);
     return result;
   };
-  console.log(user, "user");
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
@@ -364,6 +373,7 @@ const BookingDetailScreen = () => {
         reference={addPlayerPopup}
         selectedPlayers={selectedPlayers}
         setSelectedPlayers={setSelectedPlayers}
+        maximumPlayers={maximumPlayers}
       />
       <SelectDropDown
         reference={dropdownRef}

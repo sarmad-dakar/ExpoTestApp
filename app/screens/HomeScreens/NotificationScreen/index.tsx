@@ -4,13 +4,13 @@ import GeneralHeader from "@/app/components/GeneralHeader";
 import { colors } from "@/app/utils/theme";
 import ScreenWrapper from "@/app/components/ScreenWrapper";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchMyNotifications } from "@/app/store/slices/bookingSlice";
+import { fetchMyNotifications } from "@/app/store/slices/accountSlice";
 import moment from "moment";
 
 const NotificationScreen = () => {
   const dispatch = useDispatch();
   const notificationData = useSelector(
-    (state) => state.booking.notificationsData
+    (state) => state.account.notificationsData
   );
   console.log(notificationData, "notifications data");
   useEffect(() => {

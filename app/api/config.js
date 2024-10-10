@@ -6,4 +6,5 @@ export const endpoints = {
   getSubscriptionData: "Subscription/sport/member/subscription/info",
   getNotifications: "Notification/sport/member/notifications",
   getCalendarData: "Booking/sport/tennis/booking/",
+  getSportServices: "SportServices/sport/services",
 };

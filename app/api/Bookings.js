@@ -29,6 +29,10 @@ const FetchAmountDue = async (data) => {
   return instance.post(`Booking/sport/booking/amountdue`, data);
 };
 
+const FetchAvailableSports = async (data) => {
+  return instance.get("SportServices/sport/services");
+};
+
 export {
   FetchMyBookings,
   GetAccountData,
@@ -37,4 +41,5 @@ export {
   FetchCalendarData,
   FetchMembers,
   FetchAmountDue,
+  FetchAvailableSports,
 };

@@ -17,13 +17,21 @@ import Swiper from "react-native-swiper";
 import { colors } from "@/app/utils/theme";
 import BerlingskeMedium from "@/app/components/TextWrapper/BerlingskeMedium";
 import { useSelector } from "react-redux";
+import { fetchCurrentSports } from "@/app/store/slices/bookingSlice";
+import { useAppDispatch } from "../../HomeScreens/LandingScreen";
 
 const OnBoardingScreen = () => {
   const user = useSelector((state: any) => state.user.user);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     // handleNavigation();
+    getSports();
   }, []);
+
+  const getSports = async (): Promise<void> => {
+    dispatch(fetchCurrentSports());
+  };
 
   const handleNavigation = () => {
     if (user) {

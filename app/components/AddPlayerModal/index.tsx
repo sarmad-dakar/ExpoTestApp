@@ -47,6 +47,7 @@ type addplayerPopupProps = {
   selectedPlayers: Player[];
   reference?: RefObject<addplayerPopupRef>; // Optional if passing forwardRef
   allPlayers: Player[];
+  maximumPlayers: number;
 };
 
 const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
@@ -100,7 +101,9 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
         (item) => item.memberCode == player.memberCode
       );
       if (!alreadyAdded) {
-        props.setSelectedPlayers([...props.selectedPlayers, player]);
+        if (props.maximumPlayers !== props.selectedPlayers.length) {
+          props.setSelectedPlayers([...props.selectedPlayers, player]);
+        }
       } else {
         const removePlayer = props.selectedPlayers.filter(
           (item) => item.memberCode !== player.memberCode

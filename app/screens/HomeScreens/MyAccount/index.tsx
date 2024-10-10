@@ -6,7 +6,7 @@ import ScreenWrapper from "@/app/components/ScreenWrapper";
 import { colors } from "@/app/utils/theme";
 import { FetchMyBookings, GetAccountData } from "@/app/api/Bookings";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchMyAccount } from "@/app/store/slices/bookingSlice";
+import { fetchMyAccount } from "@/app/store/slices/accountSlice";
 
 interface AccountData {
   date: string;
@@ -19,9 +19,10 @@ interface AccountData {
 
 const MyAccountScreen = () => {
   // const [accountData, setAccountData] = useState<AccountData[]>([]);
-  const accountData = useSelector((state) => state.booking.accountData);
+  const accountData = useSelector((state) => state.account.accountData);
   const windowWidth = Dimensions.get("window").width;
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(fetchMyAccount());
   }, []);

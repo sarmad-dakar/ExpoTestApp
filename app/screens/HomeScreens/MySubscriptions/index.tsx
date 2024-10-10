@@ -6,7 +6,7 @@ import ScreenWrapper from "@/app/components/ScreenWrapper";
 import { colors } from "@/app/utils/theme";
 import { GetAccountData, GetSubscriptionData } from "@/app/api/Bookings";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchMySubscription } from "@/app/store/slices/bookingSlice";
+import { fetchMySubscription } from "@/app/store/slices/accountSlice";
 
 interface SubscriptionData {
   date: string;
@@ -19,7 +19,7 @@ interface SubscriptionData {
 
 const MySubscriptionScreen = () => {
   const subscriptionData = useSelector(
-    (state) => state.booking.subscriptionData
+    (state) => state.account.subscriptionData
   );
 
   console.log(subscriptionData, "subscription Datt");

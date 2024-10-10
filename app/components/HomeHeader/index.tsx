@@ -22,12 +22,27 @@ import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
 import moment from "moment";
-
+import { useSelector } from "react-redux";
 interface Sport {
-  name: string;
-  icon: ImageSourcePropType;
+  sportServiceSetting: {
+    title: string;
+    hasACSetting: boolean;
+    hasHalfTimeSetting: boolean;
+  };
+  bookingSetting: {
+    maximumPlayers: number;
+    minimumPlayers: number;
+  };
   // add other fields as needed
 }
+
+const sportsIcon = {
+  tennis: icons.tennis,
+  squash: icons.squash,
+  padel: icons.padel,
+  snooker: icons.snooker,
+  cricket: icons.cricket,
+};
 
 interface HomeHeaderProps {
   allSports: Sport[]; // Adjust the type according to your data structure
@@ -58,7 +73,10 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
 
   const handleSelectedSport = (sport: Sport) => {
     setSelectedSport(sport);
-    const otherSports = allSports.filter((item) => item.name !== sport.name);
+    const otherSports = allSports.filter(
+      (item) =>
+        item.sportServiceSetting?.title !== sport.sportServiceSetting?.title
+    );
     SetOtherSports(otherSports);
   };
 
@@ -90,11 +108,15 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
       <View style={styles.container}>
         <View style={{ alignItems: "center", width: 60 }}>
           <Image
-            source={selectedSport.icon}
+            source={
+              sportsIcon[
+                `${selectedSport?.sportServiceSetting?.title?.toLowerCase()}`
+              ]
+            }
             style={[styles.logo, { tintColor: colors.secondary }]}
           />
           <Text style={[styles.selectedSport, { color: colors.secondary }]}>
-            {selectedSport.name}
+            {selectedSport?.sportServiceSetting?.title}
           </Text>
         </View>
         <BerlingskeMedium style={styles.selectedSport}>
@@ -119,8 +141,17 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
                 }}
                 style={styles.sidebarTabs}
               >
-                <Image source={item.icon} style={styles.logo} />
-                <Text style={styles.selectedSport}>{item.name}</Text>
+                <Image
+                  source={
+                    sportsIcon[
+                      `${item?.sportServiceSetting?.title?.toLowerCase()}`
+                    ]
+                  }
+                  style={styles.logo}
+                />
+                <Text style={styles.selectedSport}>
+                  {item?.sportServiceSetting?.title}
+                </Text>
               </TouchableOpacity>
             );
           })}

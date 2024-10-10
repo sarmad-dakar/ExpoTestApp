@@ -55,22 +55,21 @@ const slice = createSlice({
   name: "booking",
   initialState: initialState,
   reducers: {},
-  // extraReducers: (builder) => {
-  //   builder.addCase(fetchMyAccount.fulfilled, (state, action) => {
-  //     state.accountData = action.payload.data;
-  //   });
-  // builder.addCase(fetchMySubscription.fulfilled, (state, action) => {
-  //   console.log(action.payload.data.data.details, "payload in subscription");
-  //   state.subscriptionData = action.payload.data.details;
-  // });
-  // builder.addCase(fetchMyNotifications.fulfilled, (state, action) => {
-  //   state.notificationsData = action.payload.data;
-  // });
-  // builder.addCase(fetchCurrentSports.fulfilled, (state, action) => {
-  //   console.log(action.payload, "data ");
-  //   state.sportsData = action.payload;
-  // });
-  // },
+  extraReducers: (builder) => {
+    builder.addCase(fetchMyAccount.fulfilled, (state, action) => {
+      state.accountData = action.payload.data;
+    });
+    builder.addCase(fetchMySubscription.fulfilled, (state, action) => {
+      state.subscriptionData = action.payload.data.details;
+    });
+    builder.addCase(fetchMyNotifications.fulfilled, (state, action) => {
+      state.notificationsData = action.payload.data;
+    });
+    builder.addCase(fetchCurrentSports.fulfilled, (state, action) => {
+      console.log(action.payload, "data ");
+      state.sportsData = action.payload;
+    });
+  },
 });
 const reducer = slice.reducer;
 

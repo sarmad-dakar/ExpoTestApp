@@ -40,8 +40,15 @@ interface CalendarData {
 }
 
 interface Sport {
-  name: string;
-  icon: ImageSourcePropType;
+  sportServiceSetting: {
+    title: string;
+    hasACSetting: boolean;
+    hasHalfTimeSetting: boolean;
+  };
+  bookingSetting: {
+    maximumPlayers: number;
+    minimumPlayers: number;
+  };
   // add other fields as needed
 }
 
@@ -51,16 +58,22 @@ const LandingScreen = () => {
   const confirmationPopup = useRef<ConfirmationPopupRef>(null);
   const dispatch = useAppDispatch();
 
+  const sports = useSelector((state) => state.account.sportsData);
   // Define state with appropriate types
   const [calendarData, setCalendarData] = useState<CalendarData | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [SelectedSport, setSelectedSport] = useState(AllSports[0]);
+  const [SelectedSport, setSelectedSport] = useState(sports[0]);
+
   const loader = useSelector((state) => state.general.generalLoader);
 
   useEffect(() => {
     getProfile();
-    getCalendarData(selectedDate, SelectedSport);
+    getCalendarData(selectedDate, sports[0]);
   }, [selectedDate]);
+
+  useEffect(() => {
+    setSelectedSport(sports[0]);
+  }, []);
 
   // Define return type for async function
   const getProfile = async (): Promise<void> => {
@@ -72,7 +85,7 @@ const LandingScreen = () => {
     const formattedDate = moment(date).format("DD-MM-YYYY");
     let data = {
       date: formattedDate,
-      sport: sport.name.toLowerCase(),
+      sport: sport.sportServiceSetting.title.toLowerCase(),
     };
     console.log(data);
     const response = await FetchCalendarData(data);
@@ -110,7 +123,7 @@ const LandingScreen = () => {
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <HomeHeader
         onNotificationPress={onNotificationPress}
-        allSports={AllSports}
+        allSports={sports}
         setSelectedDate={setSelectedDate}
         selectedDate={selectedDate}
         onSearchPress={onSearchPress}

@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import userSlice from "./slices/userSlice";
 import generalSlice from "./slices/generalSlice";
 import bookingSlice from "./slices/bookingSlice";
+import accountSlice from "./slices/accountSlice";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
@@ -23,6 +24,7 @@ const reducers = combineReducers({
   user: userSlice,
   general: generalSlice,
   booking: bookingSlice,
+  account: accountSlice,
 });
 const persistedStore = persistReducer(persistedConfig, reducers);
 
