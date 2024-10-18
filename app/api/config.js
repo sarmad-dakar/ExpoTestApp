@@ -7,4 +7,8 @@ export const endpoints = {
   getNotifications: "Notification/sport/member/notifications",
   getCalendarData: "Booking/sport/tennis/booking/",
   getSportServices: "SportServices/sport/services",
+  addToFavorite: "Member/sport/members/setfavourite",
+  confirmBooking: "Booking/sport/booking/confirmation",
+  cancelBooking: "Booking/sport/booking/Cancel",
+  getAlreadyBookedDetails: "Booking/sport/booking/details/",
 };

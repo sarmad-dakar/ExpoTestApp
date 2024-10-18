@@ -5,7 +5,11 @@ import { icons } from "@/app/MyAssets";
 const SearchField = (props) => {
   return (
     <View style={styles.container}>
-      <TextInput style={styles.inputContainer} placeholder="Search Products" />
+      <TextInput
+        onChangeText={(event) => props.onChangeText(event)}
+        style={styles.inputContainer}
+        placeholder="Search Products"
+      />
       <View
         style={{ width: "15%", justifyContent: "center", alignItems: "center" }}
       >

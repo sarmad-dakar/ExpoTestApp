@@ -6,7 +6,7 @@ import {
   ImageSourcePropType,
   TouchableOpacity,
 } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { colors } from "@/app/utils/theme";
 import { vh } from "@/app/utils/units";
 import { icons, images } from "@/app/MyAssets";
@@ -65,11 +65,17 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
   setSelectedSport,
   selectedSport,
 }) => {
-  const [OtherSports, SetOtherSports] = useState(allSports.slice(1));
+  const [OtherSports, SetOtherSports] = useState([]);
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const dropdown = useRef<SelectDropdownRef>(null);
+
+  useEffect(() => {
+    if (allSports?.length) {
+      SetOtherSports(allSports.slice(1));
+    }
+  }, [allSports]);
 
   const handleSelectedSport = (sport: Sport) => {
     setSelectedSport(sport);
@@ -84,7 +90,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
     setShowDatePicker(false); // Close the picker
     console.log(moment(selectedDate).format("hh:mm"));
     setSelectedDate(selectedDate);
-    getCalendarData(selectedDate, selectedSport);
+    // getCalendarData(selectedDate, selectedSport);
     // setDate(currentDate);
   };
 
@@ -107,17 +113,21 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
 
       <View style={styles.container}>
         <View style={{ alignItems: "center", width: 60 }}>
-          <Image
-            source={
-              sportsIcon[
-                `${selectedSport?.sportServiceSetting?.title?.toLowerCase()}`
-              ]
-            }
-            style={[styles.logo, { tintColor: colors.secondary }]}
-          />
-          <Text style={[styles.selectedSport, { color: colors.secondary }]}>
-            {selectedSport?.sportServiceSetting?.title}
-          </Text>
+          {selectedSport && (
+            <Image
+              source={
+                sportsIcon[
+                  `${selectedSport?.sportServiceSetting?.title?.toLowerCase()}`
+                ]
+              }
+              style={[styles.logo, { tintColor: colors.secondary }]}
+            />
+          )}
+          {selectedSport && (
+            <Text style={[styles.selectedSport, { color: colors.secondary }]}>
+              {selectedSport?.sportServiceSetting?.title}
+            </Text>
+          )}
         </View>
         <BerlingskeMedium style={styles.selectedSport}>
           Tennis Bookings
@@ -130,14 +140,18 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
         </TouchableOpacity>
       </View>
 
-      <View style={styles.bottomHeaderContainer}>
+      <View
+        style={[
+          styles.bottomHeaderContainer,
+          { height: OtherSports.length * 65 },
+        ]}
+      >
         <View style={styles.sideBar}>
           {OtherSports.map((item) => {
             return (
               <TouchableOpacity
                 onPress={() => {
                   handleSelectedSport(item);
-                  getCalendarData(selectedDate, item);
                 }}
                 style={styles.sidebarTabs}
               >
@@ -222,7 +236,7 @@ const styles = StyleSheet.create({
   },
   bottomHeaderContainer: {
     flexDirection: "row",
-    height: vh * 30,
+    // height: vh * 25,
     backgroundColor: "white",
     width: "100%",
   },

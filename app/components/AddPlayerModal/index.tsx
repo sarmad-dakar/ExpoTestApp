@@ -26,6 +26,8 @@ import { colors } from "@/app/utils/theme";
 import { icons } from "@/app/MyAssets";
 import { dummyPlayers } from "@/app/utils/dummyJson";
 import MainButton from "../MainButton";
+import { vh } from "@/app/utils/units";
+import { AddToFavorite } from "@/app/api/Bookings";
 
 // Get screen dimensions
 const { height } = Dimensions.get("window");
@@ -48,6 +50,7 @@ type addplayerPopupProps = {
   reference?: RefObject<addplayerPopupRef>; // Optional if passing forwardRef
   allPlayers: Player[];
   maximumPlayers: number;
+  onDonePress: (favMembers: Player[]) => void;
 };
 
 const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
@@ -56,6 +59,54 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
     const [visible, setVisible] = useState(false);
     const tabs = ["Favourites", "All Members"];
     const [selectedTab, setSelectedTab] = useState(tabs[0]);
+    const [allMembers, setAllMembers] = useState(props.allPlayers);
+    const [favoriteMembers, setFavoriteMembers] = useState<Player[]>([]);
+    const [listData, setListData] = useState<Player[]>([]);
+    const [searchText, setSearchText] = useState("");
+
+    useEffect(() => {
+      const favMembers = props.allPlayers.filter((item) => item.isFavourite);
+      setFavoriteMembers(favMembers);
+      setAllMembers(props.allPlayers);
+      setListData(favMembers);
+    }, [props.allPlayers]);
+
+    // useEffect(() => {
+    //   if (selectedTab == "Favourites") {
+    //     setListData(favoriteMembers);
+    //   } else {
+    //     setListData(props.allPlayers);
+    //   }
+    // }, [selectedTab]);
+
+    useEffect(() => {
+      if (selectedTab == "Favourites") {
+        if (!searchText) {
+          console.log("are we here? ");
+          const favMembers = props.allPlayers.filter(
+            (item) => item.isFavourite
+          );
+          console.log(props.allPlayers.length, "fav member");
+          setListData(favMembers);
+        } else {
+          let searchedMembers = favoriteMembers.filter((item) =>
+            item.name.toLowerCase().includes(searchText.toLowerCase())
+          );
+          setListData(searchedMembers);
+        }
+      } else {
+        if (!searchText) {
+          console.log(props.allPlayers.length, "this condition meets? ");
+          setListData(props.allPlayers);
+        } else {
+          let searchedMembers = allMembers.filter((item) =>
+            item.name.toLowerCase().includes(searchText.toLowerCase())
+          );
+          setListData(searchedMembers);
+        }
+      }
+    }, [searchText, selectedTab]);
+
     useImperativeHandle(props?.reference, () => ({
       hide: hide,
       show: show,
@@ -64,6 +115,7 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
     const hide = () => {
       setVisible(false);
       props.setSelectedPlayers(props.selectedPlayers);
+      props.onDonePress(favoriteMembers);
     };
 
     const show = () => {
@@ -111,6 +163,18 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
         props.setSelectedPlayers(removePlayer);
       }
     };
+
+    const handleCheckFavorite = (item: Player) => {
+      const isExist = favoriteMembers.find(
+        (element) => element.memberCode == item.memberCode
+      );
+      if (isExist) {
+        return true;
+      } else {
+        return false;
+      }
+    };
+
     const handleCheckIsExist = (player: Player) => {
       const isExist = props.selectedPlayers.find(
         (item) => item.memberCode == player.memberCode
@@ -122,6 +186,21 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
       }
     };
 
+    const onAddFavorite = (item: Player) => {
+      const isExist = favoriteMembers.find(
+        (element) => element.memberCode == item.memberCode
+      );
+      let favMembers;
+      if (isExist) {
+        favMembers = favoriteMembers.filter(
+          (element) => element.memberCode !== item.memberCode
+        );
+        setFavoriteMembers(favoriteMembers);
+      } else {
+        setFavoriteMembers([...favoriteMembers, item]);
+      }
+    };
+
     return (
       <Modal
         transparent
@@ -129,101 +208,109 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
         animationType="none"
         onRequestClose={slideDown}
       >
-        <TouchableOpacity
-          style={styles.backdrop}
-          activeOpacity={1}
-          onPress={slideDown}
-        />
-        <Animated.View
-          style={[
-            styles.bottomSheet,
-            { transform: [{ translateY }] }, // Animated slide-up
-          ]}
-        >
-          {/* Bottom sheet content */}
-          <View style={styles.content}>
-            <BerlingskeBold style={{ marginBottom: 10 }}>
-              Add Players
-            </BerlingskeBold>
-            <View style={styles.headingContainer}>
-              {tabs.map((item) => (
-                <TouchableOpacity
-                  activeOpacity={0.6}
-                  onPress={() => setSelectedTab(item)}
-                >
-                  <Text
-                    style={[
-                      styles.heading,
-                      selectedTab == item && {
-                        color: colors.green,
-                        textDecorationLine: "underline",
-                      },
-                    ]}
+        <View style={styles.backdrop}>
+          <Animated.View
+            style={[
+              styles.bottomSheet,
+              // { transform: [{ translateY }] }, // Animated slide-up
+            ]}
+          >
+            {/* Bottom sheet content */}
+            <View style={styles.content}>
+              <BerlingskeBold style={{ marginBottom: 10 }}>
+                Add Players
+              </BerlingskeBold>
+              <View style={styles.headingContainer}>
+                {tabs.map((item) => (
+                  <TouchableOpacity
+                    activeOpacity={0.6}
+                    onPress={() => setSelectedTab(item)}
                   >
-                    {item}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-            <SearchField />
-            <View style={styles.listContainer}>
-              <View style={{ flex: 1 }}>
-                <FlatList
-                  data={props.allPlayers}
-                  renderItem={({ item, index }) => {
-                    return (
-                      <View
-                        style={[
-                          styles.listTile,
-                          {
-                            backgroundColor:
-                              index % 2 !== 0 ? "white" : colors.lightShade,
-                          },
-                        ]}
-                      >
-                        <View
-                          style={{ flexDirection: "row", alignItems: "center" }}
-                        >
-                          <TouchableOpacity
-                            onPress={() => handleSelection(item)}
-                            style={styles.checkbox}
-                          >
-                            {handleCheckIsExist(item) && (
-                              <Image
-                                source={icons.tick}
-                                style={{
-                                  width: "60%",
-                                  height: "60%",
-                                  resizeMode: "contain",
-                                }}
-                              />
-                            )}
-                          </TouchableOpacity>
-                          <View style={styles.divider} />
-                          <Text style={styles.playerName}>
-                            {item.name} ({item.score})
-                          </Text>
-                        </View>
-                        {item?.isFav ? (
-                          <Image
-                            source={icons.starFilled}
-                            style={styles.icon}
-                          />
-                        ) : (
-                          <Image
-                            source={icons.starUnfilled}
-                            style={styles.icon}
-                          />
-                        )}
-                      </View>
-                    );
-                  }}
-                />
+                    <Text
+                      style={[
+                        styles.heading,
+                        selectedTab == item && {
+                          color: colors.green,
+                          textDecorationLine: "underline",
+                        },
+                      ]}
+                    >
+                      {item}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
               </View>
+              <SearchField onChangeText={setSearchText} />
+              <View style={styles.listContainer}>
+                <View style={{ flex: 1 }}>
+                  <FlatList
+                    data={listData}
+                    renderItem={({ item, index }) => {
+                      return (
+                        <View
+                          style={[
+                            styles.listTile,
+                            {
+                              backgroundColor:
+                                index % 2 !== 0 ? "white" : colors.lightShade,
+                            },
+                          ]}
+                        >
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              alignItems: "center",
+                            }}
+                          >
+                            <TouchableOpacity
+                              onPress={() => handleSelection(item)}
+                              style={styles.checkbox}
+                            >
+                              {handleCheckIsExist(item) && (
+                                <Image
+                                  source={icons.tick}
+                                  style={{
+                                    width: "60%",
+                                    height: "60%",
+                                    resizeMode: "contain",
+                                  }}
+                                />
+                              )}
+                            </TouchableOpacity>
+                            <View style={styles.divider} />
+                            <Text style={styles.playerName}>
+                              {item.name} ({item.memberCode})
+                            </Text>
+                          </View>
+                          {handleCheckFavorite(item) ? (
+                            <TouchableOpacity
+                              onPress={() => onAddFavorite(item)}
+                            >
+                              <Image
+                                source={icons.starFilled}
+                                style={styles.icon}
+                              />
+                            </TouchableOpacity>
+                          ) : (
+                            <TouchableOpacity
+                              onPress={() => onAddFavorite(item)}
+                            >
+                              <Image
+                                source={icons.starUnfilled}
+                                style={styles.icon}
+                              />
+                            </TouchableOpacity>
+                          )}
+                        </View>
+                      );
+                    }}
+                  />
+                </View>
+              </View>
+              <MainButton title="Done" onPress={hide} />
             </View>
-            <MainButton title="Done" onPress={hide} />
-          </View>
-        </Animated.View>
+          </Animated.View>
+        </View>
       </Modal>
     );
   }
@@ -231,23 +318,24 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
 
 const styles = StyleSheet.create({
   backdrop: {
-    flex: 1,
+    height: vh * 100,
     backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
     justifyContent: "flex-end",
   },
   bottomSheet: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
+    // position: "absolute",
+    // bottom: 0,
+    // left: 0,
+    // right: 0,
     backgroundColor: "white",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     padding: 16,
-    height: height * 0.9, // Adjust height as needed
+    height: vh * 80, // Adjust height as needed
   },
   content: {
     // alignItems: "center",
+    // backgroundColor: "red",
     flex: 1,
   },
   title: {

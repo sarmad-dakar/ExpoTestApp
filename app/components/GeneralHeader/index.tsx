@@ -12,6 +12,7 @@ import { colors } from "@/app/utils/theme";
 import { vh } from "@/app/utils/units";
 import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
 import { router } from "expo-router";
+import { useSelector } from "react-redux";
 
 type headerProps = {
   title: string;
@@ -23,6 +24,8 @@ type headerProps = {
 };
 
 const GeneralHeader = ({ title, back, sport }: headerProps) => {
+  const user = useSelector((state: any) => state.user.user);
+
   return (
     <View style={styles.container}>
       {back ? (
@@ -41,7 +44,32 @@ const GeneralHeader = ({ title, back, sport }: headerProps) => {
         </View>
       )}
       <BerlingskeMedium style={styles.selectedSport}>{title}</BerlingskeMedium>
-      <View style={{ width: back ? 22 : 60 }}></View>
+      <View
+        style={{
+          width: back ? 22 : 60,
+          height: 50,
+          alignItems: "center",
+          flexDirection: "row",
+        }}
+      >
+        {!back ? (
+          <Image
+            source={icons.euro}
+            style={{
+              width: 17,
+              height: 17,
+              resizeMode: "contain",
+              marginRight: 5,
+              tintColor: "white",
+            }}
+          />
+        ) : null}
+        {!back ? (
+          <Text style={{ color: "white", fontSize: 12 }}>
+            {user?.balanceAmount}
+          </Text>
+        ) : null}
+      </View>
     </View>
   );
 };

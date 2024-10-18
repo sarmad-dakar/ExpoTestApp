@@ -4,8 +4,19 @@ import { colors } from "@/app/utils/theme";
 import { icons } from "@/app/MyAssets";
 import moment from "moment";
 
-const BookedSlots = ({ booking, selectedSport }: any) => {
+const BookedSlots = ({
+  booking,
+  selectedSport,
+  setSelectedBooking,
+  onDetailViewPress,
+}: any) => {
   const [enablePopup, setEnablePopup] = useState(false);
+
+  const shouldCancelVisible = () => {
+    const bookingDate = moment(booking.date, "DD/MM/YYYY");
+    const currentDate = moment();
+    return bookingDate.diff(currentDate, "days") >= 2;
+  };
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -17,10 +28,13 @@ const BookedSlots = ({ booking, selectedSport }: any) => {
 
       {enablePopup && (
         <View style={styles.listView}>
-          <View style={styles.listBtn}>
+          <TouchableOpacity
+            onPress={() => onDetailViewPress(booking)}
+            style={styles.listBtn}
+          >
             <Text style={styles.listText}>View Details</Text>
-          </View>
-          <View
+          </TouchableOpacity>
+          {/* <View
             style={[
               styles.listBtn,
               {
@@ -31,10 +45,15 @@ const BookedSlots = ({ booking, selectedSport }: any) => {
             ]}
           >
             <Text style={styles.listText}>Edit Booking</Text>
-          </View>
-          <View style={styles.listBtn}>
-            <Text style={styles.listText}>Cancel Booking</Text>
-          </View>
+          </View> */}
+          {shouldCancelVisible() ? (
+            <TouchableOpacity
+              onPress={() => setSelectedBooking(booking)}
+              style={styles.listBtn}
+            >
+              <Text style={styles.listText}>Cancel Booking</Text>
+            </TouchableOpacity>
+          ) : null}
         </View>
       )}
 
@@ -91,7 +110,8 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   listView: {
-    height: 90,
+    // height: 90,
+    // paddingVertical: 10,
     width: 120,
     backgroundColor: "#BEBEBE",
     position: "absolute",
@@ -104,6 +124,7 @@ const styles = StyleSheet.create({
   },
   listBtn: {
     flex: 1,
+    height: 35,
     justifyContent: "center",
     alignItems: "center",
   },

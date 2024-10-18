@@ -160,7 +160,15 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
           ]}
           disabled={currentIndex === 0} // Disable the button when at the first set
         >
-          <Image source={icons.backArrow} style={styles.navigationIcons} />
+          <Image
+            source={icons.backArrow}
+            style={[
+              styles.navigationIcons,
+              {
+                tintColor: currentIndex == 0 ? "gray" : "black",
+              },
+            ]}
+          />
           <Text style={{ color: currentIndex === 0 ? "gray" : "black" }}>
             Back
           </Text>
@@ -189,7 +197,18 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
           >
             Next
           </Text>
-          <Image source={icons.nextArrow} style={styles.navigationIcons} />
+          <Image
+            source={icons.nextArrow}
+            style={[
+              styles.navigationIcons,
+              {
+                tintColor:
+                  currentIndex + COURTS_PER_PAGE >= data.bookingSessions.length
+                    ? "gray"
+                    : "black",
+              },
+            ]}
+          />
         </TouchableOpacity>
       </View>
 

@@ -43,6 +43,9 @@ export const icons = {
   vehicle: require("./icons/car.png"),
   backArrow: require("./icons/backArrow.png"),
   nextArrow: require("./icons/nextArrow.png"),
+  group: require("./icons/people.png"),
+  payments: require("./icons/online-booking.png"),
+  defaultUser: require("./icons/defaultUser.png"),
 };
 
 export const images = {

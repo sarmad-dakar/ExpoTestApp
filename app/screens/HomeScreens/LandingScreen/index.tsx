@@ -32,6 +32,7 @@ import moment from "moment";
 import { vh, vw } from "@/app/utils/units";
 import { colors } from "@/app/utils/theme";
 import BookingCalendarVersion2 from "@/app/components/BookingCalendar/BookingCalendarVersion2";
+import { fetchCurrentSports } from "@/app/store/slices/bookingSlice";
 
 // Define types for calendar data and booking sessions
 interface CalendarData {
@@ -58,22 +59,39 @@ const LandingScreen = () => {
   const confirmationPopup = useRef<ConfirmationPopupRef>(null);
   const dispatch = useAppDispatch();
 
-  const sports = useSelector((state) => state.account.sportsData);
+  const sports = useSelector((state) => state?.account?.sportsData);
   // Define state with appropriate types
   const [calendarData, setCalendarData] = useState<CalendarData | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [SelectedSport, setSelectedSport] = useState(sports[0]);
+  const [SelectedSport, setSelectedSport] = useState();
 
-  const loader = useSelector((state) => state.general.generalLoader);
-
+  const loader = useSelector((state) => state.general?.generalLoader);
   useEffect(() => {
+    // handleNavigation();
     getProfile();
-    getCalendarData(selectedDate, sports[0]);
-  }, [selectedDate]);
+    getSports();
+  }, []);
+
+  const getSports = async (): Promise<void> => {
+    dispatch(fetchCurrentSports());
+  };
+  useEffect(() => {
+    if (sports?.length) {
+      setSelectedSport(sports[0]);
+    }
+  }, []);
 
   useEffect(() => {
-    setSelectedSport(sports[0]);
-  }, []);
+    if (selectedDate && SelectedSport) {
+      getCalendarData(selectedDate, SelectedSport);
+    }
+  }, [selectedDate, SelectedSport]);
+
+  useEffect(() => {
+    if (sports?.length) {
+      setSelectedSport(sports[0]);
+    }
+  }, [sports]);
 
   // Define return type for async function
   const getProfile = async (): Promise<void> => {
@@ -89,7 +107,7 @@ const LandingScreen = () => {
     };
     console.log(data);
     const response = await FetchCalendarData(data);
-
+    console.log(response.data, "response of calendar");
     if (response && response.data && response.data.data) {
       setCalendarData(response.data.data);
     }
@@ -121,16 +139,18 @@ const LandingScreen = () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <HomeHeader
-        onNotificationPress={onNotificationPress}
-        allSports={sports}
-        setSelectedDate={setSelectedDate}
-        selectedDate={selectedDate}
-        onSearchPress={onSearchPress}
-        getCalendarData={getCalendarData}
-        setSelectedSport={setSelectedSport}
-        selectedSport={SelectedSport}
-      />
+      {sports?.length && (
+        <HomeHeader
+          onNotificationPress={onNotificationPress}
+          allSports={sports}
+          setSelectedDate={setSelectedDate}
+          selectedDate={selectedDate}
+          onSearchPress={onSearchPress}
+          getCalendarData={getCalendarData}
+          setSelectedSport={setSelectedSport}
+          selectedSport={SelectedSport}
+        />
+      )}
       {/* <HomeHeaderBeta allSports={AllSports} label={"Tennis Booking"} /> */}
       {/* <ScrollView
         style={{ flex: 1, marginTop: 10 }}

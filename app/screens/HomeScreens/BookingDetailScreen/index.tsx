@@ -1,4 +1,5 @@
 import {
+  Alert,
   Image,
   ScrollView,
   StyleSheet,
@@ -24,8 +25,14 @@ import DateTimePicker, {
 } from "@react-native-community/datetimepicker";
 import moment from "moment";
 import { router, useRouter, useLocalSearchParams } from "expo-router";
-import { FetchAmountDue, FetchMembers } from "@/app/api/Bookings";
+import {
+  CreateBooking,
+  FetchAmountDue,
+  FetchMembers,
+} from "@/app/api/Bookings";
 import { useSelector } from "react-redux";
+import BookingConfirmationPopup from "@/app/components/BookingConfirmationPopup";
+import { ConfirmationPopupRef } from "@/app/components/ConfirmationPopup";
 
 interface Player {
   gender: string;
@@ -41,6 +48,14 @@ interface dropdownTypes {
   key?: string;
 }
 
+const sportsIcon = {
+  tennis: icons.tennis,
+  squash: icons.squash,
+  padel: icons.padel,
+  snooker: icons.snooker,
+  cricket: icons.cricket,
+};
+
 const BookingDetailScreen = () => {
   const addPlayerPopup = useRef<addplayerPopupRef>(null);
   const [allPlayers, setAllPlayers] = useState<Player[]>([]);
@@ -54,6 +69,7 @@ const BookingDetailScreen = () => {
     ? JSON.parse(LocalParams[0])
     : JSON.parse(LocalParams);
 
+  const bookingConfirmationRef = useRef<ConfirmationPopupRef>(null);
   const dropdownRef = useRef<SelectDropdownRef>(null);
   const courtsDropdownRef = useRef<SelectDropdownRef>(null);
 
@@ -63,11 +79,12 @@ const BookingDetailScreen = () => {
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [disableBooking, setDisableBooking] = useState(false);
   const [maximumPlayers, setMaximumPlayers] = useState(0);
+  const [halfSession, setHalfSession] = useState(false);
+  const [includeAc, setIncludeAc] = useState(false);
 
   const user = useSelector((state: any) => state.user.profile);
   const profile = useSelector((state: any) => state.user.user);
-  console.log(user, "user");
-
+  console.log(checkedPlayers, "checked players");
   useEffect(() => {
     getMembers();
     calculateMaxPlayers();
@@ -80,7 +97,7 @@ const BookingDetailScreen = () => {
     if (bookingType) {
       getAmountDue();
     }
-  }, [bookingType, checkedPlayers, selectedPlayers]);
+  }, [bookingType, checkedPlayers]);
 
   useEffect(() => {
     if (playersAmountData) {
@@ -96,19 +113,24 @@ const BookingDetailScreen = () => {
 
   const getMembers = async () => {
     let data = {
-      sport: bookingData?.sportServiceSetting?.title?.name.toLowerCase(),
+      sport:
+        bookingData?.selectedSport?.sportServiceSetting?.title?.toLowerCase(),
     };
 
     const response = await FetchMembers(data);
     setAllPlayers(response.data?.data);
   };
 
+  const onDonePress = () => {
+    getAmountDue();
+  };
+
   const getAmountDue = async () => {
     let data = {
       BookingKey: bookingData?.sessionDetail?.key,
       BookingType: bookingType?.key,
-      IsACOn: 0,
-      IsHalfSession: 0,
+      IsACOn: includeAc ? 1 : 0,
+      IsHalfSession: halfSession ? 1 : 0,
       PayerCode: profile?.memberCode,
       PlayerCodes: profile?.memberCode,
       Service:
@@ -175,7 +197,11 @@ const BookingDetailScreen = () => {
     const removedPlayers = selectedPlayers.filter(
       (item) => item.memberCode !== player.memberCode
     );
+    const removeCheckPlayer = checkedPlayers.filter(
+      (item) => item.memberCode !== player.memberCode
+    );
     setSelectedPlayers(removedPlayers);
+    setCheckedPlayers(removeCheckPlayer);
   };
 
   const validateAmount = (amount, balance) => {
@@ -215,9 +241,52 @@ const BookingDetailScreen = () => {
     return result;
   };
 
+  const onBookingConfirmation = async (pinCode: string) => {
+    let data = {
+      BookingKey: bookingData?.sessionDetail?.key,
+      BookingType: bookingType?.key,
+      IsACOn: includeAc ? 1 : 0,
+      IsHalfSession: halfSession ? 1 : 0,
+      PayerCode: profile?.memberCode,
+      PlayerCodes: profile?.memberCode,
+      PinCode: pinCode,
+      Service:
+        bookingData?.selectedSport?.sportServiceSetting.title.toLowerCase(),
+    };
+    if (checkedPlayers.length) {
+      let currentPayers = data.PayerCode;
+      checkedPlayers.map((item) => {
+        currentPayers += `,${item.memberCode}`;
+      });
+      data.PayerCode = currentPayers;
+    }
+    if (selectedPlayers.length) {
+      let currentPlayers = data.PlayerCodes;
+      selectedPlayers.map((item) => {
+        currentPlayers += `,${item.memberCode}`;
+      });
+      data.PlayerCodes = currentPlayers;
+    }
+    const response = await CreateBooking(data);
+    if (response.data.msgCode == "500") {
+      Alert.alert(response.data.data);
+    } else {
+      router.back();
+    }
+    console.log(response.data, "Data of booking");
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.white }}>
-      <GeneralHeader title="Booking Detail" />
+      <GeneralHeader
+        sport={{
+          name: bookingData?.selectedSport?.sportServiceSetting.title,
+          icon: sportsIcon[
+            bookingData?.selectedSport?.sportServiceSetting?.title
+          ],
+        }}
+        title="Booking Detail"
+      />
       {showDatePicker && (
         <DateTimePicker
           value={date}
@@ -244,13 +313,15 @@ const BookingDetailScreen = () => {
           Booking Payment & Add Players
         </BerlingskeBold>
         <BerlingskeMedium>Session Information</BerlingskeMedium>
-        <InputField icon={icons.calendar} value={bookingData?.selectedDate} />
+        <View style={{ flexDirection: "row" }}>
+          <InputField icon={icons.calendar} value={bookingData?.selectedDate} />
+          <InputField
+            icon={icons.clock}
+            value={bookingData.sessionDetail.slot}
+          />
+        </View>
         <InputField icon={icons.court} value={bookingData.courtDetail.title} />
-        <InputField icon={icons.clock} value={bookingData.sessionDetail.slot} />
-        <MainButton
-          onPress={() => addPlayerPopup.current?.show()}
-          title="Change"
-        />
+        <MainButton onPress={() => router.back()} title="Change" />
         <BerlingskeMedium>Booking Types</BerlingskeMedium>
         <InputField
           icon={icons.court}
@@ -259,6 +330,58 @@ const BookingDetailScreen = () => {
           dropdown={true}
           onPress={() => dropdownRef.current?.show()}
         />
+        {bookingData?.selectedSport?.sportServiceSetting?.hasHalfTimeSetting ? (
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginBottom: 10,
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => setHalfSession(!halfSession)}
+              style={styles.checkbox}
+            >
+              {halfSession ? (
+                <Image
+                  source={icons.tick}
+                  style={{
+                    width: "60%",
+                    height: "60%",
+                    resizeMode: "contain",
+                  }}
+                />
+              ) : null}
+            </TouchableOpacity>
+            <Text style={styles.playerName}>Half Session</Text>
+          </View>
+        ) : null}
+        {bookingData?.selectedSport?.sportServiceSetting?.hasACSetting ? (
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginBottom: 10,
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => setIncludeAc(!includeAc)}
+              style={styles.checkbox}
+            >
+              {includeAc ? (
+                <Image
+                  source={icons.tick}
+                  style={{
+                    width: "60%",
+                    height: "60%",
+                    resizeMode: "contain",
+                  }}
+                />
+              ) : null}
+            </TouchableOpacity>
+            <Text style={styles.playerName}>Include A/C</Text>
+          </View>
+        ) : null}
         <View style={styles.rowDirection}>
           <BerlingskeMedium>Players</BerlingskeMedium>
           <MainButton
@@ -275,7 +398,7 @@ const BookingDetailScreen = () => {
             style={{
               flexDirection: "row",
               alignItems: "center",
-              marginBottom: 10,
+              marginBottom: 2,
             }}
           >
             <View style={styles.checkbox}>
@@ -304,12 +427,12 @@ const BookingDetailScreen = () => {
           </View>
         </View>
         {selectedPlayers.map((item, index) => (
-          <View>
+          <View style={{ marginTop: 10 }}>
             <View
               style={{
                 flexDirection: "row",
                 alignItems: "center",
-                marginBottom: 10,
+                marginBottom: 2,
               }}
             >
               <TouchableOpacity
@@ -344,7 +467,7 @@ const BookingDetailScreen = () => {
           </View>
         ))}
         <MainButton
-          // onPress={}
+          onPress={() => bookingConfirmationRef.current?.show()}
           disabled={disableBooking}
           title="BOOK"
         />
@@ -374,6 +497,11 @@ const BookingDetailScreen = () => {
         selectedPlayers={selectedPlayers}
         setSelectedPlayers={setSelectedPlayers}
         maximumPlayers={maximumPlayers}
+        onDonePress={onDonePress}
+      />
+      <BookingConfirmationPopup
+        reference={bookingConfirmationRef}
+        onAccept={onBookingConfirmation}
       />
       <SelectDropDown
         reference={dropdownRef}
@@ -410,7 +538,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   playerName: {
-    fontSize: 13,
+    fontSize: 15,
     color: "#3B5049",
   },
   removePlayerContainer: {

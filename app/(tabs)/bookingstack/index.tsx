@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import MyBookingsScreen from "../screens/HomeScreens/MyBookings";
+import MyBookingsScreen from "@/app/screens/HomeScreens/MyBookings";
 
-const mybookings = () => {
+const bookingdetail = () => {
   return <MyBookingsScreen />;
 };
 
-export default mybookings;
+export default bookingdetail;
 
 const styles = StyleSheet.create({});

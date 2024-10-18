@@ -22,16 +22,6 @@ import { useAppDispatch } from "../../HomeScreens/LandingScreen";
 
 const OnBoardingScreen = () => {
   const user = useSelector((state: any) => state.user.user);
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    // handleNavigation();
-    getSports();
-  }, []);
-
-  const getSports = async (): Promise<void> => {
-    dispatch(fetchCurrentSports());
-  };
 
   const handleNavigation = () => {
     if (user) {

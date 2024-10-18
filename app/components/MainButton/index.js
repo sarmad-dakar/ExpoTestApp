@@ -55,7 +55,7 @@ const MainButton = (props) => {
             styles.buttonText,
             {
               borderRadius: 5,
-              fontSize: props.style?.height ? props.style?.height / 3 : 14,
+              fontSize: props.style?.height ? props.style?.height / 3 : 13,
             },
           ]}
         >
@@ -70,7 +70,7 @@ export default MainButton;
 
 const styles = StyleSheet.create({
   container: {
-    height: 45,
+    height: 40,
     width: "100%",
     backgroundColor: colors.secondary,
     justifyContent: "center",
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "black",
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: "bold",
     textTransform: "uppercase",
   },

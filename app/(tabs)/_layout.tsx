@@ -93,7 +93,7 @@ export default function TabLayout() {
         options={{ title: "Home", tabBarIcon: icons.home }}
       />
       <Tabs.Screen
-        name="mybookings"
+        name="bookingstack"
         options={{ title: "My Bookings", tabBarIcon: icons.calendar }}
       />
       <Tabs.Screen
