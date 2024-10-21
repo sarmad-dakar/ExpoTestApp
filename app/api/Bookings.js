@@ -50,6 +50,10 @@ const GetAlreadyBookedDetails = async (data) => {
     `${endpoints.getAlreadyBookedDetails}${data.sport}/${data.id}`
   );
 };
+
+const TopupBalance = async (data) => {
+  return instance.post(endpoints.topupBalance, data);
+};
 export {
   FetchMyBookings,
   GetAccountData,
@@ -63,4 +67,5 @@ export {
   CreateBooking,
   CancelBooking,
   GetAlreadyBookedDetails,
+  TopupBalance,
 };

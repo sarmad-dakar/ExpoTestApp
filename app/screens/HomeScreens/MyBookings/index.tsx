@@ -24,7 +24,8 @@ import { AllSports } from "@/app/utils/dummyJson";
 import BookingConfirmationPopup from "@/app/components/BookingConfirmationPopup";
 import { ConfirmationPopupRef } from "@/app/components/ConfirmationPopup";
 import { useSelector } from "react-redux";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
+import TopupConfirmationPopup from "@/app/components/TopupConfirmationPopup";
 
 const monthsData = [
   { value: "01", label: "Jan" },
@@ -79,7 +80,7 @@ const MyBookingsScreen: React.FC = () => {
   const [allSports, setAllSports] = useState<SportItem[]>([]);
   const [selectedTab, setSelectedTab] = useState<SportItem>(AllSports[0]);
   const sports = useSelector((state: any) => state?.account?.sportsData);
-
+  const bookedSlotReference = useRef();
   const [tenyearsDD, setTenYearsDD] = useState<
     { value: string; label: string }[]
   >([]);
@@ -95,11 +96,23 @@ const MyBookingsScreen: React.FC = () => {
   const monthDropdownRef = useRef<SelectDropdownRef>(null);
   const bookingConfirmationRef = useRef<ConfirmationPopupRef>(null);
 
-  useEffect(() => {
-    if (selectedTab) {
-      fetchData(selectedTab?.name, selectedDate);
-    }
-  }, [selectedTab, selectedDate]);
+  // useEffect(() => {
+  //   if (selectedTab) {
+  //     fetchData(selectedTab?.name, selectedDate);
+  //   }
+  // }, [selectedTab, selectedDate]);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (selectedDate && selectedDate) {
+        fetchData(selectedTab?.name, selectedDate);
+      }
+
+      return () => {
+        console.log("This route is now unfocused.");
+      };
+    }, [selectedDate, selectedDate])
+  );
 
   useEffect(() => {
     generateTenYearsArray();
@@ -131,9 +144,9 @@ const MyBookingsScreen: React.FC = () => {
   };
 
   const fetchData = async (sport: string, year: string) => {
-    if (bookingsData[sport]?.[year]) {
-      return null;
-    }
+    // if (bookingsData[sport]?.[year]) {
+    //   return null;
+    // }
 
     const data = {
       sport: sport.toUpperCase(),
@@ -182,6 +195,9 @@ const MyBookingsScreen: React.FC = () => {
     if (response.data.msgCode === "200") {
       fetchData(selectedTab.name, selectedDate);
     }
+    if (response.data.data.msgCode === "200") {
+      fetchData(selectedTab.name, selectedDate);
+    }
     console.log(response.data, "response of cancel");
   };
 
@@ -198,6 +214,8 @@ const MyBookingsScreen: React.FC = () => {
       }, // Use if you have any URL params to send (optional)
     });
   };
+
+  const onHidePress = () => {};
 
   const bookingFilterPopup = useRef<BookingFilterPopupRef>(null);
   return (

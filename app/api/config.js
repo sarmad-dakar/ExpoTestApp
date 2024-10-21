@@ -11,4 +11,5 @@ export const endpoints = {
   confirmBooking: "Booking/sport/booking/confirmation",
   cancelBooking: "Booking/sport/booking/Cancel",
   getAlreadyBookedDetails: "Booking/sport/booking/details/",
+  topupBalance: "Payment/sport/topup",
 };

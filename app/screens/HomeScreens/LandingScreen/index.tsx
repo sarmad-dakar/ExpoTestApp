@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import ScreenWrapper from "@/app/components/ScreenWrapper";
 import Banner from "@/app/components/Banner";
 import SportsCard from "@/app/components/SportsCard";
@@ -33,6 +33,7 @@ import { vh, vw } from "@/app/utils/units";
 import { colors } from "@/app/utils/theme";
 import BookingCalendarVersion2 from "@/app/components/BookingCalendar/BookingCalendarVersion2";
 import { fetchCurrentSports } from "@/app/store/slices/bookingSlice";
+import { useFocusEffect } from "expo-router";
 
 // Define types for calendar data and booking sessions
 interface CalendarData {
@@ -72,6 +73,18 @@ const LandingScreen = () => {
     getSports();
   }, []);
 
+  useFocusEffect(
+    useCallback(() => {
+      if (selectedDate && SelectedSport) {
+        getCalendarData(selectedDate, SelectedSport);
+      }
+
+      return () => {
+        console.log("This route is now unfocused.");
+      };
+    }, [selectedDate, SelectedSport])
+  );
+
   const getSports = async (): Promise<void> => {
     dispatch(fetchCurrentSports());
   };
@@ -81,11 +94,11 @@ const LandingScreen = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (selectedDate && SelectedSport) {
-      getCalendarData(selectedDate, SelectedSport);
-    }
-  }, [selectedDate, SelectedSport]);
+  // useEffect(() => {
+  //   if (selectedDate && SelectedSport) {
+  //    getCalendarData(selectedDate, SelectedSport);
+  //   }
+  // }, [selectedDate, SelectedSport]);
 
   useEffect(() => {
     if (sports?.length) {
@@ -139,7 +152,7 @@ const LandingScreen = () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      {sports?.length && (
+      {sports?.length ? (
         <HomeHeader
           onNotificationPress={onNotificationPress}
           allSports={sports}
@@ -150,7 +163,7 @@ const LandingScreen = () => {
           setSelectedSport={setSelectedSport}
           selectedSport={SelectedSport}
         />
-      )}
+      ) : null}
       {/* <HomeHeaderBeta allSports={AllSports} label={"Tennis Booking"} /> */}
       {/* <ScrollView
         style={{ flex: 1, marginTop: 10 }}
@@ -160,13 +173,13 @@ const LandingScreen = () => {
         }}
       > */}
       <View style={{ flex: 1, padding: 10 }}>
-        {calendarData && (
+        {calendarData ? (
           <BookingCalendarVersion2
             onBookingPress={onBookingPress}
             data={calendarData}
             date={selectedDate}
           />
-        )}
+        ) : null}
       </View>
       {/* <AvailableSlots handleBooking={handleBooking} /> */}
       {/* </ScrollView> */}
@@ -174,11 +187,11 @@ const LandingScreen = () => {
         reference={confirmationPopup}
         onAccept={onAcceptBooking}
       />
-      {loader && (
+      {loader ? (
         <View style={styles.loader}>
           <ActivityIndicator size={"large"} color={colors.secondary} />
         </View>
-      )}
+      ) : null}
     </View>
   );
 };

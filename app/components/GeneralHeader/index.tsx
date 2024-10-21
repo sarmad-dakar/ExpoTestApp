@@ -1,18 +1,21 @@
 import {
   Image,
   ImageProps,
+  Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useRef } from "react";
 import { icons } from "@/app/MyAssets";
 import { colors } from "@/app/utils/theme";
 import { vh } from "@/app/utils/units";
 import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
 import { router } from "expo-router";
 import { useSelector } from "react-redux";
+import TopupConfirmationPopup from "../TopupConfirmationPopup";
+import { ConfirmationPopupRef } from "../ConfirmationPopup";
 
 type headerProps = {
   title: string;
@@ -25,6 +28,13 @@ type headerProps = {
 
 const GeneralHeader = ({ title, back, sport }: headerProps) => {
   const user = useSelector((state: any) => state.user.user);
+  const topupConfirmationRef = useRef<ConfirmationPopupRef>(null);
+
+  const handlePress = () => {
+    if (!back) {
+      topupConfirmationRef.current?.show();
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -44,7 +54,8 @@ const GeneralHeader = ({ title, back, sport }: headerProps) => {
         </View>
       )}
       <BerlingskeMedium style={styles.selectedSport}>{title}</BerlingskeMedium>
-      <View
+      <Pressable
+        onPress={handlePress}
         style={{
           width: back ? 22 : 60,
           height: 50,
@@ -69,7 +80,8 @@ const GeneralHeader = ({ title, back, sport }: headerProps) => {
             {user?.balanceAmount}
           </Text>
         ) : null}
-      </View>
+      </Pressable>
+      <TopupConfirmationPopup reference={topupConfirmationRef} />
     </View>
   );
 };

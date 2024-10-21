@@ -1,4 +1,11 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useState } from "react";
 import { colors } from "@/app/utils/theme";
 import { icons } from "@/app/MyAssets";
@@ -18,7 +25,7 @@ const BookedSlots = ({
     return bookingDate.diff(currentDate, "days") >= 2;
   };
   return (
-    <View style={styles.container}>
+    <Pressable onPress={() => setEnablePopup(false)} style={styles.container}>
       <TouchableOpacity
         onPress={() => setEnablePopup(!enablePopup)}
         style={styles.iconContainer}
@@ -66,11 +73,9 @@ const BookedSlots = ({
         {booking.description}
       </Text>
       <Text style={styles.footerText}>
-        {/* Monday, 29th July 2024, 05:30 PM-Court 5 */}
-        {/* {moment(booking.date, "DD/MM/YYYY").day()} */}
         {moment(booking.date, "DD/MM/YYYY").format("dddd, DD MMM YYYY")}
       </Text>
-    </View>
+    </Pressable>
   );
 };
 
