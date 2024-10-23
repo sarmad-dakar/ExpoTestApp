@@ -238,7 +238,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
             overflow: "hidden",
           }}
         >
-          <View style={{ width: "25%" }}>
+          <View style={{ flex: 1 }}>
             {data.timeSlots.map((timeSlot, index) => (
               <View key={index} style={styles.time}>
                 <Text style={styles.timeFont}>{timeSlot || "N/A"}</Text>
@@ -247,7 +247,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
           </View>
 
           {currentCourts.map((session, sessionIndex) => (
-            <View style={{ width: "25%" }} key={sessionIndex}>
+            <View style={{ flex: 1 }} key={sessionIndex}>
               {session.session.map((item, itemIndex) =>
                 session?.session[itemIndex - 1]?.rows == 2 ? (
                   <View style={{}} />
@@ -287,7 +287,8 @@ const styles = StyleSheet.create({
   court: {
     height: 40,
     backgroundColor: colors.secondary,
-    width: 90,
+    // width: 90,
+    flex: 1,
     marginRight: 1,
     justifyContent: "center",
     alignItems: "center",

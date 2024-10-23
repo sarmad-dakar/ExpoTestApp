@@ -30,9 +30,11 @@ import {
   FetchAmountDue,
   FetchMembers,
 } from "@/app/api/Bookings";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import BookingConfirmationPopup from "@/app/components/BookingConfirmationPopup";
 import { ConfirmationPopupRef } from "@/app/components/ConfirmationPopup";
+import { fetchRemainingBalance } from "@/app/store/slices/accountSlice";
+import { useAppDispatch } from "../LandingScreen";
 
 interface Player {
   gender: string;
@@ -81,7 +83,7 @@ const BookingDetailScreen = () => {
   const [maximumPlayers, setMaximumPlayers] = useState(0);
   const [halfSession, setHalfSession] = useState(false);
   const [includeAc, setIncludeAc] = useState(false);
-
+  const dispatch = useAppDispatch();
   const user = useSelector((state: any) => state.user.profile);
   const profile = useSelector((state: any) => state.user.user);
   console.log(checkedPlayers, "checked players");
@@ -268,6 +270,8 @@ const BookingDetailScreen = () => {
       data.PlayerCodes = currentPlayers;
     }
     const response = await CreateBooking(data);
+    dispatch(fetchRemainingBalance());
+
     if (response.data.msgCode == "500") {
       Alert.alert(response.data.data);
     } else {

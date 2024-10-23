@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { colors } from "@/app/utils/theme";
 import { icons } from "@/app/MyAssets";
 import moment from "moment";
@@ -20,9 +20,14 @@ const BookedSlots = ({
   const [enablePopup, setEnablePopup] = useState(false);
 
   const shouldCancelVisible = () => {
-    const bookingDate = moment(booking.date, "DD/MM/YYYY");
+    const bookingDate = moment(
+      `${booking.date} ${booking.time}`,
+      "DD/MM/YYYY hh:mma"
+    );
     const currentDate = moment();
-    return bookingDate.diff(currentDate, "days") >= 2;
+    console.log(bookingDate.diff(currentDate, "hours"), "time diff");
+
+    return bookingDate.diff(currentDate, "hours") >= 10;
   };
   return (
     <Pressable onPress={() => setEnablePopup(false)} style={styles.container}>

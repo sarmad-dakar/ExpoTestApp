@@ -54,6 +54,11 @@ const GetAlreadyBookedDetails = async (data) => {
 const TopupBalance = async (data) => {
   return instance.post(endpoints.topupBalance, data);
 };
+
+const GetRemainingBalance = async (data) => {
+  return instance.get(endpoints.balance);
+};
+
 export {
   FetchMyBookings,
   GetAccountData,
@@ -68,4 +73,5 @@ export {
   CancelBooking,
   GetAlreadyBookedDetails,
   TopupBalance,
+  GetRemainingBalance,
 };

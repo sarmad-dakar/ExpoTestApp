@@ -26,6 +26,8 @@ import { ConfirmationPopupRef } from "@/app/components/ConfirmationPopup";
 import { useSelector } from "react-redux";
 import { router, useFocusEffect } from "expo-router";
 import TopupConfirmationPopup from "@/app/components/TopupConfirmationPopup";
+import { fetchRemainingBalance } from "@/app/store/slices/accountSlice";
+import { useAppDispatch } from "../LandingScreen";
 
 const monthsData = [
   { value: "01", label: "Jan" },
@@ -92,10 +94,11 @@ const MyBookingsScreen: React.FC = () => {
   );
   const [bookingsData, setBookingsData] = useState<BookingsData>({});
   const [selectedBooking, setSelectedBooking] = useState<Session | null>(null);
+  const [dataForList, setDataForList] = useState([]);
   const yearDropdownRef = useRef<SelectDropdownRef>(null);
   const monthDropdownRef = useRef<SelectDropdownRef>(null);
   const bookingConfirmationRef = useRef<ConfirmationPopupRef>(null);
-
+  const dispatch = useAppDispatch();
   // useEffect(() => {
   //   if (selectedTab) {
   //     fetchData(selectedTab?.name, selectedDate);
@@ -104,19 +107,25 @@ const MyBookingsScreen: React.FC = () => {
 
   useFocusEffect(
     useCallback(() => {
-      if (selectedDate && selectedDate) {
+      if (selectedTab && selectedDate) {
         fetchData(selectedTab?.name, selectedDate);
       }
 
       return () => {
         console.log("This route is now unfocused.");
       };
-    }, [selectedDate, selectedDate])
+    }, [selectedTab, selectedDate])
   );
 
   useEffect(() => {
     generateTenYearsArray();
   }, []);
+
+  useEffect(() => {
+    if (bookingsData) {
+      showSelectedYearData();
+    }
+  }, [bookingsData, selectedTab]);
 
   useEffect(() => {
     console.log(sports, "sports of data");
@@ -153,12 +162,12 @@ const MyBookingsScreen: React.FC = () => {
       year: year,
     };
     const response = await FetchMyBookings(data);
-
+    console.log(response.data.data, "My Bookings");
     if (response.data.msgCode === "200") {
       setBookingsData((prevData) => ({
-        ...prevData,
+        // ...prevData,
         [sport]: {
-          ...(prevData[sport] || {}),
+          // ...(prevData[sport] || {}),
           [year]: response.data.data,
         },
       }));
@@ -169,14 +178,14 @@ const MyBookingsScreen: React.FC = () => {
     const sportData = bookingsData[selectedTab.name];
     if (sportData && sportData[selectedDate]) {
       const data = sportData[selectedDate];
-      return (
+      setDataForList(
         data.sessions?.filter((item) => {
           const dateParts = item.date.split("/");
           return dateParts[1] === selectedMonth;
         }) || []
       );
     } else {
-      return [];
+      setDataForList([]);
     }
   };
 
@@ -192,12 +201,14 @@ const MyBookingsScreen: React.FC = () => {
       section: selectedTab?.name,
     };
     const response = await CancelBooking(data);
-    if (response.data.msgCode === "200") {
+    setTimeout(() => {
+      dispatch(fetchRemainingBalance());
+    }, 1000);
+    if (response.data.msgCode == "200") {
+      console.log("fetch again");
       fetchData(selectedTab.name, selectedDate);
     }
-    if (response.data.data.msgCode === "200") {
-      fetchData(selectedTab.name, selectedDate);
-    }
+
     console.log(response.data, "response of cancel");
   };
 
@@ -278,7 +289,7 @@ const MyBookingsScreen: React.FC = () => {
           />
         </View>
         <FlatList
-          data={showSelectedYearData()}
+          data={dataForList}
           ListEmptyComponent={() => (
             <View style={styles.noBookingContainer}>
               <Image source={icons.noBooking} style={styles.noBookingIcon} />

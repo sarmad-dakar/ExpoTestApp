@@ -1,16 +1,62 @@
-import { Image, ImageProps, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import {
+  Image,
+  ImageProps,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import React, { useEffect, useState } from "react";
 import { icons, images } from "@/app/MyAssets";
 import { colors } from "@/app/utils/theme";
 import { vh } from "@/app/utils/units";
 import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
+import * as ImagePicker from "expo-image-picker";
+import { updateProfilePic } from "@/app/api/Auth";
+import { useAppDispatch } from "@/app/screens/HomeScreens/LandingScreen";
+import { fetchuserProfile } from "@/app/store/slices/userSlice";
 
 type headerProps = {
   title: string;
-  image: ImageProps;
+  image: string;
 };
 
 const ProfileHeader = ({ title, image }: headerProps) => {
+  const [profilePic, setProfilePic] = useState({ uri: "" });
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    setProfilePic({ uri: image });
+  }, [image]);
+
+  const onCameraPress = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      const selectedPhoto = result.assets[0];
+      let data = {
+        uri: selectedPhoto.uri,
+        type: selectedPhoto.mimeType,
+        name: selectedPhoto.fileName,
+        fieldName: "file",
+      };
+      const formData = new FormData();
+      formData.append("file", data);
+
+      let response = await updateProfilePic(formData);
+      console.log(response.data, "response of update profile");
+      if (response.data.msgCode == "200") {
+        dispatch(fetchuserProfile());
+        setProfilePic(selectedPhoto);
+      }
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View
@@ -30,13 +76,13 @@ const ProfileHeader = ({ title, image }: headerProps) => {
       </View>
 
       <View style={styles.profileConatiner}>
-        <Image
-          source={image ? { uri: image } : images.dummyAvatar}
-          style={styles.image}
-        />
-        <View style={styles.cameraContainer}>
+        <Image source={profilePic || images.dummyAvatar} style={styles.image} />
+        <TouchableOpacity
+          onPress={onCameraPress}
+          style={styles.cameraContainer}
+        >
           <Image source={icons.camera} style={styles.cameraLogo} />
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   );

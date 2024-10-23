@@ -3,6 +3,7 @@ import {
   FetchAvailableSports,
   GetAccountData,
   GetNotificationsData,
+  GetRemainingBalance,
   GetSubscriptionData,
 } from "../../api/Bookings";
 
@@ -11,6 +12,7 @@ const initialState = {
   subscriptionData: [],
   notificationsData: [],
   sportsData: [],
+  balance: 0,
 };
 
 export const fetchMyAccount = createAsyncThunk("myAccount", async (data) => {
@@ -49,6 +51,15 @@ export const fetchCurrentSports = createAsyncThunk(
     } catch (error) {}
   }
 );
+export const fetchRemainingBalance = createAsyncThunk(
+  "remainingBalance",
+  async () => {
+    try {
+      const response = await GetRemainingBalance();
+      return response.data;
+    } catch (error) {}
+  }
+);
 
 // create a slice of user
 const slice = createSlice({
@@ -68,6 +79,10 @@ const slice = createSlice({
     builder.addCase(fetchCurrentSports.fulfilled, (state, action) => {
       console.log(action.payload, "data ");
       state.sportsData = action.payload;
+    });
+    builder.addCase(fetchRemainingBalance.fulfilled, (state, action) => {
+      console.log(action.payload, "remaining balance ");
+      state.balance = action.payload;
     });
   },
 });

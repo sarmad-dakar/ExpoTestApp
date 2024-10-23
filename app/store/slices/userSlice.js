@@ -1,4 +1,4 @@
-import { getMyProfile } from "@/app/api/Auth";
+import { getMyProfile, getUserProfile } from "@/app/api/Auth";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -9,10 +9,21 @@ const initialState = {
 
 export const fetchMyProfile = createAsyncThunk("myProfile", async (data) => {
   try {
+    console.log("are we here?");
     const response = await getMyProfile(data);
-    return response;
+    return response.data;
   } catch (error) {}
 });
+
+export const fetchuserProfile = createAsyncThunk(
+  "userProfile",
+  async (data) => {
+    try {
+      const response = await getUserProfile(data);
+      return response.data;
+    } catch (error) {}
+  }
+);
 
 // create a slice of user
 const user = createSlice({
@@ -31,7 +42,11 @@ const user = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchMyProfile.fulfilled, (state, action) => {
-      state.profile = action.payload.data.data;
+      console.log(action.payload.data, "Hello world");
+      state.profile = action.payload.data;
+    });
+    builder.addCase(fetchuserProfile.fulfilled, (state, action) => {
+      state.user = action.payload.data;
     });
   },
 });

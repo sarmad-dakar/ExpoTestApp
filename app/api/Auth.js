@@ -9,4 +9,26 @@ const getMyProfile = async () => {
   return instance.get(endpoints.getMyProfile);
 };
 
-export { loginApi, getMyProfile };
+const getUserProfile = async () => {
+  return instance.get(endpoints.validate);
+};
+
+const updateUserInfo = async (data) => {
+  return instance.post(endpoints.updateUserInfo, data);
+};
+
+const updateProfilePic = async (data) => {
+  return instance.post(endpoints.updateProfile, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+export {
+  loginApi,
+  getMyProfile,
+  updateProfilePic,
+  updateUserInfo,
+  getUserProfile,
+};

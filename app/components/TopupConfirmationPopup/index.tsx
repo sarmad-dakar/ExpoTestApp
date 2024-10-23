@@ -15,10 +15,16 @@ import {
   Dimensions,
   Text,
   Linking,
+  Alert,
 } from "react-native";
 import BerlingskeBold from "../TextWrapper/BerlingskeBold";
 import InputField from "../InputField";
 import { TopupBalance } from "@/app/api/Bookings";
+import * as WebBrowser from "expo-web-browser";
+import InAppBrowser from "react-native-inappbrowser-reborn";
+import WebView from "react-native-webview";
+import { fetchRemainingBalance } from "@/app/store/slices/accountSlice";
+import { useAppDispatch } from "@/app/screens/HomeScreens/LandingScreen";
 
 // Get screen dimensions
 const { height } = Dimensions.get("window");
@@ -39,17 +45,22 @@ const TopupConfirmationPopup = forwardRef<
   const translateY = useRef(new Animated.Value(height)).current;
   const [visible, setVisible] = useState(false);
   const [amount, setAmount] = useState<string>("");
-
+  const [steps, setSteps] = useState(1);
+  const [url, setUrl] = useState("");
+  const dispatch = useAppDispatch();
   useImperativeHandle(ref || props.reference, () => ({
     hide: hide,
     show: show,
   }));
 
   const hide = () => {
+    setSteps(1);
+    dispatch(fetchRemainingBalance());
     setVisible(false);
   };
 
   const show = () => {
+    setSteps(1);
     setVisible(true);
   };
 
@@ -74,7 +85,7 @@ const TopupConfirmationPopup = forwardRef<
       toValue: height,
       duration: 300,
       useNativeDriver: true,
-    }).start(() => setVisible(false));
+    }).start(() => hide());
   };
 
   const handleConfirm = async () => {
@@ -86,10 +97,15 @@ const TopupConfirmationPopup = forwardRef<
     };
     const result = await TopupBalance(data);
     console.log(result.data, "amount");
-    hide();
+    // hide();
 
     if (result.data?.data?.isok) {
-      Linking.openURL(result.data?.data?.url);
+      const paymentUrl = result.data?.data?.url;
+      setUrl(paymentUrl);
+      setSteps(2);
+      // let webResponse = await WebBrowser.openBrowserAsync(paymentUrl, {});
+      // console.log(webResponse, "web response");
+      // Linking.openURL(result.data?.data?.url);
     }
   };
 
@@ -106,32 +122,49 @@ const TopupConfirmationPopup = forwardRef<
         onPress={slideDown}
       />
       <Animated.View
-        style={[styles.bottomSheet, { transform: [{ translateY }] }]}
+        style={[
+          styles.bottomSheet,
+          {
+            height: steps == 1 ? height * 0.4 : height * 1,
+          },
+          { transform: [{ translateY }] },
+        ]}
       >
-        <View style={styles.content}>
-          <BerlingskeBold>Confirm Top-up</BerlingskeBold>
-          <Text>Please enter the amount you wish to top-up:</Text>
+        {steps == 1 ? (
+          <View style={styles.content}>
+            <BerlingskeBold>Confirm Top-up</BerlingskeBold>
+            <Text>Please enter the amount you wish to top-up:</Text>
 
-          <InputField
-            keyboardType="decimal-pad"
-            placeholder="Amount"
-            value={amount}
-            onChangeText={setAmount}
-          />
+            <InputField
+              keyboardType="decimal-pad"
+              placeholder="Amount"
+              value={amount}
+              onChangeText={setAmount}
+            />
 
-          <View style={styles.rowDirection}>
-            <TouchableOpacity onPress={hide} style={styles.btn}>
-              <Text style={{ color: "white" }}>Cancel</Text>
-            </TouchableOpacity>
+            <View style={styles.rowDirection}>
+              <TouchableOpacity onPress={hide} style={styles.btn}>
+                <Text style={{ color: "white" }}>Cancel</Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              style={[styles.btn, { backgroundColor: "#6AAF2E" }]}
-              onPress={handleConfirm}
-            >
-              <Text style={{ color: "white" }}>Confirm</Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.btn, { backgroundColor: "#6AAF2E" }]}
+                onPress={handleConfirm}
+              >
+                <Text style={{ color: "white" }}>Confirm</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
+        ) : (
+          <View style={styles.content}>
+            <WebView
+              source={{
+                uri: url,
+              }}
+              style={{ flex: 1 }}
+            />
+          </View>
+        )}
       </Animated.View>
     </Modal>
   );

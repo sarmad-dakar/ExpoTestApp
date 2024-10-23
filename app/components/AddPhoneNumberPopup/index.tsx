@@ -14,35 +14,32 @@ import {
   StyleSheet,
   Dimensions,
   Image,
+  Text,
 } from "react-native";
 import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
 import { icons } from "@/app/MyAssets";
 import InputField from "../InputField";
 import MainButton from "../MainButton";
-import DateTimePicker, {
-  DateTimePickerEvent,
-} from "@react-native-community/datetimepicker";
-import moment from "moment";
+
 // Get screen dimensions
 const { height } = Dimensions.get("window");
 
-export type AddChildrenPopupRef = {
+export type AddPhonePopupRef = {
   show: () => void;
   hide: () => void;
 };
 
-type AddChildrenPopupProps = {
-  reference?: RefObject<AddChildrenPopupRef>; // Optional if passing forwardRef
-  onSavePress: ({ name, dateOfBirth }: any) => void;
+type AddPhonePopupProps = {
+  reference?: RefObject<AddPhonePopupRef>; // Optional if passing forwardRef
+  onSavePress: ({ type, number }: any) => void;
 };
 
-const AddChildrenPopup = forwardRef<AddChildrenPopupRef, AddChildrenPopupProps>(
+const AddPhonePopup = forwardRef<AddPhonePopupRef, AddPhonePopupProps>(
   (props, ref) => {
     const translateY = useRef(new Animated.Value(height)).current; // Initial position (off-screen)
     const [visible, setVisible] = useState(false);
-    const [children, setChildren] = useState("");
-    const [showDatePicker, setShowDatePicker] = useState(false);
-    const [date, setDate] = useState(moment().format("MM/DD/YYYY"));
+    const [phoneType, setPhoneType] = useState("Mobile");
+    const [phoneNumber, setPhoneNumber] = useState("");
 
     useImperativeHandle(ref || props.reference, () => ({
       hide: hide,
@@ -67,17 +64,11 @@ const AddChildrenPopup = forwardRef<AddChildrenPopupRef, AddChildrenPopupProps>(
 
     const onSave = () => {
       let data = {
-        name: children,
-        dateOfBirth: date,
+        type: phoneType,
+        number: phoneNumber,
       };
       props.onSavePress(data);
       hide();
-    };
-
-    const onChangeDate = (event: DateTimePickerEvent, selectedDate?: Date) => {
-      const currentDate = selectedDate || date;
-      setShowDatePicker(false); // Close the picker
-      setDate(moment(currentDate).format("MM/DD/YYYY"));
     };
 
     // Slide-up animation
@@ -98,6 +89,21 @@ const AddChildrenPopup = forwardRef<AddChildrenPopupRef, AddChildrenPopupProps>(
       }).start(() => setVisible(false)); // Call onClose after animation
     };
 
+    const RadioButton = ({ label, selected, onPress }: any) => {
+      return (
+        <TouchableOpacity
+          style={styles.radioButton}
+          onPress={onPress}
+          activeOpacity={0.7}
+        >
+          <View style={styles.radioCircle}>
+            {selected ? <View style={styles.selectedCircle} /> : null}
+          </View>
+          <Text>{label}</Text>
+        </TouchableOpacity>
+      );
+    };
+
     return (
       <Modal
         transparent
@@ -111,38 +117,40 @@ const AddChildrenPopup = forwardRef<AddChildrenPopupRef, AddChildrenPopupProps>(
           onPress={slideDown}
         />
         <Animated.View
-          style={[
-            styles.bottomSheet,
-            { transform: [{ translateY }] }, // Animated slide-up
-          ]}
+          style={[styles.bottomSheet, { transform: [{ translateY }] }]} // Animated slide-up
         >
-          {showDatePicker && (
-            <DateTimePicker
-              value={new Date()}
-              mode="date"
-              display="default"
-              onChange={onChangeDate}
-            />
-          )}
           {/* Bottom sheet content */}
           <View style={styles.content}>
             <View style={styles.rowDirection}>
-              <BerlingskeMedium>Add Children</BerlingskeMedium>
+              <BerlingskeMedium>Add Phone</BerlingskeMedium>
               <TouchableOpacity onPress={hide}>
                 <Image source={icons.cross} style={styles.icon} />
               </TouchableOpacity>
             </View>
+
+            <View style={styles.radioGroup}>
+              <RadioButton
+                label="Mobile"
+                selected={phoneType === "Mobile"}
+                onPress={() => setPhoneType("Mobile")}
+              />
+              <RadioButton
+                label="Home"
+                selected={phoneType === "Home"}
+                onPress={() => setPhoneType("Home")}
+              />
+              <RadioButton
+                label="Office"
+                selected={phoneType === "Office"}
+                onPress={() => setPhoneType("Office")}
+              />
+            </View>
+
             <InputField
-              onChangeText={setChildren}
-              placeholder="Add Children Name"
-            />
-            <InputField
-              // style={{ width: 250 }}
-              dropdown={true}
-              onPress={() => setShowDatePicker(true)}
-              icon={icons.calendar}
-              rightIcon={icons.dropdown}
-              value={date}
+              onChangeText={setPhoneNumber}
+              placeholder="Enter Phone Number"
+              keyboardType="phone-pad"
+              value={phoneNumber}
             />
 
             <MainButton title="Save" onPress={onSave} />
@@ -174,65 +182,42 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 10,
   },
-  courtImage: {
-    height: 250,
-    marginTop: 20,
-    borderRadius: 20,
-    overflow: "hidden",
-  },
-  image: {
-    height: "100%",
-    width: "100%",
-    resizeMode: "cover",
-  },
   rowDirection: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginTop: 10,
   },
-  btn: {
-    height: 50,
-    width: "48%",
-    backgroundColor: "#D0373F",
-    borderRadius: 100,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  yesBtn: {
-    height: 40,
-    width: "48%",
-    backgroundColor: "#6AAF2E",
-    borderRadius: 100,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   icon: {
     width: 25,
     height: 25,
     resizeMode: "contain",
   },
-  heading: {
-    marginTop: 10,
-  },
-  divider: {
-    height: 1,
-    backgroundColor: "#0002",
-    marginTop: 10,
-  },
-  btnContainer: {
+  radioGroup: {
     flexDirection: "row",
-    justifyContent: "flex-end",
+    justifyContent: "space-around",
+    marginVertical: 15,
   },
-  prevBtn: {
-    width: 100,
-    height: 25,
+  radioButton: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  radioCircle: {
+    height: 20,
+    width: 20,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#000",
     marginRight: 10,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  smallBtn: {
-    width: 100,
-    height: 25,
+  selectedCircle: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: "#000",
   },
 });
 
-export default AddChildrenPopup;
+export default AddPhonePopup;

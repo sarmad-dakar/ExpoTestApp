@@ -27,7 +27,7 @@ type headerProps = {
 };
 
 const GeneralHeader = ({ title, back, sport }: headerProps) => {
-  const user = useSelector((state: any) => state.user.user);
+  const balance = useSelector((state: any) => state.account.balance);
   const topupConfirmationRef = useRef<ConfirmationPopupRef>(null);
 
   const handlePress = () => {
@@ -76,9 +76,7 @@ const GeneralHeader = ({ title, back, sport }: headerProps) => {
           />
         ) : null}
         {!back ? (
-          <Text style={{ color: "white", fontSize: 12 }}>
-            {user?.balanceAmount}
-          </Text>
+          <Text style={{ color: "white", fontSize: 12 }}>{balance}</Text>
         ) : null}
       </Pressable>
       <TopupConfirmationPopup reference={topupConfirmationRef} />

@@ -115,9 +115,12 @@ const InputField = (props) => {
         </Pressable>
 
         {props.rightIcon && (
-          <View style={styles.rightContainer}>
+          <Pressable
+            onPress={props.onRightIconPress}
+            style={styles.rightContainer}
+          >
             <Image source={props.rightIcon} style={styles.rightIcon} />
-          </View>
+          </Pressable>
         )}
 
         {props.secureTextEntry && (

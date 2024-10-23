@@ -7,8 +7,11 @@ buildscript {
         compileSdkVersion = Integer.parseInt(findProperty('android.compileSdkVersion') ?: '34')
         targetSdkVersion = Integer.parseInt(findProperty('android.targetSdkVersion') ?: '34')
         kotlinVersion = findProperty('android.kotlinVersion') ?: '1.9.23'
-
+           
+        supportLibVersion = "28.0.0"
         ndkVersion = "26.1.10909125"
+        androidXAnnotation = "1.2.0"
+        androidXBrowser = "1.3.0"
     }
     repositories {
         google()

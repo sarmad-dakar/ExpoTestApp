@@ -23,7 +23,7 @@ import { router } from "expo-router";
 import BookingCalendar from "@/app/components/BookingCalendar";
 import { getMyProfile } from "@/app/api/Auth";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchMyProfile } from "@/app/store/slices/userSlice";
+import { fetchMyProfile, fetchuserProfile } from "@/app/store/slices/userSlice";
 import { AnyAction, ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { RootState } from "@/app/store";
 import type { AppDispatch } from "@/app/store/index"; // Path to your store.ts
@@ -34,6 +34,7 @@ import { colors } from "@/app/utils/theme";
 import BookingCalendarVersion2 from "@/app/components/BookingCalendar/BookingCalendarVersion2";
 import { fetchCurrentSports } from "@/app/store/slices/bookingSlice";
 import { useFocusEffect } from "expo-router";
+import { fetchRemainingBalance } from "@/app/store/slices/accountSlice";
 
 // Define types for calendar data and booking sessions
 interface CalendarData {
@@ -109,6 +110,8 @@ const LandingScreen = () => {
   // Define return type for async function
   const getProfile = async (): Promise<void> => {
     dispatch(fetchMyProfile());
+    dispatch(fetchuserProfile());
+    dispatch(fetchRemainingBalance());
   };
 
   // Define the type of 'date' as Date and return type as Promise<void>
