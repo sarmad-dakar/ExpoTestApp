@@ -41,7 +41,10 @@ const BookedSlots = ({
       {enablePopup && (
         <View style={styles.listView}>
           <TouchableOpacity
-            onPress={() => onDetailViewPress(booking)}
+            onPress={() => {
+              setEnablePopup(false)
+              onDetailViewPress(booking)
+            }}
             style={styles.listBtn}
           >
             <Text style={styles.listText}>View Details</Text>

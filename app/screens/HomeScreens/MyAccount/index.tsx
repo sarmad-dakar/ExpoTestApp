@@ -1,4 +1,11 @@
-import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Dimensions,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import GeneralHeader from "@/app/components/GeneralHeader";
 import SearchField from "@/app/components/SearchField";
@@ -7,6 +14,7 @@ import { colors } from "@/app/utils/theme";
 import { FetchMyBookings, GetAccountData } from "@/app/api/Bookings";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMyAccount } from "@/app/store/slices/accountSlice";
+import { router } from "expo-router";
 
 interface AccountData {
   date: string;
@@ -26,6 +34,14 @@ const MyAccountScreen = () => {
   useEffect(() => {
     dispatch(fetchMyAccount());
   }, []);
+
+  const onDetailPress = (item) => {
+    router.navigate("navigationstack/accountdetails");
+  };
+
+  const onRecieptPress = (item) => {
+    router.navigate("navigationstack/accountreciept");
+  };
 
   return (
     <View style={styles.container}>
@@ -73,6 +89,34 @@ const MyAccountScreen = () => {
                   {item.remarks}
                 </Text>
                 <Text style={[styles.cell, { width: 80 }]}>{item.amount}</Text>
+                <TouchableOpacity onPress={onDetailPress}>
+                  <Text
+                    style={[
+                      styles.cell,
+                      {
+                        width: 120,
+                        textDecorationLine: "underline",
+                        color: "#0000EE",
+                      },
+                    ]}
+                  >
+                    View Details
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={onRecieptPress}>
+                  <Text
+                    style={[
+                      styles.cell,
+                      {
+                        width: 120,
+                        textDecorationLine: "underline",
+                        color: "#0000EE",
+                      },
+                    ]}
+                  >
+                    View Reciept
+                  </Text>
+                </TouchableOpacity>
               </View>
             ))}
           </ScrollView>
@@ -104,7 +148,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    height: 30,
+    height: 40,
     alignItems: "center",
     borderBottomWidth: 1,
     borderColor: "#ccc",

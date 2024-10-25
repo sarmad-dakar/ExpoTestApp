@@ -1,36 +1,86 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
+import { StyleSheet, View, Alert } from "react-native";
 import GeneralHeader from "@/app/components/GeneralHeader";
 import ScreenWrapper from "@/app/components/ScreenWrapper";
 import BerlingskeMedium from "@/app/components/TextWrapper/BerlingskeMedium";
 import InputField from "@/app/components/InputField";
 import { icons } from "@/app/MyAssets";
 import MainButton from "@/app/components/MainButton";
+import { changePin } from "@/app/api/Auth";
 
 const ChangePinScreen = () => {
+  // State for input fields
+  const [oldPin, setOldPin] = useState("");
+  const [newPin, setNewPin] = useState("");
+  const [verifyPin, setVerifyPin] = useState("");
+
+  // Handler for changing the PIN
+  const handleChangePin = async () => {
+    // Validate the inputs
+    if (!oldPin || !newPin || !verifyPin) {
+      Alert.alert("Error", "All fields are required.");
+      return;
+    }
+    if (newPin !== verifyPin) {
+      Alert.alert("Error", "New PIN and verify PIN must match.");
+      return;
+    }
+    let data = {
+      NewPassword: newPin,
+      OldPassword: oldPin,
+    };
+    const response = await changePin(data);
+    if (response.data.msgCode == "500") {
+      Alert.alert("Error", response.data.data);
+    }
+    if (response.data.msgCode == "200") {
+      Alert.alert("Success", response.data.data);
+    }
+
+    // Call an API or perform an action with oldPin and newPin
+
+    // Reset fields
+    setOldPin("");
+    setNewPin("");
+    setVerifyPin("");
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <GeneralHeader title="Change Pin" />
       <ScreenWrapper>
         <BerlingskeMedium style={styles.heading}>
-          To change password please fill the below details.
+          To change your PIN, please fill in the details below.
         </BerlingskeMedium>
         <InputField
           placeholder="Old Pin"
           icon={icons.lock}
           secureTextEntry={true}
+          keyboardType="numeric"
+          value={oldPin}
+          onChangeText={setOldPin}
         />
         <InputField
           placeholder="New Pin"
           icon={icons.lock}
           secureTextEntry={true}
+          keyboardType="numeric"
+          value={newPin}
+          onChangeText={setNewPin}
         />
         <InputField
           placeholder="Verify Pin"
           icon={icons.lock}
           secureTextEntry={true}
+          keyboardType="numeric"
+          value={verifyPin}
+          onChangeText={setVerifyPin}
         />
-        <MainButton title="Change Pin" style={styles.btn} />
+        <MainButton
+          title="Change Pin"
+          style={styles.btn}
+          onPress={handleChangePin}
+        />
       </ScreenWrapper>
     </View>
   );

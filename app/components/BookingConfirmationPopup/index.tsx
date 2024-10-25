@@ -15,6 +15,7 @@ import {
   Dimensions,
   Text,
   Image,
+  Alert,
 } from "react-native";
 import BerlingskeBold from "../TextWrapper/BerlingskeBold";
 import { images } from "@/app/MyAssets";
@@ -82,6 +83,9 @@ const BookingConfirmationPopup = forwardRef<
   };
 
   const handleAccept = () => {
+    if (!pinCode) {
+      return Alert.alert("Error", "Please provide the pin code");
+    }
     hide();
     props.onAccept(pinCode);
   };

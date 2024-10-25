@@ -41,7 +41,10 @@ const AppNavigationScreen = () => {
       name: "Change Pin",
       onPress: () => router.navigate("/navigationstack/changepin"),
     },
-    { name: "Help Centre" },
+    {
+      name: "Help Centre",
+      onPress: () => router.navigate("/navigationstack/contactscreen"),
+    },
     {
       name: "Privacy Policy",
       onPress: () => router.navigate("/navigationstack/privacypolicy"),

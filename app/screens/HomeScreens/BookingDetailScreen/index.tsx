@@ -26,6 +26,7 @@ import DateTimePicker, {
 import moment from "moment";
 import { router, useRouter, useLocalSearchParams } from "expo-router";
 import {
+  AddToFavorite,
   CreateBooking,
   FetchAmountDue,
   FetchMembers,
@@ -83,6 +84,7 @@ const BookingDetailScreen = () => {
   const [maximumPlayers, setMaximumPlayers] = useState(0);
   const [halfSession, setHalfSession] = useState(false);
   const [includeAc, setIncludeAc] = useState(false);
+  const [enableAddPlayers, setEnableAddPlayers] = useState(true);
   const dispatch = useAppDispatch();
   const user = useSelector((state: any) => state.user.profile);
   const profile = useSelector((state: any) => state.user.user);
@@ -91,6 +93,11 @@ const BookingDetailScreen = () => {
     getMembers();
     calculateMaxPlayers();
     if (bookingData) {
+      const currentsport =
+        bookingData?.selectedSport?.sportServiceSetting?.title?.toLowerCase();
+      if (currentsport == "cricket") {
+        setEnableAddPlayers(false);
+      }
       setBookingType(bookingData.courtDetail.bookingTypes[0]);
     }
   }, []);
@@ -112,6 +119,7 @@ const BookingDetailScreen = () => {
       bookingData?.selectedSport?.bookingSetting?.maximumPlayers;
     setMaximumPlayers(maximumPlayers - 1);
   };
+  console.log(maximumPlayers, "max");
 
   const getMembers = async () => {
     let data = {
@@ -212,6 +220,18 @@ const BookingDetailScreen = () => {
     } else {
       return false;
     }
+  };
+
+  const onAddFavoritePress = async (member: Player, isFav: boolean) => {
+    let data = {
+      IsFavourite: isFav,
+      MemberCodes: member.memberCode,
+      Service: bookingData?.selectedSport?.sportServiceSetting.title,
+    };
+    const response = await AddToFavorite(data);
+    console.log(response.data, "response of favorites");
+
+    getMembers();
   };
 
   const validateBookingButton = (data) => {
@@ -388,11 +408,13 @@ const BookingDetailScreen = () => {
         ) : null}
         <View style={styles.rowDirection}>
           <BerlingskeMedium>Players</BerlingskeMedium>
-          <MainButton
-            title="Add Players"
-            style={styles.addPlayer}
-            onPress={() => addPlayerPopup.current?.show()}
-          />
+          {enableAddPlayers ? (
+            <MainButton
+              title="Add Players"
+              style={styles.addPlayer}
+              onPress={() => addPlayerPopup.current?.show()}
+            />
+          ) : null}
         </View>
 
         {/* Fixed player */}
@@ -502,6 +524,7 @@ const BookingDetailScreen = () => {
         setSelectedPlayers={setSelectedPlayers}
         maximumPlayers={maximumPlayers}
         onDonePress={onDonePress}
+        onAddFavoritePress={onAddFavoritePress}
       />
       <BookingConfirmationPopup
         reference={bookingConfirmationRef}

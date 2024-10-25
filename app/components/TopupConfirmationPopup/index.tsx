@@ -90,6 +90,12 @@ const TopupConfirmationPopup = forwardRef<
 
   const handleConfirm = async () => {
     const topupAmount = parseFloat(amount);
+    if (!topupAmount) {
+      return Alert.alert("Error", "Please write an amount");
+    }
+    if (topupAmount < 20) {
+      return Alert.alert("Error", "Minimum topup amount should be 20");
+    }
     let data = {
       Amount: topupAmount,
       Comment: "",

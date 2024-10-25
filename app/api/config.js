@@ -16,4 +16,7 @@ export const endpoints = {
   balance: "account/sport/member/info/balance",
   updateProfile: "Account/user/profile",
   updateUserInfo: "Account/user/profile/info",
+  contactus: "Common/sport/help/contactus",
+  changePass: "Authentication/user/reset/password",
+  changePin: "Authentication/user/reset/pincode",
 };

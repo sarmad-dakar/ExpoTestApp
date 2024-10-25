@@ -17,6 +17,10 @@ const updateUserInfo = async (data) => {
   return instance.post(endpoints.updateUserInfo, data);
 };
 
+const postContactus = async (data) => {
+  return instance.post(endpoints.contactus, data);
+};
+
 const updateProfilePic = async (data) => {
   return instance.post(endpoints.updateProfile, data, {
     headers: {
@@ -25,10 +29,21 @@ const updateProfilePic = async (data) => {
   });
 };
 
+const changePassword = async (data) => {
+  return instance.post(endpoints.changePass, data);
+};
+
+const changePin = async (data) => {
+  return instance.post(endpoints.changePass, data);
+};
+
 export {
   loginApi,
   getMyProfile,
   updateProfilePic,
   updateUserInfo,
   getUserProfile,
+  postContactus,
+  changePassword,
+  changePin,
 };

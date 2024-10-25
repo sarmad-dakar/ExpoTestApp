@@ -48,7 +48,7 @@ const MainButton = (props) => {
     >
       {props.icon && <Image source={props.icon} style={styles.icon} />}
       {props.loading ? (
-        <ActivityIndicator size={"small"} color={"white"} />
+        <ActivityIndicator size={"small"} color={"black"} />
       ) : (
         <Text
           style={[

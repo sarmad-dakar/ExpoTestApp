@@ -130,7 +130,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
           )}
         </View>
         <BerlingskeMedium style={styles.selectedSport}>
-          Tennis Bookings
+          {selectedSport?.sportServiceSetting?.title} Bookings
         </BerlingskeMedium>
         <TouchableOpacity
           onPress={onNotificationPress}

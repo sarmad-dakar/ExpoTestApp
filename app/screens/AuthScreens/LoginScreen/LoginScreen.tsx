@@ -17,7 +17,7 @@ import { colors } from "@/app/utils/theme";
 import { vh } from "@/app/utils/units";
 import { router } from "expo-router";
 import { loginApi } from "@/app/api/Auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { saveLoginDetails } from "@/app/store/slices/userSlice";
 const LoginScreen = () => {
   const [membershipNumber, setMemberShipNumber] = useState("");
@@ -25,7 +25,7 @@ const LoginScreen = () => {
   const [errors, setErrors] = useState({ membership: "", password: "" });
   const [membershipError, setMemberShipError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-
+  const loader = useSelector((state: any) => state.general.generalLoader);
   const dispatch = useDispatch();
 
   const handleSignInPress = async () => {
@@ -88,7 +88,11 @@ const LoginScreen = () => {
         <TouchableOpacity onPress={() => router.replace("/forgotpassword")}>
           <Text style={styles.forgotPass}>Forgot Password ?</Text>
         </TouchableOpacity>
-        <MainButton title="Sign in" onPress={handleSignInPress} />
+        <MainButton
+          loading={loader}
+          title="Sign in"
+          onPress={handleSignInPress}
+        />
         <Text style={styles.terms}>
           By signing in, you are agreeing to the online Terms and Conditions of
           the Marsa Sports Club booking regulations.

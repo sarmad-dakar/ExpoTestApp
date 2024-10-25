@@ -59,8 +59,6 @@ const ProfileScreen = () => {
   const [isEdited, setIsEdited] = useState(false); // Track if fields have been edited
   const dispatch = useAppDispatch();
 
-  console.log(user, "user");
-
   useEffect(() => {
     if (user?.children) {
       setCurrentChildren(user.children);
@@ -92,11 +90,10 @@ const ProfileScreen = () => {
   const handleSave = async () => {
     // API call or dispatch action to save the updated user profile
     setIsEdited(false); // Hide Save and Cancel buttons after save
-    let data = editableUser;
+    let data = JSON.parse(JSON.stringify(editableUser));
     data.children = currentChildren;
     data.carInfo = currentCars;
-    // data.telephones =
-    console.log(data, "data");
+
     const response = await updateUserInfo(data);
     console.log(response.data, "Response of update");
     dispatch(fetchMyProfile());
@@ -121,17 +118,17 @@ const ProfileScreen = () => {
     let newData = JSON.parse(JSON.stringify(editableUser));
     newData.telephones.push(data);
     setEditableUser(newData);
+    setIsEdited(true); // Mark as edited
   };
 
-  const onRemovePhone = (data) => {
-    console.log("here");
-
+  const onRemovePhone = (data: any) => {
     let newData = JSON.parse(JSON.stringify(editableUser));
     const removedPhones = newData.telephones.filter(
-      (item) => item.number !== data.number
+      (item: any) => item.number !== data.number
     );
     newData.telephones = removedPhones;
     setEditableUser(newData);
+    setIsEdited(true); // Mark as edited
   };
 
   return (

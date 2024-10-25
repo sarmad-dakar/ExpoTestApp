@@ -1,4 +1,11 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  Linking,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useEffect } from "react";
 import GeneralHeader from "@/app/components/GeneralHeader";
 import { colors } from "@/app/utils/theme";
@@ -17,16 +24,25 @@ const NotificationScreen = () => {
     dispatch(fetchMyNotifications());
   }, []);
 
+  const onNotificationPress = (item) => {
+    Linking.openURL(item.link);
+  };
+
   const renderNotifications = ({ item }) => {
     return (
-      <View style={styles.card}>
+      <TouchableOpacity
+        activeOpacity={5}
+        onPress={() => onNotificationPress(item)}
+        style={styles.card}
+      >
         <Text style={styles.heading}>{item.heading}</Text>
+        <Text style={styles.subheading}>{item.section}</Text>
 
         <Text>{item.description}</Text>
         <Text style={styles.footerText}>
           {moment(item.date).format("DD MMM YYYY , hh:mm A")}
         </Text>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -56,12 +72,15 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   heading: {
-    marginBottom: 15,
     fontWeight: "600",
+  },
+  subheading: {
+    fontSize: 14,
+    marginBottom: 5,
   },
   footerText: {
     color: "#0008",
-    marginTop: 10,
+    marginTop: 5,
   },
   bold: {
     fontWeight: "600",

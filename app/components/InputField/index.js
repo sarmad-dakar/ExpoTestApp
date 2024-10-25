@@ -78,11 +78,19 @@ const InputField = (props) => {
           },
           height < 420 && { height: 35, marginVertical: 5, borderRadius: 7 },
           props.style,
+          props.inputStyle,
         ]}
       >
         <Pressable onPress={handleInputPress} style={styles.textContainer}>
           {props.icon && (
-            <View style={styles.iconContainer}>
+            <View
+              style={[
+                styles.iconContainer,
+                {
+                  alignSelf: props.multiline ? "flex-start" : "auto",
+                },
+              ]}
+            >
               <Image
                 source={props.icon}
                 style={[
@@ -106,10 +114,11 @@ const InputField = (props) => {
               }}
               ref={props?.reference ? props?.reference : inputRef}
               style={[styles.input, props.invalid && { color: colors.red }]}
+              {...props}
               placeholderTextColor={"#c1c1c1"}
               maxFontSizeMultiplier={1}
-              {...props}
               secureTextEntry={showPassword}
+              numberOfLines={3}
             />
           )}
         </Pressable>

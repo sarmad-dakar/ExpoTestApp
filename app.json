@@ -29,6 +29,7 @@
     },
     "plugins": [
       "expo-router",
+      "./plugins/custom-android-styles.js",
       [
         "expo-font",
         {

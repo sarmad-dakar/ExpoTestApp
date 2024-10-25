@@ -17,6 +17,14 @@ const DetailComponent = ({ label, value }: any) => {
   );
 };
 
+const sportsIcon = {
+  tennis: icons.tennis,
+  squash: icons.squash,
+  padel: icons.padel,
+  snooker: icons.snooker,
+  cricket: icons.cricket,
+};
+
 const AlreadyBookedDetails = () => {
   const bookingData = JSON.parse(useLocalSearchParams().bookingData);
   const [bookingDetails, setBookingDetails] = useState();
@@ -36,7 +44,13 @@ const AlreadyBookedDetails = () => {
   };
   return (
     <View style={{ flex: 1 }}>
-      <GeneralHeader title="Booking Details" />
+      <GeneralHeader
+        sport={{
+          name: bookingData.sport,
+          icon: sportsIcon[bookingData.sport],
+        }}
+        title="Booking Details"
+      />
       <ScrollView contentContainerStyle={{ paddingHorizontal: 20 }}>
         {/* Booking Info */}
         <View style={[styles.rowDirection]}>

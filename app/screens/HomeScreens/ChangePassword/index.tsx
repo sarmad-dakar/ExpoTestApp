@@ -1,13 +1,52 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
+import { StyleSheet, Text, View, Alert } from "react-native";
 import GeneralHeader from "@/app/components/GeneralHeader";
 import ScreenWrapper from "@/app/components/ScreenWrapper";
 import BerlingskeMedium from "@/app/components/TextWrapper/BerlingskeMedium";
 import InputField from "@/app/components/InputField";
 import { icons } from "@/app/MyAssets";
 import MainButton from "@/app/components/MainButton";
+import { changePassword } from "@/app/api/Auth";
+import { useSelector } from "react-redux";
 
 const ChangePasswordScreen = () => {
+  // State for input fields
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [verifyPassword, setVerifyPassword] = useState("");
+  const loading = useSelector((state) => state.general.generalLoader);
+  // Handler for changing the password
+  const handleChangePassword = async () => {
+    // Validate the inputs
+    if (!oldPassword || !newPassword || !verifyPassword) {
+      Alert.alert("Error", "All fields are required.");
+      return;
+    }
+    if (newPassword !== verifyPassword) {
+      Alert.alert("Error", "New password and verify password must match.");
+      return;
+    }
+
+    let data = {
+      NewPassword: newPassword,
+      OldPassword: oldPassword,
+    };
+    const response = await changePassword(data);
+    if (response.data.msgCode == "500") {
+      Alert.alert("Error", response.data.data);
+    }
+    if (response.data.msgCode == "200") {
+      Alert.alert("Success", response.data.data);
+    }
+    // Call an API or perform an action with oldPassword and newPassword
+    // For example purposes, we show an alert
+
+    // Reset fields
+    setOldPassword("");
+    setNewPassword("");
+    setVerifyPassword("");
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <GeneralHeader title="Change Password" />
@@ -19,18 +58,29 @@ const ChangePasswordScreen = () => {
           placeholder="Old Password"
           icon={icons.lock}
           secureTextEntry={true}
+          value={oldPassword}
+          onChangeText={setOldPassword}
         />
         <InputField
           placeholder="New Password"
           icon={icons.lock}
           secureTextEntry={true}
+          value={newPassword}
+          onChangeText={setNewPassword}
         />
         <InputField
           placeholder="Verify Password"
           icon={icons.lock}
           secureTextEntry={true}
+          value={verifyPassword}
+          onChangeText={setVerifyPassword}
         />
-        <MainButton title="Change Password" style={styles.btn} />
+        <MainButton
+          title="Change Password"
+          style={styles.btn}
+          onPress={handleChangePassword}
+          loading={loading}
+        />
       </ScreenWrapper>
     </View>
   );

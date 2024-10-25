@@ -7,11 +7,9 @@ const HomeLayout = () => {
   const user = useSelector((state) => state.user.user);
 
   useEffect(() => {
-    console.log("ss");
-
     if (!user) {
       console.log("logged?");
-      router.replace("/(navigations)");
+      router.replace("/(navigations)/login");
     }
   }, [user]);
 
@@ -20,7 +18,6 @@ const HomeLayout = () => {
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="bookingdetail" options={{ headerShown: false }} />
       <Stack.Screen name="notifications" options={{ headerShown: false }} />
-
       <Stack.Screen name="test" options={{ headerShown: false }} />
     </Stack>
   );

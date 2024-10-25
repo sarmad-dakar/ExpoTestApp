@@ -26,7 +26,9 @@ const ProfileHeader = ({ title, image }: headerProps) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    setProfilePic({ uri: image });
+    if (image) {
+      setProfilePic({ uri: image });
+    }
   }, [image]);
 
   const onCameraPress = async () => {

@@ -50,7 +50,8 @@ type addplayerPopupProps = {
   reference?: RefObject<addplayerPopupRef>; // Optional if passing forwardRef
   allPlayers: Player[];
   maximumPlayers: number;
-  onDonePress: (favMembers: Player[]) => void;
+  onDonePress: () => void;
+  onAddFavoritePress: (favMembers: Player, isFav: boolean) => void;
 };
 
 const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
@@ -63,6 +64,8 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
     const [favoriteMembers, setFavoriteMembers] = useState<Player[]>([]);
     const [listData, setListData] = useState<Player[]>([]);
     const [searchText, setSearchText] = useState("");
+    const [addFavEnable, setAddFavEnable] = useState(false);
+    const [removeFavEnable, setRemoveFavEnable] = useState(false);
 
     useEffect(() => {
       const favMembers = props.allPlayers.filter((item) => item.isFavourite);
@@ -82,11 +85,9 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
     useEffect(() => {
       if (selectedTab == "Favourites") {
         if (!searchText) {
-          console.log("are we here? ");
           const favMembers = props.allPlayers.filter(
             (item) => item.isFavourite
           );
-          console.log(props.allPlayers.length, "fav member");
           setListData(favMembers);
         } else {
           let searchedMembers = favoriteMembers.filter((item) =>
@@ -105,7 +106,7 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
           setListData(searchedMembers);
         }
       }
-    }, [searchText, selectedTab]);
+    }, [searchText, selectedTab, favoriteMembers]);
 
     useImperativeHandle(props?.reference, () => ({
       hide: hide,
@@ -114,8 +115,11 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
 
     const hide = () => {
       setVisible(false);
+      setAddFavEnable(false);
+      setRemoveFavEnable(false);
       props.setSelectedPlayers(props.selectedPlayers);
-      props.onDonePress(favoriteMembers);
+      props.onDonePress();
+      setSearchText("");
     };
 
     const show = () => {
@@ -145,7 +149,7 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
         toValue: height,
         duration: 300,
         useNativeDriver: true,
-      }).start(() => setVisible(false)); // Call onClose after animation
+      }).start(() => hide()); // Call onClose after animation
     };
 
     const handleSelection = (player: Player) => {
@@ -187,6 +191,13 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
     };
 
     const onAddFavorite = (item: Player) => {
+      if (selectedTab == "Favourites") {
+        setRemoveFavEnable(true);
+        props.onAddFavoritePress(item, false);
+      } else {
+        setAddFavEnable(true);
+        props.onAddFavoritePress(item, true);
+      }
       const isExist = favoriteMembers.find(
         (element) => element.memberCode == item.memberCode
       );
@@ -195,9 +206,25 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
         favMembers = favoriteMembers.filter(
           (element) => element.memberCode !== item.memberCode
         );
-        setFavoriteMembers(favoriteMembers);
+        setFavoriteMembers(favMembers);
       } else {
         setFavoriteMembers([...favoriteMembers, item]);
+      }
+    };
+
+    const FavoriteVisible = () => {
+      if (selectedTab !== "Favourites" && addFavEnable) {
+        return true;
+      } else {
+        return false;
+      }
+    };
+
+    const RemoveFavoriteVisible = () => {
+      if (selectedTab == "Favourites" && removeFavEnable) {
+        return true;
+      } else {
+        return false;
       }
     };
 
@@ -307,6 +334,20 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
                   />
                 </View>
               </View>
+              {/* {FavoriteVisible() ? (
+                <MainButton
+                  title="Add To Favorites"
+                  onPress={() => props.onAddFavoritePress(favoriteMembers)}
+                />
+              ) : null}
+
+              {RemoveFavoriteVisible() ? (
+                <MainButton
+                  title="Remove Favorites"
+                  onPress={() => props.onAddFavoritePress(favoriteMembers)}
+                />
+              ) : null} */}
+
               <MainButton title="Done" onPress={hide} />
             </View>
           </Animated.View>
@@ -393,6 +434,7 @@ const styles = StyleSheet.create({
   playerName: {
     fontSize: 13,
     color: "#3B5049",
+    width: "83%",
   },
   icon: {
     height: 15,

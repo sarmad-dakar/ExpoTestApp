@@ -43,6 +43,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     marginLeft: -5,
     marginRight: 10,
+    // alignSelf: "flex-start",
   },
   error: {
     color: "red",
