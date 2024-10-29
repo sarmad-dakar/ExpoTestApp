@@ -7,6 +7,7 @@ import InputField from "@/app/components/InputField";
 import { icons } from "@/app/MyAssets";
 import MainButton from "@/app/components/MainButton";
 import { changePin } from "@/app/api/Auth";
+import { showErrorToast, showSuccessToast } from "@/app/utils/toastmsg";
 
 const ChangePinScreen = () => {
   // State for input fields
@@ -18,11 +19,11 @@ const ChangePinScreen = () => {
   const handleChangePin = async () => {
     // Validate the inputs
     if (!oldPin || !newPin || !verifyPin) {
-      Alert.alert("Error", "All fields are required.");
+      showErrorToast("All fields are required.");
       return;
     }
     if (newPin !== verifyPin) {
-      Alert.alert("Error", "New PIN and verify PIN must match.");
+      showErrorToast("New PIN and verify PIN must match.");
       return;
     }
     let data = {
@@ -31,10 +32,10 @@ const ChangePinScreen = () => {
     };
     const response = await changePin(data);
     if (response.data.msgCode == "500") {
-      Alert.alert("Error", response.data.data);
+      showErrorToast(response.data.data);
     }
     if (response.data.msgCode == "200") {
-      Alert.alert("Success", response.data.data);
+      showSuccessToast(response.data.data);
     }
 
     // Call an API or perform an action with oldPin and newPin

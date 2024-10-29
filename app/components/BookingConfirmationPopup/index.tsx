@@ -21,6 +21,7 @@ import BerlingskeBold from "../TextWrapper/BerlingskeBold";
 import { images } from "@/app/MyAssets";
 import moment from "moment";
 import InputField from "../InputField";
+import { showErrorToast } from "@/app/utils/toastmsg";
 
 // Get screen dimensions
 const { height } = Dimensions.get("window");
@@ -84,7 +85,8 @@ const BookingConfirmationPopup = forwardRef<
 
   const handleAccept = () => {
     if (!pinCode) {
-      return Alert.alert("Error", "Please provide the pin code");
+      showErrorToast("Please provide the pin code");
+      return;
     }
     hide();
     props.onAccept(pinCode);

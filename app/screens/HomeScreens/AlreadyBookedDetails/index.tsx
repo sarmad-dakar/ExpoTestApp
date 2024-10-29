@@ -5,6 +5,7 @@ import BerlingskeBold from "@/app/components/TextWrapper/BerlingskeBold";
 import { icons } from "@/app/MyAssets";
 import { useLocalSearchParams } from "expo-router";
 import { GetAlreadyBookedDetails } from "@/app/api/Bookings";
+import { colors } from "@/app/utils/theme";
 
 const DetailComponent = ({ label, value }: any) => {
   return (
@@ -26,7 +27,7 @@ const sportsIcon = {
 };
 
 const AlreadyBookedDetails = () => {
-  const bookingData = JSON.parse(useLocalSearchParams().bookingData);
+  const bookingData = JSON.parse(useLocalSearchParams()?.bookingData);
   const [bookingDetails, setBookingDetails] = useState();
   console.log(bookingData, "local params");
 
@@ -190,7 +191,8 @@ const styles = StyleSheet.create({
   },
   tableHeader: {
     flexDirection: "row",
-    backgroundColor: "#f0f0f0",
+    alignItems: "center",
+    backgroundColor: colors.primary, // "#f0f0f0"
     paddingVertical: 10,
     paddingHorizontal: 5,
   },
@@ -199,6 +201,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     fontSize: 14,
+    color: "white",
   },
   tableRow: {
     flexDirection: "row",

@@ -9,12 +9,12 @@ import {
 import React, { useEffect, useState } from "react";
 import { icons, images } from "@/app/MyAssets";
 import { colors } from "@/app/utils/theme";
-import { vh } from "@/app/utils/units";
 import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
 import * as ImagePicker from "expo-image-picker";
 import { updateProfilePic } from "@/app/api/Auth";
 import { useAppDispatch } from "@/app/screens/HomeScreens/LandingScreen";
 import { fetchuserProfile } from "@/app/store/slices/userSlice";
+import { router } from "expo-router";
 
 type headerProps = {
   title: string;
@@ -68,12 +68,17 @@ const ProfileHeader = ({ title, image }: headerProps) => {
           alignItems: "center",
         }}
       >
-        <View style={{ alignItems: "center", width: 60 }}>
+        <TouchableOpacity
+          onPress={() => router.back()}
+          style={{ alignItems: "center", width: 60 }}
+        >
           <Image source={icons.back} style={[styles.logo]} />
-        </View>
+        </TouchableOpacity>
+
         <BerlingskeMedium style={styles.selectedSport}>
           {title}
         </BerlingskeMedium>
+
         <View style={{ width: 60 }}></View>
       </View>
 
@@ -101,7 +106,7 @@ const styles = StyleSheet.create({
     // justifyContent: "space-between",
     // flexDirection: "row",
     paddingHorizontal: 20,
-    paddingTop: 35,
+    paddingTop: 40,
     paddingBottom: 15,
   },
   logo: {

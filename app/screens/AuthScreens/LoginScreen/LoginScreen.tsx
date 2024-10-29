@@ -19,6 +19,7 @@ import { router } from "expo-router";
 import { loginApi } from "@/app/api/Auth";
 import { useDispatch, useSelector } from "react-redux";
 import { saveLoginDetails } from "@/app/store/slices/userSlice";
+import { showErrorToast } from "@/app/utils/toastmsg";
 const LoginScreen = () => {
   const [membershipNumber, setMemberShipNumber] = useState("");
   const [password, setPassword] = useState("");
@@ -48,7 +49,7 @@ const LoginScreen = () => {
         dispatch(saveLoginDetails(response.data.data));
         router.replace("/(tabs)");
       } else {
-        Alert.alert(response.data.msgDescription);
+        showErrorToast(response.data.msgDescription);
       }
     }
   };

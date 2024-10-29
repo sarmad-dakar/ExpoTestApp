@@ -15,6 +15,7 @@ import { FetchMyBookings, GetAccountData } from "@/app/api/Bookings";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMyAccount } from "@/app/store/slices/accountSlice";
 import { router } from "expo-router";
+import { useAppDispatch } from "../LandingScreen";
 
 interface AccountData {
   date: string;
@@ -27,25 +28,42 @@ interface AccountData {
 
 const MyAccountScreen = () => {
   // const [accountData, setAccountData] = useState<AccountData[]>([]);
-  const accountData = useSelector((state) => state.account.accountData);
+  const accountData = useSelector((state: any) => state.account.accountData);
   const windowWidth = Dimensions.get("window").width;
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchMyAccount());
   }, []);
 
-  const onDetailPress = (item) => {
-    router.navigate("navigationstack/accountdetails");
+  const onDetailPress = (item: any) => {
+    // router.navigate("navigationstack/accountdetails");
+    let data = {
+      id: item?.bookingKey,
+      sport: item?.section.toUpperCase(),
+    };
+    router.push({
+      //@ts-ignore
+      pathname: "/bookingstack/alreadybookeddetail",
+      params: {
+        bookingData: JSON.stringify(data),
+      }, // Use if you have any URL params to send (optional)
+    });
   };
 
-  const onRecieptPress = (item) => {
-    router.navigate("navigationstack/accountreciept");
+  const onRecieptPress = (item: any) => {
+    router.push({
+      //@ts-ignore
+      pathname: "/navigationstack/accountreciept",
+      params: {
+        recieptData: JSON.stringify(item),
+      }, // Use if you have any URL params to send (optional)
+    });
   };
 
   return (
     <View style={styles.container}>
-      <GeneralHeader title="My Account" />
+      <GeneralHeader back={true} title="My Account" />
       {/* Fixed Header */}
       <ScreenWrapper>
         <SearchField />
@@ -89,21 +107,24 @@ const MyAccountScreen = () => {
                   {item.remarks}
                 </Text>
                 <Text style={[styles.cell, { width: 80 }]}>{item.amount}</Text>
-                <TouchableOpacity onPress={onDetailPress}>
+                <TouchableOpacity
+                  disabled={!item?.bookingKey}
+                  onPress={() => onDetailPress(item)}
+                >
                   <Text
                     style={[
                       styles.cell,
                       {
                         width: 120,
                         textDecorationLine: "underline",
-                        color: "#0000EE",
+                        color: !item.bookingKey ? "gray" : "#0000EE",
                       },
                     ]}
                   >
                     View Details
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={onRecieptPress}>
+                <TouchableOpacity onPress={() => onRecieptPress(item)}>
                   <Text
                     style={[
                       styles.cell,

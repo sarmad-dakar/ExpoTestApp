@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   StyleSheet,
@@ -28,6 +29,7 @@ import { router, useFocusEffect } from "expo-router";
 import TopupConfirmationPopup from "@/app/components/TopupConfirmationPopup";
 import { fetchRemainingBalance } from "@/app/store/slices/accountSlice";
 import { useAppDispatch } from "../LandingScreen";
+import { vh, vw } from "@/app/utils/units";
 
 const monthsData = [
   { value: "01", label: "Jan" },
@@ -82,6 +84,7 @@ const MyBookingsScreen: React.FC = () => {
   const [allSports, setAllSports] = useState<SportItem[]>([]);
   const [selectedTab, setSelectedTab] = useState<SportItem>(AllSports[0]);
   const sports = useSelector((state: any) => state?.account?.sportsData);
+  const loading = useSelector((state: any) => state?.general?.generalLoader);
   const bookedSlotReference = useRef();
   const [tenyearsDD, setTenYearsDD] = useState<
     { value: string; label: string }[]
@@ -94,7 +97,7 @@ const MyBookingsScreen: React.FC = () => {
   );
   const [bookingsData, setBookingsData] = useState<BookingsData>({});
   const [selectedBooking, setSelectedBooking] = useState<Session | null>(null);
-  const [dataForList, setDataForList] = useState([]);
+  const [dataForList, setDataForList] = useState<Session[] | null>([]);
   const yearDropdownRef = useRef<SelectDropdownRef>(null);
   const monthDropdownRef = useRef<SelectDropdownRef>(null);
   const bookingConfirmationRef = useRef<ConfirmationPopupRef>(null);
@@ -125,7 +128,7 @@ const MyBookingsScreen: React.FC = () => {
     if (bookingsData) {
       showSelectedYearData();
     }
-  }, [bookingsData, selectedTab]);
+  }, [bookingsData, selectedTab, selectedDate, selectedMonth]);
 
   useEffect(() => {
     console.log(sports, "sports of data");
@@ -315,6 +318,11 @@ const MyBookingsScreen: React.FC = () => {
         reference={bookingConfirmationRef}
         onAccept={onConfirmedCancel}
       />
+      {loading ? (
+        <View style={styles.loader}>
+          <ActivityIndicator size={"large"} color={colors.secondary} />
+        </View>
+      ) : null}
     </View>
   );
 };
@@ -353,5 +361,13 @@ const styles = StyleSheet.create({
     width: "70%",
     alignSelf: "center",
     marginTop: 25,
+  },
+  loader: {
+    height: vh * 100,
+    width: vw * 100,
+    backgroundColor: "#0000004a",
+    position: "absolute",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

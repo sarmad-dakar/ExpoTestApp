@@ -34,7 +34,7 @@ const OnBoardingScreen = () => {
   };
   return (
     <View style={styles.container}>
-      <Swiper paginationStyle={{ position: "absolute", bottom: "26%" }}>
+      <Swiper paginationStyle={{ position: "absolute", bottom: 210 }}>
         <ImageBackground
           style={{ flex: 1 }}
           source={images.tennis_OB}

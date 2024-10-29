@@ -44,13 +44,17 @@ const GeneralHeader = ({ title, back, sport }: headerProps) => {
         </TouchableOpacity>
       ) : (
         <View style={{ alignItems: "center", width: 60 }}>
-          <Image
-            source={sport?.icon || icons.tennis}
-            style={[styles.logo, { tintColor: colors.secondary }]}
-          />
-          <Text style={[styles.selectedSport, { color: colors.secondary }]}>
-            {sport?.name || "Tennis"}
-          </Text>
+          {sport?.icon ? (
+            <Image
+              source={sport?.icon}
+              style={[styles.logo, { tintColor: colors.secondary }]}
+            />
+          ) : null}
+          {sport?.icon ? (
+            <Text style={[styles.selectedSport, { color: colors.secondary }]}>
+              {sport?.name || "Tennis"}
+            </Text>
+          ) : null}
         </View>
       )}
       <BerlingskeMedium style={styles.selectedSport}>{title}</BerlingskeMedium>

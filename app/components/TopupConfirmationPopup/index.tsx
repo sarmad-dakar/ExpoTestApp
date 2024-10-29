@@ -25,6 +25,7 @@ import InAppBrowser from "react-native-inappbrowser-reborn";
 import WebView from "react-native-webview";
 import { fetchRemainingBalance } from "@/app/store/slices/accountSlice";
 import { useAppDispatch } from "@/app/screens/HomeScreens/LandingScreen";
+import { showErrorToast } from "@/app/utils/toastmsg";
 
 // Get screen dimensions
 const { height } = Dimensions.get("window");
@@ -91,10 +92,12 @@ const TopupConfirmationPopup = forwardRef<
   const handleConfirm = async () => {
     const topupAmount = parseFloat(amount);
     if (!topupAmount) {
-      return Alert.alert("Error", "Please write an amount");
+      showErrorToast("Please write an amount");
+      return;
     }
     if (topupAmount < 20) {
-      return Alert.alert("Error", "Minimum topup amount should be 20");
+      showErrorToast("Minimum topup amount should be 20");
+      return;
     }
     let data = {
       Amount: topupAmount,

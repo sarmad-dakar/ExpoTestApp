@@ -51,8 +51,8 @@ interface HomeHeaderProps {
   selectedDate: Date;
   onSearchPress: () => void;
   getCalendarData: (date: any, sport: Sport) => void;
-  selectedSport: Sport;
-  setSelectedSport: React.Dispatch<React.SetStateAction<Sport>>;
+  selectedSport: Sport | undefined;
+  setSelectedSport: React.Dispatch<React.SetStateAction<Sport | undefined>>;
 }
 
 const HomeHeader: React.FC<HomeHeaderProps> = ({

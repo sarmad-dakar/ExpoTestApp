@@ -8,6 +8,7 @@ import { icons } from "@/app/MyAssets";
 import MainButton from "@/app/components/MainButton";
 import { changePassword } from "@/app/api/Auth";
 import { useSelector } from "react-redux";
+import { showErrorToast, showSuccessToast } from "@/app/utils/toastmsg";
 
 const ChangePasswordScreen = () => {
   // State for input fields
@@ -19,11 +20,12 @@ const ChangePasswordScreen = () => {
   const handleChangePassword = async () => {
     // Validate the inputs
     if (!oldPassword || !newPassword || !verifyPassword) {
-      Alert.alert("Error", "All fields are required.");
+      showErrorToast("All fields are required.");
       return;
     }
     if (newPassword !== verifyPassword) {
-      Alert.alert("Error", "New password and verify password must match.");
+      showErrorToast("New password and verify password must match.");
+
       return;
     }
 
@@ -33,10 +35,10 @@ const ChangePasswordScreen = () => {
     };
     const response = await changePassword(data);
     if (response.data.msgCode == "500") {
-      Alert.alert("Error", response.data.data);
+      showErrorToast(response.data.data);
     }
     if (response.data.msgCode == "200") {
-      Alert.alert("Success", response.data.data);
+      showSuccessToast(response.data.data);
     }
     // Call an API or perform an action with oldPassword and newPassword
     // For example purposes, we show an alert

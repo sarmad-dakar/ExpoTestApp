@@ -36,6 +36,7 @@ import BookingConfirmationPopup from "@/app/components/BookingConfirmationPopup"
 import { ConfirmationPopupRef } from "@/app/components/ConfirmationPopup";
 import { fetchRemainingBalance } from "@/app/store/slices/accountSlice";
 import { useAppDispatch } from "../LandingScreen";
+import { showErrorToast } from "@/app/utils/toastmsg";
 
 interface Player {
   gender: string;
@@ -293,7 +294,7 @@ const BookingDetailScreen = () => {
     dispatch(fetchRemainingBalance());
 
     if (response.data.msgCode == "500") {
-      Alert.alert(response.data.data);
+      showErrorToast(response.data.data);
     } else {
       router.back();
     }

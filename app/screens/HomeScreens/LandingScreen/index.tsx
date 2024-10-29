@@ -61,13 +61,15 @@ const LandingScreen = () => {
   const confirmationPopup = useRef<ConfirmationPopupRef>(null);
   const dispatch = useAppDispatch();
 
-  const sports = useSelector((state) => state?.account?.sportsData);
+  const sports = useSelector((state: RootState) => state?.account?.sportsData);
   // Define state with appropriate types
   const [calendarData, setCalendarData] = useState<CalendarData | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [SelectedSport, setSelectedSport] = useState();
+  const [SelectedSport, setSelectedSport] = useState<Sport>();
 
-  const loader = useSelector((state) => state.general?.generalLoader);
+  const loader = useSelector(
+    (state: RootState) => state.general?.generalLoader
+  );
   useEffect(() => {
     // handleNavigation();
     getProfile();
@@ -115,11 +117,11 @@ const LandingScreen = () => {
   };
 
   // Define the type of 'date' as Date and return type as Promise<void>
-  const getCalendarData = async (date: Date, sport: Sport): Promise<void> => {
+  const getCalendarData = async (date: Date, sport?: Sport): Promise<void> => {
     const formattedDate = moment(date).format("DD-MM-YYYY");
     let data = {
       date: formattedDate,
-      sport: sport.sportServiceSetting.title.toLowerCase(),
+      sport: sport?.sportServiceSetting.title.toLowerCase(),
     };
     console.log(data);
     const response = await FetchCalendarData(data);
@@ -133,9 +135,10 @@ const LandingScreen = () => {
     getCalendarData(selectedDate, SelectedSport);
   };
 
-  const onAcceptBooking = (data) => {
+  const onAcceptBooking = (data: any) => {
     confirmationPopup.current?.hide();
     router.push({
+      //@ts-ignore
       pathname: "/homestack/bookingdetail",
       params: {
         bookingData: JSON.stringify({ ...data, selectedSport: SelectedSport }),
@@ -146,10 +149,13 @@ const LandingScreen = () => {
   };
 
   const onNotificationPress = () => {
+    //@ts-ignore
     router.navigate("/homestack/notifications");
   };
 
+  //@ts-ignore
   const onBookingPress = (court, session) => {
+    //@ts-ignore
     confirmationPopup.current?.show(court, session, selectedDate);
   };
 
