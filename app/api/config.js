@@ -19,4 +19,5 @@ export const endpoints = {
   contactus: "Common/sport/help/contactus",
   changePass: "Authentication/user/reset/password",
   changePin: "Authentication/user/reset/pincode",
+  forgotPassword: "Authentication/user/forget/password/",
 };

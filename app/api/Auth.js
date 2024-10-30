@@ -37,6 +37,10 @@ const changePin = async (data) => {
   return instance.post(endpoints.changePass, data);
 };
 
+const forgotPassword = async (data) => {
+  return instance.get(endpoints.forgotPassword + data);
+};
+
 export {
   loginApi,
   getMyProfile,
@@ -46,4 +50,5 @@ export {
   postContactus,
   changePassword,
   changePin,
+  forgotPassword,
 };

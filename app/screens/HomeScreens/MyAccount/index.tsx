@@ -66,12 +66,12 @@ const MyAccountScreen = () => {
       <GeneralHeader back={true} title="My Account" />
       {/* Fixed Header */}
       <ScreenWrapper>
-        <SearchField />
+        {/* <SearchField /> */}
 
         {/* Scrollable Content */}
         <ScrollView horizontal>
           {/* Data Rows - Vertical Scroll */}
-          <ScrollView style={{ marginTop: 0 }}>
+          <ScrollView style={{ marginTop: 13 }}>
             <View style={[styles.headerRow, { width: windowWidth }]}>
               <Text style={[styles.headerText, { width: 150 }]}>Date</Text>
               <Text style={[styles.headerText, { width: 100 }]}>
@@ -124,7 +124,7 @@ const MyAccountScreen = () => {
                     View Details
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => onRecieptPress(item)}>
+                {/* <TouchableOpacity onPress={() => onRecieptPress(item)}>
                   <Text
                     style={[
                       styles.cell,
@@ -137,7 +137,7 @@ const MyAccountScreen = () => {
                   >
                     View Reciept
                   </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
             ))}
           </ScrollView>

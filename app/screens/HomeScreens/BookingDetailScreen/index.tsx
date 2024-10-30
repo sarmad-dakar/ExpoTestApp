@@ -338,14 +338,19 @@ const BookingDetailScreen = () => {
           Booking Payment & Add Players
         </BerlingskeBold>
         <BerlingskeMedium>Session Information</BerlingskeMedium>
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ flexDirection: "row", pointerEvents: "none" }}>
           <InputField icon={icons.calendar} value={bookingData?.selectedDate} />
           <InputField
             icon={icons.clock}
             value={bookingData.sessionDetail.slot}
           />
         </View>
-        <InputField icon={icons.court} value={bookingData.courtDetail.title} />
+        <View style={{ pointerEvents: "none" }}>
+          <InputField
+            icon={icons.court}
+            value={bookingData.courtDetail.title}
+          />
+        </View>
         <MainButton onPress={() => router.back()} title="Change" />
         <BerlingskeMedium>Booking Types</BerlingskeMedium>
         <InputField

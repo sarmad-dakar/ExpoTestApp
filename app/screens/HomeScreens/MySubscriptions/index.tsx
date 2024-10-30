@@ -35,12 +35,12 @@ const MySubscriptionScreen = () => {
       <GeneralHeader title="My Subscription" back={true} />
       {/* Fixed Header */}
       <ScreenWrapper>
-        <SearchField />
+        {/* <SearchField /> */}
 
         {/* Scrollable Content */}
         <ScrollView horizontal>
           {/* Data Rows - Vertical Scroll */}
-          <ScrollView style={{ marginTop: 0 }}>
+          <ScrollView style={{ marginTop: 15 }}>
             <View style={[styles.headerRow, { width: windowWidth }]}>
               <Text style={[styles.headerText, { width: 150 }]}>Date</Text>
               <Text style={[styles.headerText, { width: 100 }]}>Type</Text>

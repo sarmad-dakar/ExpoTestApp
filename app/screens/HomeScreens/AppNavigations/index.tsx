@@ -99,7 +99,7 @@ const AppNavigationScreen = () => {
           activeOpacity={activeOpacity}
           style={styles.subHeading}
         >
-          <Text style={{ color: colors.red }}>Delete Account</Text>
+          {/* <Text style={{ color: colors.red }}>Delete Account</Text> */}
         </TouchableOpacity>
       </ScrollView>
     </View>

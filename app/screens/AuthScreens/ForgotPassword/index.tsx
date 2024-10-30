@@ -17,10 +17,30 @@ import { colors } from "@/app/utils/theme";
 import { vh } from "@/app/utils/units";
 import BerlingskeMedium from "@/app/components/TextWrapper/BerlingskeMedium";
 import { router } from "expo-router";
+import { forgotPassword } from "@/app/api/Auth";
+import { showErrorToast, showInfoToast } from "@/app/utils/toastmsg";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store";
 
 const ForgotPasswordScreen = () => {
   const [step, setStep] = useState(1);
   const [membershipNumber, setMemberShipNumber] = useState("");
+  const loading = useSelector(
+    (state: RootState) => state?.general?.generalLoader
+  );
+  const onForgotPress = async () => {
+    if (!membershipNumber) {
+      showErrorToast("Membership number is required");
+      return;
+    }
+    const result = await forgotPassword(membershipNumber);
+    if (result.data?.msgCode == "200") {
+      showInfoToast(result.data.data);
+      setTimeout(() => {
+        router.navigate("/login");
+      }, 2000);
+    }
+  };
 
   return (
     <ScreenWrapper>
@@ -44,7 +64,14 @@ const ForgotPasswordScreen = () => {
               placeholder="Membership Number*"
               onChangeText={setMemberShipNumber}
             />
-            <MainButton title="Send Email" onPress={() => setStep(2)} />
+            <MainButton
+              title="Send Email"
+              loading={loading}
+              onPress={() => onForgotPress()}
+            />
+            <TouchableOpacity onPress={() => router.replace("/login")}>
+              <Text style={styles.login}>Go Back to Login</Text>
+            </TouchableOpacity>
           </View>
         ) : (
           <View style={styles.successContainer}>
@@ -118,6 +145,7 @@ const styles = StyleSheet.create({
   login: {
     color: "black",
     marginTop: vh * 2,
-    fontSize: 18,
+    fontSize: 14,
+    alignSelf: "center",
   },
 });
