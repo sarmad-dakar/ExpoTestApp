@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/ic_launcher_round.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.anonymous.marsasports"
