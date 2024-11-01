@@ -2,7 +2,7 @@ import { Tabs } from "expo-router";
 import React from "react";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { vh, vw } from "../utils/units";
 import { icons, images } from "../MyAssets";
 import { colors } from "../utils/theme";
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   },
   tab: {
     // width: vw * 20,
-    marginHorizontal: 10,
+    marginHorizontal: Platform.OS == "android" ? 10 :  18,
     justifyContent: "center",
     alignItems: "center",
   },

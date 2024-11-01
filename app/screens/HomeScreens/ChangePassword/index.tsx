@@ -51,7 +51,9 @@ const ChangePasswordScreen = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <GeneralHeader title="Change Password" />
+      <GeneralHeader title="Change Password"
+      back={true}
+      />
       <ScreenWrapper>
         <BerlingskeMedium style={styles.heading}>
           To change password please fill the below details.

@@ -8,7 +8,7 @@ const SearchField = (props) => {
       <TextInput
         onChangeText={(event) => props.onChangeText(event)}
         style={styles.inputContainer}
-        placeholder="Search Products"
+        placeholder="Search Members"
       />
       <View
         style={{ width: "15%", justifyContent: "center", alignItems: "center" }}

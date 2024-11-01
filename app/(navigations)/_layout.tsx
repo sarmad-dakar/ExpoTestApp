@@ -8,6 +8,9 @@ const MainNavigation = () => {
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="login" options={{ headerShown: false }} />
       <Stack.Screen name="forgotpassword" options={{ headerShown: false }} />
+      <Stack.Screen name="privacypolicy" options={{ headerShown: false }} />
+      <Stack.Screen name="termscondition" options={{ headerShown: false }} />
+
     </Stack>
   );
 };
