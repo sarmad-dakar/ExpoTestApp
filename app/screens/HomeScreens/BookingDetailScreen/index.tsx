@@ -310,6 +310,7 @@ const BookingDetailScreen = () => {
             bookingData?.selectedSport?.sportServiceSetting?.title
           ],
         }}
+        back={true}
         title="Booking Detail"
       />
       {showDatePicker && (

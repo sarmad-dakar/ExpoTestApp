@@ -95,6 +95,7 @@ const SelectDropDown = forwardRef<SelectDropdownRef, selectDropdownProp>(
           "landscape",
           "landscape-left",
           "landscape-right",
+          "portrait"
         ]}
         onRequestClose={() => setVisible(false)}
         style={styles.modal}

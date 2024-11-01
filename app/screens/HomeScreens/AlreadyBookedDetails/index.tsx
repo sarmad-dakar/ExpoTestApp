@@ -51,6 +51,7 @@ const AlreadyBookedDetails = () => {
           icon: sportsIcon[bookingData.sport],
         }}
         title="Booking Details"
+        back={true}
       />
       <ScrollView contentContainerStyle={{ paddingHorizontal: 20 }}>
         {/* Booking Info */}

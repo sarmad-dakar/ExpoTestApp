@@ -133,7 +133,7 @@ const ProfileScreen = () => {
 
   return (
     <View style={styles.mainContainer}>
-      <ProfileHeader title="My Profile" image={profile.profilePic} />
+      <ProfileHeader title="My Profile" image={profile?.profilePic} />
       <AddCarNumberPopup onSavePress={onAddCar} reference={carNumberPopupRef} />
       <AddChildrenPopup
         onSavePress={onAddChildren}

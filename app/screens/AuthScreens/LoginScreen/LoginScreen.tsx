@@ -98,9 +98,25 @@ const LoginScreen = () => {
           By signing in, you are agreeing to the online Terms and Conditions of
           the Marsa Sports Club booking regulations.
         </Text>
-        <Text style={styles.termsHeading}>
-          Terms & Conditions | Privacy Policy
+        <View
+        style={styles.termsContainer}
+        >
+       <TouchableOpacity
+       onPress={()=> router.push("/termscondition")}
+       >
+       <Text style={styles.termsHeading}>
+          Terms & Conditions 
         </Text>
+       </TouchableOpacity>
+        <Text>|</Text>
+        <TouchableOpacity
+       onPress={()=> router.push("/termscondition")}
+    
+        >
+        <Text> Privacy Policy</Text>
+        </TouchableOpacity>
+
+        </View>
         <PoweredBy />
       </View>
     </ScreenWrapper>
@@ -130,9 +146,16 @@ const styles = StyleSheet.create({
     fontWeight: "300",
   },
   termsHeading: {
-    alignSelf: "center",
-    marginTop: 30,
-    fontSize: vh * 2,
+    // fontSize: vh * 2,
     fontWeight: "300",
   },
+  termsContainer : { 
+    flexDirection : "row",
+    justifyContent : "space-between",
+    alignItems : "center",
+    marginTop: 30,
+    paddingHorizontal : "10%",
+    // backgroundColor : "red"
+
+  }
 });
