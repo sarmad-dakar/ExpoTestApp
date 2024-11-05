@@ -147,15 +147,18 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
     }
   };
 
-  const isAvailableTimeSlot = (timeSlot: any, timeSlots: any) => {
+  const isAvailableTimeSlot = (timeSlot: string, timeSlots: string[]) => {
     const currentTime = new Date();
 
     if (timeSlot && timeSlots.length) {
       // Find the first available slot after current time
-      const firstAvailableIndex = timeSlots.findIndex((slot: any) => {
+      const firstAvailableIndex = timeSlots.findIndex((slot: string) => {
         const [hours, minutes] = slot.match(/\d+/g).map(Number);
+        const isPM = slot.includes("pm");
+
+        // Create a new Date object for the slot time
         const slotDate = new Date(currentTime);
-        slotDate.setHours(slot.includes("pm") ? hours + 12 : hours);
+        slotDate.setHours(isPM ? (hours % 12) + 12 : hours % 12);
         slotDate.setMinutes(minutes);
 
         return slotDate > currentTime;
@@ -163,6 +166,8 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
 
       return timeSlot === timeSlots[firstAvailableIndex];
     }
+
+    return false;
   };
 
   return (
@@ -362,8 +367,8 @@ const styles = StyleSheet.create({
   },
   greenLight: {
     backgroundColor: "#AAFF00",
-    height: vh*1.2,
-    width: vh*1.2,
+    height: vh * 1.2,
+    width: vh * 1.2,
     borderRadius: 100,
     position: "absolute",
     top: 5,
