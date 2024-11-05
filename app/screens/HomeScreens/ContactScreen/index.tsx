@@ -56,7 +56,7 @@ const ContactScreen = () => {
         <InputField
           dropdown={true}
           onPress={() => dropdownRef.current?.show()}
-          icon={icons.calendar}
+          icon={icons.types}
           rightIcon={icons.dropdown}
           value={contactType?.label || "Select Type"}
           textAlignVertical={"top"}
@@ -72,7 +72,7 @@ const ContactScreen = () => {
         />
         <View style={{ height: 10 }} />
         <InputField
-          icon={icons.calendar}
+          icon={icons.message}
           placeholder="Write your message"
           longText={true}
           multiline={true}

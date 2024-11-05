@@ -20,6 +20,10 @@ import { loginApi } from "@/app/api/Auth";
 import { useDispatch, useSelector } from "react-redux";
 import { saveLoginDetails } from "@/app/store/slices/userSlice";
 import { showErrorToast } from "@/app/utils/toastmsg";
+import {
+  toggleBtnLoader,
+  toggleGeneralLoader,
+} from "@/app/store/slices/generalSlice";
 const LoginScreen = () => {
   const [membershipNumber, setMemberShipNumber] = useState("");
   const [password, setPassword] = useState("");
@@ -28,6 +32,10 @@ const LoginScreen = () => {
   const [passwordError, setPasswordError] = useState("");
   const loader = useSelector((state: any) => state.general.generalLoader);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(toggleGeneralLoader(false));
+  }, []);
 
   const handleSignInPress = async () => {
     setMemberShipError("");
@@ -98,24 +106,14 @@ const LoginScreen = () => {
           By signing in, you are agreeing to the online Terms and Conditions of
           the Marsa Sports Club booking regulations.
         </Text>
-        <View
-        style={styles.termsContainer}
-        >
-       <TouchableOpacity
-       onPress={()=> router.push("/termscondition")}
-       >
-       <Text style={styles.termsHeading}>
-          Terms & Conditions 
-        </Text>
-       </TouchableOpacity>
-        <Text>|</Text>
-        <TouchableOpacity
-       onPress={()=> router.push("/termscondition")}
-    
-        >
-        <Text> Privacy Policy</Text>
-        </TouchableOpacity>
-
+        <View style={styles.termsContainer}>
+          <TouchableOpacity onPress={() => router.push("/termscondition")}>
+            <Text style={styles.termsHeading}>Terms & Conditions</Text>
+          </TouchableOpacity>
+          <Text>|</Text>
+          <TouchableOpacity onPress={() => router.push("/termscondition")}>
+            <Text> Privacy Policy</Text>
+          </TouchableOpacity>
         </View>
         <PoweredBy />
       </View>
@@ -149,13 +147,12 @@ const styles = StyleSheet.create({
     // fontSize: vh * 2,
     fontWeight: "300",
   },
-  termsContainer : { 
-    flexDirection : "row",
-    justifyContent : "space-between",
-    alignItems : "center",
+  termsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginTop: 30,
-    paddingHorizontal : "10%",
+    paddingHorizontal: "10%",
     // backgroundColor : "red"
-
-  }
+  },
 });

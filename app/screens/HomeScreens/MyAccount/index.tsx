@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Dimensions,
   ScrollView,
   StyleSheet,
@@ -16,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchMyAccount } from "@/app/store/slices/accountSlice";
 import { router } from "expo-router";
 import { useAppDispatch } from "../LandingScreen";
+import { RootState } from "@/app/store";
 
 interface AccountData {
   date: string;
@@ -31,7 +33,9 @@ const MyAccountScreen = () => {
   const accountData = useSelector((state: any) => state.account.accountData);
   const windowWidth = Dimensions.get("window").width;
   const dispatch = useAppDispatch();
-
+  const loading = useSelector(
+    (state: RootState) => state.general.generalLoader
+  );
   useEffect(() => {
     dispatch(fetchMyAccount());
   }, []);
@@ -44,7 +48,7 @@ const MyAccountScreen = () => {
     };
     router.push({
       //@ts-ignore
-      pathname: "/bookingstack/alreadybookeddetail",
+      pathname: "/navigationstack/accountdetails",
       params: {
         bookingData: JSON.stringify(data),
       }, // Use if you have any URL params to send (optional)
@@ -81,50 +85,58 @@ const MyAccountScreen = () => {
               <Text style={[styles.headerText, { width: 120 }]}>Category</Text>
               <Text style={[styles.headerText, { width: 220 }]}>Remarks</Text>
               <Text style={[styles.headerText, { width: 80 }]}>Amount</Text>
+              <Text style={[styles.headerText, { width: 120 }]}>Action</Text>
             </View>
-            {accountData.map((item, index) => (
-              <View
-                key={index}
-                style={[
-                  styles.row,
-                  {
-                    backgroundColor:
-                      index % 2 !== 0 ? "white" : colors.lightShade,
-                  },
-                ]}
-              >
-                <Text style={[styles.cell, { width: 150 }]}>{item.date}</Text>
-                <Text style={[styles.cell, { width: 100 }]}>
-                  {item.transactionNumber}
-                </Text>
-                <Text style={[styles.cell, { width: 100 }]}>
-                  {item.section}
-                </Text>
-                <Text style={[styles.cell, { width: 120 }]}>
-                  {item.category}
-                </Text>
-                <Text style={[styles.cell, { width: 220 }]}>
-                  {item.remarks}
-                </Text>
-                <Text style={[styles.cell, { width: 80 }]}>{item.amount}</Text>
-                <TouchableOpacity
-                  disabled={!item?.bookingKey}
-                  onPress={() => onDetailPress(item)}
+            {loading ? (
+              <View style={{ alignSelf: "center" }}>
+                <ActivityIndicator size={"large"} color={colors.secondary} />
+              </View>
+            ) : (
+              accountData.map((item, index) => (
+                <View
+                  key={index}
+                  style={[
+                    styles.row,
+                    {
+                      backgroundColor:
+                        index % 2 !== 0 ? "white" : colors.lightShade,
+                    },
+                  ]}
                 >
-                  <Text
-                    style={[
-                      styles.cell,
-                      {
-                        width: 120,
-                        textDecorationLine: "underline",
-                        color: !item.bookingKey ? "gray" : "#0000EE",
-                      },
-                    ]}
-                  >
-                    View Details
+                  <Text style={[styles.cell, { width: 150 }]}>{item.date}</Text>
+                  <Text style={[styles.cell, { width: 100 }]}>
+                    {item.transactionNumber}
                   </Text>
-                </TouchableOpacity>
-                {/* <TouchableOpacity onPress={() => onRecieptPress(item)}>
+                  <Text style={[styles.cell, { width: 100 }]}>
+                    {item.section}
+                  </Text>
+                  <Text style={[styles.cell, { width: 120 }]}>
+                    {item.category}
+                  </Text>
+                  <Text style={[styles.cell, { width: 220 }]}>
+                    {item.remarks}
+                  </Text>
+                  <Text style={[styles.cell, { width: 80 }]}>
+                    {item.amount}
+                  </Text>
+                  <TouchableOpacity
+                    disabled={!item?.bookingKey}
+                    onPress={() => onDetailPress(item)}
+                  >
+                    <Text
+                      style={[
+                        styles.cell,
+                        {
+                          width: 120,
+                          textDecorationLine: "underline",
+                          color: !item.bookingKey ? "gray" : "#0000EE",
+                        },
+                      ]}
+                    >
+                      View Details
+                    </Text>
+                  </TouchableOpacity>
+                  {/* <TouchableOpacity onPress={() => onRecieptPress(item)}>
                   <Text
                     style={[
                       styles.cell,
@@ -138,8 +150,9 @@ const MyAccountScreen = () => {
                     View Reciept
                   </Text>
                 </TouchableOpacity> */}
-              </View>
-            ))}
+                </View>
+              ))
+            )}
           </ScrollView>
         </ScrollView>
       </ScreenWrapper>

@@ -9,13 +9,16 @@ import MainButton from "@/app/components/MainButton";
 import { changePassword } from "@/app/api/Auth";
 import { useSelector } from "react-redux";
 import { showErrorToast, showSuccessToast } from "@/app/utils/toastmsg";
+import { RootState } from "@/app/store";
 
 const ChangePasswordScreen = () => {
   // State for input fields
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [verifyPassword, setVerifyPassword] = useState("");
-  const loading = useSelector((state) => state.general.generalLoader);
+  const loading = useSelector(
+    (state: RootState) => state.general.generalLoader
+  );
   // Handler for changing the password
   const handleChangePassword = async () => {
     // Validate the inputs
@@ -51,9 +54,7 @@ const ChangePasswordScreen = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <GeneralHeader title="Change Password"
-      back={true}
-      />
+      <GeneralHeader title="Change Password" back={true} />
       <ScreenWrapper>
         <BerlingskeMedium style={styles.heading}>
           To change password please fill the below details.

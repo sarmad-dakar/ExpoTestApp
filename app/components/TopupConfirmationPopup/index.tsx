@@ -128,7 +128,7 @@ const TopupConfirmationPopup = forwardRef<
       transparent
       visible={visible}
       animationType="none"
-      statusBarTranslucent ={true}
+      statusBarTranslucent={steps === 2}
       onRequestClose={slideDown}
     >
       <TouchableOpacity
@@ -141,7 +141,7 @@ const TopupConfirmationPopup = forwardRef<
           styles.bottomSheet,
           {
             height: steps == 1 ? height * 0.4 : height * 1.02,
-            padding  : steps == 1 ? 10 : 0
+            padding: steps == 1 ? 10 : 0,
           },
           { transform: [{ translateY }] },
         ]}
@@ -172,22 +172,14 @@ const TopupConfirmationPopup = forwardRef<
             </View>
           </View>
         ) : (
-          <View 
-          
-          style={styles.content}>
+          <View style={styles.content}>
             <View style={styles.webHeder}>
-            <TouchableOpacity
-            onPress={hide}
-            >
-            <Image
-            source={icons.cross}
-            style={styles.backIcon}
-            /> 
-            </TouchableOpacity>
+              <TouchableOpacity onPress={hide}>
+                <Image source={icons.cross} style={styles.backIcon} />
+              </TouchableOpacity>
             </View>
-         
-           
-            <View  />
+
+            <View />
             <WebView
               source={{
                 uri: url,
@@ -236,20 +228,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  backIcon : { 
-    height : 30 , 
-    width : 30 , 
-    resizeMode : "contain",
- 
-    tintColor : "white"
+  backIcon: {
+    height: 30,
+    width: 30,
+    resizeMode: "contain",
+
+    tintColor: "white",
   },
-  webHeder : {
-    height : vh*12 , 
-    backgroundColor : colors.primary,
-    justifyContent : "center",
-    paddingLeft : "5%",
-    paddingTop : "4%",
-  }
+  webHeder: {
+    height: vh * 12,
+    backgroundColor: colors.primary,
+    justifyContent: "center",
+    paddingLeft: "5%",
+    paddingTop: "4%",
+  },
 });
 
 export default TopupConfirmationPopup;

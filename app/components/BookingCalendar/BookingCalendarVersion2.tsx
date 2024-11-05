@@ -146,6 +146,24 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
     }
   };
 
+  const isAvailableTimeSlot = (timeSlot: any, timeSlots: any) => {
+    const currentTime = new Date();
+
+    if (timeSlot && timeSlots.length) {
+      // Find the first available slot after current time
+      const firstAvailableIndex = timeSlots.findIndex((slot: any) => {
+        const [hours, minutes] = slot.match(/\d+/g).map(Number);
+        const slotDate = new Date(currentTime);
+        slotDate.setHours(slot.includes("pm") ? hours + 12 : hours);
+        slotDate.setMinutes(minutes);
+
+        return slotDate > currentTime;
+      });
+
+      return timeSlot === timeSlots[firstAvailableIndex];
+    }
+  };
+
   return (
     <View style={{ flex: 1, width: "95%" }}>
       <BerlingskeBold>Book Your Slots</BerlingskeBold>
@@ -241,6 +259,9 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
           <View style={{ flex: 1 }}>
             {data.timeSlots.map((timeSlot, index) => (
               <View key={index} style={styles.time}>
+                {isAvailableTimeSlot(timeSlot, data.timeSlots) && (
+                  <View style={styles.greenLight} />
+                )}
                 <Text style={styles.timeFont}>{timeSlot || "N/A"}</Text>
               </View>
             ))}
@@ -337,5 +358,14 @@ const styles = StyleSheet.create({
   },
   disabledBtn: {
     opacity: 0.5, // Optional: Visually indicate the button is disabled
+  },
+  greenLight: {
+    backgroundColor: "#AAFF00",
+    height: 13,
+    width: 13,
+    borderRadius: 100,
+    position: "absolute",
+    top: 5,
+    right: 5,
   },
 });

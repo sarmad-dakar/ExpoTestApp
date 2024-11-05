@@ -23,7 +23,6 @@ import { ConfirmationPopupRef } from "../ConfirmationPopup";
 
 import DateTimePicker, {
   DateTimePickerEvent,
-  
 } from "@react-native-community/datetimepicker";
 import moment from "moment";
 import { useSelector } from "react-redux";
@@ -106,10 +105,6 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
       >
         <Text>Here is the drawer content!</Text>
       </SlidingDrawer>
-   
-
-
-      
 
       <View style={styles.container}>
         <View style={{ alignItems: "center", width: 60 }}>
@@ -183,14 +178,14 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
               rightIcon={icons.dropdown}
               value={moment(selectedDate).format("DD/MM/YYYY")}
             />
-               {showDatePicker && (
-        <DateTimePicker
-          value={selectedDate}
-          mode="date"
-          display="calendar"
-          onChange={onChangeDate}
-        />
-      )}
+            {showDatePicker && (
+              <DateTimePicker
+                value={selectedDate}
+                mode="date"
+                display="calendar"
+                onChange={onChangeDate}
+              />
+            )}
             {/* <MainButton
               onPress={onSearchPress}
               style={{ height: 40 }}
@@ -232,7 +227,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 20,
-    paddingTop : Platform.OS == "ios" ? 25 : 0
+    paddingTop: Platform.OS == "ios" ? 25 : 10,
   },
   logo: {
     height: 30,

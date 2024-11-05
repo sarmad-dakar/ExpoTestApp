@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 20,
-    paddingTop : Platform.OS == "ios"?  25 : 0
+    paddingTop: Platform.OS == "ios" ? 25 : 10,
   },
   logo: {
     height: 30,

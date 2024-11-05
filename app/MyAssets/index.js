@@ -46,6 +46,8 @@ export const icons = {
   group: require("./icons/people.png"),
   payments: require("./icons/online-booking.png"),
   defaultUser: require("./icons/defaultUser.png"),
+  types: require("./icons/list.png"),
+  message: require("./icons/chat.png"),
 };
 
 export const images = {
