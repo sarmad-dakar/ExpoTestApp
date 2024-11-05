@@ -170,15 +170,47 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
             <BerlingskeBold style={styles.slotTitle}>
               Find Your Slot
             </BerlingskeBold>
+          {
+            Platform.OS == "android" ?  
             <InputField
-              // style={{ width: 250 }}
-              dropdown={true}
-              onPress={() => setShowDatePicker(true)}
-              icon={icons.calendar}
-              rightIcon={icons.dropdown}
-              value={moment(selectedDate).format("DD/MM/YYYY")}
-            />
-            {showDatePicker && (
+            // style={{ width: 250 }}
+            dropdown={true}
+            onPress={() => setShowDatePicker(true)}
+            icon={icons.calendar}
+            rightIcon={icons.dropdown}
+            value={moment(selectedDate).format("DD/MM/YYYY")}
+          />
+           : null
+          }
+
+            {/* For Ios Only */}
+
+            {
+              Platform.OS == "ios" ? 
+              <View style={styles.datePickerField}>
+                <View style={{flexDirection : "row" , alignItems : "center"}}>
+                <Image
+                source={icons.calendar}
+                style={styles.inputIcon}  />
+                <DateTimePicker
+                value={selectedDate}
+                mode="date"
+                
+                display="calendar"
+                onChange={onChangeDate}
+                style={{top : 0 , left : 5}}
+              />
+                  </View>
+                  <Image 
+                  source={icons.dropdown}
+                  style={styles.inputIcon}
+                  />
+                </View>
+               : 
+               null 
+            }
+
+            {showDatePicker && Platform.OS == "android" && (
               <DateTimePicker
                 value={selectedDate}
                 mode="date"
@@ -293,4 +325,17 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     tintColor: "white",
   },
+  datePickerField : { 
+     flexDirection : "row" , 
+     justifyContent : "space-between", 
+     alignItems : "center",
+     borderBottomWidth : 1,
+     paddingBottom : 10,
+     marginVertical : 10
+  },
+  inputIcon : { 
+    height : 20, 
+    width : 20 ,
+    resizeMode : "contain"
+  }
 });

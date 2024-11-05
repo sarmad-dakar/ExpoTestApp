@@ -72,6 +72,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
     );
     const selectedDate = moment(new Date());
 
+
     if (currentDate.isBefore(selectedDate) && item.isAvailable) {
       return colors.expiredSeesion;
     }
