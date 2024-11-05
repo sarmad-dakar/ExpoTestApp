@@ -106,6 +106,7 @@ const BookingDetailScreen = () => {
   useEffect(() => {
     if (bookingType) {
       getAmountDue();
+      sortTheSelectedPlayers();
     }
   }, [bookingType, checkedPlayers]);
 
@@ -114,6 +115,22 @@ const BookingDetailScreen = () => {
       validateBookingButton(playersAmountData);
     }
   }, [playersAmountData]);
+
+  const sortTheSelectedPlayers = () => {
+    // Filter out the checked players from the selected players
+    const remainingPlayers = selectedPlayers.filter(
+      (item) =>
+        !checkedPlayers.some(
+          (checked) => checked.memberCode === item.memberCode
+        )
+    );
+
+    // Concatenate checked players at the start, followed by remaining players
+    const sortedPlayers = [...checkedPlayers, ...remainingPlayers];
+
+    // Update state with the sorted list
+    setSelectedPlayers(sortedPlayers);
+  };
 
   const calculateMaxPlayers = () => {
     const maximumPlayers =
@@ -161,7 +178,7 @@ const BookingDetailScreen = () => {
       });
       data.PlayerCodes = currentPlayers;
     }
-    console.log(data, "Amount data...");
+    console.log(data, "Amount API data...");
     const response = await FetchAmountDue(data);
     const amounts = response.data.data;
     console.log(amounts, "amount data");
@@ -299,6 +316,11 @@ const BookingDetailScreen = () => {
       router.back();
     }
     console.log(response.data, "Data of booking");
+  };
+
+  const showValuePrice = (item) => {
+    console.log(item, "item");
+    console.log(playersAmountData, "players amount data");
   };
 
   return (
