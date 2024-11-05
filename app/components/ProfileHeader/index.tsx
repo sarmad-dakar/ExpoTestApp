@@ -15,6 +15,7 @@ import { updateProfilePic } from "@/app/api/Auth";
 import { useAppDispatch } from "@/app/screens/HomeScreens/LandingScreen";
 import { fetchuserProfile } from "@/app/store/slices/userSlice";
 import { router } from "expo-router";
+import moment from "moment";
 
 type headerProps = {
   title: string;
@@ -41,12 +42,20 @@ const ProfileHeader = ({ title, image }: headerProps) => {
 
     if (!result.canceled) {
       const selectedPhoto = result.assets[0];
+     console.log(selectedPhoto , " selected photo ")
+
       let data = {
         uri: selectedPhoto.uri,
         type: selectedPhoto.mimeType,
         name: selectedPhoto.fileName,
-        fieldName: "file",
+        // fieldName: "file",
       };
+      if (!data?.name) { 
+        var newName = data.uri?.split("/")
+        var lastname = newName[newName?.length - 1]
+        data.name = lastname
+      }
+      console.log(data)
       const formData = new FormData();
       formData.append("file", data);
 
@@ -106,7 +115,7 @@ const styles = StyleSheet.create({
     // justifyContent: "space-between",
     // flexDirection: "row",
     paddingHorizontal: 20,
-    paddingTop: 40,
+    paddingTop: 55,
     paddingBottom: 15,
   },
   logo: {
