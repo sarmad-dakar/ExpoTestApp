@@ -14,6 +14,7 @@ import {
   StyleSheet,
   Dimensions,
   Image,
+  Platform,
 } from "react-native";
 import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
 import { icons } from "@/app/MyAssets";
@@ -116,7 +117,7 @@ const AddChildrenPopup = forwardRef<AddChildrenPopupRef, AddChildrenPopupProps>(
             { transform: [{ translateY }] }, // Animated slide-up
           ]}
         >
-          {showDatePicker && (
+          {showDatePicker && Platform.OS == "android" && (
             <DateTimePicker
               value={new Date()}
               mode="date"
@@ -136,14 +137,42 @@ const AddChildrenPopup = forwardRef<AddChildrenPopupRef, AddChildrenPopupProps>(
               onChangeText={setChildren}
               placeholder="Add Children Name"
             />
-            <InputField
-              // style={{ width: 250 }}
-              dropdown={true}
-              onPress={() => setShowDatePicker(true)}
-              icon={icons.calendar}
-              rightIcon={icons.dropdown}
-              value={date}
+         {
+          Platform.OS =="android" ? 
+          <InputField
+          // style={{ width: 250 }}
+          dropdown={true}
+          onPress={() => setShowDatePicker(true)}
+          icon={icons.calendar}
+          rightIcon={icons.dropdown}
+          value={date}
+        />
+        :
+        null
+         }
+
+{
+              Platform.OS == "ios" ? 
+              <View style={styles.datePickerField}>
+                <View style={{flexDirection : "row" , alignItems : "center"}}>
+                <Image
+                source={icons.calendar}
+                style={styles.inputIcon}  />
+                 <DateTimePicker
+              value={moment(date , "MM/DD/YYYY").toDate()}
+              mode="date"
+              display="default"
+              onChange={onChangeDate}
             />
+                  </View>
+                  <Image 
+                  source={icons.dropdown}
+                  style={styles.inputIcon}
+                  />
+                </View>
+               : 
+               null 
+            }
 
             <MainButton title="Save" onPress={onSave} />
           </View>
@@ -233,6 +262,19 @@ const styles = StyleSheet.create({
     width: 100,
     height: 25,
   },
+  datePickerField : { 
+    flexDirection : "row" , 
+    justifyContent : "space-between", 
+    alignItems : "center",
+    borderBottomWidth : 1,
+    paddingBottom : 10,
+    marginVertical : 10
+ },
+ inputIcon : { 
+   height : 20, 
+   width : 20 ,
+   resizeMode : "contain"
+ }
 });
 
 export default AddChildrenPopup;
