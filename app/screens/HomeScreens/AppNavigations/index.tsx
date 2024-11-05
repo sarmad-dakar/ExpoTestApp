@@ -22,7 +22,10 @@ const AppNavigationScreen = () => {
       name: "Notification",
       onPress: () => router.navigate("/homestack/notifications"),
     },
-    { name: "My Bookings" },
+    // {
+    //   name: "My Bookings",
+    //   onPress: () => router.navigate("/(tabs)/index"),
+    // },
     {
       name: "My Accounts",
       onPress: () => router.navigate("/navigationstack/myaccount"),
