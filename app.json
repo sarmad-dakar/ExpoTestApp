@@ -14,7 +14,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.marsasports"
+      "bundleIdentifier": "com.dakar.marsasports"
     },
     "android": {
       "adaptiveIcon": {
