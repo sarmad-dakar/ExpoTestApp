@@ -83,6 +83,12 @@ const ProfileScreen = () => {
 
   const handleCancel = () => {
     setEditableUser(user); // Revert to Redux state
+    if (user?.children) {
+      setCurrentChildren(user.children);
+    }
+    if (user?.carInfo) {
+      setCurrentCars(user.carInfo);
+    }
     setIsEdited(false); // Hide Save and Cancel buttons
   };
 
