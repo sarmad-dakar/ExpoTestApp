@@ -11,6 +11,7 @@ import BerlingskeBold from "../TextWrapper/BerlingskeBold";
 import { colors } from "@/app/utils/theme";
 import moment from "moment";
 import { icons } from "@/app/MyAssets";
+import { vh } from "@/app/utils/units";
 
 // Define interfaces for the item and data props
 interface SessionItem {
@@ -361,8 +362,8 @@ const styles = StyleSheet.create({
   },
   greenLight: {
     backgroundColor: "#AAFF00",
-    height: 13,
-    width: 13,
+    height: vh*1.2,
+    width: vh*1.2,
     borderRadius: 100,
     position: "absolute",
     top: 5,
