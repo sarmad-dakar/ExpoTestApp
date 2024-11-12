@@ -290,6 +290,8 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
                             }}
                           >
                             <TouchableOpacity
+                                hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }} // Adjust hitSlop as needed
+
                               onPress={() => handleSelection(item)}
                               style={styles.checkbox}
                             >
