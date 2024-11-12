@@ -6,6 +6,7 @@ import {
   ImageSourcePropType,
   TouchableOpacity,
   Platform,
+  Pressable,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { colors } from "@/app/utils/theme";
@@ -26,6 +27,7 @@ import DateTimePicker, {
 } from "@react-native-community/datetimepicker";
 import moment from "moment";
 import { useSelector } from "react-redux";
+import TopupConfirmationPopup from "../TopupConfirmationPopup";
 interface Sport {
   sportServiceSetting: {
     title: string;
@@ -71,6 +73,8 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
   const [OtherSports, SetOtherSports] = useState([]);
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const topupConfirmationRef = useRef<ConfirmationPopupRef>(null);
+  const balance = useSelector((state: any) => state.account.balance);
 
   const dropdown = useRef<SelectDropdownRef>(null);
 
@@ -95,6 +99,10 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
     setSelectedDate(selectedDate);
     // getCalendarData(selectedDate, selectedSport);
     // setDate(currentDate);
+  };
+
+  const handlePress = () => {
+    topupConfirmationRef.current?.show();
   };
 
   return (
@@ -127,12 +135,33 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
         <BerlingskeMedium style={styles.selectedSport}>
           {selectedSport?.sportServiceSetting?.title} Bookings
         </BerlingskeMedium>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={onNotificationPress}
           style={styles.iconContainer}
         >
           <Image source={icons.notificationIcon} style={styles.icon} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+        <Pressable
+          onPress={handlePress}
+          style={{
+            width: 60,
+            height: 50,
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+        >
+          <Image
+            source={icons.euro}
+            style={{
+              width: 17,
+              height: 17,
+              resizeMode: "contain",
+              marginRight: 5,
+              tintColor: "white",
+            }}
+          />
+          <Text style={{ color: "white", fontSize: 12 }}>{balance}</Text>
+        </Pressable>
       </View>
 
       <View
@@ -170,23 +199,20 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
             <BerlingskeBold style={styles.slotTitle}>
               Find Your Slot
             </BerlingskeBold>
-          {
-            Platform.OS == "android" ?  
-            <InputField
-            // style={{ width: 250 }}
-            dropdown={true}
-            onPress={() => setShowDatePicker(true)}
-            icon={icons.calendar}
-            rightIcon={icons.dropdown}
-            value={moment(selectedDate).format("DD/MM/YYYY")}
-          />
-           : null
-          }
+            {Platform.OS == "android" ? (
+              <InputField
+                // style={{ width: 250 }}
+                dropdown={true}
+                onPress={() => setShowDatePicker(true)}
+                icon={icons.calendar}
+                rightIcon={icons.dropdown}
+                value={moment(selectedDate).format("DD/MM/YYYY")}
+              />
+            ) : null}
 
             {/* For Ios Only */}
 
-            {
-              Platform.OS == "ios" ? 
+            {Platform.OS == "ios" ? (
               <View style={styles.datePickerField}>
                 <View style={{flexDirection : "row" , alignItems : "center"}}>
                 <Image
@@ -206,9 +232,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
                   style={styles.inputIcon}
                   />
                 </View>
-               : 
-               null 
-            }
+            ) : null}
 
             {showDatePicker && Platform.OS == "android" && (
               <DateTimePicker
@@ -244,6 +268,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
         reference={dropdown}
         values={[{ value: "test", label: "test" }]}
       />
+      <TopupConfirmationPopup reference={topupConfirmationRef} />
     </View>
   );
 };
@@ -325,17 +350,17 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     tintColor: "white",
   },
-  datePickerField : { 
-     flexDirection : "row" , 
-     justifyContent : "space-between", 
-     alignItems : "center",
-     borderBottomWidth : 1,
-     paddingBottom : 10,
-     marginVertical : 10
+  datePickerField: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    paddingBottom: 10,
+    marginVertical: 10,
   },
-  inputIcon : { 
-    height : 20, 
-    width : 20 ,
-    resizeMode : "contain"
-  }
+  inputIcon: {
+    height: 20,
+    width: 20,
+    resizeMode: "contain",
+  },
 });

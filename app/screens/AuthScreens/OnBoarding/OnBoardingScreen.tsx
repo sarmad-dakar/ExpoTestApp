@@ -92,7 +92,7 @@ const OnBoardingScreen = () => {
           imageStyle={{ width: "100%", height: "100%", resizeMode: "cover" }}
         >
           <View style={styles.bottomContainer}>
-            <BerlingskeMedium style={styles.heading}>Padel</BerlingskeMedium>
+            <BerlingskeMedium style={styles.heading}>Cricket</BerlingskeMedium>
             <Text style={styles.subText}>
               The Marsa Sports Club is a multi-sport facility offering an array
               of exciting activities for sports enthusiasts. Whether you’re

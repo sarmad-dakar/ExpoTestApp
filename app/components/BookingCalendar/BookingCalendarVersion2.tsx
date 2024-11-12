@@ -1,5 +1,6 @@
 import {
   Image,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -12,6 +13,7 @@ import { colors } from "@/app/utils/theme";
 import moment from "moment";
 import { icons } from "@/app/MyAssets";
 import { vh } from "@/app/utils/units";
+import ImageView from "react-native-image-viewing";
 
 // Define interfaces for the item and data props
 interface SessionItem {
@@ -25,7 +27,7 @@ interface CourtSession {
   title: string;
   courtType: string;
   session: SessionItem[];
-  resources: string;
+  resources: string[];
 }
 
 interface BookingData {
@@ -46,14 +48,59 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
 }) => {
   const [currentCourts, setCurrentCourts] = useState<CourtSession[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0); // Tracks the current index for the courts
+  const [selectedCourtResources, setSelectedCourtResources] = useState([]);
+  const [showImageViewer, setShowImageViewer] = useState(false);
+  const [galleryImages, setGalleryImages] = useState([]);
+  const [showGalleryViewer, setGalleryViewer] = useState(false);
+  const [greenSlotTime, setGreenSlotTime] = useState("");
 
   const COURTS_PER_PAGE = 3; // You display 3 courts at a time
 
   useEffect(() => {
+    extractGreenSlotTime();
     const initialCourts = data.bookingSessions.slice(0, COURTS_PER_PAGE);
     setCurrentCourts(initialCourts);
     setCurrentIndex(0);
+    sortGallery();
   }, [data]);
+
+  const sortGallery = () => {
+    let tempArr = [];
+    data.bookingSessions.map((item) => {
+      item.resources.map((element) => {
+        tempArr.push({ uri: element });
+      });
+    });
+    setGalleryImages(tempArr);
+  };
+
+  const extractGreenSlotTime = () => {
+    const timeSlots = data.timeSlots;
+    const selectedDate = moment(date); // Moment object for the selected date
+    const currentTime = moment(); // Moment object for the current time
+
+    let tempArr = [];
+    // Iterate over time slots to find the first available slot
+    for (const slot of timeSlots) {
+      // Parse each time slot into a full Date object with the selected date
+      const [hours, minutes] = slot.match(/\d+/g).map(Number);
+      const isPM = slot.includes("pm");
+      const slotDateTime = selectedDate.clone(); // Clone to avoid modifying selectedDate
+
+      slotDateTime
+        .hours(isPM ? (hours % 12) + 12 : hours % 12)
+        .minutes(minutes)
+        .seconds(0);
+
+      // Check if this slot is after the current time
+      if (slotDateTime.isAfter(currentTime)) {
+        console.log(slot); // Return the first available slot time
+        tempArr.push(slot);
+      }
+    }
+    setGreenSlotTime(tempArr[0]);
+    return null; // Return null if no available slot is found
+  };
 
   const getColor = (item: SessionItem) => {
     if (!item.isAvailable && !item.icon) {
@@ -71,7 +118,6 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
       "DD-MM-YYYY hh:mma"
     );
     const selectedDate = moment(new Date());
-
 
     if (currentDate.isBefore(selectedDate) && item.isAvailable) {
       return colors.expiredSeesion;
@@ -143,38 +189,62 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
     const condition = getText(item);
     if (condition == "+") {
       return false;
-    } else {
+    }
+    if (condition == "Booked") {
+      return false;
+    }
+    return true;
+  };
+  const isAvailableTimeSlot = (timeSlot: string, timeSlots: string[]) => {
+    if (timeSlot == greenSlotTime) {
       return true;
+    } else {
+      return false;
     }
   };
 
-  const isAvailableTimeSlot = (timeSlot: string, timeSlots: string[]) => {
-    const currentTime = new Date();
+  const handleCourtPress = (item) => {
+    let data = [];
+    item.resources.map((item: String) => {
+      let obj = {
+        uri: item,
+      };
+      data.push(obj);
+    });
+    setSelectedCourtResources(data);
+    setShowImageViewer(true);
+  };
 
-    if (timeSlot && timeSlots.length) {
-      // Find the first available slot after current time
-      const firstAvailableIndex = timeSlots.findIndex((slot: string) => {
-        const [hours, minutes] = slot.match(/\d+/g).map(Number);
-        const isPM = slot.includes("pm");
-
-        // Create a new Date object for the slot time
-        const slotDate = new Date(currentTime);
-        slotDate.setHours(isPM ? (hours % 12) + 12 : hours % 12);
-        slotDate.setMinutes(minutes);
-
-        return slotDate > currentTime;
-      });
-
-      return timeSlot === timeSlots[firstAvailableIndex];
-    }
-
-    return false;
+  const handleGalleryPress = () => {
+    setGalleryViewer(true);
   };
 
   return (
     <View style={{ flex: 1, width: "95%" }}>
       <BerlingskeBold>Book Your Slots</BerlingskeBold>
+      <ImageView
+        images={selectedCourtResources}
+        imageIndex={0}
+        visible={showImageViewer}
+        onRequestClose={() => setShowImageViewer(false)}
+      />
 
+      <ImageView
+        images={galleryImages}
+        imageIndex={0}
+        visible={showGalleryViewer}
+        presentationStyle="overFullScreen"
+        onRequestClose={() => setGalleryViewer(false)}
+        FooterComponent={({ imageIndex }) => {
+          return (
+            <View style={{ alignSelf: "center", bottom: 40 }}>
+              <Text style={{ color: "white" }}>
+                {imageIndex} / {galleryImages.length}
+              </Text>
+            </View>
+          );
+        }}
+      />
       <View style={styles.btnContainer}>
         {/* Previous button */}
         <TouchableOpacity
@@ -238,10 +308,31 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
       </View>
 
       <View style={{ height: 38, width: "100%", flexDirection: "row" }}>
-        <View style={{ flex: 1, backgroundColor: "#E0E0E0" }}></View>
+        <TouchableOpacity
+          onPress={handleGalleryPress}
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            backgroundColor: "#E0E0E0",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Image
+            source={icons.gallery}
+            style={{
+              width: 20,
+              height: 20,
+              resizeMode: "contain",
+              marginRight: 5,
+            }}
+          />
+          <Text style={{ fontSize: 12 }}>Gallery</Text>
+        </TouchableOpacity>
         {currentCourts.map((item) => (
-          <View
+          <Pressable
             key={item.title}
+            onPress={() => handleCourtPress(item)}
             style={{
               flex: 1,
               backgroundColor: colors.secondary,
@@ -250,7 +341,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
             }}
           >
             <Text>{item.title}</Text>
-          </View>
+          </Pressable>
         ))}
       </View>
 

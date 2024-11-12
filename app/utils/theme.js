@@ -7,7 +7,7 @@ export const colors = {
   inputBorders: "gray",
   placeholder: "",
   green: "#037A36",
-  red: "#DA020E",
+  red: "#dc4646",
   lightShade: "#F2F2F2",
   gray: "#00000057",
   transparentShade: "#0a3b57",
