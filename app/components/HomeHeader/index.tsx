@@ -195,7 +195,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
                 <DateTimePicker
                 value={selectedDate}
                 mode="date"
-                
+                key={moment(selectedDate).format("DD/MM/YYYY")}
                 display="calendar"
                 onChange={onChangeDate}
                 style={{top : 0 , left : 5}}
