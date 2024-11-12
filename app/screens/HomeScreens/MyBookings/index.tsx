@@ -317,6 +317,7 @@ const MyBookingsScreen: React.FC = () => {
       <BookingConfirmationPopup
         reference={bookingConfirmationRef}
         onAccept={onConfirmedCancel}
+        cancel={true}
       />
       {loading ? (
         <View style={styles.loader}>

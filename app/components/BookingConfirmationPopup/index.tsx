@@ -34,6 +34,7 @@ export type BookingConfirmationPopupRef = {
 type BookingConfirmationPopupProps = {
   onAccept: (item: any) => void;
   reference?: RefObject<BookingConfirmationPopupRef>; // Optional if passing forwardRef
+  cancel?: boolean;
 };
 
 const BookingConfirmationPopup = forwardRef<
@@ -112,8 +113,11 @@ const BookingConfirmationPopup = forwardRef<
       >
         {/* Bottom sheet content */}
         <View style={styles.content}>
-          <BerlingskeBold>Confirm Booking</BerlingskeBold>
-          <Text>Please provide pin to book this session ?</Text>
+          <BerlingskeBold>Confirmation</BerlingskeBold>
+          <Text>
+            Please provide pin to {props.cancel ? "cancel" : "book"} this
+            session ?
+          </Text>
 
           <InputField
             // keyboardType="number-pad"

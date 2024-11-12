@@ -48,6 +48,7 @@ export const icons = {
   defaultUser: require("./icons/defaultUser.png"),
   types: require("./icons/list.png"),
   message: require("./icons/chat.png"),
+  gallery: require("./icons/gallery.png"),
 };
 
 export const images = {

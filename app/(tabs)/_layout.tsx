@@ -2,7 +2,14 @@ import { Tabs } from "expo-router";
 import React from "react";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { vh, vw } from "../utils/units";
 import { icons, images } from "../MyAssets";
 import { colors } from "../utils/theme";
@@ -97,12 +104,12 @@ export default function TabLayout() {
         options={{ title: "My Bookings", tabBarIcon: icons.calendar }}
       />
       <Tabs.Screen
-        name="navigationstack"
-        options={{ title: "Navigations", tabBarIcon: icons.hamburger }}
+        name="notifications"
+        options={{ title: "Notifications", tabBarIcon: icons.notificationIcon }}
       />
       <Tabs.Screen
-        name="myprofile"
-        options={{ title: "My Profile", tabBarIcon: icons.user }}
+        name="navigationstack"
+        options={{ title: "Navigations", tabBarIcon: icons.hamburger }}
       />
     </Tabs>
   );
@@ -120,7 +127,7 @@ const styles = StyleSheet.create({
   },
   tab: {
     // width: vw * 20,
-    marginHorizontal: Platform.OS == "android" ? 10 :  18,
+    marginHorizontal: Platform.OS == "android" ? 10 : 18,
     justifyContent: "center",
     alignItems: "center",
   },

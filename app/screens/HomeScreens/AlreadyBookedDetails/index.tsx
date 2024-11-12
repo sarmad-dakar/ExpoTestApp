@@ -4,17 +4,25 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import GeneralHeader from "@/app/components/GeneralHeader";
 import BerlingskeBold from "@/app/components/TextWrapper/BerlingskeBold";
 import { icons } from "@/app/MyAssets";
-import { useLocalSearchParams } from "expo-router";
-import { GetAlreadyBookedDetails } from "@/app/api/Bookings";
+import { router, useLocalSearchParams } from "expo-router";
+import { CancelBooking, GetAlreadyBookedDetails } from "@/app/api/Bookings";
 import { colors } from "@/app/utils/theme";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
+import BerlingskeMedium from "@/app/components/TextWrapper/BerlingskeMedium";
+import moment from "moment";
+import { ConfirmationPopupRef } from "@/app/components/ConfirmationPopup";
+import BookingConfirmationPopup from "@/app/components/BookingConfirmationPopup";
+import { fetchRemainingBalance } from "@/app/store/slices/accountSlice";
+import { useAppDispatch } from "../LandingScreen";
+import { toggleBtnLoader } from "@/app/store/slices/generalSlice";
 
 const DetailComponent = ({ label, value }: any) => {
   return (
@@ -38,23 +46,71 @@ const sportsIcon = {
 const AlreadyBookedDetails = () => {
   const bookingData = JSON.parse(useLocalSearchParams()?.bookingData);
   const [bookingDetails, setBookingDetails] = useState();
-  const loading = useSelector(
-    (state: RootState) => state.general.generalLoader
-  );
+  const bookingConfirmationRef = useRef<ConfirmationPopupRef>(null);
+  const dispatch = useAppDispatch();
+
+  const loading = useSelector((state: RootState) => state.general.btnLoader);
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
-    let data = {
-      id: bookingData.id,
-      sport: bookingData.sport,
-    };
-    const response = await GetAlreadyBookedDetails(data);
-    setBookingDetails(response.data.data);
+    try {
+      let data = {
+        id: bookingData.id,
+        sport: bookingData.sport,
+      };
+      dispatch(toggleBtnLoader(true));
+      const response = await GetAlreadyBookedDetails(data);
+      dispatch(toggleBtnLoader(false));
+
+      setBookingDetails(response.data.data);
+    } catch (error) {
+      dispatch(toggleBtnLoader(false));
+    }
   };
+
+  const shouldCancelVisible = () => {
+    if (bookingDetails) {
+      const bookingDate = moment(
+        `${bookingDetails.bookingSessionDate} ${bookingDetails.bookingSessionTimeFrom}`,
+        "DD/MM/YYYY hh:mma"
+      );
+      const currentDate = moment();
+      console.log(bookingDate.diff(currentDate, "hours"), "time diff");
+
+      return bookingDate.diff(currentDate, "hours") >= 10;
+    }
+  };
+
+  const capitalizeFirstLetter = (word) => {
+    if (!word) return ""; // Handle empty or undefined input
+    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+  };
+
+  const onConfirmedCancel = async (pin: string) => {
+    const data = {
+      key: bookingData.id,
+      pin: pin,
+      section: capitalizeFirstLetter(bookingData?.sport),
+    };
+    const response = await CancelBooking(data);
+    setTimeout(() => {
+      dispatch(fetchRemainingBalance());
+    }, 1000);
+    console.log(response.data, "Response of cancel");
+    if (response.data.msgCode == "200") {
+      console.log("fetch again");
+      router.back();
+    }
+  };
+
   return (
     <View style={{ flex: 1 }}>
+      <BookingConfirmationPopup
+        reference={bookingConfirmationRef}
+        onAccept={onConfirmedCancel}
+      />
       <GeneralHeader
         sport={{
           name: bookingData.sport,
@@ -70,9 +126,25 @@ const AlreadyBookedDetails = () => {
       ) : (
         <ScrollView contentContainerStyle={{ paddingHorizontal: 20 }}>
           {/* Booking Info */}
-          <View style={[styles.rowDirection]}>
-            <Image source={icons.clock} style={styles.logo} />
-            <BerlingskeBold>Session</BerlingskeBold>
+          <View
+            style={[styles.rowDirection, { justifyContent: "space-between" }]}
+          >
+            <View style={styles.rowDirection}>
+              <Image source={icons.clock} style={styles.logo} />
+              <BerlingskeBold>Session</BerlingskeBold>
+            </View>
+            {shouldCancelVisible() ? (
+              <TouchableOpacity
+                onPress={() => bookingConfirmationRef.current?.show()}
+                style={styles.cancelBtn}
+              >
+                <Text
+                  style={{ fontWeight: "bold", color: "white", fontSize: 13 }}
+                >
+                  Cancel Booking
+                </Text>
+              </TouchableOpacity>
+            ) : null}
           </View>
 
           {bookingDetails && (
@@ -233,5 +305,13 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: "center",
     fontSize: 14,
+  },
+  cancelBtn: {
+    height: 35,
+    width: 120,
+    backgroundColor: colors.red,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 5,
   },
 });

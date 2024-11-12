@@ -40,7 +40,7 @@ const GeneralHeader = ({ title, back, sport }: headerProps) => {
   return (
     <View style={styles.container}>
       {back ? (
-        <TouchableOpacity onPress={() => router.back()}>
+        <TouchableOpacity style={{ width: 60 }} onPress={() => router.back()}>
           <Image source={icons.back} style={styles.backIcon} />
         </TouchableOpacity>
       ) : (
@@ -62,27 +62,23 @@ const GeneralHeader = ({ title, back, sport }: headerProps) => {
       <Pressable
         onPress={handlePress}
         style={{
-          width: back ? 22 : 60,
+          width: 60,
           height: 50,
           alignItems: "center",
           flexDirection: "row",
         }}
       >
-        {!back ? (
-          <Image
-            source={icons.euro}
-            style={{
-              width: 17,
-              height: 17,
-              resizeMode: "contain",
-              marginRight: 5,
-              tintColor: "white",
-            }}
-          />
-        ) : null}
-        {!back ? (
-          <Text style={{ color: "white", fontSize: 12 }}>{balance}</Text>
-        ) : null}
+        <Image
+          source={icons.euro}
+          style={{
+            width: 17,
+            height: 17,
+            resizeMode: "contain",
+            marginRight: 5,
+            tintColor: "white",
+          }}
+        />
+        <Text style={{ color: "white", fontSize: 12 }}>{balance}</Text>
       </Pressable>
       <TopupConfirmationPopup reference={topupConfirmationRef} />
     </View>

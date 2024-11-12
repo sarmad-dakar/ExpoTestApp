@@ -27,7 +27,7 @@ import { fetchMyProfile, fetchuserProfile } from "@/app/store/slices/userSlice";
 import { AnyAction, ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { RootState } from "@/app/store";
 import type { AppDispatch } from "@/app/store/index"; // Path to your store.ts
-import { FetchCalendarData } from "@/app/api/Bookings";
+import { CancelBooking, FetchCalendarData } from "@/app/api/Bookings";
 import moment from "moment";
 import { vh, vw } from "@/app/utils/units";
 import { colors } from "@/app/utils/theme";
@@ -35,6 +35,10 @@ import BookingCalendarVersion2 from "@/app/components/BookingCalendar/BookingCal
 import { fetchCurrentSports } from "@/app/store/slices/bookingSlice";
 import { useFocusEffect } from "expo-router";
 import { fetchRemainingBalance } from "@/app/store/slices/accountSlice";
+import BookingDetailsPopup from "@/app/components/BookingDetailsPopup";
+import BookingConfirmationPopup, {
+  BookingConfirmationPopupRef,
+} from "@/app/components/BookingConfirmationPopup";
 
 // Define types for calendar data and booking sessions
 interface CalendarData {
@@ -59,6 +63,8 @@ export const useAppDispatch: () => AppDispatch = useDispatch;
 
 const LandingScreen = () => {
   const confirmationPopup = useRef<ConfirmationPopupRef>(null);
+  const bookingDetailsPopup = useRef<BookingConfirmationPopupRef>(null);
+
   const dispatch = useAppDispatch();
 
   const sports = useSelector((state: RootState) => state?.account?.sportsData);
@@ -66,6 +72,10 @@ const LandingScreen = () => {
   const [calendarData, setCalendarData] = useState<CalendarData | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [SelectedSport, setSelectedSport] = useState<Sport>();
+
+  const [selectedBookingKey, setSelectedBookingKey] = useState("");
+
+  const bookingConfirmationRef = useRef<ConfirmationPopupRef>(null);
 
   const loader = useSelector(
     (state: RootState) => state.general?.generalLoader
@@ -156,7 +166,41 @@ const LandingScreen = () => {
   //@ts-ignore
   const onBookingPress = (court, session) => {
     //@ts-ignore
+    console.log(session, "session");
+    if (session.players) {
+      setSelectedBookingKey(session.key);
+      return bookingDetailsPopup.current?.show(
+        session.key,
+        SelectedSport?.sportServiceSetting.title
+      );
+    }
+    console.log(session, "Session of booking");
     confirmationPopup.current?.show(court, session, selectedDate);
+  };
+
+  const onCancelBookingPress = (item: Session) => {
+    bookingDetailsPopup.current?.hide();
+    setTimeout(() => {
+      bookingConfirmationRef.current?.show();
+    }, 500);
+  };
+
+  const onConfirmedCancel = async (pin: string) => {
+    const data = {
+      key: selectedBookingKey,
+      pin: pin,
+      section: SelectedSport?.sportServiceSetting.title,
+    };
+    const response = await CancelBooking(data);
+    setTimeout(() => {
+      dispatch(fetchRemainingBalance());
+    }, 1000);
+    if (response.data.msgCode == "200") {
+      console.log("fetch again");
+      getCalendarData(selectedDate, SelectedSport);
+    }
+
+    console.log(response.data, "response of cancel");
   };
 
   return (
@@ -195,6 +239,16 @@ const LandingScreen = () => {
       <ConfirmationPopup
         reference={confirmationPopup}
         onAccept={onAcceptBooking}
+      />
+
+      <BookingConfirmationPopup
+        reference={bookingConfirmationRef}
+        onAccept={onConfirmedCancel}
+        cancel={true}
+      />
+      <BookingDetailsPopup
+        onCancelBookingPress={onCancelBookingPress}
+        reference={bookingDetailsPopup}
       />
       {loader ? (
         <View style={styles.loader}>
