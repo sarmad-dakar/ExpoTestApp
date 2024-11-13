@@ -245,8 +245,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
           );
         }}
       />
-      <View style={styles.btnContainer}>
-        {/* Previous button */}
+      {/* <View style={styles.btnContainer}>
         <TouchableOpacity
           onPress={handlePrevious}
           style={[
@@ -269,7 +268,6 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
           </Text>
         </TouchableOpacity>
 
-        {/* Next button */}
         <TouchableOpacity
           onPress={handleNext}
           style={[
@@ -305,7 +303,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
             ]}
           />
         </TouchableOpacity>
-      </View>
+      </View> */}
 
       <View style={{ height: 38, width: "100%", flexDirection: "row" }}>
         <TouchableOpacity
@@ -329,7 +327,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
           />
           <Text style={{ fontSize: 12 }}>Gallery</Text>
         </TouchableOpacity>
-        {currentCourts.map((item) => (
+        {currentCourts.map((item, index) => (
           <Pressable
             key={item.title}
             onPress={() => handleCourtPress(item)}
@@ -340,6 +338,43 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
               justifyContent: "center",
             }}
           >
+            {index == 0 ? (
+              <TouchableOpacity
+                onPress={handlePrevious}
+                style={{ position: "absolute", left: 3 }}
+              >
+                <Image
+                  source={icons.backArrow}
+                  style={{
+                    height: 12,
+                    width: 12,
+                    resizeMode: "contain",
+                    tintColor: currentIndex == 0 ? "gray" : "black",
+                  }}
+                />
+              </TouchableOpacity>
+            ) : null}
+            {index == 2 ? (
+              <TouchableOpacity
+                onPress={handleNext}
+                style={{ position: "absolute", right: 3 }}
+              >
+                <Image
+                  source={icons.nextArrow}
+                  style={{
+                    height: 12,
+                    width: 12,
+                    resizeMode: "contain",
+
+                    tintColor:
+                      currentIndex + COURTS_PER_PAGE >=
+                      data.bookingSessions.length
+                        ? "gray"
+                        : "black",
+                  }}
+                />
+              </TouchableOpacity>
+            ) : null}
             <Text>{item.title}</Text>
           </Pressable>
         ))}
