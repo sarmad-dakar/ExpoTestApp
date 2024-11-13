@@ -214,18 +214,24 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
 
             {Platform.OS == "ios" ? (
               <View style={styles.datePickerField}>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Image source={icons.calendar} style={styles.inputIcon} />
-                  <DateTimePicker
-                    value={selectedDate}
-                    mode="date"
-                    display="calendar"
-                    onChange={onChangeDate}
-                    style={{ top: 0, left: 5 }}
+                <View style={{flexDirection : "row" , alignItems : "center"}}>
+                <Image
+                source={icons.calendar}
+                style={styles.inputIcon}  />
+                <DateTimePicker
+                value={selectedDate}
+                mode="date"
+                key={moment(selectedDate).format("DD/MM/YYYY")}
+                display="calendar"
+                onChange={onChangeDate}
+                style={{top : 0 , left : 5}}
+              />
+                  </View>
+                  <Image 
+                  source={icons.dropdown}
+                  style={styles.inputIcon}
                   />
                 </View>
-                <Image source={icons.dropdown} style={styles.inputIcon} />
-              </View>
             ) : null}
 
             {showDatePicker && Platform.OS == "android" && (
