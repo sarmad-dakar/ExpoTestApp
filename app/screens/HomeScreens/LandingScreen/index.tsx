@@ -225,7 +225,7 @@ const LandingScreen = () => {
           paddingBottom: calendarData?.timeSlots?.length * 30 || 100,
         }}
       > */}
-      <View style={{ flex: 1, padding: 10 }}>
+      <ScreenWrapper noPadding={true}>
         {calendarData ? (
           <BookingCalendarVersion2
             onBookingPress={onBookingPress}
@@ -233,7 +233,7 @@ const LandingScreen = () => {
             date={selectedDate}
           />
         ) : null}
-      </View>
+      </ScreenWrapper>
       {/* <AvailableSlots handleBooking={handleBooking} /> */}
       {/* </ScrollView> */}
       <ConfirmationPopup

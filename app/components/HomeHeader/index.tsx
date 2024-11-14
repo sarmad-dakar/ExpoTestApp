@@ -132,7 +132,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
             </Text>
           )}
         </View>
-        <BerlingskeMedium style={styles.selectedSport}>
+        <BerlingskeMedium style={[styles.selectedSport, { fontSize: 19 }]}>
           {selectedSport?.sportServiceSetting?.title} Bookings
         </BerlingskeMedium>
         {/* <TouchableOpacity
@@ -196,9 +196,9 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
         </View>
         <View style={styles.slotWrapper}>
           <View style={styles.slotContainer}>
-            <BerlingskeBold style={styles.slotTitle}>
+            <BerlingskeMedium style={styles.slotTitle}>
               Find Your Slot
-            </BerlingskeBold>
+            </BerlingskeMedium>
             {Platform.OS == "android" ? (
               <InputField
                 // style={{ width: 250 }}
@@ -214,24 +214,19 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
 
             {Platform.OS == "ios" ? (
               <View style={styles.datePickerField}>
-                <View style={{flexDirection : "row" , alignItems : "center"}}>
-                <Image
-                source={icons.calendar}
-                style={styles.inputIcon}  />
-                <DateTimePicker
-                value={selectedDate}
-                mode="date"
-                key={moment(selectedDate).format("DD/MM/YYYY")}
-                display="calendar"
-                onChange={onChangeDate}
-                style={{top : 0 , left : 5}}
-              />
-                  </View>
-                  <Image 
-                  source={icons.dropdown}
-                  style={styles.inputIcon}
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Image source={icons.calendar} style={styles.inputIcon} />
+                  <DateTimePicker
+                    value={selectedDate}
+                    mode="date"
+                    key={moment(selectedDate).format("DD/MM/YYYY")}
+                    display="calendar"
+                    onChange={onChangeDate}
+                    style={{ top: 0, left: 5 }}
                   />
                 </View>
+                <Image source={icons.dropdown} style={styles.inputIcon} />
+              </View>
             ) : null}
 
             {showDatePicker && Platform.OS == "android" && (
@@ -251,11 +246,12 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
               style={{
                 flexDirection: "row",
                 alignItems: "center",
+                marginTop: 5,
                 // justifyContent: "space-between",
               }}
             >
               <Image source={icons.court} style={styles.courtIcon} />
-              <Text style={{ color: "black", fontSize: 14 }}>
+              <Text style={{ color: "black", fontSize: 13 }}>
                 {`Marsa Sport Club (MSC)\nTennis Booking\n ${moment(
                   selectedDate
                 ).format("DD MMM YYYY")}`}
@@ -278,7 +274,7 @@ export default HomeHeader;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.primary,
-    height: vh * 13,
+    height: vh * 15,
     borderBottomRightRadius: 40,
     justifyContent: "space-between",
     flexDirection: "row",
@@ -294,6 +290,8 @@ const styles = StyleSheet.create({
   },
   selectedSport: {
     color: "white",
+    fontSize: 13,
+    fontWeight: "300",
   },
   bottomHeaderContainer: {
     flexDirection: "row",
@@ -319,7 +317,7 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     backgroundColor: "white",
-    borderTopLeftRadius: 40,
+    borderTopLeftRadius: 30,
     paddingLeft: 30,
     paddingTop: 30,
   },
