@@ -109,7 +109,7 @@ export default function TabLayout() {
       />
       <Tabs.Screen
         name="navigationstack"
-        options={{ title: "Navigations", tabBarIcon: icons.hamburger }}
+        options={{ title: "Menu", tabBarIcon: icons.hamburger }}
       />
     </Tabs>
   );

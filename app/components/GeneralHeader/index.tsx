@@ -32,9 +32,7 @@ const GeneralHeader = ({ title, back, sport }: headerProps) => {
   const topupConfirmationRef = useRef<ConfirmationPopupRef>(null);
 
   const handlePress = () => {
-    if (!back) {
       topupConfirmationRef.current?.show();
-    }
   };
 
   return (
