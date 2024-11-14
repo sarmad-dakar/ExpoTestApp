@@ -70,7 +70,12 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
               ]}
               source={options.tabBarIcon}
             />
-            <Text style={{ color: isFocused ? colors.green : "black" }}>
+            <Text
+              style={{
+                color: isFocused ? colors.green : "black",
+                fontSize: 12,
+              }}
+            >
               {label}
             </Text>
           </TouchableOpacity>
@@ -120,28 +125,27 @@ const styles = StyleSheet.create({
     height: 70,
     backgroundColor: "white",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     width: "100%",
     alignSelf: "center",
     // paddingHorizontal: 10,
   },
   tab: {
     // width: vw * 20,
-    marginHorizontal: Platform.OS == "android" ? 10 : 18,
+    // marginHorizontal: Platform.OS == "android" ? 10 : 18,
     justifyContent: "center",
     alignItems: "center",
   },
   icon: {
-    width: 20,
-    height: 20,
+    width: 18,
+    height: 18,
     resizeMode: "contain",
     marginBottom: 5,
   },
   centralBar: {
-    // backgroundColor: "red",
     position: "absolute",
     height: "100%",
-    width: "94%",
+    width: "85%",
     alignSelf: "center",
   },
   circle: {
@@ -154,7 +158,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     top: "-48%",
     borderRadius: vh * 20,
-    borderWidth: 1,
+    borderWidth: 0.7,
     borderColor: "#0003",
     // padding: "3%",
   },
