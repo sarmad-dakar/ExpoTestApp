@@ -19,6 +19,7 @@ import {
 import BerlingskeBold from "../TextWrapper/BerlingskeBold";
 import { images } from "@/app/MyAssets";
 import moment from "moment";
+import { colors } from "@/app/utils/theme";
 
 // Get screen dimensions
 const { height } = Dimensions.get("window");
@@ -137,10 +138,10 @@ const ConfirmationPopup = forwardRef<
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={[styles.btn, { backgroundColor: "#6AAF2E" }]}
+              style={[styles.btn, { backgroundColor: colors.secondary }]}
               onPress={handleAccept}
             >
-              <Text style={{ color: "white" }}>YES</Text>
+              <Text style={{ color: colors.primary }}>YES</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -164,7 +165,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     padding: 16,
-    height: height * 0.9, // Adjust height as needed
+    // height: height * 0.9, // Adjust height as needed
   },
   content: {
     flex: 1,
