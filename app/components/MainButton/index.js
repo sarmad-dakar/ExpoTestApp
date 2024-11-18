@@ -55,7 +55,7 @@ const MainButton = (props) => {
             styles.buttonText,
             {
               borderRadius: 5,
-              fontSize: props.style?.height ? props.style?.height / 3 : 13,
+              fontSize: props.style?.height ? props.style?.height / 3 : 14,
             },
           ]}
         >

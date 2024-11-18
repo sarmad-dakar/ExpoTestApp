@@ -3,6 +3,7 @@ import {
   Platform,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import React, { useEffect } from "react";
@@ -12,7 +13,9 @@ import { icons, images } from "../../../MyAssets";
 import ScreenWrapper from "../../../components/ScreenWrapper";
 import LogoHeader from "../../../components/LogoHeader";
 import { Link, router, useNavigation } from "expo-router";
-import BerlingskeBold from "../../../components/TextWrapper/BerlingskeBold";
+import ArchivoLight from "../../../components/TextWrapper/ArchivoLight";
+import ArchivoExtraLight from "../../../components/TextWrapper/ArchivoExtraLight";
+
 import Swiper from "react-native-swiper";
 import { colors } from "@/app/utils/theme";
 import BerlingskeMedium from "@/app/components/TextWrapper/BerlingskeMedium";
@@ -34,7 +37,15 @@ const OnBoardingScreen = () => {
   };
   return (
     <View style={styles.container}>
-      <Swiper paginationStyle={{ position: "absolute", bottom: 210 }}>
+      <TouchableOpacity style={styles.skipContainer} onPress={handleNavigation}>
+        <BerlingskeMedium style={styles.skipBtn}>Skip</BerlingskeMedium>
+      </TouchableOpacity>
+      <Swiper
+        activeDotColor="#D4CDC5"
+        dotColor="#0B0C0F"
+        activeDotStyle={{ height: 12, width: 12, borderRadius: 100 }}
+        paginationStyle={{ position: "absolute", bottom: 220 }}
+      >
         <ImageBackground
           style={{ flex: 1 }}
           source={images.tennis_OB}
@@ -42,12 +53,12 @@ const OnBoardingScreen = () => {
         >
           <View style={styles.bottomContainer}>
             <BerlingskeMedium style={styles.heading}>Tennis</BerlingskeMedium>
-            <Text style={styles.subText}>
+            <ArchivoExtraLight style={styles.subText}>
               The Marsa Sports Club is a multi-sport facility offering an array
               of exciting activities for sports enthusiasts. Whether you’re
               passionate about tennis, golf, cricket, squash, padel, or looking
               to try something new, our club has it all.
-            </Text>
+            </ArchivoExtraLight>
             <MainButton title="Book online" onPress={handleNavigation} />
           </View>
         </ImageBackground>
@@ -59,12 +70,12 @@ const OnBoardingScreen = () => {
         >
           <View style={styles.bottomContainer}>
             <BerlingskeMedium style={styles.heading}>Squash</BerlingskeMedium>
-            <Text style={styles.subText}>
+            <ArchivoExtraLight style={styles.subText}>
               The Marsa Sports Club is a multi-sport facility offering an array
               of exciting activities for sports enthusiasts. Whether you’re
               passionate about tennis, golf, cricket, squash, padel, or looking
               to try something new, our club has it all.
-            </Text>
+            </ArchivoExtraLight>
             <MainButton title="Book online" onPress={handleNavigation} />
           </View>
         </ImageBackground>
@@ -76,12 +87,12 @@ const OnBoardingScreen = () => {
         >
           <View style={styles.bottomContainer}>
             <BerlingskeMedium style={styles.heading}>Padel</BerlingskeMedium>
-            <Text style={styles.subText}>
+            <ArchivoExtraLight style={styles.subText}>
               The Marsa Sports Club is a multi-sport facility offering an array
               of exciting activities for sports enthusiasts. Whether you’re
               passionate about tennis, golf, cricket, squash, padel, or looking
               to try something new, our club has it all.
-            </Text>
+            </ArchivoExtraLight>
             <MainButton title="Book online" onPress={handleNavigation} />
           </View>
         </ImageBackground>
@@ -93,12 +104,12 @@ const OnBoardingScreen = () => {
         >
           <View style={styles.bottomContainer}>
             <BerlingskeMedium style={styles.heading}>Cricket</BerlingskeMedium>
-            <Text style={styles.subText}>
+            <ArchivoExtraLight style={styles.subText}>
               The Marsa Sports Club is a multi-sport facility offering an array
               of exciting activities for sports enthusiasts. Whether you’re
               passionate about tennis, golf, cricket, squash, padel, or looking
               to try something new, our club has it all.
-            </Text>
+            </ArchivoExtraLight>
             <MainButton title="Book online" onPress={handleNavigation} />
           </View>
         </ImageBackground>
@@ -115,7 +126,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   bottomContainer: {
-    height: 250,
+    height: 260,
     width: "100%",
     borderTopLeftRadius: 40,
     backgroundColor: "white",
@@ -133,5 +144,14 @@ const styles = StyleSheet.create({
   },
   subText: {
     textAlign: "center",
+  },
+  skipBtn: {
+    color: "white",
+  },
+  skipContainer: {
+    top: 50,
+    right: 20,
+    position: "absolute",
+    zIndex: 100,
   },
 });

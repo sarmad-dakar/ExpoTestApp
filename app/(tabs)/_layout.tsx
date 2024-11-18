@@ -73,7 +73,7 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
             <Text
               style={{
                 color: isFocused ? colors.green : "black",
-                fontSize: 12,
+                fontSize: vh * 1.2,
               }}
             >
               {label}
@@ -122,7 +122,7 @@ export default function TabLayout() {
 
 const styles = StyleSheet.create({
   container: {
-    height: 70,
+    height: vh * 6,
     backgroundColor: "white",
     flexDirection: "row",
     justifyContent: "space-around",
@@ -137,8 +137,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   icon: {
-    width: 18,
-    height: 18,
+    width: vh * 1.8,
+    height: vh * 1.8,
     resizeMode: "contain",
     marginBottom: 5,
   },
@@ -149,8 +149,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   circle: {
-    width: 62,
-    height: 62,
+    width: vh * 6,
+    height: vh * 6,
     backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",

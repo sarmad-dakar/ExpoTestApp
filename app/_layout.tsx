@@ -11,7 +11,7 @@ import "react-native-reanimated";
 import Toast from "react-native-toast-message";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { StatusBar, View } from "react-native";
+import { StatusBar, Text, View } from "react-native";
 import { Provider } from "react-redux";
 import { store } from "./store";
 
@@ -24,6 +24,10 @@ export default function RootLayout() {
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
+  Text.defaultProps = Text.defaultProps || {};
+  Text.defaultProps.allowFontScaling = false;
+  Text.defaultProps.adjustsFontSizeToFit = false;
+
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();

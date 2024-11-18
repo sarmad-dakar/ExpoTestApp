@@ -48,5 +48,7 @@ export const styles = StyleSheet.create({
   },
   error: {
     color: "red",
+    alignSelf: "flex-end",
+    fontSize: 14,
   },
 });

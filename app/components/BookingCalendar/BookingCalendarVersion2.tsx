@@ -217,7 +217,11 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
       return false;
     }
     if (condition == "Booked") {
-      return false;
+      if (item.players) {
+        return false;
+      } else {
+        return true;
+      }
     }
     return true;
   };
@@ -334,7 +338,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
       </View> */}
 
       <View style={{ backgroundColor: "#E0E0E0", padding: 10 }}>
-        <View style={{ height: 38, width: "100%", flexDirection: "row" }}>
+        <View style={{ height: 33, width: "100%", flexDirection: "row" }}>
           <View
             style={{
               flex: 1,
@@ -374,7 +378,15 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
               {index == 0 ? (
                 <TouchableOpacity
                   onPress={handlePrevious}
-                  style={{ position: "absolute", left: 3 }}
+                  style={{
+                    position: "absolute",
+                    left: 0,
+                    backgroundColor: colors.primary,
+                    height: "100%",
+                    width: "15%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
                 >
                   <Image
                     source={icons.backArrow}
@@ -382,33 +394,41 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
                       height: 12,
                       width: 12,
                       resizeMode: "contain",
-                      tintColor: currentIndex == 0 ? "gray" : "black",
+                      tintColor: currentIndex == 0 ? "white" : "white",
                     }}
                   />
                 </TouchableOpacity>
               ) : null}
-              {index == 2 ? (
+              {index == currentCourts.length - 1 ? (
                 <TouchableOpacity
                   onPress={handleNext}
-                  style={{ position: "absolute", right: 3 }}
+                  style={{
+                    position: "absolute",
+                    right: 0,
+                    alignItems: "center",
+                    backgroundColor: colors.primary,
+                    height: "100%",
+                    width: "15%",
+                    justifyContent: "center",
+                  }}
                 >
                   <Image
                     source={icons.nextArrow}
                     style={{
-                      height: 12,
-                      width: 12,
+                      height: 10,
+                      width: 10,
                       resizeMode: "contain",
 
                       tintColor:
                         currentIndex + COURTS_PER_PAGE >=
                         data.bookingSessions.length
-                          ? "gray"
-                          : "black",
+                          ? "white"
+                          : "white",
                     }}
                   />
                 </TouchableOpacity>
               ) : null}
-              <Text style={{ fontSize: 13 }}>{item.title}</Text>
+              <Text style={{ fontSize: 12 }}>{item.title}</Text>
             </Pressable>
           ))}
         </View>

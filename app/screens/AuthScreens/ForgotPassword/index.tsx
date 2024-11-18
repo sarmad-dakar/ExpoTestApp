@@ -21,6 +21,8 @@ import { forgotPassword } from "@/app/api/Auth";
 import { showErrorToast, showInfoToast } from "@/app/utils/toastmsg";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
+import ArchivoLight from "@/app/components/TextWrapper/ArchivoLight";
+import ArchivoExtraLight from "@/app/components/TextWrapper/ArchivoExtraLight";
 
 const ForgotPasswordScreen = () => {
   const [step, setStep] = useState(1);
@@ -70,7 +72,7 @@ const ForgotPasswordScreen = () => {
               onPress={() => onForgotPress()}
             />
             <TouchableOpacity onPress={() => router.replace("/login")}>
-              <Text style={styles.login}>Go Back to Login</Text>
+              <ArchivoLight style={styles.login}>Go Back to Login</ArchivoLight>
             </TouchableOpacity>
           </View>
         ) : (
@@ -91,13 +93,13 @@ const ForgotPasswordScreen = () => {
             </TouchableOpacity>
           </View>
         )}
-        <Text style={styles.terms}>
+        <ArchivoExtraLight style={styles.terms}>
           By signing in, you are agreeing to the online Terms and Conditions of
           the Marsa Sports Club booking regulations.
-        </Text>
-        <Text style={styles.termsHeading}>
+        </ArchivoExtraLight>
+        <ArchivoLight style={styles.termsHeading}>
           Terms & Conditions | Privacy Policy
-        </Text>
+        </ArchivoLight>
         <PoweredBy />
       </View>
     </ScreenWrapper>
