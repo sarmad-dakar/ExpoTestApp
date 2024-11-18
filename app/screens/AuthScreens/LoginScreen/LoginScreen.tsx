@@ -24,6 +24,8 @@ import {
   toggleBtnLoader,
   toggleGeneralLoader,
 } from "@/app/store/slices/generalSlice";
+import ArchivoExtraLight from "@/app/components/TextWrapper/ArchivoExtraLight";
+import ArchivoLight from "@/app/components/TextWrapper/ArchivoLight";
 const LoginScreen = () => {
   const [membershipNumber, setMemberShipNumber] = useState("");
   const [password, setPassword] = useState("");
@@ -95,24 +97,28 @@ const LoginScreen = () => {
           secureTextEntry={true}
         />
         <TouchableOpacity onPress={() => router.replace("/forgotpassword")}>
-          <Text style={styles.forgotPass}>Forgot Password ?</Text>
+          <ArchivoLight style={styles.forgotPass}>
+            Forgot Password ?
+          </ArchivoLight>
         </TouchableOpacity>
         <MainButton
           loading={loader}
           title="Sign in"
           onPress={handleSignInPress}
         />
-        <Text style={styles.terms}>
+        <ArchivoExtraLight style={styles.terms}>
           By signing in, you are agreeing to the online Terms and Conditions of
           the Marsa Sports Club booking regulations.
-        </Text>
+        </ArchivoExtraLight>
         <View style={styles.termsContainer}>
           <TouchableOpacity onPress={() => router.push("/termscondition")}>
-            <Text style={styles.termsHeading}>Terms & Conditions</Text>
+            <ArchivoLight style={styles.termsHeading}>
+              Terms & Conditions
+            </ArchivoLight>
           </TouchableOpacity>
           <Text>|</Text>
           <TouchableOpacity onPress={() => router.push("/termscondition")}>
-            <Text> Privacy Policy</Text>
+            <ArchivoLight> Privacy Policy</ArchivoLight>
           </TouchableOpacity>
         </View>
         <PoweredBy />
@@ -128,7 +134,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     color: "black",
     marginVertical: vh * 1.5,
-    fontSize: vh * 1.8,
+    fontSize: vh * 2,
   },
   container: {
     flex: 1,
@@ -152,7 +158,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginTop: 30,
-    paddingHorizontal: "10%",
+    paddingHorizontal: "15%",
     // backgroundColor : "red"
   },
 });

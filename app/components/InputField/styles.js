@@ -4,11 +4,11 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     borderBottomWidth: 0.7,
-    height: 50,
+    height: 40,
     minWidth: "48%",
-    marginVertical: 5,
+    marginVertical: 10,
     alignItems: "center",
-    paddingHorizontal: "3%",
+    // paddingHorizontal: "1%",
     justifyContent: "space-between",
     flexDirection: "row",
     // borderRadius: 10,
@@ -30,6 +30,7 @@ export const styles = StyleSheet.create({
     height: 30,
     justifyContent: "center",
     alignItems: "center",
+    right: -3,
   },
   rightIcon: {
     width: "60%",
@@ -47,5 +48,7 @@ export const styles = StyleSheet.create({
   },
   error: {
     color: "red",
+    alignSelf: "flex-end",
+    fontSize: 14,
   },
 });

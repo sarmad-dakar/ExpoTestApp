@@ -14,6 +14,7 @@ import moment from "moment";
 import { icons } from "@/app/MyAssets";
 import { vh } from "@/app/utils/units";
 import ImageView from "react-native-image-viewing";
+import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
 
 // Define interfaces for the item and data props
 interface SessionItem {
@@ -130,7 +131,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
 
   const getText = (item: SessionItem) => {
     if (!item.isAvailable && !item.icon) {
-      return "Unavailable";
+      return "UnAvailable";
     }
 
     if (!item.isAvailable && item.icon) {
@@ -150,6 +151,31 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
 
     if (item.isAvailable) {
       return "+";
+    }
+  };
+
+  const getTextColor = (item: SessionItem) => {
+    if (!item.isAvailable && !item.icon) {
+      return "#A94444";
+    }
+
+    if (!item.isAvailable && item.icon) {
+      return "#6B9C26";
+    }
+
+    const currentDay = moment(date).format("DD-MM-YYYY");
+    const currentDate = moment(
+      `${currentDay} ${item.slot}`,
+      "DD-MM-YYYY hh:mma"
+    );
+    const selectedDate = moment(new Date());
+
+    if (currentDate.isBefore(selectedDate) && item.isAvailable) {
+      return "#9C9C9C";
+    }
+
+    if (item.isAvailable) {
+      return "#888888";
     }
   };
 
@@ -191,7 +217,11 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
       return false;
     }
     if (condition == "Booked") {
-      return false;
+      if (item.players) {
+        return false;
+      } else {
+        return true;
+      }
     }
     return true;
   };
@@ -220,8 +250,10 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
   };
 
   return (
-    <View style={{ flex: 1, width: "95%" }}>
-      <BerlingskeBold>Book Your Slots</BerlingskeBold>
+    <View style={{ flex: 0.74, width: "100%", paddingHorizontal: "5%" }}>
+      <BerlingskeMedium style={styles.heading}>
+        Book Your Slots
+      </BerlingskeMedium>
       <ImageView
         images={selectedCourtResources}
         imageIndex={0}
@@ -305,132 +337,165 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
         </TouchableOpacity>
       </View> */}
 
-      <View style={{ height: 38, width: "100%", flexDirection: "row" }}>
-        <TouchableOpacity
-          onPress={handleGalleryPress}
-          style={{
-            flex: 1,
-            flexDirection: "row",
-            backgroundColor: "#E0E0E0",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Image
-            source={icons.gallery}
-            style={{
-              width: 20,
-              height: 20,
-              resizeMode: "contain",
-              marginRight: 5,
-            }}
-          />
-          <Text style={{ fontSize: 12 }}>Gallery</Text>
-        </TouchableOpacity>
-        {currentCourts.map((item, index) => (
-          <Pressable
-            key={item.title}
-            onPress={() => handleCourtPress(item)}
+      <View style={{ backgroundColor: "#E0E0E0", padding: 10 }}>
+        <View style={{ height: 33, width: "100%", flexDirection: "row" }}>
+          <View
             style={{
               flex: 1,
-              backgroundColor: colors.secondary,
+              flexDirection: "row",
+              backgroundColor: "#E0E0E0",
               alignItems: "center",
               justifyContent: "center",
             }}
           >
-            {index == 0 ? (
-              <TouchableOpacity
-                onPress={handlePrevious}
-                style={{ position: "absolute", left: 3 }}
-              >
-                <Image
-                  source={icons.backArrow}
+            <TouchableOpacity onPress={handleGalleryPress}>
+              <Image
+                source={icons.gallery}
+                style={{
+                  width: 20,
+                  height: 20,
+                  resizeMode: "contain",
+                  marginRight: 5,
+                  tintColor: colors.primary,
+                }}
+              />
+            </TouchableOpacity>
+            {/* <Text style={{ fontSize: 12 }}>Gallery</Text> */}
+          </View>
+          {currentCourts.map((item, index) => (
+            <Pressable
+              key={item.title}
+              onPress={() => handleCourtPress(item)}
+              style={{
+                flex: 1,
+                backgroundColor: colors.secondary,
+                alignItems: "center",
+                justifyContent: "center",
+                borderWidth: 1,
+                borderColor: "#E0E0E0",
+              }}
+            >
+              {index == 0 ? (
+                <TouchableOpacity
+                  onPress={handlePrevious}
                   style={{
-                    height: 12,
-                    width: 12,
-                    resizeMode: "contain",
-                    tintColor: currentIndex == 0 ? "gray" : "black",
+                    position: "absolute",
+                    left: 0,
+                    backgroundColor: colors.primary,
+                    height: "100%",
+                    width: "15%",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
-                />
-              </TouchableOpacity>
-            ) : null}
-            {index == 2 ? (
-              <TouchableOpacity
-                onPress={handleNext}
-                style={{ position: "absolute", right: 3 }}
-              >
-                <Image
-                  source={icons.nextArrow}
+                >
+                  <Image
+                    source={icons.backArrow}
+                    style={{
+                      height: 12,
+                      width: 12,
+                      resizeMode: "contain",
+                      tintColor: currentIndex == 0 ? "white" : "white",
+                    }}
+                  />
+                </TouchableOpacity>
+              ) : null}
+              {index == currentCourts.length - 1 ? (
+                <TouchableOpacity
+                  onPress={handleNext}
                   style={{
-                    height: 12,
-                    width: 12,
-                    resizeMode: "contain",
-
-                    tintColor:
-                      currentIndex + COURTS_PER_PAGE >=
-                      data.bookingSessions.length
-                        ? "gray"
-                        : "black",
+                    position: "absolute",
+                    right: 0,
+                    alignItems: "center",
+                    backgroundColor: colors.primary,
+                    height: "100%",
+                    width: "15%",
+                    justifyContent: "center",
                   }}
-                />
-              </TouchableOpacity>
-            ) : null}
-            <Text>{item.title}</Text>
-          </Pressable>
-        ))}
-      </View>
+                >
+                  <Image
+                    source={icons.nextArrow}
+                    style={{
+                      height: 10,
+                      width: 10,
+                      resizeMode: "contain",
 
-      <ScrollView>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: "#E0E0E0",
-            flexDirection: "row",
-            overflow: "hidden",
-          }}
-        >
-          <View style={{ flex: 1 }}>
-            {data.timeSlots.map((timeSlot, index) => (
-              <View key={index} style={styles.time}>
-                {isAvailableTimeSlot(timeSlot, data.timeSlots) && (
-                  <View style={styles.greenLight} />
+                      tintColor:
+                        currentIndex + COURTS_PER_PAGE >=
+                        data.bookingSessions.length
+                          ? "white"
+                          : "white",
+                    }}
+                  />
+                </TouchableOpacity>
+              ) : null}
+              <Text style={{ fontSize: 12 }}>{item.title}</Text>
+            </Pressable>
+          ))}
+        </View>
+
+        <ScrollView>
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: "#E0E0E0",
+              flexDirection: "row",
+              overflow: "hidden",
+            }}
+          >
+            <View style={{ flex: 1 }}>
+              {data.timeSlots.map((timeSlot, index) => (
+                <View key={index} style={styles.time}>
+                  {isAvailableTimeSlot(timeSlot, data.timeSlots) && (
+                    <View style={styles.greenLight} />
+                  )}
+                  <Text style={styles.timeFont}>{timeSlot || "N/A"}</Text>
+                </View>
+              ))}
+            </View>
+
+            {currentCourts.map((session, sessionIndex) => (
+              <View style={{ flex: 1 }} key={sessionIndex}>
+                {session.session.map((item, itemIndex) =>
+                  session?.session[itemIndex - 1]?.rows == 2 ? (
+                    <View style={{}} />
+                  ) : (
+                    <TouchableOpacity
+                      onPress={() => onBookingPress(session, item)}
+                      disabled={handleDisabled(item)}
+                      key={itemIndex}
+                      style={[
+                        styles.court,
+                        {
+                          backgroundColor: getColor(item),
+                          borderWidth: 1,
+                          borderColor: "#E0E0E0",
+                        },
+                        item.rows == 2 && { height: 80 },
+                      ]}
+                    >
+                      {/* {item.icon && (
+                        <Image
+                          source={{ uri: item.icon }}
+                          style={styles.icon}
+                        />
+                      )} */}
+                      <Text
+                        style={{
+                          fontSize: 10,
+                          fontWeight: "600",
+                          color: getTextColor(item),
+                        }}
+                      >
+                        {getText(item)}
+                      </Text>
+                    </TouchableOpacity>
+                  )
                 )}
-                <Text style={styles.timeFont}>{timeSlot || "N/A"}</Text>
               </View>
             ))}
           </View>
-
-          {currentCourts.map((session, sessionIndex) => (
-            <View style={{ flex: 1 }} key={sessionIndex}>
-              {session.session.map((item, itemIndex) =>
-                session?.session[itemIndex - 1]?.rows == 2 ? (
-                  <View style={{}} />
-                ) : (
-                  <TouchableOpacity
-                    onPress={() => onBookingPress(session, item)}
-                    disabled={handleDisabled(item)}
-                    key={itemIndex}
-                    style={[
-                      styles.court,
-                      {
-                        backgroundColor: getColor(item),
-                        borderWidth: 1,
-                        borderColor: "#E0E0E0",
-                      },
-                      item.rows == 2 && { height: 80 },
-                    ]}
-                  >
-                    {item.icon && (
-                      <Image source={{ uri: item.icon }} style={styles.icon} />
-                    )}
-                    <Text style={{ fontSize: 10 }}>{getText(item)}</Text>
-                  </TouchableOpacity>
-                )
-              )}
-            </View>
-          ))}
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     </View>
   );
 };
@@ -439,7 +504,7 @@ export default BookingCalendarVersion2;
 
 const styles = StyleSheet.create({
   court: {
-    height: 40,
+    height: 33,
     backgroundColor: colors.secondary,
     // width: 90,
     flex: 1,
@@ -450,10 +515,13 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     //
   },
+  heading: {
+    marginVertical: 15,
+  },
   time: {
     width: "100%",
-    backgroundColor: "black",
-    height: 40,
+    backgroundColor: colors.primary,
+    height: 33,
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
@@ -464,6 +532,7 @@ const styles = StyleSheet.create({
   timeFont: {
     color: "white",
     fontWeight: "500",
+    fontSize: 12,
   },
   icon: {
     height: 20,
@@ -494,8 +563,8 @@ const styles = StyleSheet.create({
   },
   greenLight: {
     backgroundColor: "#AAFF00",
-    height: vh * 1.2,
-    width: vh * 1.2,
+    height: vh * 1,
+    width: vh * 1,
     borderRadius: 100,
     position: "absolute",
     top: 5,

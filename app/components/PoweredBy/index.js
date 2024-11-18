@@ -5,7 +5,7 @@ import { images } from "@/app/MyAssets";
 const PoweredBy = () => {
   return (
     <View style={styles.container}>
-      <Image source={images.dakarLogo} style={styles.dakarLogo} />
+      {/* <Image source={images.dakarLogo} style={styles.dakarLogo} />
       <View
         style={{
           width: 3,
@@ -14,7 +14,8 @@ const PoweredBy = () => {
           marginHorizontal: 20,
         }}
       />
-      <Text>POWERED BY DAKARSOFTWARE</Text>
+      <Text>POWERED BY DAKARSOFTWARE</Text> */}
+      <Image source={images.dakarFooterLogo} style={styles.dakarLogo} />
     </View>
   );
 };
@@ -32,8 +33,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   dakarLogo: {
-    height: 100,
-    width: 100,
+    height: 200,
+    width: 200,
     resizeMode: "contain",
   },
 });

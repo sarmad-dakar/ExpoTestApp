@@ -74,7 +74,7 @@ const InputField = (props) => {
         style={[
           styles.container,
           {
-            borderColor: props?.invalid ? "red" : "gray",
+            borderColor: props?.error ? "red" : "gray",
           },
           height < 420 && { height: 35, marginVertical: 5, borderRadius: 7 },
           props.style,
@@ -95,7 +95,7 @@ const InputField = (props) => {
                 source={props.icon}
                 style={[
                   styles.rightIcon,
-                  props.invalid && { tintColor: colors.red },
+                  props.error && { tintColor: colors.red },
                 ]}
               />
             </View>

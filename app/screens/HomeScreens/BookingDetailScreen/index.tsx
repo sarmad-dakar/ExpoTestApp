@@ -104,7 +104,7 @@ const BookingDetailScreen = () => {
   }, []);
 
   useEffect(() => {
-    if (bookingType) {
+    if (bookingType?.key) {
       getAmountDue();
       sortTheSelectedPlayers();
     }
@@ -154,35 +154,37 @@ const BookingDetailScreen = () => {
   };
 
   const getAmountDue = async () => {
-    let data = {
-      BookingKey: bookingData?.sessionDetail?.key,
-      BookingType: bookingType?.key,
-      IsACOn: includeAc ? 1 : 0,
-      IsHalfSession: halfSession ? 1 : 0,
-      PayerCode: profile?.memberCode,
-      PlayerCodes: profile?.memberCode,
-      Service:
-        bookingData?.selectedSport?.sportServiceSetting.title.toLowerCase(),
-    };
-    if (checkedPlayers.length) {
-      let currentPayers = data.PayerCode;
-      checkedPlayers.map((item) => {
-        currentPayers += `,${item.memberCode}`;
-      });
-      data.PayerCode = currentPayers;
+    if (bookingType?.key) {
+      let data = {
+        BookingKey: bookingData?.sessionDetail?.key,
+        BookingType: bookingType?.key,
+        IsACOn: includeAc ? 1 : 0,
+        IsHalfSession: halfSession ? 1 : 0,
+        PayerCode: profile?.memberCode,
+        PlayerCodes: profile?.memberCode,
+        Service:
+          bookingData?.selectedSport?.sportServiceSetting.title.toLowerCase(),
+      };
+      if (checkedPlayers.length) {
+        let currentPayers = data.PayerCode;
+        checkedPlayers.map((item) => {
+          currentPayers += `,${item.memberCode}`;
+        });
+        data.PayerCode = currentPayers;
+      }
+      if (selectedPlayers.length) {
+        let currentPlayers = data.PlayerCodes;
+        selectedPlayers.map((item) => {
+          currentPlayers += `,${item.memberCode}`;
+        });
+        data.PlayerCodes = currentPlayers;
+      }
+      console.log(data, "Amount API data...");
+      const response = await FetchAmountDue(data);
+      const amounts = response.data.data;
+      console.log(amounts, "amount data");
+      setPlayersAmountData(amounts);
     }
-    if (selectedPlayers.length) {
-      let currentPlayers = data.PlayerCodes;
-      selectedPlayers.map((item) => {
-        currentPlayers += `,${item.memberCode}`;
-      });
-      data.PlayerCodes = currentPlayers;
-    }
-    console.log(data, "Amount API data...");
-    const response = await FetchAmountDue(data);
-    const amounts = response.data.data;
-    console.log(amounts, "amount data");
-    setPlayersAmountData(amounts);
   };
 
   const onChangeDate = (event: DateTimePickerEvent, selectedDate?: Date) => {

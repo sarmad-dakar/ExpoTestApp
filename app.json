@@ -41,7 +41,12 @@
           "BerlingskeSerifCn-Bold": "./assets/fonts/BerlingskeSerifCn-Bold.ttf",
           "BerlingskeSerifCn-DBd": "./assets/fonts/BerlingskeSerifCn-DBd.ttf",
           "BerlingskeSerifCn-Md": "./assets/fonts/BerlingskeSerifCn-Md.ttf",
-          "BerlingskeSerifCn-Regular": "./assets/fonts/BerlingskeSerifCn-Regular.ttf"
+          "BerlingskeSerifCn-Regular": "./assets/fonts/BerlingskeSerifCn-Regular.ttf",
+          "Archivo-Thin" : "./assets/fonts/Archivo-Thin.ttf" , 
+          "Archivo-ExtraLight" : "./assets/fonts/Archivo-ExtraLight.ttf",
+          "Archivo-Light" : "./assets/fonts/Archivo-Light.ttf",
+          "Archivo-Medium" : "./assets/fonts/Archivo-Medium.ttf", 
+          "Archivo-Regular" : "./assets/fonts/Archivo-Regular.ttf"
         }
       ]
     ],

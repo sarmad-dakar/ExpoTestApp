@@ -30,6 +30,7 @@ import TopupConfirmationPopup from "@/app/components/TopupConfirmationPopup";
 import { fetchRemainingBalance } from "@/app/store/slices/accountSlice";
 import { useAppDispatch } from "../LandingScreen";
 import { vh, vw } from "@/app/utils/units";
+import TabComponent from "@/app/components/TabViewComponent";
 
 const monthsData = [
   { value: "01", label: "Jan" },
@@ -252,6 +253,27 @@ const MyBookingsScreen: React.FC = () => {
 
       <ScreenWrapper>
         <View style={styles.tabContainer}>
+          {allSports.map((tab, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => setSelectedTab(tab)}
+              style={styles.tabButton}
+            >
+              <Text
+                style={[
+                  styles.tabText,
+                  selectedTab.name === tab.name && styles.activeTabText,
+                ]}
+              >
+                {tab.name}
+              </Text>
+              {selectedTab.name === tab.name && (
+                <View style={styles.activeTabIndicator} />
+              )}
+            </TouchableOpacity>
+          ))}
+        </View>
+        {/* <View style={styles.tabContainer}>
           {allSports.map((item) => (
             <TouchableOpacity
               key={item.name}
@@ -274,7 +296,7 @@ const MyBookingsScreen: React.FC = () => {
               </Text>
             </TouchableOpacity>
           ))}
-        </View>
+        </View> */}
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <InputField
             icon={icons.calendar}
@@ -370,5 +392,31 @@ const styles = StyleSheet.create({
     position: "absolute",
     justifyContent: "center",
     alignItems: "center",
+  },
+  tabContainer: {
+    flexDirection: "row",
+    // justifyContent: "space-around",
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+  },
+  tabButton: {
+    alignItems: "center",
+    paddingVertical: 10,
+    marginRight: 20,
+  },
+  tabText: {
+    color: "gray",
+    fontSize: 16,
+  },
+  activeTabText: {
+    color: "green",
+  },
+  activeTabIndicator: {
+    marginTop: 4,
+    height: 2,
+    width: "100%",
+    backgroundColor: "green",
+    position: "absolute",
+    bottom: 0,
   },
 });
