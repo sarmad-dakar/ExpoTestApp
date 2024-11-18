@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Alert,
   Image,
   ScrollView,
@@ -37,6 +38,9 @@ import { ConfirmationPopupRef } from "@/app/components/ConfirmationPopup";
 import { fetchRemainingBalance } from "@/app/store/slices/accountSlice";
 import { useAppDispatch } from "../LandingScreen";
 import { showErrorToast } from "@/app/utils/toastmsg";
+import { RootState } from "@/app/store";
+import { toggleBtnLoader } from "@/app/store/slices/generalSlice";
+import { vh, vw } from "@/app/utils/units";
 
 interface Player {
   gender: string;
@@ -89,6 +93,7 @@ const BookingDetailScreen = () => {
   const dispatch = useAppDispatch();
   const user = useSelector((state: any) => state.user.profile);
   const profile = useSelector((state: any) => state.user.user);
+  const btnLoader = useSelector((state: RootState) => state.general.btnLoader);
   console.log(checkedPlayers, "checked players");
   useEffect(() => {
     getMembers();
@@ -155,35 +160,42 @@ const BookingDetailScreen = () => {
 
   const getAmountDue = async () => {
     if (bookingType?.key) {
-      let data = {
-        BookingKey: bookingData?.sessionDetail?.key,
-        BookingType: bookingType?.key,
-        IsACOn: includeAc ? 1 : 0,
-        IsHalfSession: halfSession ? 1 : 0,
-        PayerCode: profile?.memberCode,
-        PlayerCodes: profile?.memberCode,
-        Service:
-          bookingData?.selectedSport?.sportServiceSetting.title.toLowerCase(),
-      };
-      if (checkedPlayers.length) {
-        let currentPayers = data.PayerCode;
-        checkedPlayers.map((item) => {
-          currentPayers += `,${item.memberCode}`;
-        });
-        data.PayerCode = currentPayers;
+      try {
+        dispatch(toggleBtnLoader(true));
+        let data = {
+          BookingKey: bookingData?.sessionDetail?.key,
+          BookingType: bookingType?.key,
+          IsACOn: includeAc ? 1 : 0,
+          IsHalfSession: halfSession ? 1 : 0,
+          PayerCode: profile?.memberCode,
+          PlayerCodes: profile?.memberCode,
+          Service:
+            bookingData?.selectedSport?.sportServiceSetting.title.toLowerCase(),
+        };
+        if (checkedPlayers.length) {
+          let currentPayers = data.PayerCode;
+          checkedPlayers.map((item) => {
+            currentPayers += `,${item.memberCode}`;
+          });
+          data.PayerCode = currentPayers;
+        }
+        if (selectedPlayers.length) {
+          let currentPlayers = data.PlayerCodes;
+          selectedPlayers.map((item) => {
+            currentPlayers += `,${item.memberCode}`;
+          });
+          data.PlayerCodes = currentPlayers;
+        }
+        console.log(data, "Amount API data...");
+        const response = await FetchAmountDue(data);
+        const amounts = response.data.data;
+        dispatch(toggleBtnLoader(false));
+
+        console.log(amounts, "amount data");
+        setPlayersAmountData(amounts);
+      } catch (error) {
+        dispatch(toggleBtnLoader(false));
       }
-      if (selectedPlayers.length) {
-        let currentPlayers = data.PlayerCodes;
-        selectedPlayers.map((item) => {
-          currentPlayers += `,${item.memberCode}`;
-        });
-        data.PlayerCodes = currentPlayers;
-      }
-      console.log(data, "Amount API data...");
-      const response = await FetchAmountDue(data);
-      const amounts = response.data.data;
-      console.log(amounts, "amount data");
-      setPlayersAmountData(amounts);
     }
   };
 
@@ -613,5 +625,13 @@ const styles = StyleSheet.create({
     height: 20,
     width: 20,
     resizeMode: "contain",
+  },
+  loader: {
+    height: vh * 100,
+    width: vw * 100,
+    backgroundColor: "#0000004a",
+    position: "absolute",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
