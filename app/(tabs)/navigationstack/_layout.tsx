@@ -13,6 +13,7 @@ const HomeLayout = () => {
       <Stack.Screen name="termscondition" options={{ headerShown: false }} />
       <Stack.Screen name="privacypolicy" options={{ headerShown: false }} />
       <Stack.Screen name="contactscreen" options={{ headerShown: false }} />
+      <Stack.Screen name="myprofile" options={{ headerShown: false }} />
 
       <Stack.Screen name="accountdetails" options={{ headerShown: false }} />
       <Stack.Screen name="accountreciept" options={{ headerShown: false }} />
