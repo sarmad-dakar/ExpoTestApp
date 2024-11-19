@@ -9,7 +9,7 @@ const liveUrl = "https://api.mscbookings.com/api/";
 const testUrl = "http://mscapi.dakarhr.com/api/";
 
 const instance = axios.create({
-  baseURL: testUrl + version,
+  baseURL: liveUrl + version,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
