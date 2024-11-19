@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   font: {
     fontFamily: "BerlingskeSerifCn-Md",
     color: colors.headingColor,
-    letterSpacing: -0.2,
+    // letterSpacing: -0.2,
     fontSize: vh * 2.4,
   },
 });

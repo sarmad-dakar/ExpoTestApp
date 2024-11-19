@@ -31,6 +31,7 @@ import { fetchRemainingBalance } from "@/app/store/slices/accountSlice";
 import { useAppDispatch } from "../LandingScreen";
 import { vh, vw } from "@/app/utils/units";
 import TabComponent from "@/app/components/TabViewComponent";
+import BerlingskeMedium from "@/app/components/TextWrapper/BerlingskeMedium";
 
 const monthsData = [
   { value: "01", label: "Jan" },
@@ -297,21 +298,31 @@ const MyBookingsScreen: React.FC = () => {
             </TouchableOpacity>
           ))}
         </View> */}
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <InputField
-            icon={icons.calendar}
-            rightIcon={icons.dropdown}
-            value={selectedDate}
-            dropdown={true}
-            onPress={() => yearDropdownRef.current?.show()}
-          />
-          <InputField
-            icon={icons.calendar}
-            rightIcon={icons.dropdown}
-            value={moment(selectedMonth, "MM").format("MMM")}
-            dropdown={true}
-            onPress={() => monthDropdownRef.current?.show()}
-          />
+        <View style={styles.filterContainer}>
+          <BerlingskeMedium style={{ color: colors.darkText }}>
+            Search
+          </BerlingskeMedium>
+
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <InputField
+              icon={icons.calendar}
+              rightIcon={icons.dropdown}
+              value={selectedDate}
+              dropdown={true}
+              style={{ marginVertical: 2 }}
+              onPress={() => yearDropdownRef.current?.show()}
+            />
+            <InputField
+              icon={icons.calendar}
+              rightIcon={icons.dropdown}
+              value={moment(selectedMonth, "MM").format("MMM")}
+              dropdown={true}
+              style={{ marginVertical: 2 }}
+              onPress={() => monthDropdownRef.current?.show()}
+            />
+          </View>
         </View>
         <FlatList
           data={dataForList}
@@ -356,11 +367,11 @@ const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
   },
-  tabContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 15,
-  },
+  // tabContainer: {
+  //   flexDirection: "row",
+  //   alignItems: "center",
+  //   marginTop: 15,
+  // },
   heading: {
     color: "#5F5F5F",
     marginRight: 10,
@@ -418,5 +429,12 @@ const styles = StyleSheet.create({
     backgroundColor: "green",
     position: "absolute",
     bottom: 0,
+  },
+  filterContainer: {
+    backgroundColor: colors.cardShade,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    marginTop: 15,
+    borderRadius: 10,
   },
 });

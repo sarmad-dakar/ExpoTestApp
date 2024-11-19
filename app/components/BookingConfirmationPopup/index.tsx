@@ -14,12 +14,11 @@ import {
   StyleSheet,
   Dimensions,
   Text,
-  Image,
-  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
 } from "react-native";
 import BerlingskeBold from "../TextWrapper/BerlingskeBold";
-import { images } from "@/app/MyAssets";
-import moment from "moment";
 import InputField from "../InputField";
 import { showErrorToast } from "@/app/utils/toastmsg";
 
@@ -43,7 +42,7 @@ const BookingConfirmationPopup = forwardRef<
 >((props, ref) => {
   const translateY = useRef(new Animated.Value(height)).current; // Initial position (off-screen)
   const [visible, setVisible] = useState(false);
-  const [pinCode, setPinCode] = useState();
+  const [pinCode, setPinCode] = useState("");
 
   useImperativeHandle(ref || props.reference, () => ({
     hide: hide,
@@ -81,7 +80,7 @@ const BookingConfirmationPopup = forwardRef<
       toValue: height,
       duration: 300,
       useNativeDriver: true,
-    }).start(() => setVisible(false)); // Call onClose after animation
+    }).start(() => setVisible(false));
   };
 
   const handleAccept = () => {
@@ -105,40 +104,49 @@ const BookingConfirmationPopup = forwardRef<
         activeOpacity={1}
         onPress={slideDown}
       />
-      <Animated.View
-        style={[
-          styles.bottomSheet,
-          { transform: [{ translateY }] }, // Animated slide-up
-        ]}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        style={styles.keyboardAvoidingView}
       >
-        {/* Bottom sheet content */}
-        <View style={styles.content}>
-          <BerlingskeBold>Confirmation</BerlingskeBold>
-          <Text>
-            Please provide pin to {props.cancel ? "cancel" : "book"} this
-            session ?
-          </Text>
+        <Animated.View
+          style={[
+            styles.bottomSheet,
+            { transform: [{ translateY }] }, // Animated slide-up
+          ]}
+        >
+          <ScrollView
+            contentContainerStyle={styles.scrollContainer}
+            keyboardShouldPersistTaps="handled"
+          >
+            <View style={styles.content}>
+              <BerlingskeBold style={styles.title}>Confirmation</BerlingskeBold>
+              <Text style={styles.description}>
+                Please provide pin to {props.cancel ? "cancel" : "book"} this
+                session.
+              </Text>
 
-          <InputField
-            // keyboardType="number-pad"
-            placeholder="Pin code"
-            onChangeText={setPinCode}
-          />
+              <InputField
+                placeholder="Pin code"
+                value={pinCode}
+                onChangeText={setPinCode}
+              />
 
-          <View style={styles.rowDirection}>
-            <TouchableOpacity onPress={hide} style={styles.btn}>
-              <Text style={{ color: "white" }}>Cancel</Text>
-            </TouchableOpacity>
+              <View style={styles.rowDirection}>
+                <TouchableOpacity onPress={hide} style={styles.btn}>
+                  <Text style={{ color: "white" }}>Cancel</Text>
+                </TouchableOpacity>
 
-            <TouchableOpacity
-              style={[styles.btn, { backgroundColor: "#6AAF2E" }]}
-              onPress={handleAccept}
-            >
-              <Text style={{ color: "white" }}>Confirm</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Animated.View>
+                <TouchableOpacity
+                  style={[styles.btn, { backgroundColor: "#6AAF2E" }]}
+                  onPress={handleAccept}
+                >
+                  <Text style={{ color: "white" }}>Confirm</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </ScrollView>
+        </Animated.View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 });
@@ -149,31 +157,34 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
     justifyContent: "flex-end",
   },
+  keyboardAvoidingView: {
+    flex: 1,
+    justifyContent: "flex-end",
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
+  },
   bottomSheet: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
     backgroundColor: "white",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     padding: 16,
-    height: height * 0.4, // Adjust height as needed
+    maxHeight: height * 0.6, // Adjust height as needed
+    overflow: "hidden",
+  },
+  scrollContainer: {
+    flexGrow: 1,
   },
   content: {
     flex: 1,
     paddingTop: 10,
   },
-  courtImage: {
-    height: 250,
-    marginTop: 20,
-    borderRadius: 20,
-    overflow: "hidden",
+  title: {
+    fontSize: 18,
+    marginBottom: 10,
   },
-  image: {
-    height: "100%",
-    width: "100%",
-    resizeMode: "cover",
+  description: {
+    fontSize: 14,
+    color: "gray",
+    marginBottom: 0,
   },
   rowDirection: {
     flexDirection: "row",
@@ -185,14 +196,6 @@ const styles = StyleSheet.create({
     height: 50,
     width: "48%",
     backgroundColor: "#D0373F",
-    borderRadius: 100,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  yesBtn: {
-    height: 40,
-    width: "48%",
-    backgroundColor: "#6AAF2E",
     borderRadius: 100,
     justifyContent: "center",
     alignItems: "center",

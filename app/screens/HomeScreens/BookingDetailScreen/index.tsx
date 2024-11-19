@@ -41,7 +41,7 @@ import { showErrorToast } from "@/app/utils/toastmsg";
 import { RootState } from "@/app/store";
 import { toggleBtnLoader } from "@/app/store/slices/generalSlice";
 import { vh, vw } from "@/app/utils/units";
-
+import ArchivoRegular from "@/app/components/TextWrapper/ArchivoRegular";
 interface Player {
   gender: string;
   name: string;
@@ -374,14 +374,11 @@ const BookingDetailScreen = () => {
         <BerlingskeBold style={styles.heading}>
           Booking Payment & Add Players
         </BerlingskeBold>
-        <BerlingskeMedium>Session Information</BerlingskeMedium>
-        <View style={{ flexDirection: "row", pointerEvents: "none" }}>
-          <InputField icon={icons.calendar} value={bookingData?.selectedDate} />
-          <InputField
-            icon={icons.clock}
-            value={bookingData.sessionDetail.slot}
-          />
-        </View>
+        <BerlingskeMedium style={{ color: colors.primary, fontSize: 17 }}>
+          Session Information
+        </BerlingskeMedium>
+        <InputField icon={icons.calendar} value={bookingData?.selectedDate} />
+        <InputField icon={icons.clock} value={bookingData.sessionDetail.slot} />
         <View style={{ pointerEvents: "none" }}>
           <InputField
             icon={icons.court}
@@ -389,7 +386,9 @@ const BookingDetailScreen = () => {
           />
         </View>
         <MainButton onPress={() => router.back()} title="Change" />
-        <BerlingskeMedium>Booking Types</BerlingskeMedium>
+        <BerlingskeMedium style={{ color: colors.primary, fontSize: 17 }}>
+          Booking Types
+        </BerlingskeMedium>
         <InputField
           icon={icons.court}
           rightIcon={icons.dropdown}
@@ -450,7 +449,9 @@ const BookingDetailScreen = () => {
           </View>
         ) : null}
         <View style={styles.rowDirection}>
-          <BerlingskeMedium>Players</BerlingskeMedium>
+          <BerlingskeMedium style={{ color: colors.primary, fontSize: 17 }}>
+            Players
+          </BerlingskeMedium>
           {enableAddPlayers ? (
             <MainButton
               title="Add Players"
@@ -480,9 +481,9 @@ const BookingDetailScreen = () => {
                 }}
               />
             </View>
-            <Text style={styles.playerName}>
+            <ArchivoRegular style={styles.playerName}>
               {user?.name} {user?.surName}
-            </Text>
+            </ArchivoRegular>
           </View>
           <View style={{ pointerEvents: "none" }}>
             <InputField
@@ -519,9 +520,9 @@ const BookingDetailScreen = () => {
                   />
                 )}
               </TouchableOpacity>
-              <Text style={styles.playerName}>
+              <ArchivoRegular style={styles.playerName}>
                 {item.name} ({item.memberCode})
-              </Text>
+              </ArchivoRegular>
             </View>
             {handleCheckPlayers(item) && (
               <InputField
@@ -587,6 +588,8 @@ export default BookingDetailScreen;
 const styles = StyleSheet.create({
   heading: {
     marginVertical: 10,
+    color: colors.darkText,
+    fontSize: 18,
   },
   rowDirection: {
     flexDirection: "row",
@@ -594,7 +597,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   addPlayer: {
-    height: 30,
+    height: vh * 3.4,
     width: 100,
   },
   checkbox: {

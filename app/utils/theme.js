@@ -6,6 +6,7 @@ export const colors = {
   slotBackground: "#F1F1F1",
   inputBorders: "gray",
   placeholder: "",
+  cardShade: "#E9E9E9",
   green: "#037A36",
   red: "#dc4646",
   lightShade: "#F2F2F2",
@@ -19,4 +20,5 @@ export const colors = {
   booked: "#EBFFCF",
   expiredSeesion: "#E8E8E8",
   available: "white",
+  darkText: "#2A3029",
 };

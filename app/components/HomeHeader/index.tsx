@@ -150,17 +150,24 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
             flexDirection: "row",
           }}
         >
-          <Image
-            source={icons.euro}
-            style={{
-              width: 17,
-              height: 17,
-              resizeMode: "contain",
-              marginRight: 5,
-              tintColor: "white",
-            }}
-          />
-          <Text style={{ color: "white", fontSize: 12 }}>{balance}</Text>
+          <View>
+            <BerlingskeMedium style={{ color: colors.secondary, fontSize: 15 }}>
+              Wallet
+            </BerlingskeMedium>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Image
+                source={icons.euro}
+                style={{
+                  width: 12,
+                  height: 12,
+                  resizeMode: "contain",
+                  marginRight: 5,
+                  tintColor: "white",
+                }}
+              />
+              <Text style={{ color: "white", fontSize: 12 }}>{balance}</Text>
+            </View>
+          </View>
         </Pressable>
       </View>
 

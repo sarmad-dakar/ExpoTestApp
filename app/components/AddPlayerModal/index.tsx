@@ -244,26 +244,34 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
           >
             {/* Bottom sheet content */}
             <View style={styles.content}>
-              <BerlingskeBold style={{ marginBottom: 10 }}>
+              <TouchableOpacity
+                onPress={hide}
+                style={styles.crossIconContainer}
+              >
+                <Image
+                  source={icons.cross}
+                  style={{
+                    width: 25,
+                    height: 25,
+                    resizeMode: "contain",
+                  }}
+                />
+              </TouchableOpacity>
+              <BerlingskeMedium
+                style={{ marginBottom: 10, color: colors.darkText }}
+              >
                 Add Players
-              </BerlingskeBold>
+              </BerlingskeMedium>
               <View style={styles.headingContainer}>
                 {tabs.map((item) => (
                   <TouchableOpacity
                     activeOpacity={0.6}
                     onPress={() => setSelectedTab(item)}
                   >
-                    <Text
-                      style={[
-                        styles.heading,
-                        selectedTab == item && {
-                          color: colors.green,
-                          textDecorationLine: "underline",
-                        },
-                      ]}
-                    >
-                      {item}
-                    </Text>
+                    <Text style={[styles.heading]}>{item}</Text>
+                    {selectedTab == item && (
+                      <View style={styles.activeTabIndicator} />
+                    )}
                   </TouchableOpacity>
                 ))}
               </View>
@@ -290,8 +298,12 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
                             }}
                           >
                             <TouchableOpacity
-                                hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }} // Adjust hitSlop as needed
-
+                              hitSlop={{
+                                top: 20,
+                                bottom: 20,
+                                left: 20,
+                                right: 20,
+                              }} // Adjust hitSlop as needed
                               onPress={() => handleSelection(item)}
                               style={styles.checkbox}
                             >
@@ -398,11 +410,16 @@ const styles = StyleSheet.create({
   },
   headingContainer: {
     flexDirection: "row",
+    // justifyContent: "space-around",
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
   },
   heading: {
     color: "#5F5F5F",
-    marginRight: 10,
     fontSize: 16,
+    alignItems: "center",
+    paddingVertical: 10,
+    marginRight: 20,
   },
   listContainer: {
     borderWidth: 1,
@@ -442,6 +459,20 @@ const styles = StyleSheet.create({
     height: 15,
     width: 15,
     resizeMode: "contain",
+  },
+  activeTabIndicator: {
+    marginTop: 4,
+    height: 2,
+    width: "100%",
+    backgroundColor: "green",
+    position: "absolute",
+    bottom: 0,
+  },
+  crossIconContainer: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    zIndex: 100,
   },
 });
 

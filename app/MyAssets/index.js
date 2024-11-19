@@ -49,6 +49,7 @@ export const icons = {
   types: require("./icons/list.png"),
   message: require("./icons/chat.png"),
   gallery: require("./icons/gallery.png"),
+  wallet: require("./icons/wallet.png"),
 };
 
 export const images = {
