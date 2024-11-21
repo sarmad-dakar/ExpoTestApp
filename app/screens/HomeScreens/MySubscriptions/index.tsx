@@ -7,6 +7,7 @@ import { colors } from "@/app/utils/theme";
 import { GetAccountData, GetSubscriptionData } from "@/app/api/Bookings";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMySubscription } from "@/app/store/slices/accountSlice";
+import { vh } from "@/app/utils/units";
 
 interface SubscriptionData {
   date: string;
@@ -41,17 +42,34 @@ const MySubscriptionScreen = () => {
         <ScrollView horizontal>
           {/* Data Rows - Vertical Scroll */}
           <ScrollView style={{ marginTop: 15 }}>
-            <View style={[styles.headerRow, { width: windowWidth }]}>
+            <View style={[styles.headerRow]}>
               <Text style={[styles.headerText, { width: 150 }]}>Date</Text>
-              <Text style={[styles.headerText, { width: 100 }]}>Type</Text>
-              <Text style={[styles.headerText, { width: 100 }]}>Invoice #</Text>
-              <Text style={[styles.headerText, { width: 140 }]}>Details</Text>
-              <Text style={[styles.headerText, { width: 120 }]}>
-                Amount Due
-              </Text>
-              <Text style={[styles.headerText, { width: 120 }]}>
-                Amount Paid
-              </Text>
+              <View style={styles.rowDirection}>
+                <View style={styles.whiteDivider} />
+                <Text style={[styles.headerText, { width: 100 }]}>Type</Text>
+              </View>
+              <View style={styles.rowDirection}>
+                <View style={styles.whiteDivider} />
+                <Text style={[styles.headerText, { width: 100 }]}>
+                  Invoice #
+                </Text>
+              </View>
+              <View style={styles.rowDirection}>
+                <View style={styles.whiteDivider} />
+                <Text style={[styles.headerText, { width: 140 }]}>Details</Text>
+              </View>
+              <View style={styles.rowDirection}>
+                <View style={styles.whiteDivider} />
+                <Text style={[styles.headerText, { width: 120 }]}>
+                  Amount Due
+                </Text>
+              </View>
+              <View style={styles.rowDirection}>
+                <View style={styles.whiteDivider} />
+                <Text style={[styles.headerText, { width: 120 }]}>
+                  Amount Paid
+                </Text>
+              </View>
             </View>
             {subscriptionData.map((item, index) => (
               <View
@@ -65,19 +83,34 @@ const MySubscriptionScreen = () => {
                 ]}
               >
                 <Text style={[styles.cell, { width: 150 }]}>{item.date}</Text>
-                <Text style={[styles.cell, { width: 100 }]}>{item.type}</Text>
-                <Text style={[styles.cell, { width: 100 }]}>
-                  {item.invoiceNo}
-                </Text>
-                <Text style={[styles.cell, { width: 140 }]}>
-                  {item.details}
-                </Text>
-                <Text style={[styles.cell, { width: 120 }]}>
-                  {item.dueAmount}
-                </Text>
-                <Text style={[styles.cell, { width: 120 }]}>
-                  {item.paidAmount}
-                </Text>
+                <View style={styles.rowDirection}>
+                  <View style={styles.divider} />
+                  <Text style={[styles.cell, { width: 100 }]}>{item.type}</Text>
+                </View>
+                <View style={styles.rowDirection}>
+                  <View style={styles.divider} />
+                  <Text style={[styles.cell, { width: 100 }]}>
+                    {item.invoiceNo}
+                  </Text>
+                </View>
+                <View style={styles.rowDirection}>
+                  <View style={styles.divider} />
+                  <Text style={[styles.cell, { width: 140 }]}>
+                    {item.details}
+                  </Text>
+                </View>
+                <View style={styles.rowDirection}>
+                  <View style={styles.divider} />
+                  <Text style={[styles.cell, { width: 120 }]}>
+                    {item.dueAmount}
+                  </Text>
+                </View>
+                <View style={styles.rowDirection}>
+                  <View style={styles.divider} />
+                  <Text style={[styles.cell, { width: 120 }]}>
+                    {item.paidAmount}
+                  </Text>
+                </View>
               </View>
             ))}
           </ScrollView>
@@ -100,10 +133,9 @@ const styles = StyleSheet.create({
   headerText: {
     color: "#fff",
     fontWeight: "bold",
-    textAlign: "center",
+    textAlign: "left",
     paddingVertical: 10,
-    borderWidth: 1,
-    borderColor: "#fff",
+    paddingLeft: 10,
     fontSize: 12,
     backgroundColor: colors.primary,
   },
@@ -111,11 +143,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: 30,
     alignItems: "center",
-    borderBottomWidth: 1,
-    borderColor: "#ccc",
   },
   cell: {
-    textAlign: "center",
+    textAlign: "left",
     fontSize: 12,
+    paddingLeft: 10,
+  },
+  rowDirection: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  divider: {
+    height: 10,
+    width: 1,
+    backgroundColor: "gray",
+  },
+  whiteDivider: {
+    height: 10,
+    width: 1,
+    backgroundColor: "white",
   },
 });

@@ -200,7 +200,7 @@ const LandingScreen = () => {
       getCalendarData(selectedDate, SelectedSport);
     }
 
-    console.log(response.data, "response of cancel");
+    console.log(sports, "response of cancel");
   };
 
   return (
@@ -238,6 +238,7 @@ const LandingScreen = () => {
       {/* </ScrollView> */}
       <ConfirmationPopup
         reference={confirmationPopup}
+        selectedSport={SelectedSport?.sportServiceSetting?.title}
         onAccept={onAcceptBooking}
       />
 

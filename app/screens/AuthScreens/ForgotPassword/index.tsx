@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     paddingTop: vh * 2.5,
   },
   terms: {
-    color: colors.green,
+    color: colors.darkText,
     textAlign: "center",
     marginTop: vh * 9,
     fontSize: vh * 1.8,

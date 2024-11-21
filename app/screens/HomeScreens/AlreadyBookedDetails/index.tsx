@@ -25,6 +25,8 @@ import { useAppDispatch } from "../LandingScreen";
 import { toggleBtnLoader } from "@/app/store/slices/generalSlice";
 import bookingdetail from "@/app/(tabs)/bookingstack";
 import ArchivoMedium from "@/app/components/TextWrapper/ArchivoMedium";
+import ArchivoRegular from "@/app/components/TextWrapper/ArchivoRegular";
+import { vh } from "@/app/utils/units";
 
 const DetailComponent = ({ label, value, hideBorder }: any) => {
   return (
@@ -33,7 +35,10 @@ const DetailComponent = ({ label, value, hideBorder }: any) => {
         {label} {value ? ":" : ","}{" "}
       </ArchivoMedium>
       <View style={{ width: "40%", alignItems: "flex-end" }}>
-        <Text>{value}</Text>
+        <ArchivoRegular style={{ fontSize: vh * 1.5, color: colors.darkText }}>
+          {" "}
+          {value}
+        </ArchivoRegular>
       </View>
     </View>
   );
@@ -131,6 +136,7 @@ const AlreadyBookedDetails = () => {
         <ScrollView
           contentContainerStyle={{
             paddingHorizontal: 20,
+            paddingBottom: 20,
           }}
         >
           {/* Booking Info */}
@@ -145,7 +151,9 @@ const AlreadyBookedDetails = () => {
               >
                 <View style={styles.rowDirection}>
                   <Image source={icons.clock} style={styles.logo} />
-                  <BerlingskeBold style={{ color: colors.darkText }}>
+                  <BerlingskeBold
+                    style={{ color: colors.darkText, fontSize: vh * 2 }}
+                  >
                     Session
                   </BerlingskeBold>
                 </View>
@@ -158,7 +166,7 @@ const AlreadyBookedDetails = () => {
                       style={{
                         fontWeight: "bold",
                         color: "white",
-                        fontSize: 13,
+                        fontSize: vh * 1.5,
                       }}
                     >
                       Cancel Booking
@@ -207,7 +215,9 @@ const AlreadyBookedDetails = () => {
                 ]}
               >
                 <Image source={icons.group} style={styles.logo} />
-                <BerlingskeBold style={{ color: colors.darkText }}>
+                <BerlingskeBold
+                  style={{ color: colors.darkText, fontSize: vh * 2 }}
+                >
                   Players Info
                 </BerlingskeBold>
               </View>
@@ -235,9 +245,16 @@ const AlreadyBookedDetails = () => {
                       marginRight: 10,
                     }}
                   />
-                  <Text style={{ fontSize: 13 }} key={index}>
+                  <ArchivoRegular
+                    style={{
+                      fontSize: vh * 1.5,
+                      width: "80%",
+                      textAlign: "right",
+                    }}
+                    key={index}
+                  >
                     {player.bookingMemberName}
-                  </Text>
+                  </ArchivoRegular>
                 </View>
               ))}
             </View>
@@ -247,8 +264,10 @@ const AlreadyBookedDetails = () => {
           {bookingDetails ? (
             <View style={styles.cardContainer}>
               <View style={[styles.rowDirection, { marginBottom: 10 }]}>
-                <Image source={icons.payments} style={styles.logo} />
-                <BerlingskeBold style={{ color: colors.darkText }}>
+                <Image source={icons.bankTransfer} style={styles.logo} />
+                <BerlingskeBold
+                  style={{ color: colors.darkText, fontSize: vh * 2 }}
+                >
                   Booking & Payments
                 </BerlingskeBold>
               </View>
@@ -299,25 +318,50 @@ const AlreadyBookedDetails = () => {
             >
               <View>
                 <View style={styles.tableHeader}>
-                  <Text style={styles.tableHeaderText}>Name</Text>
-                  <Text style={styles.tableHeaderText}>Booking Rate</Text>
-                  <Text style={styles.tableHeaderText}>Receipt</Text>
-                  <Text style={styles.tableHeaderText}>Payment Method</Text>
+                  <ArchivoRegular
+                    style={[styles.tableHeaderText, { width: 120 }]}
+                  >
+                    Name
+                  </ArchivoRegular>
+                  <View style={styles.whiteDivider} />
+                  <ArchivoRegular style={styles.tableHeaderText}>
+                    Booking Rate
+                  </ArchivoRegular>
+                  <View style={styles.whiteDivider} />
+
+                  <ArchivoRegular style={styles.tableHeaderText}>
+                    Receipt
+                  </ArchivoRegular>
+                  <View style={styles.whiteDivider} />
+
+                  <ArchivoRegular style={styles.tableHeaderText}>
+                    Payment Method
+                  </ArchivoRegular>
                 </View>
 
                 {bookingDetails.paymentPlayers.map(
                   (payment: any, index: number) => (
                     <View key={index} style={styles.tableRow}>
-                      <Text style={styles.tableCell}>{payment.payerName}</Text>
-                      <Text style={styles.tableCell}>
+                      <ArchivoRegular
+                        style={[styles.tableCell, { width: 120 }]}
+                      >
+                        {payment.payerName}
+                      </ArchivoRegular>
+                      <View style={styles.divider} />
+
+                      <ArchivoRegular style={styles.tableCell}>
                         ${payment.bookingRate}
-                      </Text>
-                      <Text style={styles.tableCell}>
+                      </ArchivoRegular>
+                      <View style={styles.divider} />
+
+                      <ArchivoRegular style={styles.tableCell}>
                         {payment.bookingReceipt}
-                      </Text>
-                      <Text style={styles.tableCell}>
+                      </ArchivoRegular>
+                      <View style={styles.divider} />
+
+                      <ArchivoRegular style={styles.tableCell}>
                         {payment.paymentMethod}
-                      </Text>
+                      </ArchivoRegular>
                     </View>
                   )
                 )}
@@ -343,7 +387,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   label: {
-    fontSize: 14,
+    fontSize: vh * 1.6,
     color: "black",
   },
   rowDirection: {
@@ -355,6 +399,7 @@ const styles = StyleSheet.create({
     width: 25,
     resizeMode: "contain",
     marginRight: 15,
+    tintColor: colors.primary,
   },
   tableContainer: {
     marginVertical: 20,
@@ -372,8 +417,8 @@ const styles = StyleSheet.create({
   tableHeaderText: {
     flex: 1,
     fontWeight: "bold",
-    textAlign: "center",
-    fontSize: 14,
+    textAlign: "left",
+    fontSize: vh * 1.5,
     color: "white",
     minWidth: 100,
   },
@@ -386,12 +431,13 @@ const styles = StyleSheet.create({
   },
   tableCell: {
     flex: 1,
-    textAlign: "center",
-    fontSize: 14,
+    textAlign: "left",
+    fontSize: vh * 1.4,
     minWidth: 100,
+    color: colors.darkText,
   },
   cancelBtn: {
-    height: 35,
+    height: vh * 4.5,
     width: 120,
     backgroundColor: colors.red,
     justifyContent: "center",
@@ -403,5 +449,18 @@ const styles = StyleSheet.create({
     marginTop: 15,
     borderRadius: 10,
     padding: 10,
+  },
+  whiteDivider: {
+    height: 10,
+    width: 1,
+    backgroundColor: "white",
+    marginRight: 10,
+  },
+  divider: {
+    height: 10,
+    width: 1,
+    backgroundColor: "gray",
+    marginRight: 10,
+    alignSelf: "center",
   },
 });

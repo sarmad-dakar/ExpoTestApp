@@ -13,6 +13,9 @@ import BerlingskeMedium from "@/app/components/TextWrapper/BerlingskeMedium";
 import { router } from "expo-router";
 import { useDispatch } from "react-redux";
 import { logout } from "@/app/store/slices/userSlice";
+import ArchivoRegular from "@/app/components/TextWrapper/ArchivoRegular";
+import BerlingskeBold from "@/app/components/TextWrapper/BerlingskeBold";
+import { vh } from "@/app/utils/units";
 
 const AppNavigationScreen = () => {
   const activeOpacity = 0.5;
@@ -66,7 +69,9 @@ const AppNavigationScreen = () => {
       <GeneralHeader title="App Navigations" back={true} />
       <ScrollView style={styles.container}>
         <View style={styles.heading}>
-          <BerlingskeMedium>App Settings</BerlingskeMedium>
+          <BerlingskeBold style={styles.headingText}>
+            App Settings
+          </BerlingskeBold>
         </View>
         {AppSettings.map((item) => (
           <TouchableOpacity
@@ -74,12 +79,14 @@ const AppNavigationScreen = () => {
             activeOpacity={activeOpacity}
             style={styles.subHeading}
           >
-            <Text>{item.name}</Text>
+            <ArchivoRegular style={{ fontSize: vh * 1.7, color: "#3B5049" }}>
+              {item.name}
+            </ArchivoRegular>
           </TouchableOpacity>
         ))}
 
         <View style={styles.heading}>
-          <BerlingskeMedium>Help</BerlingskeMedium>
+          <BerlingskeBold style={styles.headingText}>Help</BerlingskeBold>
         </View>
         {HelpNavigation.map((item) => (
           <TouchableOpacity
@@ -87,7 +94,9 @@ const AppNavigationScreen = () => {
             activeOpacity={activeOpacity}
             style={styles.subHeading}
           >
-            <Text>{item.name}</Text>
+            <ArchivoRegular style={{ fontSize: vh * 1.7, color: "#3B5049" }}>
+              {item.name}
+            </ArchivoRegular>
           </TouchableOpacity>
         ))}
 
@@ -96,7 +105,9 @@ const AppNavigationScreen = () => {
           activeOpacity={activeOpacity}
           style={styles.subHeading}
         >
-          <Text>Logout</Text>
+          <ArchivoRegular style={{ fontSize: vh * 1.7, color: "#3B5049" }}>
+            Logout
+          </ArchivoRegular>
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={activeOpacity}
@@ -118,6 +129,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingHorizontal: 30,
   },
+  headingText: {
+    fontSize: vh * 2.2,
+    color: colors.darkText,
+  },
   container: {
     flex: 1,
     backgroundColor: "white",
@@ -128,7 +143,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     justifyContent: "center",
     paddingHorizontal: 30,
-    borderWidth: 1,
+    borderWidth: 0.3,
     borderColor: colors.lightGray,
   },
 });

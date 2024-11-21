@@ -266,6 +266,37 @@ const BookingDetailScreen = () => {
     getMembers();
   };
 
+  const handleMarkAllUnfav = async (members: Player[]) => {
+    const memberCodes = members.map((member) => member.memberCode).join(",");
+
+    // Prepare the data object
+    let data = {
+      IsFavourite: false, // Assuming `isFav` is `false` when marking as unfavorite
+      MemberCodes: memberCodes,
+      Service: bookingData?.selectedSport?.sportServiceSetting.title,
+    };
+    const response = await AddToFavorite(data);
+    console.log(response.data, "response of favorites");
+
+    getMembers();
+    console.log(data);
+  };
+
+  const handleMarkAllfav = async (members: Player[]) => {
+    const memberCodes = members.map((member) => member.memberCode).join(",");
+
+    // Prepare the data object
+    let data = {
+      IsFavourite: true, // Assuming `isFav` is `false` when marking as unfavorite
+      MemberCodes: memberCodes,
+      Service: bookingData?.selectedSport?.sportServiceSetting.title,
+    };
+    const response = await AddToFavorite(data);
+    console.log(response.data, "response of favorites");
+
+    getMembers();
+    console.log(data);
+  };
   const validateBookingButton = (data) => {
     // Initialize the variable to store the result
     let result = false;
@@ -381,7 +412,7 @@ const BookingDetailScreen = () => {
         <InputField icon={icons.clock} value={bookingData.sessionDetail.slot} />
         <View style={{ pointerEvents: "none" }}>
           <InputField
-            icon={icons.court}
+            icon={icons.court2}
             value={bookingData.courtDetail.title}
           />
         </View>
@@ -390,7 +421,7 @@ const BookingDetailScreen = () => {
           Booking Types
         </BerlingskeMedium>
         <InputField
-          icon={icons.court}
+          icon={icons.court2}
           rightIcon={icons.dropdown}
           value={bookingType?.title}
           dropdown={true}
@@ -551,9 +582,9 @@ const BookingDetailScreen = () => {
         {selectedPlayers.map((item) => {
           return (
             <View style={styles.removePlayerContainer}>
-              <Text>
+              <ArchivoRegular style={{ fontSize: 13 }}>
                 {item.name} ({item.memberCode})
-              </Text>
+              </ArchivoRegular>
               <TouchableOpacity onPress={() => handleRemovePlayers(item)}>
                 <Image source={icons.cross} style={styles.icon} />
               </TouchableOpacity>
@@ -569,6 +600,8 @@ const BookingDetailScreen = () => {
         maximumPlayers={maximumPlayers}
         onDonePress={onDonePress}
         onAddFavoritePress={onAddFavoritePress}
+        handleMarkAllUnfav={handleMarkAllUnfav}
+        handleMarkAllfav={handleMarkAllfav}
       />
       <BookingConfirmationPopup
         reference={bookingConfirmationRef}
@@ -597,7 +630,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   addPlayer: {
-    height: vh * 3.4,
+    height: vh * 3.7,
     width: 100,
   },
   checkbox: {

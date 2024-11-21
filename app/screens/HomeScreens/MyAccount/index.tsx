@@ -18,6 +18,8 @@ import { fetchMyAccount } from "@/app/store/slices/accountSlice";
 import { router } from "expo-router";
 import { useAppDispatch } from "../LandingScreen";
 import { RootState } from "@/app/store";
+import { vh } from "@/app/utils/units";
+import ArchivoRegular from "@/app/components/TextWrapper/ArchivoRegular";
 
 interface AccountData {
   date: string;
@@ -73,70 +75,117 @@ const MyAccountScreen = () => {
         {/* <SearchField /> */}
 
         {/* Scrollable Content */}
-        <ScrollView horizontal>
-          {/* Data Rows - Vertical Scroll */}
-          <ScrollView style={{ marginTop: 13 }}>
-            <View style={[styles.headerRow, { width: windowWidth }]}>
-              <Text style={[styles.headerText, { width: 150 }]}>Date</Text>
-              <Text style={[styles.headerText, { width: 100 }]}>
-                Transaction #
-              </Text>
-              <Text style={[styles.headerText, { width: 100 }]}>Section</Text>
-              <Text style={[styles.headerText, { width: 120 }]}>Category</Text>
-              <Text style={[styles.headerText, { width: 220 }]}>Remarks</Text>
-              <Text style={[styles.headerText, { width: 80 }]}>Amount</Text>
-              <Text style={[styles.headerText, { width: 120 }]}>Action</Text>
-            </View>
-            {loading ? (
-              <View style={{ alignSelf: "center" }}>
-                <ActivityIndicator size={"large"} color={colors.secondary} />
+        <View style={{ flex: 0.95 }}>
+          <ScrollView horizontal>
+            {/* Data Rows - Vertical Scroll */}
+            <ScrollView style={{ marginTop: 15 }}>
+              <View style={[styles.headerRow]}>
+                <Text style={[styles.headerText, { width: 150 }]}>Date</Text>
+                <View style={styles.rowDirection}>
+                  <View style={styles.whiteDivider} />
+                  <Text style={[styles.headerText, { width: 100 }]}>
+                    Transaction #
+                  </Text>
+                </View>
+                <View style={styles.rowDirection}>
+                  <View style={styles.whiteDivider} />
+                  <Text style={[styles.headerText, { width: 100 }]}>
+                    Section
+                  </Text>
+                </View>
+                <View style={styles.rowDirection}>
+                  <View style={styles.whiteDivider} />
+                  <Text style={[styles.headerText, { width: 120 }]}>
+                    Category
+                  </Text>
+                </View>
+                <View style={styles.rowDirection}>
+                  <View style={styles.whiteDivider} />
+                  <Text style={[styles.headerText, { width: 220 }]}>
+                    Remarks
+                  </Text>
+                </View>
+                <View style={styles.rowDirection}>
+                  <View style={styles.whiteDivider} />
+                  <Text style={[styles.headerText, { width: 80 }]}>Amount</Text>
+                </View>
+                <View style={styles.rowDirection}>
+                  <View style={styles.whiteDivider} />
+                  <Text style={[styles.headerText, { width: 120 }]}>
+                    Action
+                  </Text>
+                </View>
               </View>
-            ) : (
-              accountData.map((item, index) => (
-                <View
-                  key={index}
-                  style={[
-                    styles.row,
-                    {
-                      backgroundColor:
-                        index % 2 !== 0 ? "white" : colors.lightShade,
-                    },
-                  ]}
-                >
-                  <Text style={[styles.cell, { width: 150 }]}>{item.date}</Text>
-                  <Text style={[styles.cell, { width: 100 }]}>
-                    {item.transactionNumber}
-                  </Text>
-                  <Text style={[styles.cell, { width: 100 }]}>
-                    {item.section}
-                  </Text>
-                  <Text style={[styles.cell, { width: 120 }]}>
-                    {item.category}
-                  </Text>
-                  <Text style={[styles.cell, { width: 220 }]}>
-                    {item.remarks}
-                  </Text>
-                  <Text style={[styles.cell, { width: 80 }]}>
-                    {item.amount}
-                  </Text>
-                  <TouchableOpacity
-                    disabled={!item?.bookingKey}
-                    onPress={() => onDetailPress(item)}
+              {loading ? (
+                <View style={{ alignSelf: "center" }}>
+                  <ActivityIndicator size={"large"} color={colors.secondary} />
+                </View>
+              ) : (
+                accountData.map((item, index) => (
+                  <View
+                    key={index}
+                    style={[
+                      styles.row,
+                      {
+                        backgroundColor:
+                          index % 2 !== 0 ? "white" : colors.lightShade,
+                      },
+                    ]}
                   >
-                    <Text
-                      style={[
-                        styles.cell,
-                        {
-                          width: 120,
-                          textDecorationLine: "underline",
-                          color: !item.bookingKey ? "gray" : "#0000EE",
-                        },
-                      ]}
-                    >
-                      View Details
-                    </Text>
-                  </TouchableOpacity>
-                  {/* <TouchableOpacity onPress={() => onRecieptPress(item)}>
+                    <ArchivoRegular style={[styles.cell, { width: 150 }]}>
+                      {item.date}
+                    </ArchivoRegular>
+                    <View style={styles.rowDirection}>
+                      <View style={styles.divider} />
+                      <ArchivoRegular style={[styles.cell, { width: 100 }]}>
+                        {item.transactionNumber}
+                      </ArchivoRegular>
+                    </View>
+                    <View style={styles.rowDirection}>
+                      <View style={styles.divider} />
+                      <ArchivoRegular style={[styles.cell, { width: 100 }]}>
+                        {item.section}
+                      </ArchivoRegular>
+                    </View>
+                    <View style={styles.rowDirection}>
+                      <View style={styles.divider} />
+                      <ArchivoRegular style={[styles.cell, { width: 120 }]}>
+                        {item.category}
+                      </ArchivoRegular>
+                    </View>
+                    <View style={styles.rowDirection}>
+                      <View style={styles.divider} />
+                      <ArchivoRegular style={[styles.cell, { width: 220 }]}>
+                        {item.remarks}
+                      </ArchivoRegular>
+                    </View>
+                    <View style={styles.rowDirection}>
+                      <View style={styles.divider} />
+                      <ArchivoRegular style={[styles.cell, { width: 80 }]}>
+                        {item.amount}
+                      </ArchivoRegular>
+                    </View>
+                    <View style={styles.rowDirection}>
+                      <View style={styles.divider} />
+                      <TouchableOpacity
+                        disabled={!item?.bookingKey}
+                        onPress={() => onDetailPress(item)}
+                      >
+                        <ArchivoRegular
+                          style={[
+                            styles.cell,
+                            {
+                              width: 120,
+                              textDecorationLine: "underline",
+                              color: !item.bookingKey ? "gray" : "#0000EE",
+                            },
+                          ]}
+                        >
+                          View Details
+                        </ArchivoRegular>
+                      </TouchableOpacity>
+                    </View>
+                    {/* <TouchableOpacity onPress={() => onRecieptPress(item)}>
                   <Text
                     style={[
                       styles.cell,
@@ -150,11 +199,12 @@ const MyAccountScreen = () => {
                     View Reciept
                   </Text>
                 </TouchableOpacity> */}
-                </View>
-              ))
-            )}
+                  </View>
+                ))
+              )}
+            </ScrollView>
           </ScrollView>
-        </ScrollView>
+        </View>
       </ScreenWrapper>
     </View>
   );
@@ -173,22 +223,39 @@ const styles = StyleSheet.create({
   headerText: {
     color: "#fff",
     fontWeight: "bold",
-    textAlign: "center",
+    textAlign: "left",
     paddingVertical: 10,
-    borderWidth: 1,
-    borderColor: "#fff",
-    fontSize: 12,
+    paddingLeft: 10,
+    // borderWidth: 0.5,
+    // borderColor: "#fff",
+    fontSize: vh * 1.5,
     backgroundColor: colors.primary,
   },
   row: {
     flexDirection: "row",
     height: 40,
     alignItems: "center",
-    borderBottomWidth: 1,
-    borderColor: "#ccc",
+    // borderBottomWidth: 1,
+    // borderColor: "#ccc",
   },
   cell: {
-    textAlign: "center",
-    fontSize: 12,
+    textAlign: "left",
+    fontSize: vh * 1.4,
+    paddingLeft: 10,
+    color: colors.darkText,
+  },
+  rowDirection: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  divider: {
+    height: 10,
+    width: 1,
+    backgroundColor: "gray",
+  },
+  whiteDivider: {
+    height: 10,
+    width: 1,
+    backgroundColor: "white",
   },
 });

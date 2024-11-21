@@ -89,7 +89,9 @@ const GeneralHeader = ({ title, back, sport }: headerProps) => {
             </View>
           </View>
         </Pressable>
-      ) : null}
+      ) : (
+        <View style={{ width: 60 }} />
+      )}
       <TopupConfirmationPopup reference={topupConfirmationRef} />
     </View>
   );
@@ -100,7 +102,7 @@ export default GeneralHeader;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.primary,
-    height: vh * 13,
+    height: vh * 15,
     borderBottomRightRadius: 30,
     borderBottomLeftRadius: 30,
     justifyContent: "space-between",

@@ -31,6 +31,7 @@ import { icons } from "@/app/MyAssets";
 import GeneralHeader from "../GeneralHeader";
 import { colors } from "@/app/utils/theme";
 import { vh } from "@/app/utils/units";
+import ArchivoRegular from "../TextWrapper/ArchivoRegular";
 
 // Get screen dimensions
 const { height } = Dimensions.get("window");
@@ -148,8 +149,20 @@ const TopupConfirmationPopup = forwardRef<
       >
         {steps == 1 ? (
           <View style={styles.content}>
+            <TouchableOpacity onPress={hide} style={styles.crossIconContainer}>
+              <Image
+                source={icons.cross}
+                style={{
+                  width: 25,
+                  height: 25,
+                  resizeMode: "contain",
+                }}
+              />
+            </TouchableOpacity>
             <BerlingskeBold>Confirm Top-up</BerlingskeBold>
-            <Text>Please enter the amount you wish to top-up:</Text>
+            <ArchivoRegular style={{ fontSize: 13 }}>
+              Please enter the amount you wish to top-up:
+            </ArchivoRegular>
 
             <InputField
               keyboardType="decimal-pad"
@@ -164,10 +177,10 @@ const TopupConfirmationPopup = forwardRef<
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={[styles.btn, { backgroundColor: "#6AAF2E" }]}
+                style={[styles.btn, { backgroundColor: colors.secondary }]}
                 onPress={handleConfirm}
               >
-                <Text style={{ color: "white" }}>Confirm</Text>
+                <Text style={{ color: "black" }}>Confirm</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -241,6 +254,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingLeft: "5%",
     paddingTop: "4%",
+  },
+  crossIconContainer: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    zIndex: 100,
   },
 });
 
