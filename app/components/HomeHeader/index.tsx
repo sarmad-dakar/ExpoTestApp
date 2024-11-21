@@ -223,14 +223,17 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
               <View style={styles.datePickerField}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <Image source={icons.calendar} style={styles.inputIcon} />
-                  <DateTimePicker
+                <View style={{transform : [ {scale : 0.8}] }}>
+                <DateTimePicker
                     value={selectedDate}
                     mode="date"
                     key={moment(selectedDate).format("DD/MM/YYYY")}
                     display="calendar"
                     onChange={onChangeDate}
-                    style={{ top: 0, left: 5 }}
+                    
+                    style={{ top: 0, left: 1 , }}
                   />
+                  </View>
                 </View>
                 <Image source={icons.dropdown} style={styles.inputIcon} />
               </View>
