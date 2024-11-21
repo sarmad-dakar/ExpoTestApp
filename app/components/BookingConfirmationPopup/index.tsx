@@ -17,10 +17,12 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Image,
 } from "react-native";
 import BerlingskeBold from "../TextWrapper/BerlingskeBold";
 import InputField from "../InputField";
 import { showErrorToast } from "@/app/utils/toastmsg";
+import { icons } from "@/app/MyAssets";
 
 // Get screen dimensions
 const { height } = Dimensions.get("window");
@@ -119,6 +121,19 @@ const BookingConfirmationPopup = forwardRef<
             keyboardShouldPersistTaps="handled"
           >
             <View style={styles.content}>
+              <TouchableOpacity
+                onPress={hide}
+                style={styles.crossIconContainer}
+              >
+                <Image
+                  source={icons.cross}
+                  style={{
+                    width: 25,
+                    height: 25,
+                    resizeMode: "contain",
+                  }}
+                />
+              </TouchableOpacity>
               <BerlingskeBold style={styles.title}>Confirmation</BerlingskeBold>
               <Text style={styles.description}>
                 Please provide pin to {props.cancel ? "cancel" : "book"} this
@@ -184,7 +199,7 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 14,
     color: "gray",
-    marginBottom: 20,
+    marginBottom: 0,
   },
   rowDirection: {
     flexDirection: "row",
@@ -199,6 +214,12 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     justifyContent: "center",
     alignItems: "center",
+  },
+  crossIconContainer: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    zIndex: 100,
   },
 });
 

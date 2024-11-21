@@ -76,6 +76,9 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
   };
 
   const extractGreenSlotTime = () => {
+    if (data.timeSlots.length < 2) {
+      return null;
+    }
     const timeSlots = data.timeSlots;
     const selectedDate = moment(date); // Moment object for the selected date
     const currentTime = moment(); // Moment object for the current time
@@ -250,7 +253,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
   };
 
   return (
-    <View style={{ flex: 0.74, width: "100%", paddingHorizontal: "5%" }}>
+    <View style={{ height: vh * 40, width: "100%", paddingHorizontal: "5%" }}>
       <BerlingskeMedium style={styles.heading}>
         Book Your Slots
       </BerlingskeMedium>

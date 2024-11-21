@@ -21,13 +21,14 @@ import AddChildrenPopup, {
   AddChildrenPopupRef,
 } from "@/app/components/AddChildrenPopup";
 import { useSelector } from "react-redux";
-import { vw } from "@/app/utils/units";
+import { vh, vw } from "@/app/utils/units";
 import { updateUserInfo } from "@/app/api/Auth";
 import { useAppDispatch } from "../LandingScreen";
 import { fetchMyProfile } from "@/app/store/slices/userSlice";
 import AddPhonePopup, {
   AddPhonePopupRef,
 } from "@/app/components/AddPhoneNumberPopup";
+import ArchivoExtraLight from "@/app/components/TextWrapper/ArchivoExtraLight";
 
 interface children {
   name: string;
@@ -241,7 +242,9 @@ const ProfileScreen = () => {
             onPress={() => AddPhoneRef.current?.show()}
           />
           <View style={styles.rowDirection}>
-            <BerlingskeBold>Children (under 18)</BerlingskeBold>
+            <BerlingskeBold style={styles.heading}>
+              Children (under 18)
+            </BerlingskeBold>
 
             <MainButton
               style={styles.btn}
@@ -258,7 +261,7 @@ const ProfileScreen = () => {
                     style={[styles.icon, { marginRight: 10 }]}
                   />
 
-                  <Text>
+                  <Text style={styles.btnText}>
                     {item.name} || {item.dateOfBirth}
                   </Text>
                 </View>
@@ -270,7 +273,7 @@ const ProfileScreen = () => {
           })}
 
           <View style={styles.rowDirection}>
-            <BerlingskeBold>Car Numbers</BerlingskeBold>
+            <BerlingskeBold style={styles.heading}>Car Numbers</BerlingskeBold>
             <MainButton
               style={styles.btn}
               title="ADD CAR NUMBER"
@@ -287,7 +290,7 @@ const ProfileScreen = () => {
                     style={[styles.icon, { marginRight: 10 }]}
                   />
 
-                  <Text>{item}</Text>
+                  <Text style={styles.btnText}>{item}</Text>
                 </View>
                 <TouchableOpacity onPress={() => handleRemoveCars(item)}>
                   <Image source={icons.cross} style={styles.icon} />
@@ -297,7 +300,7 @@ const ProfileScreen = () => {
           })}
 
           <View style={styles.divider} />
-          <Text style={styles.description}>
+          <ArchivoExtraLight style={styles.description}>
             I hereby give my consent to the Marsa Sports Club to process, retain
             record and use my personal data, which is being given herewith for
             the purpose of the administration of the Membership register as a
@@ -306,7 +309,7 @@ const ProfileScreen = () => {
             General Data Protection Regulation (GDPR) Regulation EU 2016/679.
             For more information you are requested to logon to our website:
             www.marsasportclub.com to access the Club’s Private policy.
-          </Text>
+          </ArchivoExtraLight>
         </ScrollView>
         {/* Display Save and Cancel buttons if edited */}
         {isEdited ? (
@@ -346,7 +349,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     width: "40%",
-    height: 25,
+    height: vh * 3.7,
   },
   divider: {
     height: 1,
@@ -356,7 +359,7 @@ const styles = StyleSheet.create({
   description: {
     textAlign: "center",
     marginTop: 10,
-    fontSize: 14,
+    fontSize: vh * 1.5,
     color: colors.primary,
     marginBottom: 50,
   },
@@ -371,8 +374,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   icon: {
-    height: 20,
-    width: 20,
+    height: 16,
+    width: 16,
     resizeMode: "contain",
   },
   saveButton: {
@@ -392,5 +395,11 @@ const styles = StyleSheet.create({
     height: 130,
     backgroundColor: "white",
     paddingHorizontal: "4%",
+  },
+  heading: {
+    fontSize: vh * 2.4,
+  },
+  btnText: {
+    fontSize: 13,
   },
 });

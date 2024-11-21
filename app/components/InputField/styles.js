@@ -1,3 +1,4 @@
+import { colors } from "@/app/utils/theme";
 import { vh } from "@/app/utils/units";
 import { StyleSheet } from "react-native";
 
@@ -36,6 +37,7 @@ export const styles = StyleSheet.create({
     width: "60%",
     height: "60%",
     resizeMode: "contain",
+    tintColor: colors.primary,
   },
   iconContainer: {
     width: 30,

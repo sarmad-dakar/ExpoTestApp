@@ -9,6 +9,7 @@ import SelectDropDown, { SelectDropdownRef } from "@/app/components/Dropdown";
 import { postContactus } from "@/app/api/Auth";
 import { router } from "expo-router";
 import { showErrorToast, showSuccessToast } from "@/app/utils/toastmsg";
+import BerlingskeMedium from "@/app/components/TextWrapper/BerlingskeMedium";
 const ContactTypes = [
   { label: "Complaint", value: "complaint" },
   { label: "Help", value: "help" },
@@ -52,7 +53,7 @@ const ContactScreen = () => {
     <View style={styles.container}>
       <GeneralHeader title="Contact Us" back={true} />
       <View style={{ flex: 1, paddingHorizontal: "4%", paddingTop: "10%" }}>
-        <BerlingskeBold>Write Your Query</BerlingskeBold>
+        <BerlingskeMedium>Write Your Query</BerlingskeMedium>
         <InputField
           dropdown={true}
           onPress={() => dropdownRef.current?.show()}
@@ -68,6 +69,7 @@ const ContactScreen = () => {
             paddingTop: "2%",
             borderColor: "#0004",
             borderRadius: 5,
+            paddingHorizontal: 10,
           }}
         />
         <View style={{ height: 10 }} />
@@ -87,6 +89,7 @@ const ContactScreen = () => {
             borderColor: "#0004",
             borderRadius: 5,
             paddingTop: 10,
+            paddingHorizontal: 10,
           }}
         />
         <MainButton title="Submit" onPress={handleContact} />

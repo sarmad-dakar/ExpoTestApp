@@ -48,9 +48,7 @@ const ChangePinScreen = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <GeneralHeader title="Change Pin" 
-      back={true}
-      />
+      <GeneralHeader title="Change Pin" back={true} />
       <ScreenWrapper>
         <BerlingskeMedium style={styles.heading}>
           To change your PIN, please fill in the details below.
@@ -98,7 +96,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 20,
     marginBottom: 20,
-    fontSize: 24,
+    fontSize: 18,
   },
   btn: {
     marginTop: 40,

@@ -23,14 +23,23 @@ import BookingConfirmationPopup from "@/app/components/BookingConfirmationPopup"
 import { fetchRemainingBalance } from "@/app/store/slices/accountSlice";
 import { useAppDispatch } from "../LandingScreen";
 import { toggleBtnLoader } from "@/app/store/slices/generalSlice";
+import bookingdetail from "@/app/(tabs)/bookingstack";
+import ArchivoMedium from "@/app/components/TextWrapper/ArchivoMedium";
+import ArchivoRegular from "@/app/components/TextWrapper/ArchivoRegular";
+import { vh } from "@/app/utils/units";
 
-const DetailComponent = ({ label, value }: any) => {
+const DetailComponent = ({ label, value, hideBorder }: any) => {
   return (
-    <View style={styles.container}>
-      <BerlingskeBold style={styles.label}>
+    <View style={[styles.container, hideBorder && { borderBottomWidth: 0 }]}>
+      <ArchivoMedium style={styles.label}>
         {label} {value ? ":" : ","}{" "}
-      </BerlingskeBold>
-      <Text>{value}</Text>
+      </ArchivoMedium>
+      <View style={{ width: "40%", alignItems: "flex-end" }}>
+        <ArchivoRegular style={{ fontSize: vh * 1.5, color: colors.darkText }}>
+          {" "}
+          {value}
+        </ArchivoRegular>
+      </View>
     </View>
   );
 };
@@ -106,7 +115,7 @@ const AlreadyBookedDetails = () => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: colors.white }}>
       <BookingConfirmationPopup
         reference={bookingConfirmationRef}
         onAccept={onConfirmedCancel}
@@ -124,31 +133,48 @@ const AlreadyBookedDetails = () => {
           <ActivityIndicator size={"large"} color={colors.secondary} />
         </View>
       ) : (
-        <ScrollView contentContainerStyle={{ paddingHorizontal: 20 }}>
+        <ScrollView
+          contentContainerStyle={{
+            paddingHorizontal: 20,
+            paddingBottom: 20,
+          }}
+        >
           {/* Booking Info */}
-          <View
-            style={[styles.rowDirection, { justifyContent: "space-between" }]}
-          >
-            <View style={styles.rowDirection}>
-              <Image source={icons.clock} style={styles.logo} />
-              <BerlingskeBold>Session</BerlingskeBold>
-            </View>
-            {shouldCancelVisible() ? (
-              <TouchableOpacity
-                onPress={() => bookingConfirmationRef.current?.show()}
-                style={styles.cancelBtn}
-              >
-                <Text
-                  style={{ fontWeight: "bold", color: "white", fontSize: 13 }}
-                >
-                  Cancel Booking
-                </Text>
-              </TouchableOpacity>
-            ) : null}
-          </View>
 
-          {bookingDetails && (
-            <>
+          {bookingDetails ? (
+            <View style={styles.cardContainer}>
+              <View
+                style={[
+                  styles.rowDirection,
+                  { justifyContent: "space-between", marginBottom: 10 },
+                ]}
+              >
+                <View style={styles.rowDirection}>
+                  <Image source={icons.clock} style={styles.logo} />
+                  <BerlingskeBold
+                    style={{ color: colors.darkText, fontSize: vh * 2 }}
+                  >
+                    Session
+                  </BerlingskeBold>
+                </View>
+                {shouldCancelVisible() ? (
+                  <TouchableOpacity
+                    onPress={() => bookingConfirmationRef.current?.show()}
+                    style={styles.cancelBtn}
+                  >
+                    <Text
+                      style={{
+                        fontWeight: "bold",
+                        color: "white",
+                        fontSize: vh * 1.5,
+                      }}
+                    >
+                      Cancel Booking
+                    </Text>
+                  </TouchableOpacity>
+                ) : null}
+              </View>
+
               <DetailComponent
                 label="Booking"
                 value={bookingDetails.bookingTitle}
@@ -172,36 +198,78 @@ const AlreadyBookedDetails = () => {
               <DetailComponent
                 label="Court Time"
                 value={bookingDetails.bookingSessionTimeFrom}
+                hideBorder
               />
+            </View>
+          ) : null}
 
-              {/* Players Info */}
-              <View style={[styles.rowDirection, { marginTop: 20 }]}>
+          {/* Players Info */}
+          {bookingDetails ? (
+            <View style={styles.cardContainer}>
+              <View
+                style={[
+                  styles.rowDirection,
+                  {
+                    marginBottom: 10,
+                  },
+                ]}
+              >
                 <Image source={icons.group} style={styles.logo} />
-                <BerlingskeBold>Players Info</BerlingskeBold>
+                <BerlingskeBold
+                  style={{ color: colors.darkText, fontSize: vh * 2 }}
+                >
+                  Players Info
+                </BerlingskeBold>
               </View>
-              <View style={[styles.rowDirection, { flexWrap: "wrap" }]}>
-                {bookingDetails.players.map((player: any, index: number) => (
-                  <View style={[styles.rowDirection, { margin: 5 }]}>
-                    <Image
-                      source={icons.defaultUser}
-                      style={{
-                        width: 15,
-                        height: 15,
-                        resizeMode: "contain",
-                        marginRight: 10,
-                      }}
-                    />
-                    <Text style={{ fontSize: 13 }} key={index}>
-                      {player.bookingMemberName}
-                    </Text>
-                  </View>
-                ))}
-              </View>
+              {bookingDetails.players.map((player: any, index: number) => (
+                <View
+                  style={[
+                    styles.rowDirection,
+                    {
+                      marginBottom: 5,
+                      paddingBottom: 5,
+                      justifyContent: "space-between",
+                    },
+                    index !== bookingDetails.players.length - 1 && {
+                      borderBottomWidth: 1,
+                      borderColor: "#BDBDBD",
+                    },
+                  ]}
+                >
+                  <Image
+                    source={icons.defaultUser}
+                    style={{
+                      width: 15,
+                      height: 15,
+                      resizeMode: "contain",
+                      marginRight: 10,
+                    }}
+                  />
+                  <ArchivoRegular
+                    style={{
+                      fontSize: vh * 1.5,
+                      width: "80%",
+                      textAlign: "right",
+                    }}
+                    key={index}
+                  >
+                    {player.bookingMemberName}
+                  </ArchivoRegular>
+                </View>
+              ))}
+            </View>
+          ) : null}
 
-              {/* Payment Info */}
-              <View style={[styles.rowDirection, { marginTop: 20 }]}>
-                <Image source={icons.payments} style={styles.logo} />
-                <BerlingskeBold>Booking & Payments</BerlingskeBold>
+          {/* Payment Info */}
+          {bookingDetails ? (
+            <View style={styles.cardContainer}>
+              <View style={[styles.rowDirection, { marginBottom: 10 }]}>
+                <Image source={icons.bankTransfer} style={styles.logo} />
+                <BerlingskeBold
+                  style={{ color: colors.darkText, fontSize: vh * 2 }}
+                >
+                  Booking & Payments
+                </BerlingskeBold>
               </View>
 
               <DetailComponent
@@ -215,34 +283,91 @@ const AlreadyBookedDetails = () => {
               <DetailComponent
                 label="Booked Time"
                 value={bookingDetails.bookingTime}
+                hideBorder
               />
+            </View>
+          ) : null}
 
-              <View style={styles.tableContainer}>
+          {bookingDetails ? (
+            // <View style={styles.tableContainer}>
+            //   <View style={styles.tableHeader}>
+            //     <Text style={styles.tableHeaderText}>Name</Text>
+            //     <Text style={styles.tableHeaderText}>Booking Rate</Text>
+            //     <Text style={styles.tableHeaderText}>Receipt</Text>
+            //     <Text style={styles.tableHeaderText}>Payment Method</Text>
+            //   </View>
+            //   {bookingDetails.paymentPlayers.map(
+            //     (payment: any, index: number) => (
+            //       <View key={index} style={styles.tableRow}>
+            //         <Text style={styles.tableCell}>{payment.payerName}</Text>
+            //         <Text style={styles.tableCell}>${payment.bookingRate}</Text>
+            //         <Text style={styles.tableCell}>
+            //           {payment.bookingReceipt}
+            //         </Text>
+            //         <Text style={styles.tableCell}>
+            //           {payment.paymentMethod}
+            //         </Text>
+            //       </View>
+            //     )
+            //   )}
+            // </View>
+            <ScrollView
+              contentContainerStyle={{ marginTop: 20 }}
+              indicatorStyle="white"
+              horizontal
+            >
+              <View>
                 <View style={styles.tableHeader}>
-                  <Text style={styles.tableHeaderText}>Name</Text>
-                  <Text style={styles.tableHeaderText}>Booking Rate</Text>
-                  <Text style={styles.tableHeaderText}>Receipt</Text>
-                  <Text style={styles.tableHeaderText}>Payment Method</Text>
+                  <ArchivoRegular
+                    style={[styles.tableHeaderText, { width: 120 }]}
+                  >
+                    Name
+                  </ArchivoRegular>
+                  <View style={styles.whiteDivider} />
+                  <ArchivoRegular style={styles.tableHeaderText}>
+                    Booking Rate
+                  </ArchivoRegular>
+                  <View style={styles.whiteDivider} />
+
+                  <ArchivoRegular style={styles.tableHeaderText}>
+                    Receipt
+                  </ArchivoRegular>
+                  <View style={styles.whiteDivider} />
+
+                  <ArchivoRegular style={styles.tableHeaderText}>
+                    Payment Method
+                  </ArchivoRegular>
                 </View>
+
                 {bookingDetails.paymentPlayers.map(
                   (payment: any, index: number) => (
                     <View key={index} style={styles.tableRow}>
-                      <Text style={styles.tableCell}>{payment.payerName}</Text>
-                      <Text style={styles.tableCell}>
+                      <ArchivoRegular
+                        style={[styles.tableCell, { width: 120 }]}
+                      >
+                        {payment.payerName}
+                      </ArchivoRegular>
+                      <View style={styles.divider} />
+
+                      <ArchivoRegular style={styles.tableCell}>
                         ${payment.bookingRate}
-                      </Text>
-                      <Text style={styles.tableCell}>
+                      </ArchivoRegular>
+                      <View style={styles.divider} />
+
+                      <ArchivoRegular style={styles.tableCell}>
                         {payment.bookingReceipt}
-                      </Text>
-                      <Text style={styles.tableCell}>
+                      </ArchivoRegular>
+                      <View style={styles.divider} />
+
+                      <ArchivoRegular style={styles.tableCell}>
                         {payment.paymentMethod}
-                      </Text>
+                      </ArchivoRegular>
                     </View>
                   )
                 )}
               </View>
-            </>
-          )}
+            </ScrollView>
+          ) : null}
         </ScrollView>
       )}
     </View>
@@ -254,13 +379,15 @@ export default AlreadyBookedDetails;
 const styles = StyleSheet.create({
   container: {
     borderBottomWidth: 1,
-    borderColor: "#0004",
+    borderColor: "#BDBDBD",
     flexDirection: "row",
     alignItems: "center",
-    height: 30,
+    // height: 30,
+    paddingVertical: 4,
+    justifyContent: "space-between",
   },
   label: {
-    fontSize: 16,
+    fontSize: vh * 1.6,
     color: "black",
   },
   rowDirection: {
@@ -272,7 +399,7 @@ const styles = StyleSheet.create({
     width: 25,
     resizeMode: "contain",
     marginRight: 15,
-    marginVertical: 10,
+    tintColor: colors.primary,
   },
   tableContainer: {
     marginVertical: 20,
@@ -290,9 +417,10 @@ const styles = StyleSheet.create({
   tableHeaderText: {
     flex: 1,
     fontWeight: "bold",
-    textAlign: "center",
-    fontSize: 14,
+    textAlign: "left",
+    fontSize: vh * 1.5,
     color: "white",
+    minWidth: 100,
   },
   tableRow: {
     flexDirection: "row",
@@ -303,15 +431,36 @@ const styles = StyleSheet.create({
   },
   tableCell: {
     flex: 1,
-    textAlign: "center",
-    fontSize: 14,
+    textAlign: "left",
+    fontSize: vh * 1.4,
+    minWidth: 100,
+    color: colors.darkText,
   },
   cancelBtn: {
-    height: 35,
+    height: vh * 4.5,
     width: 120,
     backgroundColor: colors.red,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
+  },
+  cardContainer: {
+    backgroundColor: colors.cardShade,
+    marginTop: 15,
+    borderRadius: 10,
+    padding: 10,
+  },
+  whiteDivider: {
+    height: 10,
+    width: 1,
+    backgroundColor: "white",
+    marginRight: 10,
+  },
+  divider: {
+    height: 10,
+    width: 1,
+    backgroundColor: "gray",
+    marginRight: 10,
+    alignSelf: "center",
   },
 });

@@ -41,12 +41,13 @@ import { showErrorToast } from "@/app/utils/toastmsg";
 import { RootState } from "@/app/store";
 import { toggleBtnLoader } from "@/app/store/slices/generalSlice";
 import { vh, vw } from "@/app/utils/units";
-
+import ArchivoRegular from "@/app/components/TextWrapper/ArchivoRegular";
 interface Player {
   gender: string;
   name: string;
   memberCode: string;
   isFavourite: boolean;
+  isChecked: boolean;
 }
 
 interface dropdownTypes {
@@ -110,10 +111,10 @@ const BookingDetailScreen = () => {
 
   useEffect(() => {
     if (bookingType?.key) {
-      getAmountDue();
-      sortTheSelectedPlayers();
+      getAmountDue([]);
+      // sortTheSelectedPlayers();
     }
-  }, [bookingType, checkedPlayers]);
+  }, [bookingType]);
 
   useEffect(() => {
     if (playersAmountData) {
@@ -121,20 +122,17 @@ const BookingDetailScreen = () => {
     }
   }, [playersAmountData]);
 
-  const sortTheSelectedPlayers = () => {
-    // Filter out the checked players from the selected players
-    const remainingPlayers = selectedPlayers.filter(
-      (item) =>
-        !checkedPlayers.some(
-          (checked) => checked.memberCode === item.memberCode
-        )
-    );
-
-    // Concatenate checked players at the start, followed by remaining players
-    const sortedPlayers = [...checkedPlayers, ...remainingPlayers];
+  const sortTheSelectedPlayers = (givenPlayers: Player[]) => {
+    // Sort the players by `isChecked`: true (1) first, then false (0 or undefined)
+    const sortedPlayers = [...givenPlayers].sort((a, b) => {
+      const aChecked = a.isChecked ? 1 : 0; // Default to 0 if `isChecked` is undefined
+      const bChecked = b.isChecked ? 1 : 0; // Default to 0 if `isChecked` is undefined
+      return bChecked - aChecked; // Sort true (1) before false (0)
+    });
 
     // Update state with the sorted list
     setSelectedPlayers(sortedPlayers);
+    getAmountDue(sortedPlayers);
   };
 
   const calculateMaxPlayers = () => {
@@ -155,10 +153,11 @@ const BookingDetailScreen = () => {
   };
 
   const onDonePress = () => {
-    getAmountDue();
+    getAmountDue(selectedPlayers);
   };
 
-  const getAmountDue = async () => {
+  const getAmountDue = async (players: Player[]) => {
+    let checkedPlayers = players.filter((item) => item.isChecked);
     if (bookingType?.key) {
       try {
         dispatch(toggleBtnLoader(true));
@@ -179,9 +178,9 @@ const BookingDetailScreen = () => {
           });
           data.PayerCode = currentPayers;
         }
-        if (selectedPlayers.length) {
+        if (players.length) {
           let currentPlayers = data.PlayerCodes;
-          selectedPlayers.map((item) => {
+          players.map((item) => {
             currentPlayers += `,${item.memberCode}`;
           });
           data.PlayerCodes = currentPlayers;
@@ -222,17 +221,29 @@ const BookingDetailScreen = () => {
   };
 
   const handleAddPlayer = (player: Player) => {
-    const isAlreadyAdded = checkedPlayers.find(
+    // const isAlreadyAdded = checkedPlayers.find(
+    //   (item) => item.memberCode == player.memberCode
+    // );
+    // if (isAlreadyAdded) {
+    //   const removePlayers = checkedPlayers.filter(
+    //     (item) => item.memberCode !== player.memberCode
+    //   );
+    //   setCheckedPlayers(removePlayers);
+    // } else {
+    //   setCheckedPlayers([...checkedPlayers, player]);
+    // }
+
+    const listOfPlayers = JSON.parse(JSON.stringify(selectedPlayers));
+    const markedPlayer = listOfPlayers.find(
       (item) => item.memberCode == player.memberCode
     );
-    if (isAlreadyAdded) {
-      const removePlayers = checkedPlayers.filter(
-        (item) => item.memberCode !== player.memberCode
-      );
-      setCheckedPlayers(removePlayers);
+    if (markedPlayer?.isChecked) {
+      markedPlayer.isChecked = false;
     } else {
-      setCheckedPlayers([...checkedPlayers, player]);
+      markedPlayer.isChecked = true;
     }
+    sortTheSelectedPlayers(listOfPlayers);
+    // setSelectedPlayers(listOfPlayers);
   };
 
   const handleRemovePlayers = (player: Player) => {
@@ -266,6 +277,37 @@ const BookingDetailScreen = () => {
     getMembers();
   };
 
+  const handleMarkAllUnfav = async (members: Player[]) => {
+    const memberCodes = members.map((member) => member.memberCode).join(",");
+
+    // Prepare the data object
+    let data = {
+      IsFavourite: false, // Assuming `isFav` is `false` when marking as unfavorite
+      MemberCodes: memberCodes,
+      Service: bookingData?.selectedSport?.sportServiceSetting.title,
+    };
+    const response = await AddToFavorite(data);
+    console.log(response.data, "response of favorites");
+
+    getMembers();
+    console.log(data);
+  };
+
+  const handleMarkAllfav = async (members: Player[]) => {
+    const memberCodes = members.map((member) => member.memberCode).join(",");
+
+    // Prepare the data object
+    let data = {
+      IsFavourite: true, // Assuming `isFav` is `false` when marking as unfavorite
+      MemberCodes: memberCodes,
+      Service: bookingData?.selectedSport?.sportServiceSetting.title,
+    };
+    const response = await AddToFavorite(data);
+    console.log(response.data, "response of favorites");
+
+    getMembers();
+    console.log(data);
+  };
   const validateBookingButton = (data) => {
     // Initialize the variable to store the result
     let result = false;
@@ -374,24 +416,23 @@ const BookingDetailScreen = () => {
         <BerlingskeBold style={styles.heading}>
           Booking Payment & Add Players
         </BerlingskeBold>
-        <BerlingskeMedium>Session Information</BerlingskeMedium>
-        <View style={{ flexDirection: "row", pointerEvents: "none" }}>
-          <InputField icon={icons.calendar} value={bookingData?.selectedDate} />
-          <InputField
-            icon={icons.clock}
-            value={bookingData.sessionDetail.slot}
-          />
-        </View>
+        <BerlingskeMedium style={{ color: colors.primary, fontSize: 17 }}>
+          Session Information
+        </BerlingskeMedium>
+        <InputField icon={icons.calendar} value={bookingData?.selectedDate} />
+        <InputField icon={icons.clock} value={bookingData.sessionDetail.slot} />
         <View style={{ pointerEvents: "none" }}>
           <InputField
-            icon={icons.court}
+            icon={icons.court2}
             value={bookingData.courtDetail.title}
           />
         </View>
         <MainButton onPress={() => router.back()} title="Change" />
-        <BerlingskeMedium>Booking Types</BerlingskeMedium>
+        <BerlingskeMedium style={{ color: colors.primary, fontSize: 17 }}>
+          Booking Types
+        </BerlingskeMedium>
         <InputField
-          icon={icons.court}
+          icon={icons.court2}
           rightIcon={icons.dropdown}
           value={bookingType?.title}
           dropdown={true}
@@ -450,7 +491,9 @@ const BookingDetailScreen = () => {
           </View>
         ) : null}
         <View style={styles.rowDirection}>
-          <BerlingskeMedium>Players</BerlingskeMedium>
+          <BerlingskeMedium style={{ color: colors.primary, fontSize: 17 }}>
+            Players
+          </BerlingskeMedium>
           {enableAddPlayers ? (
             <MainButton
               title="Add Players"
@@ -480,9 +523,20 @@ const BookingDetailScreen = () => {
                 }}
               />
             </View>
-            <Text style={styles.playerName}>
-              {user?.name} {user?.surName}
-            </Text>
+            <View>
+              <ArchivoRegular style={styles.playerName}>
+                {user?.name} {user?.surName}
+              </ArchivoRegular>
+              <View style={styles.chip}>
+                <ArchivoRegular
+                  style={[
+                    { color: colors.darkText, fontSize: 10, marginTop: -5 },
+                  ]}
+                >
+                  ( {playersAmountData?.p1Label} )
+                </ArchivoRegular>
+              </View>
+            </View>
           </View>
           <View style={{ pointerEvents: "none" }}>
             <InputField
@@ -508,7 +562,7 @@ const BookingDetailScreen = () => {
                 onPress={() => handleAddPlayer(item)}
                 style={styles.checkbox}
               >
-                {handleCheckPlayers(item) && (
+                {item?.isChecked && (
                   <Image
                     source={icons.tick}
                     style={{
@@ -519,11 +573,26 @@ const BookingDetailScreen = () => {
                   />
                 )}
               </TouchableOpacity>
-              <Text style={styles.playerName}>
-                {item.name} ({item.memberCode})
-              </Text>
+              <View>
+                <ArchivoRegular style={styles.playerName}>
+                  {item.name} ({item.memberCode})
+                </ArchivoRegular>
+                <View style={styles.chip}>
+                  <ArchivoRegular
+                    style={[
+                      {
+                        color: colors.darkText,
+                        fontSize: 12,
+                        marginTop: -5,
+                      },
+                    ]}
+                  >
+                    ( {playersAmountData[`p${index + 2}Label`]} )
+                  </ArchivoRegular>
+                </View>
+              </View>
             </View>
-            {handleCheckPlayers(item) && (
+            {item?.isChecked && (
               <InputField
                 icon={icons.euro}
                 value={String(playersAmountData[`p${index + 2}AmountDue`])}
@@ -550,9 +619,9 @@ const BookingDetailScreen = () => {
         {selectedPlayers.map((item) => {
           return (
             <View style={styles.removePlayerContainer}>
-              <Text>
+              <ArchivoRegular style={{ fontSize: 13 }}>
                 {item.name} ({item.memberCode})
-              </Text>
+              </ArchivoRegular>
               <TouchableOpacity onPress={() => handleRemovePlayers(item)}>
                 <Image source={icons.cross} style={styles.icon} />
               </TouchableOpacity>
@@ -568,6 +637,8 @@ const BookingDetailScreen = () => {
         maximumPlayers={maximumPlayers}
         onDonePress={onDonePress}
         onAddFavoritePress={onAddFavoritePress}
+        handleMarkAllUnfav={handleMarkAllUnfav}
+        handleMarkAllfav={handleMarkAllfav}
       />
       <BookingConfirmationPopup
         reference={bookingConfirmationRef}
@@ -587,6 +658,8 @@ export default BookingDetailScreen;
 const styles = StyleSheet.create({
   heading: {
     marginVertical: 10,
+    color: colors.darkText,
+    fontSize: 18,
   },
   rowDirection: {
     flexDirection: "row",
@@ -594,7 +667,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   addPlayer: {
-    height: 30,
+    height: vh * 3.7,
     width: 100,
   },
   checkbox: {
@@ -633,5 +706,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     justifyContent: "center",
     alignItems: "center",
+  },
+  chip: {
+    // backgroundColor: colors.primary,
+    borderRadius: vh * 10,
+    paddingVertical: 4,
+    // width: 80,
+    // position : "absolute",
+    // alignItems: "center",
   },
 });

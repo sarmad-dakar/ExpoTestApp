@@ -111,13 +111,19 @@ const LoginScreen = () => {
           the Marsa Sports Club booking regulations.
         </ArchivoExtraLight>
         <View style={styles.termsContainer}>
-          <TouchableOpacity onPress={() => router.push("/termscondition")}>
+          <TouchableOpacity
+            style={{ zIndex: 100 }}
+            onPress={() => router.push("/termscondition")}
+          >
             <ArchivoLight style={styles.termsHeading}>
               Terms & Conditions
             </ArchivoLight>
           </TouchableOpacity>
           <Text>|</Text>
-          <TouchableOpacity onPress={() => router.push("/termscondition")}>
+          <TouchableOpacity
+            style={{ zIndex: 100 }}
+            onPress={() => router.push("/privacypolicy")}
+          >
             <ArchivoLight> Privacy Policy</ArchivoLight>
           </TouchableOpacity>
         </View>
@@ -141,7 +147,7 @@ const styles = StyleSheet.create({
     paddingTop: vh * 2.5,
   },
   terms: {
-    color: colors.green,
+    color: colors.darkText,
     textAlign: "center",
     marginTop: vh * 9,
     fontSize: vh * 1.8,
@@ -158,7 +164,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginTop: 30,
-    paddingHorizontal: "15%",
+    paddingHorizontal: "12%",
     // backgroundColor : "red"
   },
 });

@@ -32,7 +32,7 @@ const GeneralHeader = ({ title, back, sport }: headerProps) => {
   const topupConfirmationRef = useRef<ConfirmationPopupRef>(null);
 
   const handlePress = () => {
-      topupConfirmationRef.current?.show();
+    topupConfirmationRef.current?.show();
   };
 
   return (
@@ -57,27 +57,41 @@ const GeneralHeader = ({ title, back, sport }: headerProps) => {
         </View>
       )}
       <BerlingskeMedium style={styles.selectedSport}>{title}</BerlingskeMedium>
-      <Pressable
-        onPress={handlePress}
-        style={{
-          width: 60,
-          height: 50,
-          alignItems: "center",
-          flexDirection: "row",
-        }}
-      >
-        <Image
-          source={icons.euro}
+      {balance ? (
+        <Pressable
+          onPress={handlePress}
           style={{
-            width: 17,
-            height: 17,
-            resizeMode: "contain",
-            marginRight: 5,
-            tintColor: "white",
+            width: 60,
+            height: 50,
+            alignItems: "center",
+            flexDirection: "row",
           }}
-        />
-        <Text style={{ color: "white", fontSize: 12 }}>{balance}</Text>
-      </Pressable>
+        >
+          {/* <View style={{ backgroundColor: "red", marginRight: 10 }}>
+            <Image source={icons.wallet} style={styles.backIcon} />
+          </View> */}
+          <View>
+            <BerlingskeMedium style={{ color: colors.secondary, fontSize: 15 }}>
+              Wallet
+            </BerlingskeMedium>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Image
+                source={icons.euro}
+                style={{
+                  width: 12,
+                  height: 12,
+                  resizeMode: "contain",
+                  marginRight: 5,
+                  tintColor: "white",
+                }}
+              />
+              <Text style={{ color: "white", fontSize: 12 }}>{balance}</Text>
+            </View>
+          </View>
+        </Pressable>
+      ) : (
+        <View style={{ width: 60 }} />
+      )}
       <TopupConfirmationPopup reference={topupConfirmationRef} />
     </View>
   );
@@ -88,8 +102,9 @@ export default GeneralHeader;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.primary,
-    height: vh * 13,
-    borderBottomRightRadius: 40,
+    height: vh * 15,
+    borderBottomRightRadius: 30,
+    borderBottomLeftRadius: 30,
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",

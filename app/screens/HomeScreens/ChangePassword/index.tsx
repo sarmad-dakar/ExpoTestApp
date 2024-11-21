@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 20,
     marginBottom: 20,
-    fontSize: 24,
+    fontSize: 18,
   },
   btn: {
     marginTop: 40,

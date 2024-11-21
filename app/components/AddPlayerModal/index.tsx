@@ -28,6 +28,8 @@ import { dummyPlayers } from "@/app/utils/dummyJson";
 import MainButton from "../MainButton";
 import { vh } from "@/app/utils/units";
 import { AddToFavorite } from "@/app/api/Bookings";
+import ArchivoLight from "../TextWrapper/ArchivoLight";
+import ArchivoRegular from "../TextWrapper/ArchivoRegular";
 
 // Get screen dimensions
 const { height } = Dimensions.get("window");
@@ -52,6 +54,8 @@ type addplayerPopupProps = {
   maximumPlayers: number;
   onDonePress: () => void;
   onAddFavoritePress: (favMembers: Player, isFav: boolean) => void;
+  handleMarkAllUnfav: (favmembers: Player[]) => void;
+  handleMarkAllfav: (favmembers: Player[]) => void;
 };
 
 const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
@@ -228,6 +232,40 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
       }
     };
 
+    const renderHeader = () => {
+      return (
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            paddingHorizontal: 10,
+            height: 40,
+            backgroundColor: colors.primary,
+            alignItems: "center",
+          }}
+        >
+          <ArchivoRegular style={styles.headerTitle}>Members</ArchivoRegular>
+          {selectedTab == "Favourites" ? (
+            <TouchableOpacity
+              onPress={() => props.handleMarkAllUnfav(favoriteMembers)}
+            >
+              <Image source={icons.starFilled} style={styles.icon} />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              // onPress={() => props.handleMarkAllfav(allMembers)}
+              disabled={true}
+            >
+              <Image
+                source={icons.starUnfilled}
+                style={[styles.icon, { tintColor: colors.white }]}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
+      );
+    };
+
     return (
       <Modal
         transparent
@@ -244,34 +282,51 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
           >
             {/* Bottom sheet content */}
             <View style={styles.content}>
-              <BerlingskeBold style={{ marginBottom: 10 }}>
+              <TouchableOpacity
+                onPress={hide}
+                style={styles.crossIconContainer}
+              >
+                <Image
+                  source={icons.cross}
+                  style={{
+                    width: 25,
+                    height: 25,
+                    resizeMode: "contain",
+                  }}
+                />
+              </TouchableOpacity>
+              <BerlingskeMedium
+                style={{ marginBottom: 10, color: colors.darkText }}
+              >
                 Add Players
-              </BerlingskeBold>
+              </BerlingskeMedium>
               <View style={styles.headingContainer}>
                 {tabs.map((item) => (
                   <TouchableOpacity
                     activeOpacity={0.6}
                     onPress={() => setSelectedTab(item)}
                   >
-                    <Text
-                      style={[
-                        styles.heading,
-                        selectedTab == item && {
-                          color: colors.green,
-                          textDecorationLine: "underline",
-                        },
-                      ]}
-                    >
-                      {item}
-                    </Text>
+                    <ArchivoLight style={[styles.heading]}>{item}</ArchivoLight>
+                    {selectedTab == item && (
+                      <View style={styles.activeTabIndicator} />
+                    )}
                   </TouchableOpacity>
                 ))}
               </View>
               <SearchField onChangeText={setSearchText} />
               <View style={styles.listContainer}>
                 <View style={{ flex: 1 }}>
+                  {renderHeader()}
                   <FlatList
                     data={listData}
+                    // ListHeaderComponent={renderHeader}
+                    ListEmptyComponent={() => (
+                      <View style={{ alignSelf: "center", marginTop: 10 }}>
+                        <ArchivoRegular style={{ fontSize: 12 }}>
+                          No Members found
+                        </ArchivoRegular>
+                      </View>
+                    )}
                     renderItem={({ item, index }) => {
                       return (
                         <View
@@ -290,8 +345,12 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
                             }}
                           >
                             <TouchableOpacity
-                                hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }} // Adjust hitSlop as needed
-
+                              hitSlop={{
+                                top: 20,
+                                bottom: 20,
+                                left: 20,
+                                right: 20,
+                              }} // Adjust hitSlop as needed
                               onPress={() => handleSelection(item)}
                               style={styles.checkbox}
                             >
@@ -398,11 +457,16 @@ const styles = StyleSheet.create({
   },
   headingContainer: {
     flexDirection: "row",
+    // justifyContent: "space-around",
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
   },
   heading: {
     color: "#5F5F5F",
-    marginRight: 10,
-    fontSize: 16,
+    fontSize: vh * 2,
+    alignItems: "center",
+    paddingVertical: 10,
+    marginRight: 20,
   },
   listContainer: {
     borderWidth: 1,
@@ -442,6 +506,24 @@ const styles = StyleSheet.create({
     height: 15,
     width: 15,
     resizeMode: "contain",
+  },
+  activeTabIndicator: {
+    marginTop: 4,
+    height: 2,
+    width: "100%",
+    backgroundColor: "green",
+    position: "absolute",
+    bottom: 0,
+  },
+  crossIconContainer: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    zIndex: 100,
+  },
+  headerTitle: {
+    color: colors.white,
+    fontSize: 13,
   },
 });
 

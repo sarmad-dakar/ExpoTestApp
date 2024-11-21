@@ -10,6 +10,11 @@ import React, { useEffect, useState } from "react";
 import { colors } from "@/app/utils/theme";
 import { icons } from "@/app/MyAssets";
 import moment from "moment";
+import ArchivoRegular from "../TextWrapper/ArchivoRegular";
+import ArchivoExtraLight from "../TextWrapper/ArchivoExtraLight";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store";
+import { vh } from "@/app/utils/units";
 
 const BookedSlots = ({
   booking,
@@ -18,6 +23,8 @@ const BookedSlots = ({
   onDetailViewPress,
 }: any) => {
   const [enablePopup, setEnablePopup] = useState(false);
+  const user = useSelector((state: RootState) => state.user.user);
+  console.log(user, "user");
 
   const shouldCancelVisible = () => {
     const bookingDate = moment(
@@ -42,8 +49,8 @@ const BookedSlots = ({
         <View style={styles.listView}>
           <TouchableOpacity
             onPress={() => {
-              setEnablePopup(false)
-              onDetailViewPress(booking)
+              setEnablePopup(false);
+              onDetailViewPress(booking);
             }}
             style={styles.listBtn}
           >
@@ -72,14 +79,24 @@ const BookedSlots = ({
         </View>
       )}
 
-      <Text style={styles.heading}>{selectedSport} Booking</Text>
-      <Text>
-        <Text style={styles.bold}>Booking Member: </Text>Mr David Schranz
-      </Text>
-      <Text>
-        <Text style={styles.bold}>Description: </Text>
-        {booking.description}
-      </Text>
+      <ArchivoRegular style={styles.heading}>
+        {selectedSport} Booking
+      </ArchivoRegular>
+
+      <View style={styles.rowDirection}>
+        <ArchivoRegular style={styles.bold}> Booking Member: </ArchivoRegular>
+        <ArchivoExtraLight style={{ fontSize: vh * 1.5 }}>
+          {user?.title}
+        </ArchivoExtraLight>
+      </View>
+
+      <View style={[styles.rowDirection, { marginTop: -vh * 0.7 }]}>
+        <ArchivoRegular style={styles.bold}> Description: </ArchivoRegular>
+        <ArchivoExtraLight style={{ fontSize: vh * 1.5 }}>
+          {booking.description}
+        </ArchivoExtraLight>
+      </View>
+
       <Text style={styles.footerText}>
         {moment(booking.date, "DD/MM/YYYY").format("dddd, DD MMM YYYY")}
       </Text>
@@ -100,14 +117,18 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   heading: {
-    marginBottom: 15,
-    fontWeight: "600",
+    marginBottom: 10,
+    fontSize: vh * 1.8,
+    color: colors.primary,
   },
   footerText: {
     color: "#0008",
+    fontSize: 10,
+    marginTop: vh * 0.5,
   },
   bold: {
-    fontWeight: "600",
+    fontSize: vh * 1.7,
+    color: colors.primary,
   },
   more: {
     height: "100%",
@@ -139,6 +160,10 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 35,
     justifyContent: "center",
+    alignItems: "center",
+  },
+  rowDirection: {
+    flexDirection: "row",
     alignItems: "center",
   },
 });

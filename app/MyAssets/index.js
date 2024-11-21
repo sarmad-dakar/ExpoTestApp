@@ -15,6 +15,7 @@ export const icons = {
   snooker: require("../MyAssets/icons/Snooker-white.png"),
   tennis: require("../MyAssets/icons/tennis-green.png"),
   court: require("../MyAssets/icons/court.png"),
+  court2: require("../MyAssets/icons/court2.png"),
   dropdown: require("../MyAssets/icons/arrow-circle-down.png"),
   hamburger: require("../MyAssets/icons/hamburger.png"),
   reciept: require("../MyAssets/icons/Form-bottom-Bg.png"),
@@ -49,6 +50,9 @@ export const icons = {
   types: require("./icons/list.png"),
   message: require("./icons/chat.png"),
   gallery: require("./icons/gallery.png"),
+  wallet: require("./icons/wallet.png"),
+  bankTransfer: require("./icons/bankTransfer.png"),
+  inbox: require("./icons/inbox.png"),
 };
 
 export const images = {
@@ -65,5 +69,5 @@ export const images = {
   tennis_OB: require("../MyAssets/images/tennis_OB.png"),
   squash_OB: require("../MyAssets/images/squash_OB.png"),
   padel_OB: require("../MyAssets/images/Padel_OB.png"),
-  dakarFooterLogo: require("../MyAssets/images/dakar-footer-logo.png"),
+  dakarFooterLogo: require("../MyAssets/images/dakarFooterLogo.jpg"),
 };

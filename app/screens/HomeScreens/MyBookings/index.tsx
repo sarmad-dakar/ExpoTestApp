@@ -31,6 +31,10 @@ import { fetchRemainingBalance } from "@/app/store/slices/accountSlice";
 import { useAppDispatch } from "../LandingScreen";
 import { vh, vw } from "@/app/utils/units";
 import TabComponent from "@/app/components/TabViewComponent";
+import BerlingskeMedium from "@/app/components/TextWrapper/BerlingskeMedium";
+import ArchivoExtraLight from "@/app/components/TextWrapper/ArchivoExtraLight";
+import ArchivoRegular from "@/app/components/TextWrapper/ArchivoRegular";
+import ArchivoLight from "@/app/components/TextWrapper/ArchivoLight";
 
 const monthsData = [
   { value: "01", label: "Jan" },
@@ -259,14 +263,14 @@ const MyBookingsScreen: React.FC = () => {
               onPress={() => setSelectedTab(tab)}
               style={styles.tabButton}
             >
-              <Text
+              <ArchivoLight
                 style={[
                   styles.tabText,
                   selectedTab.name === tab.name && styles.activeTabText,
                 ]}
               >
                 {tab.name}
-              </Text>
+              </ArchivoLight>
               {selectedTab.name === tab.name && (
                 <View style={styles.activeTabIndicator} />
               )}
@@ -297,32 +301,42 @@ const MyBookingsScreen: React.FC = () => {
             </TouchableOpacity>
           ))}
         </View> */}
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <InputField
-            icon={icons.calendar}
-            rightIcon={icons.dropdown}
-            value={selectedDate}
-            dropdown={true}
-            onPress={() => yearDropdownRef.current?.show()}
-          />
-          <InputField
-            icon={icons.calendar}
-            rightIcon={icons.dropdown}
-            value={moment(selectedMonth, "MM").format("MMM")}
-            dropdown={true}
-            onPress={() => monthDropdownRef.current?.show()}
-          />
+        <View style={styles.filterContainer}>
+          <BerlingskeMedium style={{ color: colors.darkText }}>
+            Search
+          </BerlingskeMedium>
+
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <InputField
+              icon={icons.calendar}
+              rightIcon={icons.dropdown}
+              value={selectedDate}
+              dropdown={true}
+              style={{ marginVertical: 2 }}
+              onPress={() => yearDropdownRef.current?.show()}
+            />
+            <InputField
+              icon={icons.calendar}
+              rightIcon={icons.dropdown}
+              value={moment(selectedMonth, "MM").format("MMM")}
+              dropdown={true}
+              style={{ marginVertical: 2 }}
+              onPress={() => monthDropdownRef.current?.show()}
+            />
+          </View>
         </View>
         <FlatList
           data={dataForList}
           ListEmptyComponent={() => (
             <View style={styles.noBookingContainer}>
               <Image source={icons.noBooking} style={styles.noBookingIcon} />
-              <Text style={styles.title}>Bookings</Text>
-              <Text style={{ textAlign: "center" }}>
+              <ArchivoRegular style={styles.title}>Bookings</ArchivoRegular>
+              <ArchivoExtraLight style={{ textAlign: "center", fontSize: 14 }}>
                 Currently, there are no Bookings available for display. Please
                 Check again later
-              </Text>
+              </ArchivoExtraLight>
             </View>
           )}
           renderItem={({ item }) => (
@@ -356,11 +370,11 @@ const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
   },
-  tabContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 15,
-  },
+  // tabContainer: {
+  //   flexDirection: "row",
+  //   alignItems: "center",
+  //   marginTop: 15,
+  // },
   heading: {
     color: "#5F5F5F",
     marginRight: 10,
@@ -377,7 +391,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   title: {
-    fontSize: 26,
+    fontSize: 20,
   },
   noBookingContainer: {
     alignItems: "center",
@@ -406,17 +420,24 @@ const styles = StyleSheet.create({
   },
   tabText: {
     color: "gray",
-    fontSize: 16,
+    fontSize: vh * 2,
   },
   activeTabText: {
     color: "green",
   },
   activeTabIndicator: {
     marginTop: 4,
-    height: 2,
+    height: 1,
     width: "100%",
     backgroundColor: "green",
     position: "absolute",
     bottom: 0,
+  },
+  filterContainer: {
+    backgroundColor: colors.cardShade,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    marginTop: 15,
+    borderRadius: 10,
   },
 });

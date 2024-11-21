@@ -17,9 +17,14 @@ import {
   Image,
 } from "react-native";
 import BerlingskeBold from "../TextWrapper/BerlingskeBold";
-import { images } from "@/app/MyAssets";
+import { icons, images } from "@/app/MyAssets";
 import moment from "moment";
 import { colors } from "@/app/utils/theme";
+import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
+import ArchivoRegular from "../TextWrapper/ArchivoRegular";
+import ArchivoExtraLight from "../TextWrapper/ArchivoExtraLight";
+import ArchivoMedium from "../TextWrapper/ArchivoMedium";
+import { vh } from "@/app/utils/units";
 
 // Get screen dimensions
 const { height } = Dimensions.get("window");
@@ -117,16 +122,40 @@ const ConfirmationPopup = forwardRef<
       >
         {/* Bottom sheet content */}
         <View style={styles.content}>
-          <BerlingskeBold>Tennis booking</BerlingskeBold>
-          <Text>Are you sure you want to book</Text>
+          <TouchableOpacity onPress={hide} style={styles.crossIconContainer}>
+            <Image
+              source={icons.cross}
+              style={{
+                width: 25,
+                height: 25,
+                resizeMode: "contain",
+              }}
+            />
+          </TouchableOpacity>
+          <BerlingskeMedium
+            style={{ color: colors.darkText, fontSize: vh * 2.7 }}
+          >
+            {props.selectedSport} booking
+          </BerlingskeMedium>
+          <ArchivoExtraLight style={{ fontSize: vh * 1.5 }}>
+            Are you sure you want to book
+          </ArchivoExtraLight>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text style={{ fontWeight: "700" }}>
+            <ArchivoMedium style={{ fontSize: vh * 1.7 }}>
               {courtDetail?.title} ({courtDetail?.courtType}){" "}
-            </Text>
-            <Text>for </Text>
-            <Text style={{ fontWeight: "700" }}>{selectedDate} </Text>
-            <Text>at </Text>
-            <Text style={{ fontWeight: "700" }}>{sessionDetail?.slot}</Text>
+            </ArchivoMedium>
+            <ArchivoExtraLight style={{ fontSize: vh * 1.5 }}>
+              for{" "}
+            </ArchivoExtraLight>
+            <ArchivoMedium style={{ fontSize: vh * 1.7 }}>
+              {selectedDate}{" "}
+            </ArchivoMedium>
+            <ArchivoExtraLight style={{ fontSize: vh * 1.5 }}>
+              at{" "}
+            </ArchivoExtraLight>
+            <ArchivoMedium style={{ fontSize: vh * 1.7 }}>
+              {sessionDetail?.slot}
+            </ArchivoMedium>
           </View>
 
           <View style={styles.courtImage}>
@@ -203,6 +232,12 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     justifyContent: "center",
     alignItems: "center",
+  },
+  crossIconContainer: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    zIndex: 100,
   },
 });
 
