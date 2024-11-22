@@ -158,12 +158,20 @@ const AddChildrenPopup = forwardRef<AddChildrenPopupRef, AddChildrenPopupProps>(
                 <Image
                 source={icons.calendar}
                 style={styles.inputIcon}  />
-                 <DateTimePicker
+                <View 
+                style={{
+                  transform : [{scale : 0.8}]
+                }}
+               
+                >
+                <DateTimePicker
               value={moment(date , "MM/DD/YYYY").toDate()}
               mode="date"
+              key = {moment(date).format("MM/DD/YYYY")}
               display="default"
               onChange={onChangeDate}
             />
+                  </View>
                   </View>
                   <Image 
                   source={icons.dropdown}

@@ -1,5 +1,7 @@
 import {
   Image,
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -139,6 +141,12 @@ const ProfileScreen = () => {
   };
 
   return (
+
+    <KeyboardAvoidingView
+    style={{ flex: 1 }}
+    behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0} // Adjust the offset as needed
+  >
     <View style={styles.mainContainer}>
       <ProfileHeader title="My Profile" image={profile?.profilePic} />
       <AddCarNumberPopup onSavePress={onAddCar} reference={carNumberPopupRef} />
@@ -328,6 +336,7 @@ const ProfileScreen = () => {
         ) : null}
       </ScreenWrapper>
     </View>
+    </KeyboardAvoidingView>
   );
 };
 
