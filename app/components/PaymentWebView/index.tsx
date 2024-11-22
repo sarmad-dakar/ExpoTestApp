@@ -23,6 +23,7 @@ import { TopupBalance } from "@/app/api/Bookings";
 import * as WebBrowser from "expo-web-browser";
 import InAppBrowser from "react-native-inappbrowser-reborn";
 import WebView from "react-native-webview";
+import Pdf from "react-native-pdf";
 
 // Get screen dimensions
 const { height } = Dimensions.get("window");
@@ -98,12 +99,13 @@ const PaymentWebviewPopup = forwardRef<
         style={[styles.bottomSheet, { transform: [{ translateY }] }]}
       >
         <View style={styles.content}>
-          <WebView
+          {/* <WebView
             source={{
               uri: url,
             }}
             style={{ flex: 1 }}
-          />
+          /> */}
+          <Pdf source={{ uri: url, cache: true }} />
         </View>
       </Animated.View>
     </Modal>
@@ -125,7 +127,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     padding: 16,
-    height: height * 0.4,
+    height: height * 0.8,
   },
   content: {
     flex: 1,

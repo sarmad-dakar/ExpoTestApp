@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import GeneralHeader from "@/app/components/GeneralHeader";
 import { colors } from "@/app/utils/theme";
 import ScreenWrapper from "@/app/components/ScreenWrapper";
@@ -18,19 +18,22 @@ import { icons } from "@/app/MyAssets";
 import { vh } from "@/app/utils/units";
 import ArchivoRegular from "@/app/components/TextWrapper/ArchivoRegular";
 import ArchivoExtraLight from "@/app/components/TextWrapper/ArchivoExtraLight";
+import PaymentWebviewPopup from "@/app/components/PaymentWebView";
+import { ConfirmationPopupRef } from "@/app/components/ConfirmationPopup";
 
 const NotificationScreen = () => {
   const dispatch = useDispatch();
   const notificationData = useSelector(
     (state) => state.account.notificationsData
   );
-  console.log(notificationData, "notifications data");
+  const webviewRef = useRef<ConfirmationPopupRef>(null);
   useEffect(() => {
     dispatch(fetchMyNotifications());
   }, []);
 
   const onNotificationPress = (item) => {
-    Linking.openURL(item.link);
+    // Linking.openURL(item.link);
+    webviewRef.current?.show(item.link);
   };
 
   const renderNotifications = ({ item }) => {
@@ -82,6 +85,7 @@ const NotificationScreen = () => {
           ListEmptyComponent={renderEmptyComponenet}
         />
       </ScreenWrapper>
+      <PaymentWebviewPopup reference={webviewRef} />
     </View>
   );
 };

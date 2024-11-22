@@ -183,7 +183,7 @@ const BookingDetailsPopup = forwardRef<
                       </View>
                       {shouldCancelVisible() ? (
                         <TouchableOpacity
-                          onPress={() => bookingConfirmationRef.current?.show()}
+                          onPress={() => props.onCancelBookingPress()}
                           style={styles.cancelBtn}
                         >
                           <Text

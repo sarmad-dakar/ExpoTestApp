@@ -23,6 +23,7 @@ import BerlingskeBold from "../TextWrapper/BerlingskeBold";
 import InputField from "../InputField";
 import { showErrorToast } from "@/app/utils/toastmsg";
 import { icons } from "@/app/MyAssets";
+import { colors } from "@/app/utils/theme";
 
 // Get screen dimensions
 const { height } = Dimensions.get("window");
@@ -152,10 +153,10 @@ const BookingConfirmationPopup = forwardRef<
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                  style={[styles.btn, { backgroundColor: "#6AAF2E" }]}
+                  style={[styles.btn, { backgroundColor: colors.secondary }]}
                   onPress={handleAccept}
                 >
-                  <Text style={{ color: "white" }}>Confirm</Text>
+                  <Text style={{ color: "black" }}>Confirm</Text>
                 </TouchableOpacity>
               </View>
             </View>
