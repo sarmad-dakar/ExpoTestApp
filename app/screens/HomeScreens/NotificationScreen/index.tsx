@@ -33,6 +33,7 @@ const NotificationScreen = () => {
 
   const onNotificationPress = (item) => {
     // Linking.openURL(item.link);
+    console.log(item.link);
     webviewRef.current?.show(item.link);
   };
 

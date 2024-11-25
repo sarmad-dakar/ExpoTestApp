@@ -53,6 +53,7 @@ export const icons = {
   wallet: require("./icons/wallet.png"),
   bankTransfer: require("./icons/bankTransfer.png"),
   inbox: require("./icons/inbox.png"),
+  floppy: require("./icons/Floppy.png"),
 };
 
 export const images = {
