@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Image,
   ImageProps,
   StyleSheet,
@@ -16,15 +17,33 @@ import { useAppDispatch } from "@/app/screens/HomeScreens/LandingScreen";
 import { fetchuserProfile } from "@/app/store/slices/userSlice";
 import { router } from "expo-router";
 import moment from "moment";
+import ArchivoRegular from "../TextWrapper/ArchivoRegular";
+import { useSelector } from "react-redux";
+import ArchivoExtraLight from "../TextWrapper/ArchivoExtraLight";
+import { vh } from "@/app/utils/units";
+import { RootState } from "@/app/store";
 
 type headerProps = {
   title: string;
   image: string;
+  onEditPress: () => void;
+  enableSave: boolean;
+  onSavepress: () => void;
 };
 
-const ProfileHeader = ({ title, image }: headerProps) => {
+const ProfileHeader = ({
+  title,
+  image,
+  onEditPress,
+  enableSave,
+  onSavepress,
+}: headerProps) => {
   const [profilePic, setProfilePic] = useState({ uri: "" });
   const dispatch = useAppDispatch();
+  const user = useSelector((state: any) => state.user.profile);
+  const loading = useSelector((state: RootState) => state.general.btnLoader);
+
+  console.log(user, "user");
 
   useEffect(() => {
     if (image) {
@@ -42,7 +61,7 @@ const ProfileHeader = ({ title, image }: headerProps) => {
 
     if (!result.canceled) {
       const selectedPhoto = result.assets[0];
-     console.log(selectedPhoto , " selected photo ")
+      console.log(selectedPhoto, " selected photo ");
 
       let data = {
         uri: selectedPhoto.uri,
@@ -50,12 +69,12 @@ const ProfileHeader = ({ title, image }: headerProps) => {
         name: selectedPhoto.fileName,
         // fieldName: "file",
       };
-      if (!data?.name) { 
-        var newName = data.uri?.split("/")
-        var lastname = newName[newName?.length - 1]
-        data.name = lastname
+      if (!data?.name) {
+        var newName = data.uri?.split("/");
+        var lastname = newName[newName?.length - 1];
+        data.name = lastname;
       }
-      console.log(data)
+      console.log(data);
       const formData = new FormData();
       formData.append("file", data);
 
@@ -67,6 +86,7 @@ const ProfileHeader = ({ title, image }: headerProps) => {
       }
     }
   };
+  console.log(loading, "loading");
 
   return (
     <View style={styles.container}>
@@ -91,14 +111,55 @@ const ProfileHeader = ({ title, image }: headerProps) => {
         <View style={{ width: 60 }}></View>
       </View>
 
-      <View style={styles.profileConatiner}>
-        <Image source={profilePic || images.dummyAvatar} style={styles.image} />
-        <TouchableOpacity
-          onPress={onCameraPress}
-          style={styles.cameraContainer}
-        >
-          <Image source={icons.camera} style={styles.cameraLogo} />
-        </TouchableOpacity>
+      <View style={styles.footerContainer}>
+        <View style={styles.profileConatiner}>
+          <Image
+            source={profilePic || images.dummyAvatar}
+            style={styles.image}
+          />
+          <TouchableOpacity
+            onPress={onCameraPress}
+            style={styles.cameraContainer}
+          >
+            <Image source={icons.camera} style={styles.cameraLogo} />
+          </TouchableOpacity>
+        </View>
+        <View style={{ marginLeft: "5%" }}>
+          <ArchivoRegular style={styles.name}>
+            {user?.name} {user?.surName}
+          </ArchivoRegular>
+          <ArchivoExtraLight style={styles.email}>
+            {user?.email}
+          </ArchivoExtraLight>
+        </View>
+        {enableSave ? (
+          <TouchableOpacity
+            style={{
+              zIndex: 100,
+              height: 40,
+              width: 40,
+              backgroundColor: colors.white,
+              borderRadius: 100,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            onPress={onSavepress}
+          >
+            <Image source={icons.floppy} style={styles.floppyIcon} />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            disabled={loading}
+            style={{ zIndex: 100 }}
+            onPress={onEditPress}
+          >
+            {loading ? (
+              <ActivityIndicator size={"small"} color={colors.white} />
+            ) : (
+              <Image source={icons.edit} style={styles.icon} />
+            )}
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
@@ -131,7 +192,7 @@ const styles = StyleSheet.create({
     height: 80,
     width: 80,
     borderRadius: 100,
-    alignSelf: "center",
+    // alignSelf: "center",
     marginTop: 10,
     // overflow: "hidden",
   },
@@ -156,6 +217,39 @@ const styles = StyleSheet.create({
   cameraLogo: {
     width: "60%",
     height: "60%",
+    resizeMode: "contain",
+  },
+  footerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    // paddingHorizontal: "6%",
+  },
+  rowDirection: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginLeft: "10%",
+  },
+  name: {
+    color: colors.white,
+    textAlign: "center",
+    fontSize: vh * 1.7,
+  },
+  email: {
+    color: colors.white,
+    fontSize: vh * 1.5,
+    marginTop: -vh * 0.5,
+  },
+  icon: {
+    width: vh * 2.5,
+    height: vh * 2.5,
+    resizeMode: "contain",
+    tintColor: colors.white,
+  },
+  floppyIcon: {
+    height: "50%",
+    width: "50%",
     resizeMode: "contain",
   },
 });

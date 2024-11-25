@@ -16,6 +16,7 @@ import {
   Text,
   Linking,
   Alert,
+  Platform,
 } from "react-native";
 import BerlingskeBold from "../TextWrapper/BerlingskeBold";
 import InputField from "../InputField";
@@ -23,7 +24,7 @@ import { TopupBalance } from "@/app/api/Bookings";
 import * as WebBrowser from "expo-web-browser";
 import InAppBrowser from "react-native-inappbrowser-reborn";
 import WebView from "react-native-webview";
-import Pdf from "react-native-pdf";
+// import Pdf from "react-native-pdf";
 
 // Get screen dimensions
 const { height } = Dimensions.get("window");
@@ -83,6 +84,18 @@ const PaymentWebviewPopup = forwardRef<
     }).start(() => setVisible(false));
   };
 
+  const getLinkForAndroid = (url: string) => {
+    const fileExtensions = [".pdf", ".doc", ".docx"];
+    let result = fileExtensions.some((extension) =>
+      url.toLowerCase().includes(extension)
+    );
+    if (result) {
+      return `https://docs.google.com/gview?embedded=true&url=${url}`;
+    } else {
+      return url;
+    }
+  };
+
   return (
     <Modal
       transparent
@@ -99,13 +112,22 @@ const PaymentWebviewPopup = forwardRef<
         style={[styles.bottomSheet, { transform: [{ translateY }] }]}
       >
         <View style={styles.content}>
-          {/* <WebView
-            source={{
-              uri: url,
-            }}
-            style={{ flex: 1 }}
-          /> */}
-          <Pdf source={{ uri: url, cache: true }} />
+          {Platform.OS == "android" ? (
+            <WebView
+              source={{
+                uri: getLinkForAndroid(url),
+              }}
+              style={{ flex: 0.9 }}
+            />
+          ) : (
+            <WebView
+              source={{
+                uri: url,
+              }}
+              style={{ flex: 0.8 }}
+            />
+          )}
+          {/* <Pdf source={{ uri: url, cache: true }} /> */}
         </View>
       </Animated.View>
     </Modal>
