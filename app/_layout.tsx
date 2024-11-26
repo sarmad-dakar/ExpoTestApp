@@ -1,8 +1,4 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
+import { DarkTheme, Theme, ThemeProvider } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -28,6 +24,18 @@ export default function RootLayout() {
   const [condition, setCondition] = useState(false);
   const colorScheme = useColorScheme();
   const [isInternetConnected, setIsInternetConnected] = useState(true);
+  const [defaultTheme, setDefaultTheme] = useState({
+    dark: false,
+    colors: {
+      primary: themeColors.primary,
+      background: "white",
+      card: themeColors.secondary,
+      text: "rgb(28, 28, 30)",
+      border: "rgb(216, 216, 216)",
+      notification: "rgb(255, 59, 48)",
+      secondary: themeColors.secondary,
+    },
+  });
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
@@ -56,7 +64,7 @@ export default function RootLayout() {
 
   return (
     <Provider store={store}>
-      <ThemeProvider value={DefaultTheme}>
+      <ThemeProvider value={defaultTheme}>
         <View style={{ flex: 1, backgroundColor: "white" }}>
           <StatusBar
             translucent={true}
@@ -70,15 +78,17 @@ export default function RootLayout() {
             />
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           </Stack>
-          {/* <View style={styles.netModal}>
-            <Image source={icons.wifi} style={styles.wifiIcon} />
-            <BerlingskeMedium style={styles.connectionError}>
-              Connection Error
-            </BerlingskeMedium>
-            <ArchivoMedium style={styles.noConnection}>
-              Please check your network connectivity and try again
-            </ArchivoMedium>
-          </View> */}
+          {/* {!isInternetConnected ? (
+            <View style={styles.netModal}>
+              <Image source={icons.wifi} style={styles.wifiIcon} />
+              <BerlingskeMedium style={styles.connectionError}>
+                Connection Error
+              </BerlingskeMedium>
+              <ArchivoMedium style={styles.noConnection}>
+                Please check your network connectivity and try again
+              </ArchivoMedium>
+            </View>
+          ) : null} */}
           <Toast />
         </View>
       </ThemeProvider>

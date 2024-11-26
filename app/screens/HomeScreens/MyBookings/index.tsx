@@ -373,6 +373,7 @@ export default MyBookingsScreen;
 const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
+    backgroundColor: themeColors.white,
   },
   // tabContainer: {
   //   flexDirection: "row",

@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from "react-native";
 import React, { useRef } from "react";
@@ -17,6 +18,7 @@ import { router } from "expo-router";
 import { useSelector } from "react-redux";
 import TopupConfirmationPopup from "../TopupConfirmationPopup";
 import { ConfirmationPopupRef } from "../ConfirmationPopup";
+import { useTheme } from "@react-navigation/native";
 
 type headerProps = {
   title: string;
@@ -30,6 +32,8 @@ type headerProps = {
 const GeneralHeader = ({ title, back, sport }: headerProps) => {
   const balance = useSelector((state: any) => state.account.balance);
   const topupConfirmationRef = useRef<ConfirmationPopupRef>(null);
+  const styles = MyStyles();
+  const { colors } = useTheme();
 
   const handlePress = () => {
     topupConfirmationRef.current?.show();
@@ -46,13 +50,11 @@ const GeneralHeader = ({ title, back, sport }: headerProps) => {
           {sport?.icon ? (
             <Image
               source={sport?.icon}
-              style={[styles.logo, { tintColor: themeColors.secondary }]}
+              style={[styles.logo, { tintColor: colors.secondary }]}
             />
           ) : null}
           {sport?.icon ? (
-            <Text
-              style={[styles.selectedSport, { color: themeColors.secondary }]}
-            >
+            <Text style={[styles.selectedSport, { color: colors.secondary }]}>
               {sport?.name || "Tennis"}
             </Text>
           ) : null}
@@ -103,31 +105,36 @@ const GeneralHeader = ({ title, back, sport }: headerProps) => {
 
 export default GeneralHeader;
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: themeColors.primary,
-    height: vh * 15,
-    borderBottomRightRadius: 30,
-    borderBottomLeftRadius: 30,
-    justifyContent: "space-between",
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 20,
-    paddingTop: Platform.OS == "ios" ? 25 : 10,
-  },
-  logo: {
-    height: 30,
-    width: 30,
-    resizeMode: "contain",
-    tintColor: themeColors.white,
-  },
-  selectedSport: {
-    color: "white",
-  },
-  backIcon: {
-    height: 22,
-    width: 22,
-    resizeMode: "contain",
-    tintColor: "white",
-  },
-});
+const MyStyles = () => {
+  const { colors } = useTheme();
+
+  const styles = StyleSheet.create({
+    container: {
+      backgroundColor: colors.primary,
+      height: vh * 15,
+      borderBottomRightRadius: 30,
+      borderBottomLeftRadius: 30,
+      justifyContent: "space-between",
+      flexDirection: "row",
+      alignItems: "center",
+      paddingHorizontal: 20,
+      paddingTop: Platform.OS == "ios" ? 25 : 10,
+    },
+    logo: {
+      height: 30,
+      width: 30,
+      resizeMode: "contain",
+      tintColor: themeColors.white,
+    },
+    selectedSport: {
+      color: "white",
+    },
+    backIcon: {
+      height: 22,
+      width: 22,
+      resizeMode: "contain",
+      tintColor: "white",
+    },
+  });
+  return styles;
+};

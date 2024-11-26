@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import OnBoardingScreen from "../screens/AuthScreens/OnBoarding/OnBoardingScreen";
+import SplashScreen from "../screens/AuthScreens/SplashScreen";
 const OnBoarding = () => {
-  return <OnBoardingScreen />;
+  return <SplashScreen />;
 };
 
 export default OnBoarding;

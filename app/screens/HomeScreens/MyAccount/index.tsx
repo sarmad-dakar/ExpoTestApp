@@ -218,6 +218,7 @@ export default MyAccountScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: themeColors.white,
   },
   headerRow: {
     flexDirection: "row",
