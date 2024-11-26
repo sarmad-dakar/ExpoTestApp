@@ -368,7 +368,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
           {currentCourts.map((item, index) => (
             <Pressable
               key={item.title}
-              onPress={() => handleCourtPress(item)}
+              // onPress={() => handleCourtPress(item)}
               style={{
                 flex: 1,
                 backgroundColor: colors.secondary,
@@ -473,7 +473,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
                           borderWidth: 1,
                           borderColor: "#E0E0E0",
                         },
-                        item.rows == 2 && { height: 80 },
+                        item.rows == 2 && { height: 66 },
                       ]}
                     >
                       {/* {item.icon && (

@@ -327,27 +327,31 @@ const MyBookingsScreen: React.FC = () => {
             />
           </View>
         </View>
-        <FlatList
-          data={dataForList}
-          ListEmptyComponent={() => (
-            <View style={styles.noBookingContainer}>
-              <Image source={icons.noBooking} style={styles.noBookingIcon} />
-              <ArchivoRegular style={styles.title}>Bookings</ArchivoRegular>
-              <ArchivoExtraLight style={{ textAlign: "center", fontSize: 14 }}>
-                Currently, there are no Bookings available for display. Please
-                Check again later
-              </ArchivoExtraLight>
-            </View>
-          )}
-          renderItem={({ item }) => (
-            <BookedSlots
-              booking={item}
-              selectedSport={selectedTab?.name}
-              setSelectedBooking={onCancelBookingPress}
-              onDetailViewPress={onDetailViewPress}
-            />
-          )}
-        />
+        <View style={{ flex: 0.9 }}>
+          <FlatList
+            data={dataForList}
+            ListEmptyComponent={() => (
+              <View style={styles.noBookingContainer}>
+                <Image source={icons.noBooking} style={styles.noBookingIcon} />
+                <ArchivoRegular style={styles.title}>Bookings</ArchivoRegular>
+                <ArchivoExtraLight
+                  style={{ textAlign: "center", fontSize: 14 }}
+                >
+                  Currently, there are no Bookings available for display. Please
+                  Check again later
+                </ArchivoExtraLight>
+              </View>
+            )}
+            renderItem={({ item }) => (
+              <BookedSlots
+                booking={item}
+                selectedSport={selectedTab?.name}
+                setSelectedBooking={onCancelBookingPress}
+                onDetailViewPress={onDetailViewPress}
+              />
+            )}
+          />
+        </View>
       </ScreenWrapper>
 
       <BookingConfirmationPopup

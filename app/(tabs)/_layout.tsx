@@ -122,12 +122,13 @@ export default function TabLayout() {
 
 const styles = StyleSheet.create({
   container: {
-    height: vh * 7,
+    height: vh * 8,
     backgroundColor: "white",
     flexDirection: "row",
     justifyContent: "space-around",
     width: "100%",
     alignSelf: "center",
+
     // paddingHorizontal: 10,
   },
   tab: {
@@ -137,8 +138,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   icon: {
-    width: vh * 1.8,
-    height: vh * 1.8,
+    width: vh * 2.2,
+    height: vh * 2.2,
     resizeMode: "contain",
     marginBottom: 5,
   },
@@ -149,8 +150,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   circle: {
-    width: vh * 7,
-    height: vh * 7,
+    width: vh * 6.5,
+    height: vh * 6.5,
     backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",

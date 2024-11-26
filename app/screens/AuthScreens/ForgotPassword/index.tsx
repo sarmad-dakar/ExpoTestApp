@@ -45,7 +45,7 @@ const ForgotPasswordScreen = () => {
   };
 
   return (
-    <ScreenWrapper>
+    <ScreenWrapper hideShadow={true}>
       <View
         style={[
           styles.container,

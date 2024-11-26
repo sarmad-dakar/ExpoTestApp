@@ -73,7 +73,7 @@ const LoginScreen = () => {
     }
   }, [membershipNumber, password]);
   return (
-    <ScreenWrapper>
+    <ScreenWrapper hideShadow={true}>
       <View
         style={[
           styles.container,
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   },
   termsHeading: {
     // fontSize: vh * 2,
-    fontWeight: "300",
+    // fontWeight: "300",
   },
   termsContainer: {
     flexDirection: "row",

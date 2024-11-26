@@ -37,7 +37,16 @@ const BookedSlots = ({
     return bookingDate.diff(currentDate, "hours") >= 10;
   };
   return (
-    <Pressable onPress={() => setEnablePopup(false)} style={styles.container}>
+    <Pressable
+      onPress={() => {
+        if (enablePopup) {
+          setEnablePopup(false);
+        } else {
+          onDetailViewPress(booking);
+        }
+      }}
+      style={styles.container}
+    >
       <TouchableOpacity
         onPress={() => setEnablePopup(!enablePopup)}
         style={styles.iconContainer}

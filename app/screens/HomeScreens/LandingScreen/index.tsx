@@ -39,6 +39,7 @@ import BookingDetailsPopup from "@/app/components/BookingDetailsPopup";
 import BookingConfirmationPopup, {
   BookingConfirmationPopupRef,
 } from "@/app/components/BookingConfirmationPopup";
+import { toggleBtnLoader } from "@/app/store/slices/generalSlice";
 
 // Define types for calendar data and booking sessions
 interface CalendarData {
@@ -77,9 +78,7 @@ const LandingScreen = () => {
 
   const bookingConfirmationRef = useRef<ConfirmationPopupRef>(null);
 
-  const loader = useSelector(
-    (state: RootState) => state.general?.generalLoader
-  );
+  const loader = useSelector((state: RootState) => state.general?.btnLoader);
   useEffect(() => {
     // handleNavigation();
     getProfile();
@@ -128,16 +127,25 @@ const LandingScreen = () => {
 
   // Define the type of 'date' as Date and return type as Promise<void>
   const getCalendarData = async (date: Date, sport?: Sport): Promise<void> => {
-    const formattedDate = moment(date).format("DD-MM-YYYY");
-    let data = {
-      date: formattedDate,
-      sport: sport?.sportServiceSetting.title.toLowerCase(),
-    };
-    console.log(data);
-    const response = await FetchCalendarData(data);
-    console.log(response.data, "response of calendar");
-    if (response && response.data && response.data.data) {
-      setCalendarData(response.data.data);
+    try {
+      dispatch(toggleBtnLoader(true));
+
+      const formattedDate = moment(date).format("DD-MM-YYYY");
+      let data = {
+        date: formattedDate,
+        sport: sport?.sportServiceSetting.title.toLowerCase(),
+      };
+      console.log(data);
+      const response = await FetchCalendarData(data);
+      console.log(response.data, "response of calendar");
+      if (response && response.data && response.data.data) {
+        setCalendarData(response.data.data);
+      }
+      setTimeout(() => {
+        dispatch(toggleBtnLoader(false));
+      }, 1000);
+    } catch (error) {
+      dispatch(toggleBtnLoader(false));
     }
   };
 
