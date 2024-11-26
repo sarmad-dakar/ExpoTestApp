@@ -29,8 +29,8 @@ const SplashScreen = ({ navigation }) => {
       console.log(validatingTimeout, "timeout");
 
       validatingTimeout = setTimeout(() => {
-        router.push("/clublisting");
-        // router.push("/onboarding");
+        // router.push("/clublisting");
+        router.push("/onboarding");
       }, 2000);
     };
 
