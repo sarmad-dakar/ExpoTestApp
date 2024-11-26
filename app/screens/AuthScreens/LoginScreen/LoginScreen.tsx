@@ -112,7 +112,13 @@ const LoginScreen = () => {
         </ArchivoExtraLight>
         <View style={styles.termsContainer}>
           <TouchableOpacity
-            style={{ zIndex: 100 }}
+              hitSlop={{
+                top: 20,
+                bottom: 20,
+                left: 20,
+                right: 20,
+              }} // Adjust hitSlop as needed
+         
             onPress={() => router.push("/termscondition")}
           >
             <ArchivoLight style={styles.termsHeading}>
@@ -121,7 +127,7 @@ const LoginScreen = () => {
           </TouchableOpacity>
           <Text>|</Text>
           <TouchableOpacity
-            style={{ zIndex: 100 }}
+            style={{ }}
             onPress={() => router.push("/privacypolicy")}
           >
             <ArchivoLight> Privacy Policy</ArchivoLight>
@@ -165,6 +171,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 30,
     paddingHorizontal: "12%",
+    zIndex : 100
     // backgroundColor : "red"
   },
 });
