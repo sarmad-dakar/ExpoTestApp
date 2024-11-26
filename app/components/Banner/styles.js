@@ -1,11 +1,11 @@
 import { Platform, StyleSheet } from "react-native";
 import { vh } from "../../utils/units";
-import { colors } from "../../utils/theme";
+import { themeColors } from "../../utils/theme";
 
 export const styles = StyleSheet.create({
   container: {
     height: "20%",
-    backgroundColor: colors.primary,
+    backgroundColor: themeColors.primary,
     borderRadius: 16,
     justifyContent: "center",
     paddingLeft: "5%",

@@ -23,7 +23,7 @@ import { icons, images } from "@/app/MyAssets";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { GetAlreadyBookedDetails } from "@/app/api/Bookings";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import ArchivoRegular from "../TextWrapper/ArchivoRegular";
 import { vh } from "@/app/utils/units";
 import ArchivoMedium from "../TextWrapper/ArchivoMedium";
@@ -38,7 +38,9 @@ const DetailComponent = ({ label, value, hideBorder }: any) => {
         {label} {value ? ":" : ","}{" "}
       </ArchivoMedium>
       <View style={{ width: "40%", alignItems: "flex-end" }}>
-        <ArchivoRegular style={{ fontSize: vh * 1.5, color: colors.darkText }}>
+        <ArchivoRegular
+          style={{ fontSize: vh * 1.5, color: themeColors.darkText }}
+        >
           {" "}
           {value}
         </ArchivoRegular>
@@ -154,7 +156,10 @@ const BookingDetailsPopup = forwardRef<
           <View style={{ flex: 1 }}>
             {loading ? (
               <View style={{ alignSelf: "center", marginTop: 100 }}>
-                <ActivityIndicator size={"large"} color={colors.secondary} />
+                <ActivityIndicator
+                  size={"large"}
+                  color={themeColors.secondary}
+                />
               </View>
             ) : (
               <ScrollView
@@ -176,7 +181,10 @@ const BookingDetailsPopup = forwardRef<
                       <View style={styles.rowDirection}>
                         <Image source={icons.clock} style={styles.logo} />
                         <BerlingskeBold
-                          style={{ color: colors.darkText, fontSize: vh * 2 }}
+                          style={{
+                            color: themeColors.darkText,
+                            fontSize: vh * 2,
+                          }}
                         >
                           Session
                         </BerlingskeBold>
@@ -240,7 +248,10 @@ const BookingDetailsPopup = forwardRef<
                     >
                       <Image source={icons.group} style={styles.logo} />
                       <BerlingskeBold
-                        style={{ color: colors.darkText, fontSize: vh * 2 }}
+                        style={{
+                          color: themeColors.darkText,
+                          fontSize: vh * 2,
+                        }}
                       >
                         Players Info
                       </BerlingskeBold>
@@ -292,7 +303,10 @@ const BookingDetailsPopup = forwardRef<
                     <View style={[styles.rowDirection, { marginBottom: 10 }]}>
                       <Image source={icons.bankTransfer} style={styles.logo} />
                       <BerlingskeBold
-                        style={{ color: colors.darkText, fontSize: vh * 2 }}
+                        style={{
+                          color: themeColors.darkText,
+                          fontSize: vh * 2,
+                        }}
                       >
                         Booking & Payments
                       </BerlingskeBold>
@@ -446,7 +460,7 @@ const styles = StyleSheet.create({
     width: 25,
     resizeMode: "contain",
     marginRight: 15,
-    tintColor: colors.primary,
+    tintColor: themeColors.primary,
   },
   tableContainer: {
     marginVertical: 20,
@@ -457,7 +471,7 @@ const styles = StyleSheet.create({
   tableHeader: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: colors.primary, // "#f0f0f0"
+    backgroundColor: themeColors.primary, // "#f0f0f0"
     paddingVertical: 10,
     paddingHorizontal: 5,
   },
@@ -481,18 +495,18 @@ const styles = StyleSheet.create({
     textAlign: "left",
     fontSize: vh * 1.4,
     minWidth: 100,
-    color: colors.darkText,
+    color: themeColors.darkText,
   },
   cancelBtn: {
     height: vh * 4.2,
     width: 120,
-    backgroundColor: colors.red,
+    backgroundColor: themeColors.red,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
   },
   cardContainer: {
-    backgroundColor: colors.cardShade,
+    backgroundColor: themeColors.cardShade,
     marginTop: 15,
     borderRadius: 10,
     padding: 10,

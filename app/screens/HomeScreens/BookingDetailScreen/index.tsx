@@ -18,7 +18,7 @@ import MainButton from "@/app/components/MainButton";
 import AddPlayerModal, {
   addplayerPopupRef,
 } from "@/app/components/AddPlayerModal";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 
 import SelectDropDown, { SelectDropdownRef } from "@/app/components/Dropdown";
 import DateTimePicker, {
@@ -380,7 +380,7 @@ const BookingDetailScreen = () => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.white }}>
+    <View style={{ flex: 1, backgroundColor: themeColors.white }}>
       <GeneralHeader
         sport={{
           name: bookingData?.selectedSport?.sportServiceSetting.title,
@@ -416,7 +416,7 @@ const BookingDetailScreen = () => {
         <BerlingskeBold style={styles.heading}>
           Booking Payment & Add Players
         </BerlingskeBold>
-        <BerlingskeMedium style={{ color: colors.primary, fontSize: 17 }}>
+        <BerlingskeMedium style={{ color: themeColors.primary, fontSize: 17 }}>
           Session Information
         </BerlingskeMedium>
         <InputField icon={icons.calendar} value={bookingData?.selectedDate} />
@@ -428,7 +428,7 @@ const BookingDetailScreen = () => {
           />
         </View>
         <MainButton onPress={() => router.back()} title="Change" />
-        <BerlingskeMedium style={{ color: colors.primary, fontSize: 17 }}>
+        <BerlingskeMedium style={{ color: themeColors.primary, fontSize: 17 }}>
           Booking Types
         </BerlingskeMedium>
         <InputField
@@ -491,7 +491,9 @@ const BookingDetailScreen = () => {
           </View>
         ) : null}
         <View style={styles.rowDirection}>
-          <BerlingskeMedium style={{ color: colors.primary, fontSize: 17 }}>
+          <BerlingskeMedium
+            style={{ color: themeColors.primary, fontSize: 17 }}
+          >
             Players
           </BerlingskeMedium>
           {enableAddPlayers ? (
@@ -530,7 +532,11 @@ const BookingDetailScreen = () => {
               <View style={styles.chip}>
                 <ArchivoRegular
                   style={[
-                    { color: colors.darkText, fontSize: 10, marginTop: -5 },
+                    {
+                      color: themeColors.darkText,
+                      fontSize: 10,
+                      marginTop: -5,
+                    },
                   ]}
                 >
                   ( {playersAmountData?.p1Label} )
@@ -658,7 +664,7 @@ export default BookingDetailScreen;
 const styles = StyleSheet.create({
   heading: {
     marginVertical: 10,
-    color: colors.darkText,
+    color: themeColors.darkText,
     fontSize: 18,
   },
   rowDirection: {
@@ -673,7 +679,7 @@ const styles = StyleSheet.create({
   checkbox: {
     height: 17,
     width: 17,
-    borderColor: colors.gray,
+    borderColor: themeColors.gray,
     borderWidth: 1,
     borderRadius: 3,
     alignItems: "center",
@@ -690,7 +696,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     paddingHorizontal: 10,
-    backgroundColor: colors.lightGray,
+    backgroundColor: themeColors.lightGray,
     borderRadius: 10,
     marginBottom: 5,
   },
@@ -708,7 +714,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   chip: {
-    // backgroundColor: colors.primary,
     borderRadius: vh * 10,
     paddingVertical: 4,
     // width: 80,

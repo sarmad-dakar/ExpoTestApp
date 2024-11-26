@@ -30,7 +30,7 @@ import type { AppDispatch } from "@/app/store/index"; // Path to your store.ts
 import { CancelBooking, FetchCalendarData } from "@/app/api/Bookings";
 import moment from "moment";
 import { vh, vw } from "@/app/utils/units";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import BookingCalendarVersion2 from "@/app/components/BookingCalendar/BookingCalendarVersion2";
 import { fetchCurrentSports } from "@/app/store/slices/bookingSlice";
 import { useFocusEffect } from "expo-router";
@@ -213,18 +213,16 @@ const LandingScreen = () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      {sports?.length ? (
-        <HomeHeader
-          onNotificationPress={onNotificationPress}
-          allSports={sports}
-          setSelectedDate={setSelectedDate}
-          selectedDate={selectedDate}
-          onSearchPress={onSearchPress}
-          getCalendarData={getCalendarData}
-          setSelectedSport={setSelectedSport}
-          selectedSport={SelectedSport}
-        />
-      ) : null}
+      <HomeHeader
+        onNotificationPress={onNotificationPress}
+        allSports={sports}
+        setSelectedDate={setSelectedDate}
+        selectedDate={selectedDate}
+        onSearchPress={onSearchPress}
+        getCalendarData={getCalendarData}
+        setSelectedSport={setSelectedSport}
+        selectedSport={SelectedSport}
+      />
       {/* <HomeHeaderBeta allSports={AllSports} label={"Tennis Booking"} /> */}
       {/* <ScrollView
         style={{ flex: 1, marginTop: 10 }}
@@ -261,7 +259,7 @@ const LandingScreen = () => {
       />
       {loader ? (
         <View style={styles.loader}>
-          <ActivityIndicator size={"large"} color={colors.secondary} />
+          <ActivityIndicator size={"large"} color={themeColors.secondary} />
         </View>
       ) : null}
     </View>

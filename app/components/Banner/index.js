@@ -2,7 +2,7 @@ import { View, Text, Image } from "react-native";
 import React from "react";
 import { styles } from "./styles";
 import BerlingskeRegular from "../../components/TextWrapper/BerlingskeRegular";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import { images } from "@/app/MyAssets";
 const Ring = () => {
   return (
@@ -21,7 +21,7 @@ const Ring = () => {
 const Banner = () => {
   return (
     <View style={styles.container}>
-      <BerlingskeRegular style={{ color: colors.secondary, width: 170 }}>
+      <BerlingskeRegular style={{ color: themeColors.secondary, width: 170 }}>
         Welcome{" "}
         <BerlingskeRegular style={{ color: "white" }}>
           To The Marsa Sports Club

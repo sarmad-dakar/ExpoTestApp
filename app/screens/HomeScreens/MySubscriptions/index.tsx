@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import GeneralHeader from "@/app/components/GeneralHeader";
 import SearchField from "@/app/components/SearchField";
 import ScreenWrapper from "@/app/components/ScreenWrapper";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import { GetAccountData, GetSubscriptionData } from "@/app/api/Bookings";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMySubscription } from "@/app/store/slices/accountSlice";
@@ -78,7 +78,7 @@ const MySubscriptionScreen = () => {
                   styles.row,
                   {
                     backgroundColor:
-                      index % 2 !== 0 ? "white" : colors.lightShade,
+                      index % 2 !== 0 ? "white" : themeColors.lightShade,
                   },
                 ]}
               >
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
   },
   headerRow: {
     flexDirection: "row",
-    backgroundColor: colors.primary,
+    backgroundColor: themeColors.primary,
   },
   headerText: {
     color: "#fff",
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingLeft: 10,
     fontSize: 12,
-    backgroundColor: colors.primary,
+    backgroundColor: themeColors.primary,
   },
   row: {
     flexDirection: "row",

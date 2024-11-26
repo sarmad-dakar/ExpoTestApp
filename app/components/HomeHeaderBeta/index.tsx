@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import { vh } from "@/app/utils/units";
 import { icons, images } from "@/app/MyAssets";
 import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
@@ -63,9 +63,11 @@ const HomeHeaderBeta: React.FC<HomeHeaderProps> = ({ allSports }) => {
         <View style={{ alignItems: "center", width: 60 }}>
           <Image
             source={SelectedSport.icon}
-            style={[styles.logo, { tintColor: colors.secondary }]}
+            style={[styles.logo, { tintColor: themeColors.secondary }]}
           />
-          <Text style={[styles.selectedSport, { color: colors.secondary }]}>
+          <Text
+            style={[styles.selectedSport, { color: themeColors.secondary }]}
+          >
             {SelectedSport.name}
           </Text>
         </View>
@@ -169,7 +171,7 @@ export default HomeHeaderBeta;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.primary,
+    backgroundColor: themeColors.primary,
     height: vh * 20,
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
@@ -183,7 +185,7 @@ const styles = StyleSheet.create({
     height: 30,
     width: 30,
     resizeMode: "contain",
-    tintColor: colors.white,
+    tintColor: themeColors.white,
   },
   selectedSport: {
     color: "white",
@@ -195,7 +197,7 @@ const styles = StyleSheet.create({
     marginTop: -50,
   },
   sideBar: {
-    backgroundColor: colors.primary,
+    backgroundColor: themeColors.primary,
     width: 90,
     borderBottomRightRadius: 40,
     paddingLeft: 18,
@@ -210,7 +212,7 @@ const styles = StyleSheet.create({
   slotContainer: {
     height: "100%",
     width: "100%",
-    backgroundColor: colors.white,
+    backgroundColor: themeColors.white,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
 

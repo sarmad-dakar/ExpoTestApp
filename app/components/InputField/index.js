@@ -11,7 +11,7 @@ import {
 import React, { useState, useRef, useEffect } from "react";
 import { styles } from "./styles";
 import { icons } from "../../MyAssets";
-import { colors } from "../../utils/theme";
+import { themeColors } from "../../utils/theme";
 
 const InputField = (props) => {
   const [showPassword, setShowPassword] = useState(
@@ -95,7 +95,7 @@ const InputField = (props) => {
                 source={props.icon}
                 style={[
                   styles.rightIcon,
-                  props.error && { tintColor: colors.red },
+                  props.error && { tintColor: themeColors.red },
                 ]}
               />
             </View>
@@ -113,7 +113,10 @@ const InputField = (props) => {
                 tintOut();
               }}
               ref={props?.reference ? props?.reference : inputRef}
-              style={[styles.input, props.invalid && { color: colors.red }]}
+              style={[
+                styles.input,
+                props.invalid && { color: themeColors.red },
+              ]}
               {...props}
               placeholderTextColor={"#c1c1c1"}
               maxFontSizeMultiplier={1}
@@ -146,7 +149,10 @@ const InputField = (props) => {
                 {
                   tintColor: borderAnimation.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [colors.inputBorders, colors.primary], // 0 : 150, 0.5 : 75, 1 : 0
+                    outputRange: [
+                      themeColors.inputBorders,
+                      themeColors.primary,
+                    ], // 0 : 150, 0.5 : 75, 1 : 0
                   }),
                 },
               ]}

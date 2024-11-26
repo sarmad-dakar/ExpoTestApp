@@ -12,7 +12,7 @@ import BerlingskeBold from "@/app/components/TextWrapper/BerlingskeBold";
 import { icons } from "@/app/MyAssets";
 import { useLocalSearchParams } from "expo-router";
 import { GetAlreadyBookedDetails } from "@/app/api/Bookings";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
 
@@ -65,7 +65,7 @@ const AccountDetailScreen = () => {
       />
       {loading ? (
         <View style={{ alignSelf: "center", marginTop: 100 }}>
-          <ActivityIndicator size={"large"} color={colors.secondary} />
+          <ActivityIndicator size={"large"} color={themeColors.secondary} />
         </View>
       ) : (
         <ScrollView contentContainerStyle={{ paddingHorizontal: 20 }}>
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
   tableHeader: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: colors.primary, // "#f0f0f0"
+    backgroundColor: themeColors.primary, // "#f0f0f0"
     paddingVertical: 10,
     paddingHorizontal: 5,
   },

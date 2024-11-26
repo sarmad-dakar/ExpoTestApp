@@ -9,7 +9,7 @@ import {
 import React from "react";
 import BerlingskeBold from "../TextWrapper/BerlingskeBold";
 import { bookingData, newBookingData } from "@/app/utils/dummyJson";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import moment from "moment";
 
 // Define interfaces for the item and data props
@@ -45,16 +45,16 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
 }) => {
   const getColor = (item: SessionItem, sessionIndex: Number, index: Number) => {
     if (!item.isAvailable && !item.icon) {
-      return colors.unAvailable;
+      return themeColors.unAvailable;
     }
 
     if (!item.isAvailable && item.icon) {
-      return colors.booked;
+      return themeColors.booked;
     }
 
     // if (data.bookingSessions[sessionIndex].session[index - 1]) {
     //   if (data.bookingSessions[sessionIndex].session[index - 1].rows == 2) {
-    //     return colors.booked;
+    //     return themeColors.booked;
     //   }
     // }
 
@@ -67,11 +67,11 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
     const selectedDate = moment(new Date());
 
     if (currentDate.isBefore(selectedDate) && item.isAvailable) {
-      return colors.expiredSeesion;
+      return themeColors.expiredSeesion;
     }
 
     if (item.isAvailable) {
-      return colors.available;
+      return themeColors.available;
     }
   };
 
@@ -142,7 +142,7 @@ const BookingCalendar: React.FC<BookingCalendarProps> = ({
                   <View
                     style={{
                       height: 4,
-                      backgroundColor: colors.green,
+                      backgroundColor: themeColors.green,
                       width: "100%",
                       position: "absolute",
                       bottom: 0,
@@ -195,7 +195,7 @@ export default BookingCalendar;
 const styles = StyleSheet.create({
   court: {
     height: 40,
-    backgroundColor: colors.secondary,
+    backgroundColor: themeColors.secondary,
     width: 90,
     marginRight: 3,
     justifyContent: "center",

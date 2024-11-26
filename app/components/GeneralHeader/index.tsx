@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import React, { useRef } from "react";
 import { icons } from "@/app/MyAssets";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import { vh } from "@/app/utils/units";
 import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
 import { router } from "expo-router";
@@ -46,11 +46,13 @@ const GeneralHeader = ({ title, back, sport }: headerProps) => {
           {sport?.icon ? (
             <Image
               source={sport?.icon}
-              style={[styles.logo, { tintColor: colors.secondary }]}
+              style={[styles.logo, { tintColor: themeColors.secondary }]}
             />
           ) : null}
           {sport?.icon ? (
-            <Text style={[styles.selectedSport, { color: colors.secondary }]}>
+            <Text
+              style={[styles.selectedSport, { color: themeColors.secondary }]}
+            >
               {sport?.name || "Tennis"}
             </Text>
           ) : null}
@@ -71,7 +73,9 @@ const GeneralHeader = ({ title, back, sport }: headerProps) => {
             <Image source={icons.wallet} style={styles.backIcon} />
           </View> */}
           <View>
-            <BerlingskeMedium style={{ color: colors.secondary, fontSize: 15 }}>
+            <BerlingskeMedium
+              style={{ color: themeColors.secondary, fontSize: 15 }}
+            >
               Wallet
             </BerlingskeMedium>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -101,7 +105,7 @@ export default GeneralHeader;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.primary,
+    backgroundColor: themeColors.primary,
     height: vh * 15,
     borderBottomRightRadius: 30,
     borderBottomLeftRadius: 30,
@@ -115,7 +119,7 @@ const styles = StyleSheet.create({
     height: 30,
     width: 30,
     resizeMode: "contain",
-    tintColor: colors.white,
+    tintColor: themeColors.white,
   },
   selectedSport: {
     color: "white",

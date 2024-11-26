@@ -17,7 +17,7 @@ import ArchivoLight from "../../../components/TextWrapper/ArchivoLight";
 import ArchivoExtraLight from "../../../components/TextWrapper/ArchivoExtraLight";
 
 import Swiper from "react-native-swiper";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import BerlingskeMedium from "@/app/components/TextWrapper/BerlingskeMedium";
 import { useSelector } from "react-redux";
 import { fetchCurrentSports } from "@/app/store/slices/bookingSlice";
@@ -123,7 +123,7 @@ export default OnBoardingScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.white,
+    backgroundColor: themeColors.white,
   },
   bottomContainer: {
     height: 260,

@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import Animated, { SlideInDown } from "react-native-reanimated";
 import { styles } from "./styles";
-import { colors } from "../../utils/theme";
+import { themeColors } from "../../utils/theme";
 import { vh } from "@/app/utils/units";
 
 export type SelectDropdownRef = {
@@ -95,7 +95,7 @@ const SelectDropDown = forwardRef<SelectDropdownRef, selectDropdownProp>(
           "landscape",
           "landscape-left",
           "landscape-right",
-          "portrait"
+          "portrait",
         ]}
         onRequestClose={() => setVisible(false)}
         style={styles.modal}
@@ -108,7 +108,9 @@ const SelectDropDown = forwardRef<SelectDropdownRef, selectDropdownProp>(
               renderItem={(item) => renderItem(item)}
               horizontal={false}
             />
-            <View style={[styles.field, { backgroundColor: colors.primary }]}>
+            <View
+              style={[styles.field, { backgroundColor: themeColors.primary }]}
+            >
               <TouchableOpacity
                 style={{
                   height: "100%",

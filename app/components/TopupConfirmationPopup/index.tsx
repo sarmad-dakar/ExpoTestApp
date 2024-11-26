@@ -29,7 +29,7 @@ import { useAppDispatch } from "@/app/screens/HomeScreens/LandingScreen";
 import { showErrorToast } from "@/app/utils/toastmsg";
 import { icons } from "@/app/MyAssets";
 import GeneralHeader from "../GeneralHeader";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import { vh } from "@/app/utils/units";
 import ArchivoRegular from "../TextWrapper/ArchivoRegular";
 
@@ -177,7 +177,7 @@ const TopupConfirmationPopup = forwardRef<
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={[styles.btn, { backgroundColor: colors.secondary }]}
+                style={[styles.btn, { backgroundColor: themeColors.secondary }]}
                 onPress={handleConfirm}
               >
                 <Text style={{ color: "black" }}>Confirm</Text>
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
   },
   webHeder: {
     height: vh * 12,
-    backgroundColor: colors.primary,
+    backgroundColor: themeColors.primary,
     justifyContent: "center",
     paddingLeft: "5%",
     paddingTop: "4%",

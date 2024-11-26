@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { icons, images } from "@/app/MyAssets";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
 import * as ImagePicker from "expo-image-picker";
 import { updateProfilePic } from "@/app/api/Auth";
@@ -138,7 +138,7 @@ const ProfileHeader = ({
               zIndex: 100,
               height: 40,
               width: 40,
-              backgroundColor: colors.white,
+              backgroundColor: themeColors.white,
               borderRadius: 100,
               justifyContent: "center",
               alignItems: "center",
@@ -154,7 +154,7 @@ const ProfileHeader = ({
             onPress={onEditPress}
           >
             {loading ? (
-              <ActivityIndicator size={"small"} color={colors.white} />
+              <ActivityIndicator size={"small"} color={themeColors.white} />
             ) : (
               <Image source={icons.edit} style={styles.icon} />
             )}
@@ -169,7 +169,7 @@ export default ProfileHeader;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.primary,
+    backgroundColor: themeColors.primary,
     // height: vh * 20,
     borderBottomRightRadius: 25,
     borderBottomLeftRadius: 25,
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     height: 20,
     width: 20,
     resizeMode: "contain",
-    tintColor: colors.white,
+    tintColor: themeColors.white,
   },
   selectedSport: {
     color: "white",
@@ -232,12 +232,12 @@ const styles = StyleSheet.create({
     marginLeft: "10%",
   },
   name: {
-    color: colors.white,
+    color: themeColors.white,
     textAlign: "center",
     fontSize: vh * 1.7,
   },
   email: {
-    color: colors.white,
+    color: themeColors.white,
     fontSize: vh * 1.5,
     marginTop: -vh * 0.5,
   },
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
     width: vh * 2.5,
     height: vh * 2.5,
     resizeMode: "contain",
-    tintColor: colors.white,
+    tintColor: themeColors.white,
   },
   floppyIcon: {
     height: "50%",

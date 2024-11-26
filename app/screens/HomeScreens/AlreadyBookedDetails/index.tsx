@@ -13,7 +13,7 @@ import BerlingskeBold from "@/app/components/TextWrapper/BerlingskeBold";
 import { icons } from "@/app/MyAssets";
 import { router, useLocalSearchParams } from "expo-router";
 import { CancelBooking, GetAlreadyBookedDetails } from "@/app/api/Bookings";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
 import BerlingskeMedium from "@/app/components/TextWrapper/BerlingskeMedium";
@@ -35,7 +35,9 @@ const DetailComponent = ({ label, value, hideBorder }: any) => {
         {label} {value ? ":" : ","}{" "}
       </ArchivoMedium>
       <View style={{ width: "40%", alignItems: "flex-end" }}>
-        <ArchivoRegular style={{ fontSize: vh * 1.5, color: colors.darkText }}>
+        <ArchivoRegular
+          style={{ fontSize: vh * 1.5, color: themeColors.darkText }}
+        >
           {" "}
           {value}
         </ArchivoRegular>
@@ -115,7 +117,7 @@ const AlreadyBookedDetails = () => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.white }}>
+    <View style={{ flex: 1, backgroundColor: themeColors.white }}>
       <BookingConfirmationPopup
         reference={bookingConfirmationRef}
         onAccept={onConfirmedCancel}
@@ -130,7 +132,7 @@ const AlreadyBookedDetails = () => {
       />
       {loading ? (
         <View style={{ alignSelf: "center", marginTop: 100 }}>
-          <ActivityIndicator size={"large"} color={colors.secondary} />
+          <ActivityIndicator size={"large"} color={themeColors.secondary} />
         </View>
       ) : (
         <ScrollView
@@ -399,7 +401,7 @@ const styles = StyleSheet.create({
     width: 25,
     resizeMode: "contain",
     marginRight: 15,
-    tintColor: colors.primary,
+    tintColor: themeColors.primary,
   },
   tableContainer: {
     marginVertical: 20,
@@ -410,7 +412,7 @@ const styles = StyleSheet.create({
   tableHeader: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: colors.primary, // "#f0f0f0"
+    backgroundColor: themeColors.primary, // "#f0f0f0"
     paddingVertical: 10,
     paddingHorizontal: 5,
   },
@@ -434,18 +436,18 @@ const styles = StyleSheet.create({
     textAlign: "left",
     fontSize: vh * 1.4,
     minWidth: 100,
-    color: colors.darkText,
+    color: themeColors.darkText,
   },
   cancelBtn: {
     height: vh * 4.5,
     width: 120,
-    backgroundColor: colors.red,
+    backgroundColor: themeColors.red,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
   },
   cardContainer: {
-    backgroundColor: colors.cardShade,
+    backgroundColor: themeColors.cardShade,
     marginTop: 15,
     borderRadius: 10,
     padding: 10,

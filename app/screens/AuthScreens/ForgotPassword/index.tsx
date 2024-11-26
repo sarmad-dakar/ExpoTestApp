@@ -13,7 +13,7 @@ import InputField from "@/app/components/InputField";
 import { icons } from "@/app/MyAssets";
 import ScreenWrapper from "@/app/components/ScreenWrapper";
 import PoweredBy from "@/app/components/PoweredBy";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import { vh } from "@/app/utils/units";
 import BerlingskeMedium from "@/app/components/TextWrapper/BerlingskeMedium";
 import { router } from "expo-router";
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     paddingTop: vh * 2.5,
   },
   terms: {
-    color: colors.darkText,
+    color: themeColors.darkText,
     textAlign: "center",
     marginTop: vh * 9,
     fontSize: vh * 1.8,

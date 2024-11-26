@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { colors } from "../../utils/theme";
+import { themeColors } from "../../utils/theme";
 import { icons } from "@/app/MyAssets";
 
 const MainButton = (props) => {
@@ -43,7 +43,7 @@ const MainButton = (props) => {
         styles.container,
         height < 420 && { height: 35, borderRadius: 7 },
         props.style,
-        props.disabled && { backgroundColor: colors.gray },
+        props.disabled && { backgroundColor: themeColors.gray },
       ]}
     >
       {props.icon && <Image source={props.icon} style={styles.icon} />}
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   container: {
     height: 40,
     width: "100%",
-    backgroundColor: colors.secondary,
+    backgroundColor: themeColors.secondary,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 100,

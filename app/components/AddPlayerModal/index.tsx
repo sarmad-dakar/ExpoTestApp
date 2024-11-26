@@ -22,7 +22,7 @@ import {
 import BerlingskeBold from "../TextWrapper/BerlingskeBold";
 import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
 import SearchField from "@/app/components/SearchField";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import { icons } from "@/app/MyAssets";
 import { dummyPlayers } from "@/app/utils/dummyJson";
 import MainButton from "../MainButton";
@@ -240,7 +240,7 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
             justifyContent: "space-between",
             paddingHorizontal: 10,
             height: 40,
-            backgroundColor: colors.primary,
+            backgroundColor: themeColors.primary,
             alignItems: "center",
           }}
         >
@@ -258,7 +258,7 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
             >
               <Image
                 source={icons.starUnfilled}
-                style={[styles.icon, { tintColor: colors.white }]}
+                style={[styles.icon, { tintColor: themeColors.white }]}
               />
             </TouchableOpacity>
           )}
@@ -296,7 +296,7 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
                 />
               </TouchableOpacity>
               <BerlingskeMedium
-                style={{ marginBottom: 10, color: colors.darkText }}
+                style={{ marginBottom: 10, color: themeColors.darkText }}
               >
                 Add Players
               </BerlingskeMedium>
@@ -334,7 +334,9 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
                             styles.listTile,
                             {
                               backgroundColor:
-                                index % 2 !== 0 ? "white" : colors.lightShade,
+                                index % 2 !== 0
+                                  ? "white"
+                                  : themeColors.lightShade,
                             },
                           ]}
                         >
@@ -485,7 +487,7 @@ const styles = StyleSheet.create({
   checkbox: {
     height: 17,
     width: 17,
-    borderColor: colors.gray,
+    borderColor: themeColors.gray,
     borderWidth: 1,
     borderRadius: 3,
     alignItems: "center",
@@ -522,7 +524,7 @@ const styles = StyleSheet.create({
     zIndex: 100,
   },
   headerTitle: {
-    color: colors.white,
+    color: themeColors.white,
     fontSize: 13,
   },
 });

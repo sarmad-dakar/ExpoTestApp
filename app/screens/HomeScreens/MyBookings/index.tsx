@@ -10,7 +10,7 @@ import {
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import ScreenWrapper from "@/app/components/ScreenWrapper";
 import GeneralHeader from "@/app/components/GeneralHeader";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import MainButton from "@/app/components/MainButton";
 import { icons } from "@/app/MyAssets";
 import BookedSlots from "@/app/components/BookedSlots";
@@ -291,7 +291,7 @@ const MyBookingsScreen: React.FC = () => {
                 style={[
                   styles.heading,
                   selectedTab.name === item.name && {
-                    color: colors.green,
+                    color: themeColors.green,
                     textDecorationLine: "underline",
                   },
                 ]}
@@ -302,7 +302,7 @@ const MyBookingsScreen: React.FC = () => {
           ))}
         </View> */}
         <View style={styles.filterContainer}>
-          <BerlingskeMedium style={{ color: colors.darkText }}>
+          <BerlingskeMedium style={{ color: themeColors.darkText }}>
             Search
           </BerlingskeMedium>
 
@@ -361,7 +361,7 @@ const MyBookingsScreen: React.FC = () => {
       />
       {loading ? (
         <View style={styles.loader}>
-          <ActivityIndicator size={"large"} color={colors.secondary} />
+          <ActivityIndicator size={"large"} color={themeColors.secondary} />
         </View>
       ) : null}
     </View>
@@ -438,7 +438,7 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   filterContainer: {
-    backgroundColor: colors.cardShade,
+    backgroundColor: themeColors.cardShade,
     paddingHorizontal: 15,
     paddingVertical: 10,
     marginTop: 15,

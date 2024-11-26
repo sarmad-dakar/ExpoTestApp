@@ -13,7 +13,7 @@ import InputField from "@/app/components/InputField";
 import { icons } from "@/app/MyAssets";
 import ScreenWrapper from "@/app/components/ScreenWrapper";
 import PoweredBy from "@/app/components/PoweredBy";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import { vh } from "@/app/utils/units";
 import { router } from "expo-router";
 import { loginApi } from "@/app/api/Auth";
@@ -112,13 +112,12 @@ const LoginScreen = () => {
         </ArchivoExtraLight>
         <View style={styles.termsContainer}>
           <TouchableOpacity
-              hitSlop={{
-                top: 20,
-                bottom: 20,
-                left: 20,
-                right: 20,
-              }} // Adjust hitSlop as needed
-         
+            hitSlop={{
+              top: 20,
+              bottom: 20,
+              left: 20,
+              right: 20,
+            }} // Adjust hitSlop as needed
             onPress={() => router.push("/termscondition")}
           >
             <ArchivoLight style={styles.termsHeading}>
@@ -127,7 +126,7 @@ const LoginScreen = () => {
           </TouchableOpacity>
           <Text>|</Text>
           <TouchableOpacity
-            style={{ }}
+            style={{}}
             onPress={() => router.push("/privacypolicy")}
           >
             <ArchivoLight> Privacy Policy</ArchivoLight>
@@ -153,7 +152,7 @@ const styles = StyleSheet.create({
     paddingTop: vh * 2.5,
   },
   terms: {
-    color: colors.darkText,
+    color: themeColors.darkText,
     textAlign: "center",
     marginTop: vh * 9,
     fontSize: vh * 1.8,
@@ -171,7 +170,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 30,
     paddingHorizontal: "12%",
-    zIndex : 100
+    zIndex: 100,
     // backgroundColor : "red"
   },
 });

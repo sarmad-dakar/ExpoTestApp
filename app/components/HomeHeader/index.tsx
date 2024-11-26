@@ -9,7 +9,7 @@ import {
   Pressable,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import { vh } from "@/app/utils/units";
 import { icons, images } from "@/app/MyAssets";
 import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
@@ -123,11 +123,13 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
                   `${selectedSport?.sportServiceSetting?.title?.toLowerCase()}`
                 ]
               }
-              style={[styles.logo, { tintColor: colors.secondary }]}
+              style={[styles.logo, { tintColor: themeColors.secondary }]}
             />
           )}
           {selectedSport && (
-            <Text style={[styles.selectedSport, { color: colors.secondary }]}>
+            <Text
+              style={[styles.selectedSport, { color: themeColors.secondary }]}
+            >
               {selectedSport?.sportServiceSetting?.title}
             </Text>
           )}
@@ -151,7 +153,9 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
           }}
         >
           <View>
-            <BerlingskeMedium style={{ color: colors.secondary, fontSize: 15 }}>
+            <BerlingskeMedium
+              style={{ color: themeColors.secondary, fontSize: 15 }}
+            >
               Wallet
             </BerlingskeMedium>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -223,16 +227,15 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
               <View style={styles.datePickerField}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <Image source={icons.calendar} style={styles.inputIcon} />
-                <View style={{transform : [ {scale : 0.8}] }}>
-                <DateTimePicker
-                    value={selectedDate}
-                    mode="date"
-                    key={moment(selectedDate).format("DD/MM/YYYY")}
-                    display="calendar"
-                    onChange={onChangeDate}
-                    
-                    style={{ top: 0, left: 1 , }}
-                  />
+                  <View style={{ transform: [{ scale: 0.8 }] }}>
+                    <DateTimePicker
+                      value={selectedDate}
+                      mode="date"
+                      key={moment(selectedDate).format("DD/MM/YYYY")}
+                      display="calendar"
+                      onChange={onChangeDate}
+                      style={{ top: 0, left: 1 }}
+                    />
                   </View>
                 </View>
                 <Image source={icons.dropdown} style={styles.inputIcon} />
@@ -283,7 +286,7 @@ export default HomeHeader;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.primary,
+    backgroundColor: themeColors.primary,
     height: vh * 15,
     borderBottomRightRadius: 40,
     justifyContent: "space-between",
@@ -296,7 +299,7 @@ const styles = StyleSheet.create({
     height: 30,
     width: 30,
     resizeMode: "contain",
-    tintColor: colors.white,
+    tintColor: themeColors.white,
   },
   selectedSport: {
     color: "white",
@@ -310,7 +313,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   sideBar: {
-    backgroundColor: colors.primary,
+    backgroundColor: themeColors.primary,
     width: 90,
     borderBottomRightRadius: 40,
     paddingLeft: 18,
@@ -319,7 +322,7 @@ const styles = StyleSheet.create({
     // alignItems: "center",
   },
   slotWrapper: {
-    backgroundColor: colors.primary,
+    backgroundColor: themeColors.primary,
     height: "100%",
     width: "70%",
   },

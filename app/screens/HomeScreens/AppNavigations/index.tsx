@@ -8,7 +8,7 @@ import {
 import React from "react";
 import GeneralHeader from "@/app/components/GeneralHeader";
 import ScreenWrapper from "@/app/components/ScreenWrapper";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import BerlingskeMedium from "@/app/components/TextWrapper/BerlingskeMedium";
 import { router } from "expo-router";
 import { useDispatch } from "react-redux";
@@ -125,13 +125,13 @@ export default AppNavigationScreen;
 const styles = StyleSheet.create({
   heading: {
     height: 45,
-    backgroundColor: colors.lightGray,
+    backgroundColor: themeColors.lightGray,
     justifyContent: "center",
     paddingHorizontal: 30,
   },
   headingText: {
     fontSize: vh * 2.2,
-    color: colors.darkText,
+    color: themeColors.darkText,
   },
   container: {
     flex: 1,
@@ -140,10 +140,10 @@ const styles = StyleSheet.create({
   },
   subHeading: {
     height: 45,
-    backgroundColor: colors.white,
+    backgroundColor: themeColors.white,
     justifyContent: "center",
     paddingHorizontal: 30,
     borderWidth: 0.3,
-    borderColor: colors.lightGray,
+    borderColor: themeColors.lightGray,
   },
 });

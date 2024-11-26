@@ -1,7 +1,7 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import BerlingskeBold from "../TextWrapper/BerlingskeBold";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import { icons } from "@/app/MyAssets";
 import MainButton from "../MainButton";
 import { router } from "expo-router";
@@ -41,7 +41,7 @@ export default AvailableSlots;
 
 const styles = StyleSheet.create({
   slotContainer: {
-    backgroundColor: colors.slotBackground,
+    backgroundColor: themeColors.slotBackground,
     borderRadius: 10,
     height: 100,
     width: "95%",

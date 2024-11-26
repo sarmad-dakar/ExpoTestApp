@@ -2,7 +2,6 @@ import { ImageBackground, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { vh } from "../../utils/units";
 import BerlingskeBold from "../TextWrapper/BerlingskeBold";
-import { colors } from "@/app/utils/theme";
 
 const SportsCard = ({ item }) => {
   return (

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import TextWrapper from ".";
-import { colors } from "../../utils/theme";
+import { themeColors } from "../../utils/theme";
 import { useFonts } from "expo-font";
 
 const ArchivoRegular = (props) => {
@@ -20,7 +20,7 @@ export default ArchivoRegular;
 const styles = StyleSheet.create({
   font: {
     fontFamily: "Archivo-Regular",
-    color: colors.headingColor,
+    color: themeColors.headingColor,
     fontSize: 20,
   },
 });

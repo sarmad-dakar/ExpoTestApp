@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import { icons } from "@/app/MyAssets";
 import moment from "moment";
 import ArchivoRegular from "../TextWrapper/ArchivoRegular";
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
   heading: {
     marginBottom: 10,
     fontSize: vh * 1.8,
-    color: colors.primary,
+    color: themeColors.primary,
   },
   footerText: {
     color: "#0008",
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
   },
   bold: {
     fontSize: vh * 1.7,
-    color: colors.primary,
+    color: themeColors.primary,
   },
   more: {
     height: "100%",

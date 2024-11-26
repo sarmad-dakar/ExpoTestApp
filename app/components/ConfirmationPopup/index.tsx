@@ -19,7 +19,7 @@ import {
 import BerlingskeBold from "../TextWrapper/BerlingskeBold";
 import { icons, images } from "@/app/MyAssets";
 import moment from "moment";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
 import ArchivoRegular from "../TextWrapper/ArchivoRegular";
 import ArchivoExtraLight from "../TextWrapper/ArchivoExtraLight";
@@ -133,7 +133,7 @@ const ConfirmationPopup = forwardRef<
             />
           </TouchableOpacity>
           <BerlingskeMedium
-            style={{ color: colors.darkText, fontSize: vh * 2.7 }}
+            style={{ color: themeColors.darkText, fontSize: vh * 2.7 }}
           >
             {props.selectedSport} booking
           </BerlingskeMedium>
@@ -167,10 +167,10 @@ const ConfirmationPopup = forwardRef<
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={[styles.btn, { backgroundColor: colors.secondary }]}
+              style={[styles.btn, { backgroundColor: themeColors.secondary }]}
               onPress={handleAccept}
             >
-              <Text style={{ color: colors.primary }}>YES</Text>
+              <Text style={{ color: themeColors.primary }}>YES</Text>
             </TouchableOpacity>
           </View>
         </View>

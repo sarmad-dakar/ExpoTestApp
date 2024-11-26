@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import BerlingskeBold from "../TextWrapper/BerlingskeBold";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import moment from "moment";
 import { icons } from "@/app/MyAssets";
 import { vh } from "@/app/utils/units";
@@ -108,11 +108,11 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
 
   const getColor = (item: SessionItem) => {
     if (!item.isAvailable && !item.icon) {
-      return colors.unAvailable;
+      return themeColors.unAvailable;
     }
 
     if (!item.isAvailable && item.icon) {
-      return colors.booked;
+      return themeColors.booked;
     }
 
     const currentDay = moment(date).format("DD-MM-YYYY");
@@ -124,11 +124,11 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
     const selectedDate = moment(new Date());
 
     if (currentDate.isBefore(selectedDate) && item.isAvailable) {
-      return colors.expiredSeesion;
+      return themeColors.expiredSeesion;
     }
 
     if (item.isAvailable) {
-      return colors.available;
+      return themeColors.available;
     }
   };
 
@@ -359,7 +359,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
                   height: 20,
                   resizeMode: "contain",
                   marginRight: 5,
-                  tintColor: colors.primary,
+                  tintColor: themeColors.primary,
                 }}
               />
             </TouchableOpacity>
@@ -371,7 +371,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
               // onPress={() => handleCourtPress(item)}
               style={{
                 flex: 1,
-                backgroundColor: colors.secondary,
+                backgroundColor: themeColors.secondary,
                 alignItems: "center",
                 justifyContent: "center",
                 borderWidth: 1,
@@ -384,7 +384,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
                   style={{
                     position: "absolute",
                     left: 0,
-                    backgroundColor: colors.primary,
+                    backgroundColor: themeColors.primary,
                     height: "100%",
                     width: "15%",
                     justifyContent: "center",
@@ -409,7 +409,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
                     position: "absolute",
                     right: 0,
                     alignItems: "center",
-                    backgroundColor: colors.primary,
+                    backgroundColor: themeColors.primary,
                     height: "100%",
                     width: "15%",
                     justifyContent: "center",
@@ -508,7 +508,7 @@ export default BookingCalendarVersion2;
 const styles = StyleSheet.create({
   court: {
     height: 33,
-    backgroundColor: colors.secondary,
+    backgroundColor: themeColors.secondary,
     // width: 90,
     flex: 1,
     marginRight: 1,
@@ -523,7 +523,7 @@ const styles = StyleSheet.create({
   },
   time: {
     width: "100%",
-    backgroundColor: colors.primary,
+    backgroundColor: themeColors.primary,
     height: 33,
     justifyContent: "center",
     alignItems: "center",

@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React, { useEffect, useRef } from "react";
 import GeneralHeader from "@/app/components/GeneralHeader";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import ScreenWrapper from "@/app/components/ScreenWrapper";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMyNotifications } from "@/app/store/slices/accountSlice";
@@ -64,7 +64,7 @@ const NotificationScreen = () => {
       <View style={{ alignItems: "center", marginTop: "40%" }}>
         <Image source={icons.inbox} style={styles.icon} />
         <ArchivoRegular
-          style={{ fontSize: 18, marginTop: 5, color: colors.darkText }}
+          style={{ fontSize: 18, marginTop: 5, color: themeColors.darkText }}
         >
           INBOX EMPTY
         </ArchivoRegular>
@@ -96,7 +96,7 @@ export default NotificationScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.white,
+    backgroundColor: themeColors.white,
   },
   card: {
     borderWidth: 1,
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   heading: {
-    color: colors.primary,
+    color: themeColors.primary,
     fontSize: vh * 1.8,
   },
   subheading: {

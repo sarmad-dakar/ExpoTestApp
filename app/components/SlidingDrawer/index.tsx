@@ -1,5 +1,5 @@
 import { icons } from "@/app/MyAssets";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import { vh } from "@/app/utils/units";
 import React, { useState, useRef, useEffect } from "react";
 import {
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     height: vh * 100,
     alignItems: "center",
     paddingTop: 40,
-    backgroundColor: colors.secondary,
+    backgroundColor: themeColors.secondary,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,

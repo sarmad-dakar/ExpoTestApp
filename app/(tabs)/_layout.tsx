@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { vh, vw } from "../utils/units";
 import { icons, images } from "../MyAssets";
-import { colors } from "../utils/theme";
+import { themeColors } from "../utils/theme";
 
 const MyTabBar = ({ state, descriptors, navigation }) => {
   return (
@@ -66,13 +66,13 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
             <Image
               style={[
                 styles.icon,
-                { tintColor: isFocused ? colors.green : "black" },
+                { tintColor: isFocused ? themeColors.green : "black" },
               ]}
               source={options.tabBarIcon}
             />
             <Text
               style={{
-                color: isFocused ? colors.green : "black",
+                color: isFocused ? themeColors.green : "black",
                 fontSize: vh * 1.2,
               }}
             >

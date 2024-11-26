@@ -1,4 +1,4 @@
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import { vh } from "@/app/utils/units";
 import { StyleSheet } from "react-native";
 
@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
     width: "60%",
     height: "60%",
     resizeMode: "contain",
-    tintColor: colors.primary,
+    tintColor: themeColors.primary,
   },
   iconContainer: {
     width: 30,
@@ -52,5 +52,18 @@ export const styles = StyleSheet.create({
     color: "red",
     alignSelf: "flex-end",
     fontSize: 14,
+  },
+  netModal: {
+    height: vh * 110,
+    backgroundColor: "white",
+    width: "100%",
+    position: "absolute",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  wifiIcon: {
+    height: vh * 15,
+    width: vh * 15,
+    resizeMode: "contain",
   },
 });

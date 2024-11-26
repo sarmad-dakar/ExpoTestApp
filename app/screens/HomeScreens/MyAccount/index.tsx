@@ -11,7 +11,7 @@ import React, { useEffect, useState } from "react";
 import GeneralHeader from "@/app/components/GeneralHeader";
 import SearchField from "@/app/components/SearchField";
 import ScreenWrapper from "@/app/components/ScreenWrapper";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import { FetchMyBookings, GetAccountData } from "@/app/api/Bookings";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMyAccount } from "@/app/store/slices/accountSlice";
@@ -118,7 +118,10 @@ const MyAccountScreen = () => {
               </View>
               {loading ? (
                 <View style={{ alignSelf: "center" }}>
-                  <ActivityIndicator size={"large"} color={colors.secondary} />
+                  <ActivityIndicator
+                    size={"large"}
+                    color={themeColors.secondary}
+                  />
                 </View>
               ) : (
                 accountData.map((item, index) => (
@@ -128,7 +131,7 @@ const MyAccountScreen = () => {
                       styles.row,
                       {
                         backgroundColor:
-                          index % 2 !== 0 ? "white" : colors.lightShade,
+                          index % 2 !== 0 ? "white" : themeColors.lightShade,
                       },
                     ]}
                   >
@@ -218,7 +221,7 @@ const styles = StyleSheet.create({
   },
   headerRow: {
     flexDirection: "row",
-    backgroundColor: colors.primary,
+    backgroundColor: themeColors.primary,
   },
   headerText: {
     color: "#fff",
@@ -229,7 +232,7 @@ const styles = StyleSheet.create({
     // borderWidth: 0.5,
     // borderColor: "#fff",
     fontSize: vh * 1.5,
-    backgroundColor: colors.primary,
+    backgroundColor: themeColors.primary,
   },
   row: {
     flexDirection: "row",
@@ -242,7 +245,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     fontSize: vh * 1.4,
     paddingLeft: 10,
-    color: colors.darkText,
+    color: themeColors.darkText,
   },
   rowDirection: {
     flexDirection: "row",

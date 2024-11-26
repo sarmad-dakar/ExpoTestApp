@@ -15,7 +15,7 @@ import { icons } from "@/app/MyAssets";
 import ScreenWrapper from "@/app/components/ScreenWrapper";
 import BerlingskeBold from "@/app/components/TextWrapper/BerlingskeBold";
 import MainButton from "@/app/components/MainButton";
-import { colors } from "@/app/utils/theme";
+import { themeColors } from "@/app/utils/theme";
 import AddCarNumberPopup, {
   AddCarNumberPopupRef,
 } from "@/app/components/AddCarNumberPopup";
@@ -417,19 +417,19 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 1,
-    backgroundColor: colors.gray,
+    backgroundColor: themeColors.gray,
     marginTop: 10,
   },
   description: {
     textAlign: "center",
     marginTop: 10,
     fontSize: vh * 1.5,
-    color: colors.primary,
+    color: themeColors.primary,
     marginBottom: 50,
   },
   listContainer: {
     height: 40,
-    backgroundColor: colors.lightGray,
+    backgroundColor: themeColors.lightGray,
     justifyContent: "space-between",
     borderRadius: 50,
     marginTop: 10,
@@ -443,11 +443,11 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   saveButton: {
-    backgroundColor: colors.secondary,
+    backgroundColor: themeColors.secondary,
     width: "47%",
   },
   cancelButton: {
-    backgroundColor: colors.red,
+    backgroundColor: themeColors.red,
     width: "47%",
   },
   actionButtons: {
@@ -462,7 +462,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 2,
     borderLeftWidth: 2,
     borderRightWidth: 2,
-    borderColor: colors.lightGray,
+    borderColor: themeColors.lightGray,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
   },
