@@ -40,6 +40,7 @@ import BookingConfirmationPopup, {
   BookingConfirmationPopupRef,
 } from "@/app/components/BookingConfirmationPopup";
 import { toggleBtnLoader } from "@/app/store/slices/generalSlice";
+import { useTheme } from "@react-navigation/native";
 
 // Define types for calendar data and booking sessions
 interface CalendarData {
@@ -67,7 +68,7 @@ const LandingScreen = () => {
   const bookingDetailsPopup = useRef<BookingConfirmationPopupRef>(null);
 
   const dispatch = useAppDispatch();
-
+  const { colors } = useTheme();
   const sports = useSelector((state: RootState) => state?.account?.sportsData);
   // Define state with appropriate types
   const [calendarData, setCalendarData] = useState<CalendarData | null>(null);
@@ -259,7 +260,7 @@ const LandingScreen = () => {
       />
       {loader ? (
         <View style={styles.loader}>
-          <ActivityIndicator size={"large"} color={themeColors.secondary} />
+          <ActivityIndicator size={"large"} color={colors.secondary} />
         </View>
       ) : null}
     </View>

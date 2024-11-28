@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router";
-import React from "react";
+import React, { useEffect } from "react";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import {
@@ -13,13 +13,22 @@ import {
 import { vh, vw } from "../utils/units";
 import { icons, images } from "../MyAssets";
 import { themeColors } from "../utils/theme";
+import NetInfo from "@react-native-community/netinfo";
+import { useAppDispatch } from "../screens/HomeScreens/LandingScreen";
+import { toggletInternet } from "../store/slices/generalSlice";
+import { RootState } from "../store";
+import { useSelector } from "react-redux";
+import BerlingskeMedium from "../components/TextWrapper/BerlingskeMedium";
+import ArchivoMedium from "../components/TextWrapper/ArchivoMedium";
 
 const MyTabBar = ({ state, descriptors, navigation }) => {
+  const store = useSelector((state: RootState) => state.general.clubConfig);
+
   return (
     <View style={styles.container}>
       <View style={styles.centralBar}>
         <View style={styles.circle}>
-          <Image source={images.AppLogov3} style={styles.logo} />
+          <Image source={{ uri: store?.smallLogo }} style={styles.logo} />
         </View>
       </View>
 
@@ -66,13 +75,13 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
             <Image
               style={[
                 styles.icon,
-                { tintColor: isFocused ? themeColors.green : "black" },
+                { tintColor: isFocused ? themeColors.primary : "black" },
               ]}
               source={options.tabBarIcon}
             />
             <Text
               style={{
-                color: isFocused ? themeColors.green : "black",
+                color: isFocused ? themeColors.primary : "black",
                 fontSize: vh * 1.2,
               }}
             >
@@ -87,36 +96,64 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const dispatch = useAppDispatch();
+  const isInternetConnected = useSelector(
+    (state: RootState) => state.general.internetConnectivity
+  );
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      dispatch(toggletInternet(state?.isConnected));
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   return (
-    <Tabs
-      tabBar={(props) => <MyTabBar {...props} />}
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-        headerShown: false,
-        tabBarStyle: {
-          backgroundColor: "white",
-          height: 60,
-        },
-      }}
-    >
-      <Tabs.Screen
-        name="homestack"
-        options={{ title: "Home", tabBarIcon: icons.home }}
-      />
-      <Tabs.Screen
-        name="bookingstack"
-        options={{ title: "My Bookings", tabBarIcon: icons.calendar }}
-      />
-      <Tabs.Screen
-        name="notifications"
-        options={{ title: "Notifications", tabBarIcon: icons.notificationIcon }}
-      />
-      <Tabs.Screen
-        name="navigationstack"
-        options={{ title: "Menu", tabBarIcon: icons.hamburger }}
-      />
-    </Tabs>
+    <View style={{ flex: 1 }}>
+      <Tabs
+        tabBar={(props) => <MyTabBar {...props} />}
+        screenOptions={{
+          tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+          headerShown: false,
+          tabBarStyle: {
+            backgroundColor: "white",
+            height: 60,
+          },
+        }}
+      >
+        <Tabs.Screen
+          name="homestack"
+          options={{ title: "Home", tabBarIcon: icons.home }}
+        />
+        <Tabs.Screen
+          name="bookingstack"
+          options={{ title: "My Bookings", tabBarIcon: icons.calendar }}
+        />
+        <Tabs.Screen
+          name="notifications"
+          options={{
+            title: "Notifications",
+            tabBarIcon: icons.notificationIcon,
+          }}
+        />
+        <Tabs.Screen
+          name="navigationstack"
+          options={{ title: "Menu", tabBarIcon: icons.hamburger }}
+        />
+      </Tabs>
+      {!isInternetConnected ? (
+        <View style={styles.netModal}>
+          <Image source={icons.wifi} style={styles.wifiIcon} />
+          <BerlingskeMedium style={styles.connectionError}>
+            Connection Error
+          </BerlingskeMedium>
+          <ArchivoMedium style={styles.noConnection}>
+            Please check your network connectivity and try again
+          </ArchivoMedium>
+        </View>
+      ) : null}
+    </View>
   );
 }
 
@@ -168,5 +205,27 @@ const styles = StyleSheet.create({
     height: "70%",
     resizeMode: "contain",
     zIndex: 10,
+  },
+  netModal: {
+    height: vh * 105,
+    backgroundColor: "white",
+    width: "100%",
+    position: "absolute",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  wifiIcon: {
+    height: vh * 15,
+    width: vh * 15,
+    resizeMode: "contain",
+  },
+  noConnection: {
+    fontSize: vh * 2,
+    textAlign: "center",
+    paddingHorizontal: 50,
+  },
+  connectionError: {
+    color: themeColors.red,
+    fontSize: vh * 3,
   },
 });

@@ -15,6 +15,7 @@ import { icons } from "@/app/MyAssets";
 import { vh } from "@/app/utils/units";
 import ImageView from "react-native-image-viewing";
 import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
+import { useTheme } from "@react-navigation/native";
 
 // Define interfaces for the item and data props
 interface SessionItem {
@@ -54,9 +55,9 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
   const [galleryImages, setGalleryImages] = useState([]);
   const [showGalleryViewer, setGalleryViewer] = useState(false);
   const [greenSlotTime, setGreenSlotTime] = useState("");
-
+  const { colors } = useTheme();
   const COURTS_PER_PAGE = 3; // You display 3 courts at a time
-
+  const styles = MyStyles();
   useEffect(() => {
     extractGreenSlotTime();
     const initialCourts = data.bookingSessions.slice(0, COURTS_PER_PAGE);
@@ -359,7 +360,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
                   height: 20,
                   resizeMode: "contain",
                   marginRight: 5,
-                  tintColor: themeColors.primary,
+                  tintColor: colors.primary,
                 }}
               />
             </TouchableOpacity>
@@ -371,7 +372,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
               // onPress={() => handleCourtPress(item)}
               style={{
                 flex: 1,
-                backgroundColor: themeColors.secondary,
+                backgroundColor: colors.secondary,
                 alignItems: "center",
                 justifyContent: "center",
                 borderWidth: 1,
@@ -384,7 +385,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
                   style={{
                     position: "absolute",
                     left: 0,
-                    backgroundColor: themeColors.primary,
+                    backgroundColor: colors.primary,
                     height: "100%",
                     width: "15%",
                     justifyContent: "center",
@@ -409,7 +410,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
                     position: "absolute",
                     right: 0,
                     alignItems: "center",
-                    backgroundColor: themeColors.primary,
+                    backgroundColor: colors.primary,
                     height: "100%",
                     width: "15%",
                     justifyContent: "center",
@@ -505,72 +506,77 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
 
 export default BookingCalendarVersion2;
 
-const styles = StyleSheet.create({
-  court: {
-    height: 33,
-    backgroundColor: themeColors.secondary,
-    // width: 90,
-    flex: 1,
-    marginRight: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    // marginTop: 2,
-    overflow: "hidden",
-    //
-  },
-  heading: {
-    marginVertical: 15,
-  },
-  time: {
-    width: "100%",
-    backgroundColor: themeColors.primary,
-    height: 33,
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: "white",
-    // marginTop: 2,
-    // marginRight: 10,
-  },
-  timeFont: {
-    color: "white",
-    fontWeight: "500",
-    fontSize: 12,
-  },
-  icon: {
-    height: 20,
-    width: 20,
-    resizeMode: "contain",
-    position: "absolute",
-    top: 3,
-    right: 3,
-  },
-  btnContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginVertical: 5,
-  },
-  navigationIcons: {
-    height: 15,
-    width: 15,
-    resizeMode: "contain",
-  },
-  navigationContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "15%",
-    alignItems: "center",
-  },
-  disabledBtn: {
-    opacity: 0.5, // Optional: Visually indicate the button is disabled
-  },
-  greenLight: {
-    backgroundColor: "#AAFF00",
-    height: vh * 1,
-    width: vh * 1,
-    borderRadius: 100,
-    position: "absolute",
-    top: 5,
-    right: 5,
-  },
-});
+const MyStyles = () => {
+  const { colors } = useTheme();
+  const styles = StyleSheet.create({
+    court: {
+      height: 33,
+      backgroundColor: colors.secondary,
+      // width: 90,
+      flex: 1,
+      marginRight: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      // marginTop: 2,
+      overflow: "hidden",
+      //
+    },
+    heading: {
+      marginVertical: 15,
+    },
+    time: {
+      width: "100%",
+      backgroundColor: colors.primary,
+      height: 33,
+      justifyContent: "center",
+      alignItems: "center",
+      borderWidth: 1,
+      borderColor: "white",
+      // marginTop: 2,
+      // marginRight: 10,
+    },
+    timeFont: {
+      color: "white",
+      fontWeight: "500",
+      fontSize: 12,
+    },
+    icon: {
+      height: 20,
+      width: 20,
+      resizeMode: "contain",
+      position: "absolute",
+      top: 3,
+      right: 3,
+    },
+    btnContainer: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      marginVertical: 5,
+    },
+    navigationIcons: {
+      height: 15,
+      width: 15,
+      resizeMode: "contain",
+    },
+    navigationContainer: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      width: "15%",
+      alignItems: "center",
+    },
+    disabledBtn: {
+      opacity: 0.5, // Optional: Visually indicate the button is disabled
+    },
+    greenLight: {
+      backgroundColor: "#AAFF00",
+      height: vh * 1,
+      width: vh * 1,
+      borderRadius: 100,
+      position: "absolute",
+      top: 5,
+      right: 5,
+    },
+  });
+
+  return styles;
+};

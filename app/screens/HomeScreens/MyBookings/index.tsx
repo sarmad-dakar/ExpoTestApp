@@ -35,6 +35,7 @@ import BerlingskeMedium from "@/app/components/TextWrapper/BerlingskeMedium";
 import ArchivoExtraLight from "@/app/components/TextWrapper/ArchivoExtraLight";
 import ArchivoRegular from "@/app/components/TextWrapper/ArchivoRegular";
 import ArchivoLight from "@/app/components/TextWrapper/ArchivoLight";
+import { useTheme } from "@react-navigation/native";
 
 const monthsData = [
   { value: "01", label: "Jan" },
@@ -106,6 +107,7 @@ const MyBookingsScreen: React.FC = () => {
   const yearDropdownRef = useRef<SelectDropdownRef>(null);
   const monthDropdownRef = useRef<SelectDropdownRef>(null);
   const bookingConfirmationRef = useRef<ConfirmationPopupRef>(null);
+  const { colors } = useTheme();
   const dispatch = useAppDispatch();
   // useEffect(() => {
   //   if (selectedTab) {
@@ -361,7 +363,7 @@ const MyBookingsScreen: React.FC = () => {
       />
       {loading ? (
         <View style={styles.loader}>
-          <ActivityIndicator size={"large"} color={themeColors.secondary} />
+          <ActivityIndicator size={"large"} color={colors.secondary} />
         </View>
       ) : null}
     </View>

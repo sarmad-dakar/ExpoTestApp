@@ -14,23 +14,36 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleBtnLoader } from "../../../store/slices/generalSlice";
 import { images } from "../../../MyAssets/index";
 import { router } from "expo-router";
+import { setBaseURL } from "@/app/api";
 const SplashScreen = ({ navigation }) => {
   const offset = useSharedValue(1);
   const dispatch = useDispatch();
   const token = useSelector((state) => state.user.token);
+  const club = useSelector((state) => state.general.clubConfig);
+
   const animatedStyles = useAnimatedStyle(() => ({
     transform: [{ scale: offset.value }],
   }));
-
   React.useEffect(() => {
     let validatingTimeout;
+    console.log(club, "selected Club");
+
     const checkTokenAndNavigate = async () => {
       offset.value = withRepeat(withTiming(0.5, { duration: 2000 }), -1, true);
       console.log(validatingTimeout, "timeout");
+      if (validatingTimeout) {
+        clearTimeout(validatingTimeout);
+      }
 
       validatingTimeout = setTimeout(() => {
-        // router.push("/clublisting");
-        router.push("/onboarding");
+        if (token) {
+          setBaseURL(club?.apiURL);
+          router.push("/(tabs)");
+        } else {
+          if (!club?.appURL) {
+            router.push("/clublisting");
+          }
+        }
       }, 2000);
     };
 
@@ -42,7 +55,7 @@ const SplashScreen = ({ navigation }) => {
         clearTimeout(validatingTimeout);
       }
     };
-  }, [token]);
+  }, [token, club]);
 
   return (
     <Animated.View entering={FadeIn} style={styles.container}>

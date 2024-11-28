@@ -59,7 +59,7 @@ const ProfileScreen = () => {
   const [currentCars, setCurrentCars] = useState<string[]>([]);
   const user = useSelector((state: any) => state.user.profile);
   const profile = useSelector((state: any) => state.user.user);
-
+  const club = useSelector((state: RootState) => state.general.clubConfig);
   const [editableUser, setEditableUser] = useState<any>(user);
   const [isEdited, setIsEdited] = useState(false); // Track if fields have been edited
   const [enableSave, setEnableSave] = useState(false);
@@ -363,15 +363,14 @@ const ProfileScreen = () => {
 
             <View style={styles.divider} />
             <ArchivoExtraLight style={styles.description}>
-              I hereby give my consent to the Marsa Sports Club to process,
-              retain record and use my personal data, which is being given
-              herewith for the purpose of the administration of the Membership
-              register as a Member of the Club. This data will be kept up to
-              official resignation by the member. This consent is given in
-              compliance with General Data Protection Regulation (GDPR)
-              Regulation EU 2016/679. For more information you are requested to
-              logon to our website: www.marsasportclub.com to access the Club’s
-              Private policy.
+              I hereby give my consent to the {club?.title} to process, retain
+              record and use my personal data, which is being given herewith for
+              the purpose of the administration of the Membership register as a
+              Member of the Club. This data will be kept up to official
+              resignation by the member. This consent is given in compliance
+              with General Data Protection Regulation (GDPR) Regulation EU
+              2016/679. For more information you are requested to logon to our
+              website: {club?.website} to access the Club’s Private policy.
             </ArchivoExtraLight>
           </ScrollView>
           {/* Display Save and Cancel buttons if edited */}

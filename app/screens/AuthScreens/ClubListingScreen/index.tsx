@@ -6,7 +6,7 @@ import {
   FlatList,
   Pressable,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { themeColors } from "@/app/utils/theme";
 import { images } from "@/app/MyAssets";
 import { vh, vw } from "@/app/utils/units";
@@ -14,6 +14,9 @@ import PoweredBy from "@/app/components/PoweredBy";
 import BerlingskeMedium from "@/app/components/TextWrapper/BerlingskeMedium";
 import { router } from "expo-router";
 import { setBaseURL } from "@/app/api";
+import { useAppDispatch } from "../../HomeScreens/LandingScreen";
+import { getAllClubs } from "@/app/api/Auth";
+import { setClubConfig } from "@/app/store/slices/generalSlice";
 
 const clubs = [
   {
@@ -47,17 +50,37 @@ const clubs = [
 ];
 
 const index = () => {
+  const [clubs, setClubs] = useState([]);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    fetchClubs();
+  }, []);
+
+  const fetchClubs = async () => {
+    const response = await getAllClubs();
+    setClubs(response.data);
+    console.log(response, "response of clubs");
+  };
+
+  const handleClubPress = (item) => {
+    setBaseURL(`${item.apiURL}`);
+    dispatch(setClubConfig(item));
+
+    setTimeout(() => {
+      router.push("/onboarding");
+    }, 1000);
+  };
+
   const renderClub = ({ item }) => (
     <Pressable
       onPress={() => {
-        setBaseURL(item.url);
-        router.push("/onboarding");
+        handleClubPress(item);
       }}
       style={styles.clubCard}
     >
-      <Image source={item.image} style={styles.clubImage} />
-      <Text style={styles.clubName}>{item.name}</Text>
-      <Text style={styles.clubDescription}>{item.description}</Text>
+      <Image source={{ uri: item.logo }} style={styles.clubImage} />
+      <Text style={styles.clubName}>{item.title}</Text>
+      <Text style={styles.clubDescription}>{item.shortTitle}</Text>
     </Pressable>
   );
 

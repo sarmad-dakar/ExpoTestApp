@@ -41,6 +41,10 @@ const forgotPassword = async (data) => {
   return instance.get(endpoints.forgotPassword + data);
 };
 
+const getAllClubs = async () => {
+  return instance.get(endpoints.getClubs);
+};
+
 export {
   loginApi,
   getMyProfile,
@@ -51,4 +55,5 @@ export {
   changePassword,
   changePin,
   forgotPassword,
+  getAllClubs,
 };

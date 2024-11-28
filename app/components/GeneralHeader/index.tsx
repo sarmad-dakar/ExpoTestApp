@@ -75,9 +75,7 @@ const GeneralHeader = ({ title, back, sport }: headerProps) => {
             <Image source={icons.wallet} style={styles.backIcon} />
           </View> */}
           <View>
-            <BerlingskeMedium
-              style={{ color: themeColors.secondary, fontSize: 15 }}
-            >
+            <BerlingskeMedium style={{ color: colors.secondary, fontSize: 15 }}>
               Wallet
             </BerlingskeMedium>
             <View style={{ flexDirection: "row", alignItems: "center" }}>

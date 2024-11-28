@@ -16,6 +16,7 @@ import { logout } from "@/app/store/slices/userSlice";
 import ArchivoRegular from "@/app/components/TextWrapper/ArchivoRegular";
 import BerlingskeBold from "@/app/components/TextWrapper/BerlingskeBold";
 import { vh } from "@/app/utils/units";
+import { switchUser } from "@/app/store/slices/generalSlice";
 
 const AppNavigationScreen = () => {
   const activeOpacity = 0.5;
@@ -64,6 +65,11 @@ const AppNavigationScreen = () => {
   const handleLogout = () => {
     dispatch(logout());
   };
+
+  const handleSwitch = () => {
+    dispatch(logout());
+    dispatch(switchUser(null));
+  };
   return (
     <View style={{ flex: 1 }}>
       <GeneralHeader title="App Navigations" back={true} />
@@ -107,6 +113,17 @@ const AppNavigationScreen = () => {
         >
           <ArchivoRegular style={{ fontSize: vh * 1.7, color: "#3B5049" }}>
             Logout
+          </ArchivoRegular>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleSwitch}
+          activeOpacity={activeOpacity}
+          style={styles.subHeading}
+        >
+          <ArchivoRegular
+            style={{ fontSize: vh * 1.7, color: themeColors.red }}
+          >
+            Logout & Switch user
           </ArchivoRegular>
         </TouchableOpacity>
         <TouchableOpacity

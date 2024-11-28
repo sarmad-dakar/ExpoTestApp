@@ -9,11 +9,12 @@ import {
 import React, { useEffect, useState } from "react";
 import { themeColors } from "../../utils/theme";
 import { icons } from "@/app/MyAssets";
+import { useTheme } from "@react-navigation/native";
 
 const MainButton = (props) => {
   const [width, setWidth] = useState(Dimensions.get("window").width);
   const [height, setHeight] = useState(Dimensions.get("window").height);
-
+  const styles = MyStyles();
   const handleOrientationChange = () => {
     const { width, height } = Dimensions.get("window");
     setWidth(width);
@@ -68,29 +69,34 @@ const MainButton = (props) => {
 
 export default MainButton;
 
-const styles = StyleSheet.create({
-  container: {
-    height: 40,
-    width: "100%",
-    backgroundColor: themeColors.secondary,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 100,
-    marginVertical: 14,
-    alignSelf: "center",
-    flexDirection: "row",
-  },
-  buttonText: {
-    color: "black",
-    fontSize: 14,
-    fontWeight: "bold",
-    textTransform: "uppercase",
-  },
-  icon: {
-    height: 15,
-    width: 15,
-    resizeMode: "contain",
-    tintColor: "black",
-    marginRight: 5,
-  },
-});
+const MyStyles = () => {
+  const { colors } = useTheme();
+
+  const styles = StyleSheet.create({
+    container: {
+      height: 40,
+      width: "100%",
+      backgroundColor: colors.secondary,
+      justifyContent: "center",
+      alignItems: "center",
+      borderRadius: 100,
+      marginVertical: 14,
+      alignSelf: "center",
+      flexDirection: "row",
+    },
+    buttonText: {
+      color: "black",
+      fontSize: 14,
+      fontWeight: "bold",
+      textTransform: "uppercase",
+    },
+    icon: {
+      height: 15,
+      width: 15,
+      resizeMode: "contain",
+      tintColor: "black",
+      marginRight: 5,
+    },
+  });
+  return styles;
+};

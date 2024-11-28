@@ -5,11 +5,11 @@ import { toggleGeneralLoader } from "../store/slices/generalSlice";
 
 const version = "v1/";
 const liveUrl = "https://api.mscbookings.com/api/";
-
+const generalApi = "https://unionclubapi.dakarhr.com/api/";
 const testUrl = "http://mscapi.dakarhr.com/api/";
 
 const instance = axios.create({
-  baseURL: testUrl + version,
+  baseURL: generalApi + version,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
@@ -17,7 +17,8 @@ const instance = axios.create({
 });
 
 export const setBaseURL = (url) => {
-  instance.defaults.baseURL = url;
+  let baseUrl = url + "api/" + version;
+  instance.defaults.baseURL = baseUrl;
 };
 
 instance.interceptors.request.use(

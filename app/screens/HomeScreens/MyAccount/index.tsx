@@ -20,6 +20,7 @@ import { useAppDispatch } from "../LandingScreen";
 import { RootState } from "@/app/store";
 import { vh } from "@/app/utils/units";
 import ArchivoRegular from "@/app/components/TextWrapper/ArchivoRegular";
+import { useTheme } from "@react-navigation/native";
 
 interface AccountData {
   date: string;
@@ -38,6 +39,7 @@ const MyAccountScreen = () => {
   const loading = useSelector(
     (state: RootState) => state.general.generalLoader
   );
+  const styles = MyStyles();
   useEffect(() => {
     dispatch(fetchMyAccount());
   }, []);
@@ -215,51 +217,56 @@ const MyAccountScreen = () => {
 
 export default MyAccountScreen;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: themeColors.white,
-  },
-  headerRow: {
-    flexDirection: "row",
-    backgroundColor: themeColors.primary,
-  },
-  headerText: {
-    color: "#fff",
-    fontWeight: "bold",
-    textAlign: "left",
-    paddingVertical: 10,
-    paddingLeft: 10,
-    // borderWidth: 0.5,
-    // borderColor: "#fff",
-    fontSize: vh * 1.5,
-    backgroundColor: themeColors.primary,
-  },
-  row: {
-    flexDirection: "row",
-    height: 40,
-    alignItems: "center",
-    // borderBottomWidth: 1,
-    // borderColor: "#ccc",
-  },
-  cell: {
-    textAlign: "left",
-    fontSize: vh * 1.4,
-    paddingLeft: 10,
-    color: themeColors.darkText,
-  },
-  rowDirection: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  divider: {
-    height: 10,
-    width: 1,
-    backgroundColor: "gray",
-  },
-  whiteDivider: {
-    height: 10,
-    width: 1,
-    backgroundColor: "white",
-  },
-});
+const MyStyles = () => {
+  const { colors } = useTheme();
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: themeColors.white,
+    },
+    headerRow: {
+      flexDirection: "row",
+      backgroundColor: colors.primary,
+    },
+    headerText: {
+      color: "#fff",
+      fontWeight: "bold",
+      textAlign: "left",
+      paddingVertical: 10,
+      paddingLeft: 10,
+      // borderWidth: 0.5,
+      // borderColor: "#fff",
+      fontSize: vh * 1.5,
+      backgroundColor: colors.primary,
+    },
+    row: {
+      flexDirection: "row",
+      height: 40,
+      alignItems: "center",
+      // borderBottomWidth: 1,
+      // borderColor: "#ccc",
+    },
+    cell: {
+      textAlign: "left",
+      fontSize: vh * 1.4,
+      paddingLeft: 10,
+      color: themeColors.darkText,
+    },
+    rowDirection: {
+      flexDirection: "row",
+      alignItems: "center",
+    },
+    divider: {
+      height: 10,
+      width: 1,
+      backgroundColor: "gray",
+    },
+    whiteDivider: {
+      height: 10,
+      width: 1,
+      backgroundColor: "white",
+    },
+  });
+  return styles;
+};

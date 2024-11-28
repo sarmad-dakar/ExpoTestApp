@@ -28,6 +28,7 @@ import DateTimePicker, {
 import moment from "moment";
 import { useSelector } from "react-redux";
 import TopupConfirmationPopup from "../TopupConfirmationPopup";
+import { useTheme } from "@react-navigation/native";
 interface Sport {
   sportServiceSetting: {
     title: string;
@@ -47,6 +48,18 @@ const sportsIcon = {
   padel: icons.padel,
   snooker: icons.snooker,
   cricket: icons.cricket,
+  golf: icons.cricket,
+  bowling: icons.cricket,
+  gym: icons.cricket,
+  swimming: icons.cricket,
+  basketball: icons.cricket,
+  football: icons.cricket,
+  "table tennis": icons.cricket,
+  baseball: icons.cricket,
+  rugby: icons.cricket,
+  running: icons.cricket,
+  karate: icons.cricket,
+  boxing: icons.cricket,
 };
 
 interface HomeHeaderProps {
@@ -75,8 +88,9 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
   const [showDatePicker, setShowDatePicker] = useState(false);
   const topupConfirmationRef = useRef<ConfirmationPopupRef>(null);
   const balance = useSelector((state: any) => state.account.balance);
-
+  const styles = MyStyles();
   const dropdown = useRef<SelectDropdownRef>(null);
+  const { colors } = useTheme();
 
   useEffect(() => {
     if (allSports?.length) {
@@ -123,13 +137,11 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
                   `${selectedSport?.sportServiceSetting?.title?.toLowerCase()}`
                 ]
               }
-              style={[styles.logo, { tintColor: themeColors.secondary }]}
+              style={[styles.logo, { tintColor: colors.secondary }]}
             />
           )}
           {selectedSport && (
-            <Text
-              style={[styles.selectedSport, { color: themeColors.secondary }]}
-            >
+            <Text style={[styles.selectedSport, { color: colors.secondary }]}>
               {selectedSport?.sportServiceSetting?.title}
             </Text>
           )}
@@ -153,9 +165,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
           }}
         >
           <View>
-            <BerlingskeMedium
-              style={{ color: themeColors.secondary, fontSize: 15 }}
-            >
+            <BerlingskeMedium style={{ color: colors.secondary, fontSize: 15 }}>
               Wallet
             </BerlingskeMedium>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -178,7 +188,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
       <View
         style={[
           styles.bottomHeaderContainer,
-          { height: OtherSports.length * 65 },
+          { maxHeight: OtherSports.length * 65 },
         ]}
       >
         <View style={styles.sideBar}>
@@ -284,94 +294,99 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
 
 export default HomeHeader;
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: themeColors.primary,
-    height: vh * 15,
-    borderBottomRightRadius: 40,
-    justifyContent: "space-between",
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 20,
-    paddingTop: Platform.OS == "ios" ? 25 : 10,
-  },
-  logo: {
-    height: 30,
-    width: 30,
-    resizeMode: "contain",
-    tintColor: themeColors.white,
-  },
-  selectedSport: {
-    color: "white",
-    fontSize: 13,
-    fontWeight: "300",
-  },
-  bottomHeaderContainer: {
-    flexDirection: "row",
-    // height: vh * 25,
-    backgroundColor: "white",
-    width: "100%",
-  },
-  sideBar: {
-    backgroundColor: themeColors.primary,
-    width: 90,
-    borderBottomRightRadius: 40,
-    paddingLeft: 18,
-    justifyContent: "space-between",
-    paddingBottom: 20,
-    // alignItems: "center",
-  },
-  slotWrapper: {
-    backgroundColor: themeColors.primary,
-    height: "100%",
-    width: "70%",
-  },
-  slotContainer: {
-    height: "100%",
-    width: "100%",
-    backgroundColor: "white",
-    borderTopLeftRadius: 30,
-    paddingLeft: 30,
-    paddingTop: 30,
-  },
-  sidebarTabs: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: 55,
-  },
-  slotTitle: {
-    fontSize: 24,
-  },
-  courtIcon: {
-    width: 50,
-    height: 50,
-    resizeMode: "contain",
-    tintColor: "black",
-    marginRight: 10,
-  },
-  iconContainer: {
-    height: 60,
-    width: 60,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  icon: {
-    width: "50%",
-    height: "50%",
-    resizeMode: "contain",
-    tintColor: "white",
-  },
-  datePickerField: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderBottomWidth: 1,
-    paddingBottom: 10,
-    marginVertical: 10,
-  },
-  inputIcon: {
-    height: 20,
-    width: 20,
-    resizeMode: "contain",
-  },
-});
+const MyStyles = () => {
+  const { colors } = useTheme();
+  const styles = StyleSheet.create({
+    container: {
+      backgroundColor: colors.primary,
+      height: vh * 15,
+      borderBottomRightRadius: 40,
+      justifyContent: "space-between",
+      flexDirection: "row",
+      alignItems: "center",
+      paddingHorizontal: 20,
+      paddingTop: Platform.OS == "ios" ? 25 : 10,
+    },
+    logo: {
+      height: 30,
+      width: 30,
+      resizeMode: "contain",
+      tintColor: themeColors.white,
+    },
+    selectedSport: {
+      color: "white",
+      fontSize: 13,
+      fontWeight: "300",
+    },
+    bottomHeaderContainer: {
+      flexDirection: "row",
+      minHeight: vh * 22,
+      backgroundColor: "white",
+      width: "100%",
+    },
+    sideBar: {
+      backgroundColor: colors.primary,
+      width: 90,
+      borderBottomRightRadius: 40,
+      paddingLeft: 18,
+      justifyContent: "space-between",
+      paddingBottom: 20,
+      minHeight: vh * 22,
+      // alignItems: "center",
+    },
+    slotWrapper: {
+      backgroundColor: colors.primary,
+      height: vh * 25,
+      width: "70%",
+    },
+    slotContainer: {
+      height: "100%",
+      width: "100%",
+      backgroundColor: "white",
+      borderTopLeftRadius: 30,
+      paddingLeft: 30,
+      paddingTop: 30,
+    },
+    sidebarTabs: {
+      justifyContent: "center",
+      alignItems: "center",
+      width: 55,
+    },
+    slotTitle: {
+      fontSize: 24,
+    },
+    courtIcon: {
+      width: 50,
+      height: 50,
+      resizeMode: "contain",
+      tintColor: "black",
+      marginRight: 10,
+    },
+    iconContainer: {
+      height: 60,
+      width: 60,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    icon: {
+      width: "50%",
+      height: "50%",
+      resizeMode: "contain",
+      tintColor: "white",
+    },
+    datePickerField: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      borderBottomWidth: 1,
+      paddingBottom: 10,
+      marginVertical: 10,
+    },
+    inputIcon: {
+      height: 20,
+      width: 20,
+      resizeMode: "contain",
+    },
+  });
+  return styles;
+};

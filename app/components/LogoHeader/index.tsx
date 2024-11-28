@@ -2,11 +2,15 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { icons, images } from "../../MyAssets";
 import { vh } from "../../utils/units";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store";
 
 const LogoHeader = () => {
+  const store = useSelector((state: RootState) => state.general.clubConfig);
+
   return (
     <View style={styles.container}>
-      <Image source={images.appLogo} style={styles.logo} />
+      <Image source={{ uri: store?.logo }} style={styles.logo} />
     </View>
   );
 };

@@ -22,6 +22,7 @@ import { useSelector } from "react-redux";
 import ArchivoExtraLight from "../TextWrapper/ArchivoExtraLight";
 import { vh } from "@/app/utils/units";
 import { RootState } from "@/app/store";
+import { useTheme } from "@react-navigation/native";
 
 type headerProps = {
   title: string;
@@ -42,7 +43,7 @@ const ProfileHeader = ({
   const dispatch = useAppDispatch();
   const user = useSelector((state: any) => state.user.profile);
   const loading = useSelector((state: RootState) => state.general.btnLoader);
-
+  const styles = MyStyles();
   console.log(user, "user");
 
   useEffect(() => {
@@ -167,89 +168,94 @@ const ProfileHeader = ({
 
 export default ProfileHeader;
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: themeColors.primary,
-    // height: vh * 20,
-    borderBottomRightRadius: 25,
-    borderBottomLeftRadius: 25,
-    // justifyContent: "space-between",
-    // flexDirection: "row",
-    paddingHorizontal: 20,
-    paddingTop: 55,
-    paddingBottom: 15,
-  },
-  logo: {
-    height: 20,
-    width: 20,
-    resizeMode: "contain",
-    tintColor: themeColors.white,
-  },
-  selectedSport: {
-    color: "white",
-  },
-  profileConatiner: {
-    height: 80,
-    width: 80,
-    borderRadius: 100,
-    // alignSelf: "center",
-    marginTop: 10,
-    // overflow: "hidden",
-  },
-  image: {
-    height: "100%",
-    width: "100%",
-    resizeMode: "cover",
-    borderRadius: 100,
-  },
-  cameraContainer: {
-    height: 35,
-    width: 35,
-    borderRadius: 100,
-    backgroundColor: "white",
-    position: "absolute",
-    zIndex: 100,
-    right: -10,
-    bottom: 0,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  cameraLogo: {
-    width: "60%",
-    height: "60%",
-    resizeMode: "contain",
-  },
-  footerContainer: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    // paddingHorizontal: "6%",
-  },
-  rowDirection: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginLeft: "10%",
-  },
-  name: {
-    color: themeColors.white,
-    textAlign: "center",
-    fontSize: vh * 1.7,
-  },
-  email: {
-    color: themeColors.white,
-    fontSize: vh * 1.5,
-    marginTop: -vh * 0.5,
-  },
-  icon: {
-    width: vh * 2.5,
-    height: vh * 2.5,
-    resizeMode: "contain",
-    tintColor: themeColors.white,
-  },
-  floppyIcon: {
-    height: "50%",
-    width: "50%",
-    resizeMode: "contain",
-  },
-});
+const MyStyles = () => {
+  const { colors } = useTheme();
+
+  const styles = StyleSheet.create({
+    container: {
+      backgroundColor: colors.primary,
+      // height: vh * 20,
+      borderBottomRightRadius: 25,
+      borderBottomLeftRadius: 25,
+      // justifyContent: "space-between",
+      // flexDirection: "row",
+      paddingHorizontal: 20,
+      paddingTop: 55,
+      paddingBottom: 15,
+    },
+    logo: {
+      height: 20,
+      width: 20,
+      resizeMode: "contain",
+      tintColor: themeColors.white,
+    },
+    selectedSport: {
+      color: "white",
+    },
+    profileConatiner: {
+      height: 80,
+      width: 80,
+      borderRadius: 100,
+      // alignSelf: "center",
+      marginTop: 10,
+      // overflow: "hidden",
+    },
+    image: {
+      height: "100%",
+      width: "100%",
+      resizeMode: "cover",
+      borderRadius: 100,
+    },
+    cameraContainer: {
+      height: 35,
+      width: 35,
+      borderRadius: 100,
+      backgroundColor: "white",
+      position: "absolute",
+      zIndex: 100,
+      right: -10,
+      bottom: 0,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    cameraLogo: {
+      width: "60%",
+      height: "60%",
+      resizeMode: "contain",
+    },
+    footerContainer: {
+      flexDirection: "row",
+      justifyContent: "space-evenly",
+      alignItems: "center",
+      // paddingHorizontal: "6%",
+    },
+    rowDirection: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginLeft: "10%",
+    },
+    name: {
+      color: themeColors.white,
+      textAlign: "center",
+      fontSize: vh * 1.7,
+    },
+    email: {
+      color: themeColors.white,
+      fontSize: vh * 1.5,
+      marginTop: -vh * 0.5,
+    },
+    icon: {
+      width: vh * 2.5,
+      height: vh * 2.5,
+      resizeMode: "contain",
+      tintColor: themeColors.white,
+    },
+    floppyIcon: {
+      height: "50%",
+      width: "50%",
+      resizeMode: "contain",
+    },
+  });
+  return styles;
+};

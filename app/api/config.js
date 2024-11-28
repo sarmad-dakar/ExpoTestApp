@@ -20,4 +20,5 @@ export const endpoints = {
   changePass: "Authentication/user/reset/password",
   changePin: "Authentication/user/reset/pincode",
   forgotPassword: "Authentication/user/forget/password/",
+  getClubs: "SportServices/sport/clients",
 };
