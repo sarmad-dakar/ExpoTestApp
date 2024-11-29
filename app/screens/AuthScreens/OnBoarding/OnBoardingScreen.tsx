@@ -24,6 +24,7 @@ import { fetchCurrentSports } from "@/app/store/slices/bookingSlice";
 import { useAppDispatch } from "../../HomeScreens/LandingScreen";
 import { skipIntro } from "@/app/store/slices/generalSlice";
 import { RootState } from "@/app/store";
+import { useTheme } from "@react-navigation/native";
 
 const OnBoardingScreen = () => {
   const user = useSelector((state: any) => state.user.user);
@@ -31,6 +32,8 @@ const OnBoardingScreen = () => {
     (state: RootState) => state.general.generalLoader
   );
   const dispatch = useAppDispatch();
+    const {colors} = useTheme()
+    console.log(colors,  "colors")
 
   const handleNavigation = () => {
     dispatch(skipIntro(null));

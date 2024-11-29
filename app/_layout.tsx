@@ -69,7 +69,8 @@ const MyApp = () => {
   });
 
   useEffect(() => {
-    if (club) {
+    if (club?.primaryColorCode) {
+      
       let data = {
         dark: false,
         colors: {
