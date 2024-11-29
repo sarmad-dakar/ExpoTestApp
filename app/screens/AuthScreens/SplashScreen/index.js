@@ -36,9 +36,9 @@ const SplashScreen = ({ navigation }) => {
       }
 
       validatingTimeout = setTimeout(() => {
-        // if (club?.apiURL) {
-        //   setBaseURL(club?.apiURL);
-        // }
+        if (club?.apiURL) {
+          setBaseURL(club?.apiURL);
+        }
 
         if (token) {
           router.push("/(tabs)");
