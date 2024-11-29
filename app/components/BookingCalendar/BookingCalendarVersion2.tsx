@@ -75,6 +75,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
     });
     setGalleryImages(tempArr);
   };
+  console.log(galleryImages, "gallery");
 
   const extractGreenSlotTime = () => {
     if (data.timeSlots.length < 2) {
