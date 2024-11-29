@@ -154,7 +154,7 @@ const AlreadyBookedDetails = () => {
                 <View style={styles.rowDirection}>
                   <Image source={icons.clock} style={styles.logo} />
                   <BerlingskeBold
-                    style={{ color: colors.darkText, fontSize: vh * 2 }}
+                    style={{ color: themeColors.darkText, fontSize: vh * 2 }}
                   >
                     Session
                   </BerlingskeBold>
@@ -218,7 +218,7 @@ const AlreadyBookedDetails = () => {
               >
                 <Image source={icons.group} style={styles.logo} />
                 <BerlingskeBold
-                  style={{ color: colors.darkText, fontSize: vh * 2 }}
+                  style={{ color: themeColors.darkText, fontSize: vh * 2 }}
                 >
                   Players Info
                 </BerlingskeBold>
@@ -268,7 +268,7 @@ const AlreadyBookedDetails = () => {
               <View style={[styles.rowDirection, { marginBottom: 10 }]}>
                 <Image source={icons.bankTransfer} style={styles.logo} />
                 <BerlingskeBold
-                  style={{ color: colors.darkText, fontSize: vh * 2 }}
+                  style={{ color: themeColors.darkText, fontSize: vh * 2 }}
                 >
                   Booking & Payments
                 </BerlingskeBold>

@@ -29,7 +29,7 @@ import {
 import ArchivoExtraLight from "@/app/components/TextWrapper/ArchivoExtraLight";
 import ArchivoLight from "@/app/components/TextWrapper/ArchivoLight";
 import { RootState } from "@/app/store";
-import { generalApi, setBaseURL } from "@/app/api";
+import { generalApi, setBaseURL, testUrl } from "@/app/api";
 import PaymentWebviewPopup from "@/app/components/PaymentWebView";
 const LoginScreen = () => {
   const [membershipNumber, setMemberShipNumber] = useState("");
@@ -84,7 +84,7 @@ const LoginScreen = () => {
   }, [membershipNumber, password]);
 
   const handleSwitchClub = () => {
-    setBaseURL(generalApi);
+    setBaseURL(testUrl);
     dispatch(switchUser(null));
 
     dispatch(toggleBtnLoader(true));
