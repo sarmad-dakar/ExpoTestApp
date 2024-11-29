@@ -22,18 +22,19 @@ import BerlingskeMedium from "@/app/components/TextWrapper/BerlingskeMedium";
 import { useSelector } from "react-redux";
 import { fetchCurrentSports } from "@/app/store/slices/bookingSlice";
 import { useAppDispatch } from "../../HomeScreens/LandingScreen";
+import { skipIntro } from "@/app/store/slices/generalSlice";
+import { RootState } from "@/app/store";
 
 const OnBoardingScreen = () => {
   const user = useSelector((state: any) => state.user.user);
+  const loading = useSelector(
+    (state: RootState) => state.general.generalLoader
+  );
+  const dispatch = useAppDispatch();
 
   const handleNavigation = () => {
-    if (user) {
-      setTimeout(() => {
-        router.replace("/(tabs)");
-      }, 2000);
-      return;
-    }
-    router.replace("/login");
+    dispatch(skipIntro(null));
+    router.push("/clublisting");
   };
   return (
     <View style={styles.container}>

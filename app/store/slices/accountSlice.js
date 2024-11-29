@@ -65,7 +65,12 @@ export const fetchRemainingBalance = createAsyncThunk(
 const slice = createSlice({
   name: "booking",
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    clearSportsAndWallet: (state) => {
+      state.balance = 0;
+      state.sportsData = [];
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchMyAccount.fulfilled, (state, action) => {
       state.accountData = action.payload.data;
@@ -90,4 +95,4 @@ const reducer = slice.reducer;
 
 export default reducer;
 
-export const {} = slice.actions;
+export const { clearWallet, clearSportsAndWallet } = slice.actions;

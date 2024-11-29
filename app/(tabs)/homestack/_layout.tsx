@@ -9,7 +9,7 @@ const HomeLayout = () => {
   useEffect(() => {
     if (!user) {
       console.log("logged?");
-      router.replace("/(navigations)/login");
+      // router.replace("/(navigations)/login");
     }
   }, [user]);
 

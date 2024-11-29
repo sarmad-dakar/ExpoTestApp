@@ -17,6 +17,7 @@ import {
   Linking,
   Alert,
   Platform,
+  Image,
 } from "react-native";
 import BerlingskeBold from "../TextWrapper/BerlingskeBold";
 import InputField from "../InputField";
@@ -24,6 +25,8 @@ import { TopupBalance } from "@/app/api/Bookings";
 import * as WebBrowser from "expo-web-browser";
 import InAppBrowser from "react-native-inappbrowser-reborn";
 import WebView from "react-native-webview";
+import { icons } from "@/app/MyAssets";
+import { vh } from "@/app/utils/units";
 // import Pdf from "react-native-pdf";
 
 // Get screen dimensions
@@ -112,6 +115,17 @@ const PaymentWebviewPopup = forwardRef<
         style={[styles.bottomSheet, { transform: [{ translateY }] }]}
       >
         <View style={styles.content}>
+          <TouchableOpacity onPress={hide} style={styles.crossIconContainer}>
+            <Image
+              source={icons.cross}
+              style={{
+                width: 25,
+                height: 25,
+                resizeMode: "contain",
+              }}
+            />
+          </TouchableOpacity>
+
           {Platform.OS == "android" ? (
             <WebView
               source={{
@@ -153,7 +167,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    paddingTop: 10,
+    paddingTop: vh * 5,
   },
   rowDirection: {
     flexDirection: "row",
@@ -168,6 +182,12 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     justifyContent: "center",
     alignItems: "center",
+  },
+  crossIconContainer: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    zIndex: 100,
   },
 });
 

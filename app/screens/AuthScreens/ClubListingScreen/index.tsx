@@ -5,6 +5,7 @@ import {
   View,
   FlatList,
   Pressable,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { themeColors } from "@/app/utils/theme";
@@ -17,6 +18,8 @@ import { setBaseURL } from "@/app/api";
 import { useAppDispatch } from "../../HomeScreens/LandingScreen";
 import { getAllClubs } from "@/app/api/Auth";
 import { setClubConfig } from "@/app/store/slices/generalSlice";
+import { useSelector } from "react-redux";
+import ArchivoMedium from "@/app/components/TextWrapper/ArchivoMedium";
 
 const clubs = [
   {
@@ -52,6 +55,8 @@ const clubs = [
 const index = () => {
   const [clubs, setClubs] = useState([]);
   const dispatch = useAppDispatch();
+  const loader = useSelector((state: any) => state.general.generalLoader);
+
   useEffect(() => {
     fetchClubs();
   }, []);
@@ -66,9 +71,9 @@ const index = () => {
     setBaseURL(`${item.apiURL}`);
     dispatch(setClubConfig(item));
 
-    setTimeout(() => {
-      router.push("/onboarding");
-    }, 1000);
+    // setTimeout(() => {
+    //   router.push("/login");
+    // }, 500);
   };
 
   const renderClub = ({ item }) => (
@@ -80,7 +85,6 @@ const index = () => {
     >
       <Image source={{ uri: item.logo }} style={styles.clubImage} />
       <Text style={styles.clubName}>{item.title}</Text>
-      <Text style={styles.clubDescription}>{item.shortTitle}</Text>
     </Pressable>
   );
 
@@ -99,6 +103,22 @@ const index = () => {
           contentContainerStyle={styles.listContainer}
           columnWrapperStyle={styles.columnWrapper}
           showsVerticalScrollIndicator={false}
+          ListEmptyComponent={() => {
+            return (
+              <View>
+                {loader ? (
+                  <ActivityIndicator
+                    size={"small"}
+                    color={themeColors.primary}
+                  />
+                ) : (
+                  <ArchivoMedium style={{ alignSelf: "center" }}>
+                    No Clubs Found
+                  </ArchivoMedium>
+                )}
+              </View>
+            );
+          }}
         />
       </View>
       <PoweredBy />
@@ -142,13 +162,13 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   clubImage: {
-    height: vh * 8,
-    width: vh * 8,
+    height: vh * 12,
+    width: vh * 12,
     resizeMode: "contain",
     marginBottom: vh * 1,
   },
   clubName: {
-    fontSize: vh * 2,
+    fontSize: vh * 1.5,
     fontWeight: "bold",
     color: themeColors.darkText,
     textAlign: "center",

@@ -83,7 +83,8 @@ const InputField = (props) => {
       >
         <Pressable onPress={handleInputPress} style={styles.textContainer}>
           {props.icon && (
-            <View
+            <Pressable
+              onPress={handleInputPress}
               style={[
                 styles.iconContainer,
                 {
@@ -98,7 +99,7 @@ const InputField = (props) => {
                   props.error && { tintColor: themeColors.red },
                 ]}
               />
-            </View>
+            </Pressable>
           )}
           {props.dropdown ? (
             <View>
@@ -127,10 +128,7 @@ const InputField = (props) => {
         </Pressable>
 
         {props.rightIcon && (
-          <Pressable
-            onPress={props.onRightIconPress}
-            style={styles.rightContainer}
-          >
+          <Pressable onPress={handleInputPress} style={styles.rightContainer}>
             <Image source={props.rightIcon} style={styles.rightIcon} />
           </Pressable>
         )}

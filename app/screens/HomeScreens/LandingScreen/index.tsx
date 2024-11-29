@@ -84,6 +84,7 @@ const LandingScreen = () => {
     // handleNavigation();
     getProfile();
     getSports();
+    dispatch(toggleBtnLoader(true));
   }, []);
 
   useFocusEffect(

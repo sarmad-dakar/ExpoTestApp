@@ -11,7 +11,7 @@ import Animated, {
 import { themeColors } from "../../../utils/theme";
 import { vh } from "../../../utils/units";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleBtnLoader } from "../../../store/slices/generalSlice";
+import { skipIntro, toggleBtnLoader } from "../../../store/slices/generalSlice";
 import { images } from "../../../MyAssets/index";
 import { router } from "expo-router";
 import { setBaseURL } from "@/app/api";
@@ -20,7 +20,7 @@ const SplashScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.user.token);
   const club = useSelector((state) => state.general.clubConfig);
-
+  const intoSkip = useSelector((state) => state.general.skipIntro);
   const animatedStyles = useAnimatedStyle(() => ({
     transform: [{ scale: offset.value }],
   }));
@@ -36,15 +36,24 @@ const SplashScreen = ({ navigation }) => {
       }
 
       validatingTimeout = setTimeout(() => {
+        // if (club?.apiURL) {
+        //   setBaseURL(club?.apiURL);
+        // }
+
         if (token) {
-          setBaseURL(club?.apiURL);
           router.push("/(tabs)");
         } else {
-          if (!club?.appURL) {
+          if (!club?.appURL && intoSkip) {
             router.push("/clublisting");
           }
+          if (!club?.appURL && !intoSkip) {
+            router.push("/onboarding");
+          }
+          if (club?.appURL && intoSkip) {
+            router.push("/login");
+          }
         }
-      }, 2000);
+      }, 1000);
     };
 
     checkTokenAndNavigate();

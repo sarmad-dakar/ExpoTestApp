@@ -19,6 +19,7 @@ import { useSelector } from "react-redux";
 import TopupConfirmationPopup from "../TopupConfirmationPopup";
 import { ConfirmationPopupRef } from "../ConfirmationPopup";
 import { useTheme } from "@react-navigation/native";
+import ArchivoRegular from "../TextWrapper/ArchivoRegular";
 
 type headerProps = {
   title: string;
@@ -74,24 +75,30 @@ const GeneralHeader = ({ title, back, sport }: headerProps) => {
           {/* <View style={{ backgroundColor: "red", marginRight: 10 }}>
             <Image source={icons.wallet} style={styles.backIcon} />
           </View> */}
-          <View>
-            <BerlingskeMedium style={{ color: colors.secondary, fontSize: 15 }}>
-              Wallet
-            </BerlingskeMedium>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Image
-                source={icons.euro}
-                style={{
-                  width: 12,
-                  height: 12,
-                  resizeMode: "contain",
-                  marginRight: 5,
-                  tintColor: "white",
-                }}
-              />
-              <Text style={{ color: "white", fontSize: 12 }}>{balance}</Text>
-            </View>
-          </View>
+
+          <Image
+            source={icons.euro}
+            style={{
+              width: 12,
+              height: 12,
+              resizeMode: "contain",
+              marginRight: 5,
+              tintColor: "white",
+            }}
+          />
+          <ArchivoRegular style={{ color: "white", fontSize: 10 }}>
+            {balance}
+          </ArchivoRegular>
+          <Image
+            source={icons.dropdown}
+            style={{
+              height: 12,
+              width: 12,
+              resizeMode: "contain",
+              tintColor: "white",
+              marginLeft: 4,
+            }}
+          />
         </Pressable>
       ) : (
         <View style={{ width: 60 }} />

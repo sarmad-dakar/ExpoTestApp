@@ -4,12 +4,12 @@ import { logout } from "../store/slices/userSlice";
 import { toggleGeneralLoader } from "../store/slices/generalSlice";
 
 const version = "v1/";
-const liveUrl = "https://api.mscbookings.com/api/";
-const generalApi = "https://unionclubapi.dakarhr.com/api/";
-const testUrl = "http://mscapi.dakarhr.com/api/";
+export const liveUrl = "https://api.mscbookings.com/";
+export const generalApi = "https://unionclubapi.dakarhr.com/";
+export const testUrl = "http://mscapi.dakarhr.com/";
 
 const instance = axios.create({
-  baseURL: generalApi + version,
+  baseURL: testUrl + "api/" + version,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
@@ -40,7 +40,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response) => {
     store.dispatch(toggleGeneralLoader(false));
-
+    console.log(response, "response of api");
     // Check for successful response status codes (e.g., 2xx)
     if (response.status >= 200 && response.status < 300) {
       // You can perform response transformations here

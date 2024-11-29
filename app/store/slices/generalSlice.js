@@ -5,6 +5,7 @@ const initialState = {
   generalLoader: false,
   internetConnectivity: true,
   clubConfig: {},
+  skipIntro: false,
 };
 
 // create a slice of user
@@ -27,6 +28,9 @@ const slice = createSlice({
     switchUser: (state, action) => {
       state.clubConfig = null;
     },
+    skipIntro: (state, action) => {
+      state.skipIntro = true;
+    },
   },
 });
 const reducer = slice.reducer;
@@ -39,4 +43,5 @@ export const {
   toggletInternet,
   setClubConfig,
   switchUser,
+  skipIntro,
 } = slice.actions;

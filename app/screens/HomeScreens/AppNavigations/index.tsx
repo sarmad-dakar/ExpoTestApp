@@ -5,22 +5,28 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useRef } from "react";
 import GeneralHeader from "@/app/components/GeneralHeader";
 import ScreenWrapper from "@/app/components/ScreenWrapper";
 import { themeColors } from "@/app/utils/theme";
 import BerlingskeMedium from "@/app/components/TextWrapper/BerlingskeMedium";
 import { router } from "expo-router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/app/store/slices/userSlice";
 import ArchivoRegular from "@/app/components/TextWrapper/ArchivoRegular";
 import BerlingskeBold from "@/app/components/TextWrapper/BerlingskeBold";
 import { vh } from "@/app/utils/units";
-import { switchUser } from "@/app/store/slices/generalSlice";
+import { switchUser, toggleBtnLoader } from "@/app/store/slices/generalSlice";
+import { generalApi, setBaseURL } from "@/app/api";
+import { clearSportsAndWallet } from "@/app/store/slices/accountSlice";
+import PaymentWebviewPopup from "@/app/components/PaymentWebView";
 
 const AppNavigationScreen = () => {
   const activeOpacity = 0.5;
   const dispatch = useDispatch();
+  const club = useSelector((state) => state.general.clubConfig);
+  const webviewRef = useRef();
+
   const AppSettings = [
     {
       name: "Notification",
@@ -52,23 +58,24 @@ const AppNavigationScreen = () => {
       name: "Help Centre",
       onPress: () => router.navigate("/navigationstack/contactscreen"),
     },
-    {
-      name: "Privacy Policy",
-      onPress: () => router.navigate("/navigationstack/privacypolicy"),
-    },
-    {
-      name: "Terms & Use",
-      onPress: () => router.navigate("/navigationstack/termscondition"),
-    },
   ];
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(clearSportsAndWallet());
   };
 
   const handleSwitch = () => {
-    dispatch(logout());
+    setBaseURL(generalApi);
     dispatch(switchUser(null));
+    dispatch(logout());
+
+    dispatch(toggleBtnLoader(true));
+    setTimeout(() => {
+      // router.push("(navigations)/clublisting");
+
+      dispatch(toggleBtnLoader(false));
+    }, 100);
   };
   return (
     <View style={{ flex: 1 }}>
@@ -105,7 +112,28 @@ const AppNavigationScreen = () => {
             </ArchivoRegular>
           </TouchableOpacity>
         ))}
-
+        {club?.privacyURL ? (
+          <TouchableOpacity
+            onPress={() => webviewRef?.current?.show(club?.privacyURL)}
+            activeOpacity={activeOpacity}
+            style={styles.subHeading}
+          >
+            <ArchivoRegular style={{ fontSize: vh * 1.7, color: "#3B5049" }}>
+              Privacy Policy
+            </ArchivoRegular>
+          </TouchableOpacity>
+        ) : null}
+        {club?.termsURL ? (
+          <TouchableOpacity
+            onPress={() => webviewRef?.current?.show(club?.termsURL)}
+            activeOpacity={activeOpacity}
+            style={styles.subHeading}
+          >
+            <ArchivoRegular style={{ fontSize: vh * 1.7, color: "#3B5049" }}>
+              Terms & Condition
+            </ArchivoRegular>
+          </TouchableOpacity>
+        ) : null}
         <TouchableOpacity
           onPress={handleLogout}
           activeOpacity={activeOpacity}
@@ -123,7 +151,7 @@ const AppNavigationScreen = () => {
           <ArchivoRegular
             style={{ fontSize: vh * 1.7, color: themeColors.red }}
           >
-            Logout & Switch user
+            Logout & Switch club
           </ArchivoRegular>
         </TouchableOpacity>
         <TouchableOpacity
@@ -133,6 +161,7 @@ const AppNavigationScreen = () => {
           {/* <Text style={{ color: colors.red }}>Delete Account</Text> */}
         </TouchableOpacity>
       </ScrollView>
+      <PaymentWebviewPopup reference={webviewRef} />
     </View>
   );
 };

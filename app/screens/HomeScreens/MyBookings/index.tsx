@@ -109,6 +109,7 @@ const MyBookingsScreen: React.FC = () => {
   const bookingConfirmationRef = useRef<ConfirmationPopupRef>(null);
   const { colors } = useTheme();
   const dispatch = useAppDispatch();
+  const styles = MyStyles();
   // useEffect(() => {
   //   if (selectedTab) {
   //     fetchData(selectedTab?.name, selectedDate);
@@ -259,7 +260,33 @@ const MyBookingsScreen: React.FC = () => {
 
       <ScreenWrapper>
         <View style={styles.tabContainer}>
-          {allSports.map((tab, index) => (
+          <FlatList
+            data={allSports}
+            horizontal
+            renderItem={({ item, index }) => {
+              return (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => setSelectedTab(item)}
+                  style={styles.tabButton}
+                >
+                  <ArchivoLight
+                    style={[
+                      styles.tabText,
+                      selectedTab.name === item.name && styles.activeTabText,
+                    ]}
+                  >
+                    {item.name}
+                  </ArchivoLight>
+                  {selectedTab.name === item.name && (
+                    <View style={styles.activeTabIndicator} />
+                  )}
+                </TouchableOpacity>
+              );
+            }}
+          />
+
+          {/* {allSports.map((tab, index) => (
             <TouchableOpacity
               key={index}
               onPress={() => setSelectedTab(tab)}
@@ -277,7 +304,7 @@ const MyBookingsScreen: React.FC = () => {
                 <View style={styles.activeTabIndicator} />
               )}
             </TouchableOpacity>
-          ))}
+          ))} */}
         </View>
         {/* <View style={styles.tabContainer}>
           {allSports.map((item) => (
@@ -372,79 +399,88 @@ const MyBookingsScreen: React.FC = () => {
 
 export default MyBookingsScreen;
 
-const styles = StyleSheet.create({
-  screenContainer: {
-    flex: 1,
-    backgroundColor: themeColors.white,
-  },
-  // tabContainer: {
-  //   flexDirection: "row",
-  //   alignItems: "center",
-  //   marginTop: 15,
-  // },
-  heading: {
-    color: "#5F5F5F",
-    marginRight: 10,
-    fontSize: 16,
-  },
-  btn: {
-    height: 30,
-    width: 100,
-    alignSelf: "flex-end",
-  },
-  noBookingIcon: {
-    height: 100,
-    width: 100,
-    resizeMode: "contain",
-  },
-  title: {
-    fontSize: 20,
-  },
-  noBookingContainer: {
-    alignItems: "center",
-    width: "70%",
-    alignSelf: "center",
-    marginTop: 25,
-  },
-  loader: {
-    height: vh * 100,
-    width: vw * 100,
-    backgroundColor: "#0000004a",
-    position: "absolute",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  tabContainer: {
-    flexDirection: "row",
-    // justifyContent: "space-around",
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-  },
-  tabButton: {
-    alignItems: "center",
-    paddingVertical: 10,
-    marginRight: 20,
-  },
-  tabText: {
-    color: "gray",
-    fontSize: vh * 2,
-  },
-  activeTabText: {
-    color: "green",
-  },
-  activeTabIndicator: {
-    marginTop: 4,
-    height: 1,
-    width: "100%",
-    backgroundColor: "green",
-    position: "absolute",
-    bottom: 0,
-  },
-  filterContainer: {
-    backgroundColor: themeColors.cardShade,
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    marginTop: 15,
-    borderRadius: 10,
-  },
-});
+const MyStyles = () => {
+  const { colors } = useTheme();
+  const styles = StyleSheet.create({
+    screenContainer: {
+      flex: 1,
+      backgroundColor: themeColors.white,
+    },
+    // tabContainer: {
+    //   flexDirection: "row",
+    //   alignItems: "center",
+    //   marginTop: 15,
+    // },
+    heading: {
+      color: "#5F5F5F",
+      marginRight: 10,
+      fontSize: 16,
+    },
+    btn: {
+      height: 30,
+      width: 100,
+      alignSelf: "flex-end",
+    },
+    noBookingIcon: {
+      height: 100,
+      width: 100,
+      resizeMode: "contain",
+    },
+    title: {
+      fontSize: 20,
+    },
+    noBookingContainer: {
+      alignItems: "center",
+      width: "70%",
+      alignSelf: "center",
+      marginTop: 25,
+    },
+    loader: {
+      height: vh * 100,
+      width: vw * 100,
+      backgroundColor: "#0000004a",
+      position: "absolute",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    tabContainer: {
+      flexDirection: "row",
+      // justifyContent: "space-around",
+      borderBottomWidth: 1,
+      paddingLeft: 10,
+      borderBottomColor: "#ccc",
+      backgroundColor: colors.primary,
+      marginTop: 14,
+      borderRadius: 6,
+    },
+    tabButton: {
+      alignItems: "center",
+      paddingVertical: 10,
+
+      marginRight: 20,
+    },
+    tabText: {
+      color: themeColors.white,
+      fontSize: vh * 1.8,
+    },
+    activeTabText: {
+      color: colors.secondary,
+    },
+    activeTabIndicator: {
+      marginTop: 4,
+      height: 2,
+      width: "100%",
+      backgroundColor: colors.secondary,
+      position: "absolute",
+      bottom: 0,
+    },
+    filterContainer: {
+      backgroundColor: themeColors.cardShade,
+      paddingHorizontal: 15,
+      paddingVertical: 10,
+      marginTop: 15,
+      borderRadius: 10,
+    },
+  });
+  return styles;
+};

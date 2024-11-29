@@ -90,12 +90,16 @@ const BookingDetailScreen = () => {
   const [maximumPlayers, setMaximumPlayers] = useState(0);
   const [halfSession, setHalfSession] = useState(false);
   const [includeAc, setIncludeAc] = useState(false);
+  const [servicesOption, setServicesOptions] = useState([]);
   const [enableAddPlayers, setEnableAddPlayers] = useState(true);
   const dispatch = useAppDispatch();
   const user = useSelector((state: any) => state.user.profile);
   const profile = useSelector((state: any) => state.user.user);
   const btnLoader = useSelector((state: RootState) => state.general.btnLoader);
-  console.log(checkedPlayers, "checked players");
+  console.log(
+    bookingData?.selectedSport?.sportServiceOptions,
+    "bookingData?.selectedSport?.sportServiceSetting"
+  );
   useEffect(() => {
     getMembers();
     calculateMaxPlayers();
@@ -115,6 +119,13 @@ const BookingDetailScreen = () => {
       // sortTheSelectedPlayers();
     }
   }, [bookingType]);
+
+  useEffect(() => {
+    if (bookingType?.key) {
+      getAmountDue(selectedPlayers);
+      // sortTheSelectedPlayers();
+    }
+  }, [servicesOption]);
 
   useEffect(() => {
     if (playersAmountData) {
@@ -140,7 +151,16 @@ const BookingDetailScreen = () => {
       bookingData?.selectedSport?.bookingSetting?.maximumPlayers;
     setMaximumPlayers(maximumPlayers - 1);
   };
-  console.log(maximumPlayers, "max");
+
+  const onChangeServicesOption = (item) => {
+    const isAlreadyExist = servicesOption.find((obj) => obj == item);
+    if (isAlreadyExist) {
+      const removeService = servicesOption.filter((obj) => obj !== item);
+      setServicesOptions([...removeService]);
+    } else {
+      setServicesOptions([...servicesOption, item]);
+    }
+  };
 
   const getMembers = async () => {
     let data = {
@@ -184,6 +204,10 @@ const BookingDetailScreen = () => {
             currentPlayers += `,${item.memberCode}`;
           });
           data.PlayerCodes = currentPlayers;
+        }
+        if (servicesOption.length) {
+          let currentFacilities = servicesOption.join(",");
+          data["sportServiceOptions"] = currentFacilities;
         }
         console.log(data, "Amount API data...");
         const response = await FetchAmountDue(data);
@@ -379,6 +403,15 @@ const BookingDetailScreen = () => {
     console.log(playersAmountData, "players amount data");
   };
 
+  const checkTickMark = (item) => {
+    const isExist = servicesOption.find((obj) => obj == item);
+    if (isExist) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: themeColors.white }}>
       <GeneralHeader
@@ -438,7 +471,39 @@ const BookingDetailScreen = () => {
           dropdown={true}
           onPress={() => dropdownRef.current?.show()}
         />
-        {bookingData?.selectedSport?.sportServiceSetting?.hasHalfTimeSetting ? (
+
+        {bookingData?.selectedSport?.sportServiceOptions
+          ? bookingData?.selectedSport?.sportServiceOptions.map((item) => {
+              return (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginBottom: 10,
+                  }}
+                >
+                  <TouchableOpacity
+                    onPress={() => onChangeServicesOption(item.id)}
+                    style={styles.checkbox}
+                  >
+                    {checkTickMark(item.id) ? (
+                      <Image
+                        source={icons.tick}
+                        style={{
+                          width: "60%",
+                          height: "60%",
+                          resizeMode: "contain",
+                        }}
+                      />
+                    ) : null}
+                  </TouchableOpacity>
+                  <Text style={styles.playerName}>{item?.title}</Text>
+                </View>
+              );
+            })
+          : null}
+
+        {/* {bookingData?.selectedSport?.sportServiceSetting?.hasHalfTimeSetting ? (
           <View
             style={{
               flexDirection: "row",
@@ -489,7 +554,7 @@ const BookingDetailScreen = () => {
             </TouchableOpacity>
             <Text style={styles.playerName}>Include A/C</Text>
           </View>
-        ) : null}
+        ) : null} */}
         <View style={styles.rowDirection}>
           <BerlingskeMedium
             style={{ color: themeColors.primary, fontSize: 17 }}
@@ -587,7 +652,7 @@ const BookingDetailScreen = () => {
                   <ArchivoRegular
                     style={[
                       {
-                        color: colors.darkText,
+                        color: themeColors.darkText,
                         fontSize: 12,
                         marginTop: -5,
                       },

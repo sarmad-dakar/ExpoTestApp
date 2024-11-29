@@ -29,6 +29,7 @@ import moment from "moment";
 import { useSelector } from "react-redux";
 import TopupConfirmationPopup from "../TopupConfirmationPopup";
 import { useTheme } from "@react-navigation/native";
+import { RootState } from "@/app/store";
 interface Sport {
   sportServiceSetting: {
     title: string;
@@ -87,6 +88,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const topupConfirmationRef = useRef<ConfirmationPopupRef>(null);
+  const club = useSelector((state: RootState) => state.general.clubConfig);
   const balance = useSelector((state: any) => state.account.balance);
   const styles = MyStyles();
   const dropdown = useRef<SelectDropdownRef>(null);
@@ -275,9 +277,9 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
             >
               <Image source={icons.court} style={styles.courtIcon} />
               <Text style={{ color: "black", fontSize: 13 }}>
-                {`Marsa Sport Club (MSC)\nTennis Booking\n ${moment(
-                  selectedDate
-                ).format("DD MMM YYYY")}`}
+                {`${club?.title}\n${
+                  selectedSport?.sportServiceSetting?.title
+                } Booking\n ${moment(selectedDate).format("DD MMM YYYY")}`}
               </Text>
             </View>
           </View>
