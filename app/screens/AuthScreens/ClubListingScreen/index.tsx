@@ -103,12 +103,20 @@ const index = () => {
   };
 
   const renderClub = ({ item }) => (
-    <Pressable
-      onPress={() => {
-        handleClubPress(item);
-      }}
-      style={styles.clubCard}
-    >
+    <View style={styles.clubCard}>
+      <Pressable
+        onPress={() => {
+          if (item?.title) {
+            handleClubPress(item);
+          }
+        }}
+        style={{
+          height: "55%",
+          position: "absolute",
+          width: "100%",
+          zIndex: 100,
+        }}
+      ></Pressable>
       {item?.title ? (
         <Animated.View
           entering={FadeIn.duration(350)}
@@ -295,7 +303,7 @@ const index = () => {
       )}
       {/* <Image source={{ uri: item.logo }} style={styles.clubImage} />
       <Text style={styles.clubName}>{item.title}</Text> */}
-    </Pressable>
+    </View>
   );
 
   return (
