@@ -430,6 +430,7 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     color: "white",
+    fontSize: vh * 1.7,
   },
   description: {
     color: "white",
@@ -445,8 +446,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   loginBtn: {
-    width: vh * 5,
-    height: vh * 5,
+    width: vh * 6,
+    height: vh * 6,
     borderRadius: 10,
     backgroundColor: "white",
     justifyContent: "center",

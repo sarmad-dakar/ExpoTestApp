@@ -15,6 +15,8 @@ import { skipIntro, toggleBtnLoader } from "../../../store/slices/generalSlice";
 import { images } from "../../../MyAssets/index";
 import { router } from "expo-router";
 import { setBaseURL } from "@/app/api";
+import NetInfo from "@react-native-community/netinfo";
+
 const SplashScreen = ({ navigation }) => {
   const offset = useSharedValue(1);
   const dispatch = useDispatch();
@@ -67,6 +69,14 @@ const SplashScreen = ({ navigation }) => {
     };
   }, [token, club]);
 
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      dispatch(toggletInternet(state?.isConnected));
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
   return (
     <Animated.View entering={FadeIn} style={styles.container}>
       <View
