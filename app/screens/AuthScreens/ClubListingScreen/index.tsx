@@ -383,7 +383,7 @@ const styles = StyleSheet.create({
   },
   clubCard: {
     // width: vw * 42,
-    height: vh * 30,
+    height: vh * 25,
     marginBottom: 20,
     backgroundColor: themeColors.lightGray,
     borderRadius: vh * 2.5,
@@ -437,8 +437,8 @@ const styles = StyleSheet.create({
     fontSize: vh * 1.5,
   },
   sportIcon: {
-    height: vh * 5,
-    width: vh * 5,
+    height: vh * 4.5,
+    width: vh * 4.5,
     borderRadius: 100,
     backgroundColor: "#CCFF05",
     marginRight: 10,
@@ -446,8 +446,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   loginBtn: {
-    width: vh * 6,
-    height: vh * 6,
+    width: vh * 5,
+    height: vh * 5,
     borderRadius: 10,
     backgroundColor: "white",
     justifyContent: "center",

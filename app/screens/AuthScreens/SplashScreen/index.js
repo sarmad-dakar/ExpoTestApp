@@ -1,5 +1,5 @@
 import { Easing, ImageBackground, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import Animated, {
   FadeIn,
   useAnimatedStyle,
@@ -11,7 +11,7 @@ import Animated, {
 import { themeColors } from "../../../utils/theme";
 import { vh } from "../../../utils/units";
 import { useDispatch, useSelector } from "react-redux";
-import { skipIntro, toggleBtnLoader } from "../../../store/slices/generalSlice";
+import { skipIntro, toggleBtnLoader, toggletInternet } from "../../../store/slices/generalSlice";
 import { images } from "../../../MyAssets/index";
 import { router } from "expo-router";
 import { setBaseURL } from "@/app/api";
