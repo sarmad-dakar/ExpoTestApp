@@ -167,7 +167,7 @@ const index = () => {
                       style={{ flex: 1 }}
                       nestedScrollEnabled={true} // Enable nested scrolling
                       contentContainerStyle={{
-                        paddingRight: 40,
+                        paddingRight: 5,
                         alignItems: "center",
                       }}
                       renderItem={({ item: element }) => {
@@ -196,7 +196,7 @@ const index = () => {
                     />
                   </View>
                 </View>
-                <View style={{ width: "40%", alignItems: "flex-end" }}>
+                <View style={{ width: "35%", alignItems: "flex-end" }}>
                   <Pressable
                     onPress={() => handleClubPress(item)}
                     style={styles.loginBtn}
@@ -426,7 +426,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
   },
   col1: {
-    width: "60%",
+    width: "65%",
   },
   cardTitle: {
     color: "white",
