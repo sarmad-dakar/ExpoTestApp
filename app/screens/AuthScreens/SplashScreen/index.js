@@ -22,14 +22,15 @@ const SplashScreen = ({ navigation }) => {
   const club = useSelector((state) => state.general.clubConfig);
   const intoSkip = useSelector((state) => state.general.skipIntro);
   const animatedStyles = useAnimatedStyle(() => ({
-    transform: [{ scale: offset.value }],
+    // transform: [{ scale: offset.value }],
+    opacity: offset.value,
   }));
   React.useEffect(() => {
     let validatingTimeout;
     console.log(club, "selected Club");
 
     const checkTokenAndNavigate = async () => {
-      offset.value = withRepeat(withTiming(0.5, { duration: 2000 }), -1, true);
+      offset.value = withRepeat(withTiming(0.3, { duration: 1000 }), -1, true);
       console.log(validatingTimeout, "timeout");
       if (validatingTimeout) {
         clearTimeout(validatingTimeout);

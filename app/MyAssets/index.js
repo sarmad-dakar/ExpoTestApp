@@ -55,13 +55,16 @@ export const icons = {
   inbox: require("./icons/inbox.png"),
   floppy: require("./icons/Floppy.png"),
   wifi: require("./icons/close-wifi.png"),
+  imagePlaceholder: require("./icons/photo.png"),
+  loginBtn: require("./icons/code.png"),
 };
 
 export const images = {
   appLogo: require("../MyAssets/images/applogo.png"),
   AppLogov2: require("../MyAssets/images/Marsa-logo.png"),
   AppLogov3: require("../MyAssets/images/logoV3.png"),
-  dakarLogo: require("./images/dakarLogo.png"),
+  dakarLogo: require("./images/DakarSportsLogo.png"),
+  dakarDefaulLogo: require("./images/dakarLogo.png"),
   tennis: require("../MyAssets/images/tennis.png"),
   padel: require("../MyAssets/images/padel.png"),
   squash: require("../MyAssets/images/squash.png"),
@@ -72,4 +75,5 @@ export const images = {
   squash_OB: require("../MyAssets/images/squash_OB.png"),
   padel_OB: require("../MyAssets/images/Padel_OB.png"),
   dakarFooterLogo: require("../MyAssets/images/dakarFooterLogo.jpg"),
+  backgroundDummy: require("../MyAssets/images/backgroundDummy.png"),
 };

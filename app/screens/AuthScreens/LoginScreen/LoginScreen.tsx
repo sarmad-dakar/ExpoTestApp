@@ -28,6 +28,8 @@ import {
 } from "@/app/store/slices/generalSlice";
 import ArchivoExtraLight from "@/app/components/TextWrapper/ArchivoExtraLight";
 import ArchivoLight from "@/app/components/TextWrapper/ArchivoLight";
+import LoaderComponent from "@/app/components/Loader";
+
 import { RootState } from "@/app/store";
 import { generalApi, setBaseURL, testUrl } from "@/app/api";
 import PaymentWebviewPopup from "@/app/components/PaymentWebView";
@@ -45,6 +47,11 @@ const LoginScreen = () => {
 
   useEffect(() => {
     dispatch(toggleGeneralLoader(false));
+
+    dispatch(toggleBtnLoader(true));
+    setTimeout(() => {
+      dispatch(toggleBtnLoader(false));
+    }, 1500);
   }, []);
 
   const handleSignInPress = async () => {
@@ -84,7 +91,7 @@ const LoginScreen = () => {
   }, [membershipNumber, password]);
 
   const handleSwitchClub = () => {
-    setBaseURL(testUrl);
+    setBaseURL(generalApi);
     dispatch(switchUser(null));
 
     dispatch(toggleBtnLoader(true));
@@ -180,11 +187,7 @@ const LoginScreen = () => {
         </View>
         <PoweredBy />
       </View>
-      {btnLoader ? (
-        <View style={styles.loader}>
-          <ActivityIndicator size={"small"} color={themeColors.primary} />
-        </View>
-      ) : null}
+      {btnLoader ? <LoaderComponent /> : null}
       <PaymentWebviewPopup reference={webviewRef} />
     </ScreenWrapper>
   );

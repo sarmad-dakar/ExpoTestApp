@@ -1,6 +1,6 @@
-import React from 'react';
-import {Text, StyleSheet} from 'react-native';
-import {vh} from '../../utils/units';
+import React from "react";
+import { Text, StyleSheet } from "react-native";
+import { vh } from "../../utils/units";
 
 export default function TextWrapper(props) {
   return (
@@ -9,7 +9,9 @@ export default function TextWrapper(props) {
       style={[styles.text, props?.style]}
       ellipsizeMode="tail"
       adjustsFontSizeToFit={false}
-      allowFontScaling={false}>
+      numberOfLines={props.numberOfLines}
+      allowFontScaling={false}
+    >
       {props.children}
     </Text>
   );
@@ -17,6 +19,6 @@ export default function TextWrapper(props) {
 const styles = StyleSheet.create({
   text: {
     fontSize: vh * 2,
-    color: 'black',
+    color: "black",
   },
 });

@@ -9,7 +9,7 @@ export const generalApi = "https://unionclubapi.dakarhr.com/";
 export const testUrl = "https://mscapi.dakarhr.com/";
 
 const instance = axios.create({
-  baseURL: testUrl + "api/" + version,
+  baseURL: generalApi + "api/" + version,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",

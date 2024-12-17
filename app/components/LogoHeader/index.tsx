@@ -4,14 +4,18 @@ import { icons, images } from "../../MyAssets";
 import { vh } from "../../utils/units";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
+import Animated, { ZoomIn } from "react-native-reanimated";
 
 const LogoHeader = () => {
   const store = useSelector((state: RootState) => state.general.clubConfig);
 
   return (
-    <View style={styles.container}>
+    <Animated.View
+      entering={ZoomIn.duration(1000).delay(1500)}
+      style={styles.container}
+    >
       <Image source={{ uri: store?.logo }} style={styles.logo} />
-    </View>
+    </Animated.View>
   );
 };
 

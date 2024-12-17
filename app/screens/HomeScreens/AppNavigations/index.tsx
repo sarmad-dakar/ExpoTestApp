@@ -17,7 +17,7 @@ import ArchivoRegular from "@/app/components/TextWrapper/ArchivoRegular";
 import BerlingskeBold from "@/app/components/TextWrapper/BerlingskeBold";
 import { vh } from "@/app/utils/units";
 import { switchUser, toggleBtnLoader } from "@/app/store/slices/generalSlice";
-import { generalApi, setBaseURL } from "@/app/api";
+import { generalApi, setBaseURL, testUrl } from "@/app/api";
 import { clearSportsAndWallet } from "@/app/store/slices/accountSlice";
 import PaymentWebviewPopup from "@/app/components/PaymentWebView";
 

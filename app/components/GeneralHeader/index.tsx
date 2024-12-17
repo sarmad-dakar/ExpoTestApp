@@ -28,9 +28,10 @@ type headerProps = {
     name: string;
     icon: ImageProps;
   };
+  color?: string;
 };
 
-const GeneralHeader = ({ title, back, sport }: headerProps) => {
+const GeneralHeader = ({ title, back, sport, color }: headerProps) => {
   const balance = useSelector((state: any) => state.account.balance);
   const topupConfirmationRef = useRef<ConfirmationPopupRef>(null);
   const styles = MyStyles();
@@ -41,7 +42,7 @@ const GeneralHeader = ({ title, back, sport }: headerProps) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, color ? { backgroundColor: color } : null]}>
       {back ? (
         <TouchableOpacity style={{ width: 60 }} onPress={() => router.back()}>
           <Image source={icons.back} style={styles.backIcon} />

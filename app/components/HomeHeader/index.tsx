@@ -30,6 +30,7 @@ import { useSelector } from "react-redux";
 import TopupConfirmationPopup from "../TopupConfirmationPopup";
 import { useTheme } from "@react-navigation/native";
 import { RootState } from "@/app/store";
+import ArchivoRegular from "../TextWrapper/ArchivoRegular";
 interface Sport {
   sportServiceSetting: {
     title: string;
@@ -43,10 +44,11 @@ interface Sport {
   // add other fields as needed
 }
 
-const sportsIcon = {
+export const sportsIcon = {
   tennis: icons.tennis,
   squash: icons.squash,
   padel: icons.padel,
+  paddle: icons.padel,
   snooker: icons.snooker,
   cricket: icons.cricket,
   golf: icons.cricket,
@@ -166,24 +168,33 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
             flexDirection: "row",
           }}
         >
-          <View>
-            <BerlingskeMedium style={{ color: colors.secondary, fontSize: 15 }}>
-              Wallet
-            </BerlingskeMedium>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Image
-                source={icons.euro}
-                style={{
-                  width: 12,
-                  height: 12,
-                  resizeMode: "contain",
-                  marginRight: 5,
-                  tintColor: "white",
-                }}
-              />
-              <Text style={{ color: "white", fontSize: 12 }}>{balance}</Text>
-            </View>
-          </View>
+          {/* <View style={{ backgroundColor: "red", marginRight: 10 }}>
+            <Image source={icons.wallet} style={styles.backIcon} />
+          </View> */}
+
+          <Image
+            source={icons.euro}
+            style={{
+              width: 12,
+              height: 12,
+              resizeMode: "contain",
+              marginRight: 5,
+              tintColor: "white",
+            }}
+          />
+          <ArchivoRegular style={{ color: "white", fontSize: 10 }}>
+            {balance}
+          </ArchivoRegular>
+          <Image
+            source={icons.dropdown}
+            style={{
+              height: 12,
+              width: 12,
+              resizeMode: "contain",
+              tintColor: "white",
+              marginLeft: 4,
+            }}
+          />
         </Pressable>
       </View>
 

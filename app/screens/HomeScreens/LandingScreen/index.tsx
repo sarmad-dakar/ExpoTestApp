@@ -41,6 +41,7 @@ import BookingConfirmationPopup, {
 } from "@/app/components/BookingConfirmationPopup";
 import { toggleBtnLoader } from "@/app/store/slices/generalSlice";
 import { useTheme } from "@react-navigation/native";
+import LoaderComponent from "@/app/components/Loader";
 
 // Define types for calendar data and booking sessions
 interface CalendarData {
@@ -259,11 +260,7 @@ const LandingScreen = () => {
         onCancelBookingPress={onCancelBookingPress}
         reference={bookingDetailsPopup}
       />
-      {loader ? (
-        <View style={styles.loader}>
-          <ActivityIndicator size={"large"} color={colors.secondary} />
-        </View>
-      ) : null}
+      {loader ? <LoaderComponent /> : null}
     </View>
   );
 };

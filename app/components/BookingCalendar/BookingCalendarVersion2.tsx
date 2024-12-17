@@ -276,7 +276,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
           return (
             <View style={{ alignSelf: "center", bottom: 40 }}>
               <Text style={{ color: "white" }}>
-                {imageIndex} / {galleryImages.length}
+                {imageIndex +1} / {galleryImages.length}
               </Text>
             </View>
           );
