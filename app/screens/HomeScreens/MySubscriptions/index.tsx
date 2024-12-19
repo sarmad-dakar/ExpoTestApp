@@ -39,82 +39,95 @@ const MySubscriptionScreen = () => {
         {/* <SearchField /> */}
 
         {/* Scrollable Content */}
-        <ScrollView horizontal>
-          {/* Data Rows - Vertical Scroll */}
-          <ScrollView style={{ marginTop: 15 }}>
-            <View style={[styles.headerRow]}>
-              <Text style={[styles.headerText, { width: 150 }]}>Date</Text>
-              <View style={styles.rowDirection}>
-                <View style={styles.whiteDivider} />
-                <Text style={[styles.headerText, { width: 100 }]}>Type</Text>
-              </View>
-              <View style={styles.rowDirection}>
-                <View style={styles.whiteDivider} />
-                <Text style={[styles.headerText, { width: 100 }]}>
-                  Invoice #
-                </Text>
-              </View>
-              <View style={styles.rowDirection}>
-                <View style={styles.whiteDivider} />
-                <Text style={[styles.headerText, { width: 140 }]}>Details</Text>
-              </View>
-              <View style={styles.rowDirection}>
-                <View style={styles.whiteDivider} />
-                <Text style={[styles.headerText, { width: 120 }]}>
-                  Amount Due
-                </Text>
-              </View>
-              <View style={styles.rowDirection}>
-                <View style={styles.whiteDivider} />
-                <Text style={[styles.headerText, { width: 120 }]}>
-                  Amount Paid
-                </Text>
-              </View>
-            </View>
-            {subscriptionData.map((item, index) => (
-              <View
-                key={index}
-                style={[
-                  styles.row,
-                  {
-                    backgroundColor:
-                      index % 2 !== 0 ? "white" : themeColors.lightShade,
-                  },
-                ]}
-              >
-                <Text style={[styles.cell, { width: 150 }]}>{item.date}</Text>
+        <View
+          style={{
+            borderWidth: 1,
+            marginTop: vh * 3,
+            borderColor: "#0004",
+            borderRadius: 2,
+          }}
+        >
+          <ScrollView horizontal>
+            {/* Data Rows - Vertical Scroll */}
+            <ScrollView style={{}}>
+              <View style={[styles.headerRow]}>
+                <Text style={[styles.headerText, { width: 150 }]}>Date</Text>
                 <View style={styles.rowDirection}>
-                  <View style={styles.divider} />
-                  <Text style={[styles.cell, { width: 100 }]}>{item.type}</Text>
+                  <View style={styles.whiteDivider} />
+                  <Text style={[styles.headerText, { width: 100 }]}>Type</Text>
                 </View>
                 <View style={styles.rowDirection}>
-                  <View style={styles.divider} />
-                  <Text style={[styles.cell, { width: 100 }]}>
-                    {item.invoiceNo}
+                  <View style={styles.whiteDivider} />
+                  <Text style={[styles.headerText, { width: 100 }]}>
+                    Invoice #
                   </Text>
                 </View>
                 <View style={styles.rowDirection}>
-                  <View style={styles.divider} />
-                  <Text style={[styles.cell, { width: 140 }]}>
-                    {item.details}
+                  <View style={styles.whiteDivider} />
+                  <Text style={[styles.headerText, { width: 140 }]}>
+                    Details
                   </Text>
                 </View>
                 <View style={styles.rowDirection}>
-                  <View style={styles.divider} />
-                  <Text style={[styles.cell, { width: 120 }]}>
-                    {item.dueAmount}
+                  <View style={styles.whiteDivider} />
+                  <Text style={[styles.headerText, { width: 120 }]}>
+                    Amount Due
                   </Text>
                 </View>
                 <View style={styles.rowDirection}>
-                  <View style={styles.divider} />
-                  <Text style={[styles.cell, { width: 120 }]}>
-                    {item.paidAmount}
+                  <View style={styles.whiteDivider} />
+                  <Text style={[styles.headerText, { width: 120 }]}>
+                    Amount Paid
                   </Text>
                 </View>
               </View>
-            ))}
+              {subscriptionData.map((item, index) => (
+                <View
+                  key={index}
+                  style={[
+                    styles.row,
+                    {
+                      backgroundColor:
+                        index % 2 !== 0 ? "white" : themeColors.lightShade,
+                    },
+                  ]}
+                >
+                  <Text style={[styles.cell, { width: 150 }]}>{item.date}</Text>
+                  <View style={styles.rowDirection}>
+                    <View style={styles.divider} />
+                    <Text style={[styles.cell, { width: 100 }]}>
+                      {item.type}
+                    </Text>
+                  </View>
+                  <View style={styles.rowDirection}>
+                    <View style={styles.divider} />
+                    <Text style={[styles.cell, { width: 100 }]}>
+                      {item.invoiceNo}
+                    </Text>
+                  </View>
+                  <View style={styles.rowDirection}>
+                    <View style={styles.divider} />
+                    <Text style={[styles.cell, { width: 140 }]}>
+                      {item.details}
+                    </Text>
+                  </View>
+                  <View style={styles.rowDirection}>
+                    <View style={styles.divider} />
+                    <Text style={[styles.cell, { width: 120 }]}>
+                      {item.dueAmount}
+                    </Text>
+                  </View>
+                  <View style={styles.rowDirection}>
+                    <View style={styles.divider} />
+                    <Text style={[styles.cell, { width: 120 }]}>
+                      {item.paidAmount}
+                    </Text>
+                  </View>
+                </View>
+              ))}
+            </ScrollView>
           </ScrollView>
-        </ScrollView>
+        </View>
       </ScreenWrapper>
     </View>
   );

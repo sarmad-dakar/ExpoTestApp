@@ -36,6 +36,7 @@ import ArchivoExtraLight from "@/app/components/TextWrapper/ArchivoExtraLight";
 import ArchivoRegular from "@/app/components/TextWrapper/ArchivoRegular";
 import ArchivoLight from "@/app/components/TextWrapper/ArchivoLight";
 import { useTheme } from "@react-navigation/native";
+import LoaderComponent from "@/app/components/Loader";
 
 const monthsData = [
   { value: "01", label: "Jan" },
@@ -388,11 +389,7 @@ const MyBookingsScreen: React.FC = () => {
         onAccept={onConfirmedCancel}
         cancel={true}
       />
-      {loading ? (
-        <View style={styles.loader}>
-          <ActivityIndicator size={"large"} color={colors.secondary} />
-        </View>
-      ) : null}
+      {loading ? <LoaderComponent /> : null}
     </View>
   );
 };

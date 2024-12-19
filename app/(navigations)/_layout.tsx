@@ -26,7 +26,7 @@ const MainNavigation = () => {
         <Stack.Screen name="privacypolicy" options={{ headerShown: false }} />
         <Stack.Screen name="termscondition" options={{ headerShown: false }} />
       </Stack>
-      {!isInternetConnected ? (
+      {!true ? (
         <View style={styles.netModal}>
           <Image source={icons.wifi} style={styles.wifiIcon} />
           <BerlingskeMedium style={styles.connectionError}>

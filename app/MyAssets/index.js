@@ -56,7 +56,7 @@ export const icons = {
   floppy: require("./icons/Floppy.png"),
   wifi: require("./icons/close-wifi.png"),
   imagePlaceholder: require("./icons/photo.png"),
-  loginBtn: require("./icons/code.png"),
+  loginBtn: require("./icons/enter.png"),
 };
 
 export const images = {

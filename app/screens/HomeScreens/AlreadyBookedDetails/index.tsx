@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  Animated,
   Image,
   ScrollView,
   StyleSheet,
@@ -26,17 +27,25 @@ import { toggleBtnLoader } from "@/app/store/slices/generalSlice";
 import bookingdetail from "@/app/(tabs)/bookingstack";
 import ArchivoMedium from "@/app/components/TextWrapper/ArchivoMedium";
 import ArchivoRegular from "@/app/components/TextWrapper/ArchivoRegular";
-import { vh } from "@/app/utils/units";
+import { vh, vw } from "@/app/utils/units";
+import ArchivoExtraLight from "@/app/components/TextWrapper/ArchivoExtraLight";
+import {
+  Collapse,
+  CollapseHeader,
+  CollapseBody,
+  AccordionList,
+} from "accordion-collapse-react-native";
+import LoaderComponent from "@/app/components/Loader";
 
 const DetailComponent = ({ label, value, hideBorder }: any) => {
   return (
     <View style={[styles.container, hideBorder && { borderBottomWidth: 0 }]}>
-      <ArchivoMedium style={styles.label}>
+      <ArchivoRegular style={styles.label}>
         {label} {value ? ":" : ","}{" "}
-      </ArchivoMedium>
+      </ArchivoRegular>
       <View style={{ width: "40%", alignItems: "flex-end" }}>
         <ArchivoRegular
-          style={{ fontSize: vh * 1.5, color: themeColors.darkText }}
+          style={{ fontSize: vh * 1.4, color: themeColors.darkText }}
         >
           {" "}
           {value}
@@ -59,6 +68,11 @@ const AlreadyBookedDetails = () => {
   const [bookingDetails, setBookingDetails] = useState();
   const bookingConfirmationRef = useRef<ConfirmationPopupRef>(null);
   const dispatch = useAppDispatch();
+
+  const [isExpanded1, setIsExpanded1] = useState(false);
+  const [isExpanded2, setIsExpanded2] = useState(false);
+  const arrowAnimation1 = useRef(new Animated.Value(0)).current;
+  const arrowAnimation2 = useRef(new Animated.Value(0)).current;
 
   const loading = useSelector((state: RootState) => state.general.btnLoader);
   useEffect(() => {
@@ -116,6 +130,36 @@ const AlreadyBookedDetails = () => {
     }
   };
 
+  const rotateArrow = (isExpanded, animation) => {
+    Animated.timing(animation, {
+      toValue: isExpanded ? 1 : 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const arrowStyle1 = {
+    transform: [
+      {
+        rotate: arrowAnimation1.interpolate({
+          inputRange: [0, 1],
+          outputRange: ["0deg", "90deg"], // Rotates the arrow downward
+        }),
+      },
+    ],
+  };
+
+  const arrowStyle2 = {
+    transform: [
+      {
+        rotate: arrowAnimation2.interpolate({
+          inputRange: [0, 1],
+          outputRange: ["0deg", "90deg"], // Rotates the arrow downward
+        }),
+      },
+    ],
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: themeColors.white }}>
       <BookingConfirmationPopup
@@ -131,9 +175,7 @@ const AlreadyBookedDetails = () => {
         back={true}
       />
       {loading ? (
-        <View style={{ alignSelf: "center", marginTop: 100 }}>
-          <ActivityIndicator size={"large"} color={themeColors.secondary} />
-        </View>
+        <LoaderComponent />
       ) : (
         <ScrollView
           contentContainerStyle={{
@@ -144,231 +186,269 @@ const AlreadyBookedDetails = () => {
           {/* Booking Info */}
 
           {bookingDetails ? (
-            <View style={styles.cardContainer}>
-              <View
-                style={[
-                  styles.rowDirection,
-                  { justifyContent: "space-between", marginBottom: 10 },
-                ]}
-              >
-                <View style={styles.rowDirection}>
-                  <Image source={icons.clock} style={styles.logo} />
-                  <BerlingskeBold
-                    style={{ color: themeColors.darkText, fontSize: vh * 2 }}
-                  >
-                    Session
-                  </BerlingskeBold>
+            <View style={styles.card}>
+              <View style={styles.row}>
+                {/* Icon */}
+                <View style={styles.iconContainer}>
+                  <Image
+                    source={icons.tennis} // Replace with actual image path
+                    style={styles.icon}
+                  />
                 </View>
-                {shouldCancelVisible() ? (
-                  <TouchableOpacity
-                    onPress={() => bookingConfirmationRef.current?.show()}
-                    style={styles.cancelBtn}
-                  >
-                    <Text
-                      style={{
-                        fontWeight: "bold",
-                        color: "white",
-                        fontSize: vh * 1.5,
-                      }}
-                    >
-                      Cancel Booking
-                    </Text>
-                  </TouchableOpacity>
-                ) : null}
+
+                {/* Session Details */}
+                <View style={styles.detailsContainer}>
+                  <BerlingskeMedium style={styles.sessionTitle}>
+                    Session
+                  </BerlingskeMedium>
+
+                  <View style={styles.rowDirection}>
+                    <ArchivoRegular style={styles.miniHeading}>
+                      Booking:{" "}
+                    </ArchivoRegular>
+                    <ArchivoExtraLight style={styles.fieldDetail}>
+                      {bookingDetails.bookingTitle}
+                    </ArchivoExtraLight>
+                  </View>
+                  <View style={[styles.rowDirection, { marginTop: -3 }]}>
+                    <ArchivoRegular style={styles.miniHeading}>
+                      Booking Type:{" "}
+                    </ArchivoRegular>
+                    <ArchivoExtraLight style={styles.fieldDetail}>
+                      {bookingDetails.bookingType}
+                    </ArchivoExtraLight>
+                  </View>
+                  <View style={[styles.rowDirection, { marginTop: -3 }]}>
+                    <ArchivoRegular style={styles.miniHeading}>
+                      Court Number:{" "}
+                    </ArchivoRegular>
+                    <ArchivoExtraLight style={styles.fieldDetail}>
+                      {bookingDetails.bookingCourt}
+                    </ArchivoExtraLight>
+                  </View>
+                </View>
               </View>
 
-              <DetailComponent
-                label="Booking"
-                value={bookingDetails.bookingTitle}
-              />
-              <DetailComponent
-                label="Booking Member"
-                value={`${bookingDetails.bookingMember.bookingMemberName} (${bookingDetails.bookingMember.bookingMemberCode}) ${bookingDetails.bookingMember.bookingMemberStatus}`}
-              />
-              <DetailComponent
-                label="Booking Type"
-                value={bookingDetails.bookingType}
-              />
-              <DetailComponent
-                label="Court Number"
-                value={bookingDetails.bookingCourt}
-              />
-              <DetailComponent
-                label="Court Date"
-                value={bookingDetails.bookingSessionDate}
-              />
-              <DetailComponent
-                label="Court Time"
-                value={bookingDetails.bookingSessionTimeFrom}
-                hideBorder
-              />
+              {/* Booking Member */}
+              <View style={[styles.section, { marginTop: vh * 2 }]}>
+                <Image source={icons.defaultUser} style={styles.logo} />
+
+                <ArchivoRegular style={[styles.miniHeading]}>
+                  Booking Member
+                </ArchivoRegular>
+              </View>
+              <Text style={styles.sectionText}>
+                {`${bookingDetails.bookingMember.bookingMemberName} (${bookingDetails.bookingMember.bookingMemberCode}) ${bookingDetails.bookingMember.bookingMemberStatus}`}
+              </Text>
+              <View style={styles.borderSeperator} />
+
+              {/* Date and Time */}
+              <View style={styles.bottomRow}>
+                <View>
+                  <View style={styles.section}>
+                    <Image source={icons.calendar} style={styles.logo} />
+                    <ArchivoRegular style={styles.bottomText}>
+                      Court Date
+                    </ArchivoRegular>
+                  </View>
+                  <ArchivoExtraLight style={styles.bottomValue}>
+                    {bookingDetails.bookingSessionDate}
+                  </ArchivoExtraLight>
+                </View>
+                <View>
+                  <View style={styles.section}>
+                    <Image source={icons.clock} style={styles.logo} />
+                    <ArchivoRegular style={styles.bottomText}>
+                      Court Time
+                    </ArchivoRegular>
+                  </View>
+                  <ArchivoExtraLight style={styles.bottomValue}>
+                    {bookingDetails.bookingSessionTimeFrom}
+                  </ArchivoExtraLight>
+                </View>
+              </View>
             </View>
           ) : null}
 
           {/* Players Info */}
+
           {bookingDetails ? (
-            <View style={styles.cardContainer}>
-              <View
-                style={[
-                  styles.rowDirection,
-                  {
-                    marginBottom: 10,
-                  },
-                ]}
+            <View style={styles.accordianHeader}>
+              <Collapse
+                isExpanded={isExpanded1}
+                onToggle={(expanded) => {
+                  setIsExpanded1(expanded);
+                  rotateArrow(expanded, arrowAnimation1);
+                }}
               >
-                <Image source={icons.group} style={styles.logo} />
-                <BerlingskeBold
-                  style={{ color: themeColors.darkText, fontSize: vh * 2 }}
-                >
-                  Players Info
-                </BerlingskeBold>
-              </View>
-              {bookingDetails.players.map((player: any, index: number) => (
-                <View
-                  style={[
-                    styles.rowDirection,
-                    {
-                      marginBottom: 5,
-                      paddingBottom: 5,
-                      justifyContent: "space-between",
-                    },
-                    index !== bookingDetails.players.length - 1 && {
-                      borderBottomWidth: 1,
-                      borderColor: "#BDBDBD",
-                    },
-                  ]}
-                >
-                  <Image
-                    source={icons.defaultUser}
-                    style={{
-                      width: 15,
-                      height: 15,
-                      resizeMode: "contain",
-                      marginRight: 10,
-                    }}
-                  />
-                  <ArchivoRegular
-                    style={{
-                      fontSize: vh * 1.5,
-                      width: "80%",
-                      textAlign: "right",
-                    }}
-                    key={index}
+                <CollapseHeader>
+                  <View
+                    style={[
+                      styles.rowDirection,
+                      {
+                        justifyContent: "space-between",
+                      },
+                    ]}
                   >
-                    {player.bookingMemberName}
-                  </ArchivoRegular>
-                </View>
-              ))}
-            </View>
-          ) : null}
-
-          {/* Payment Info */}
-          {bookingDetails ? (
-            <View style={styles.cardContainer}>
-              <View style={[styles.rowDirection, { marginBottom: 10 }]}>
-                <Image source={icons.bankTransfer} style={styles.logo} />
-                <BerlingskeBold
-                  style={{ color: themeColors.darkText, fontSize: vh * 2 }}
-                >
-                  Booking & Payments
-                </BerlingskeBold>
-              </View>
-
-              <DetailComponent
-                label="Booked By"
-                value={`${bookingDetails.bookingMember.bookingMemberName}`}
-              />
-              <DetailComponent
-                label="Booked Date"
-                value={bookingDetails.bookingDate}
-              />
-              <DetailComponent
-                label="Booked Time"
-                value={bookingDetails.bookingTime}
-                hideBorder
-              />
-            </View>
-          ) : null}
-
-          {bookingDetails ? (
-            // <View style={styles.tableContainer}>
-            //   <View style={styles.tableHeader}>
-            //     <Text style={styles.tableHeaderText}>Name</Text>
-            //     <Text style={styles.tableHeaderText}>Booking Rate</Text>
-            //     <Text style={styles.tableHeaderText}>Receipt</Text>
-            //     <Text style={styles.tableHeaderText}>Payment Method</Text>
-            //   </View>
-            //   {bookingDetails.paymentPlayers.map(
-            //     (payment: any, index: number) => (
-            //       <View key={index} style={styles.tableRow}>
-            //         <Text style={styles.tableCell}>{payment.payerName}</Text>
-            //         <Text style={styles.tableCell}>${payment.bookingRate}</Text>
-            //         <Text style={styles.tableCell}>
-            //           {payment.bookingReceipt}
-            //         </Text>
-            //         <Text style={styles.tableCell}>
-            //           {payment.paymentMethod}
-            //         </Text>
-            //       </View>
-            //     )
-            //   )}
-            // </View>
-            <ScrollView
-              contentContainerStyle={{ marginTop: 20 }}
-              indicatorStyle="white"
-              horizontal
-            >
-              <View>
-                <View style={styles.tableHeader}>
-                  <ArchivoRegular
-                    style={[styles.tableHeaderText, { width: 120 }]}
-                  >
-                    Name
-                  </ArchivoRegular>
-                  <View style={styles.whiteDivider} />
-                  <ArchivoRegular style={styles.tableHeaderText}>
-                    Booking Rate
-                  </ArchivoRegular>
-                  <View style={styles.whiteDivider} />
-
-                  <ArchivoRegular style={styles.tableHeaderText}>
-                    Receipt
-                  </ArchivoRegular>
-                  <View style={styles.whiteDivider} />
-
-                  <ArchivoRegular style={styles.tableHeaderText}>
-                    Payment Method
-                  </ArchivoRegular>
-                </View>
-
-                {bookingDetails.paymentPlayers.map(
-                  (payment: any, index: number) => (
-                    <View key={index} style={styles.tableRow}>
-                      <ArchivoRegular
-                        style={[styles.tableCell, { width: 120 }]}
-                      >
-                        {payment.payerName}
-                      </ArchivoRegular>
-                      <View style={styles.divider} />
-
-                      <ArchivoRegular style={styles.tableCell}>
-                        ${payment.bookingRate}
-                      </ArchivoRegular>
-                      <View style={styles.divider} />
-
-                      <ArchivoRegular style={styles.tableCell}>
-                        {payment.bookingReceipt}
-                      </ArchivoRegular>
-                      <View style={styles.divider} />
-
-                      <ArchivoRegular style={styles.tableCell}>
-                        {payment.paymentMethod}
-                      </ArchivoRegular>
+                    <View style={styles.rowDirection}>
+                      <Image
+                        source={icons.group}
+                        style={styles.accordianIcon}
+                      />
+                      <BerlingskeMedium style={{ fontSize: vh * 1.8 }}>
+                        Player Info
+                      </BerlingskeMedium>
                     </View>
-                  )
-                )}
-              </View>
-            </ScrollView>
+                    <Animated.Image
+                      source={icons.nextArrow}
+                      style={[styles.dropdownArrow, arrowStyle1]}
+                    />
+                  </View>
+                </CollapseHeader>
+                <CollapseBody>
+                  <View style={{ marginTop: vh * 2 }}>
+                    {bookingDetails.players.map(
+                      (player: any, index: number) => (
+                        <View style={[styles.rowDirection, styles.container]}>
+                          <Image
+                            source={icons.defaultUser}
+                            style={{
+                              width: vh * 1.5,
+                              height: vh * 1.5,
+                              resizeMode: "contain",
+                            }}
+                          />
+                          <ArchivoRegular
+                            style={{
+                              fontSize: vh * 1.4,
+                              width: "80%",
+                              textAlign: "right",
+                              color: themeColors.darkText,
+                            }}
+                            key={index}
+                          >
+                            {player.bookingMemberName}
+                          </ArchivoRegular>
+                        </View>
+                      )
+                    )}
+                  </View>
+                </CollapseBody>
+              </Collapse>
+              <View style={styles.borderSeperator} />
+              <Collapse
+                isExpanded={isExpanded2}
+                onToggle={(expanded) => {
+                  setIsExpanded2(expanded);
+                  rotateArrow(expanded, arrowAnimation2);
+                }}
+              >
+                <CollapseHeader>
+                  <View
+                    style={[
+                      styles.rowDirection,
+                      {
+                        justifyContent: "space-between",
+                      },
+                    ]}
+                  >
+                    <View style={styles.rowDirection}>
+                      <Image
+                        source={icons.bankTransfer}
+                        style={styles.accordianIcon}
+                      />
+                      <BerlingskeMedium style={{ fontSize: vh * 1.8 }}>
+                        Booking & Payments
+                      </BerlingskeMedium>
+                    </View>
+                    <Animated.Image
+                      source={icons.nextArrow}
+                      style={[styles.dropdownArrow, arrowStyle2]}
+                    />
+                  </View>
+                </CollapseHeader>
+                <CollapseBody>
+                  <View style={{ marginTop: vh * 1.5 }}>
+                    <DetailComponent
+                      label="Booked By"
+                      value={`${bookingDetails.bookingMember.bookingMemberName}`}
+                    />
+                    <DetailComponent
+                      label="Booked Date"
+                      value={bookingDetails.bookingDate}
+                    />
+                    <DetailComponent
+                      label="Booked Time"
+                      value={bookingDetails.bookingTime}
+                      hideBorder
+                    />
+                  </View>
+                </CollapseBody>
+              </Collapse>
+            </View>
+          ) : null}
+
+          {bookingDetails ? (
+            <View
+              style={{ borderWidth: 1, marginTop: 20, borderColor: "#0003" }}
+            >
+              <ScrollView
+                contentContainerStyle={{ marginTop: 0 }}
+                indicatorStyle="white"
+                horizontal
+              >
+                <View>
+                  <View style={styles.tableHeader}>
+                    <ArchivoRegular
+                      style={[styles.tableHeaderText, { width: 120 }]}
+                    >
+                      Name
+                    </ArchivoRegular>
+                    <View style={styles.whiteDivider} />
+                    <ArchivoRegular style={styles.tableHeaderText}>
+                      Booking Rate
+                    </ArchivoRegular>
+                    <View style={styles.whiteDivider} />
+
+                    <ArchivoRegular style={styles.tableHeaderText}>
+                      Receipt
+                    </ArchivoRegular>
+                    <View style={styles.whiteDivider} />
+
+                    <ArchivoRegular style={styles.tableHeaderText}>
+                      Payment Method
+                    </ArchivoRegular>
+                  </View>
+
+                  {bookingDetails.paymentPlayers.map(
+                    (payment: any, index: number) => (
+                      <View key={index} style={styles.tableRow}>
+                        <ArchivoRegular
+                          style={[styles.tableCell, { width: 120 }]}
+                        >
+                          {payment.payerName}
+                        </ArchivoRegular>
+                        <View style={styles.divider} />
+
+                        <ArchivoRegular style={styles.tableCell}>
+                          ${payment.bookingRate}
+                        </ArchivoRegular>
+                        <View style={styles.divider} />
+
+                        <ArchivoRegular style={styles.tableCell}>
+                          {payment.bookingReceipt}
+                        </ArchivoRegular>
+                        <View style={styles.divider} />
+
+                        <ArchivoRegular style={styles.tableCell}>
+                          {payment.paymentMethod}
+                        </ArchivoRegular>
+                      </View>
+                    )
+                  )}
+                </View>
+              </ScrollView>
+            </View>
           ) : null}
         </ScrollView>
       )}
@@ -380,16 +460,18 @@ export default AlreadyBookedDetails;
 
 const styles = StyleSheet.create({
   container: {
-    borderBottomWidth: 1,
-    borderColor: "#BDBDBD",
     flexDirection: "row",
     alignItems: "center",
     // height: 30,
-    paddingVertical: 4,
+    marginTop: vh * 0.7,
+    paddingVertical: vh * 0.6,
+    paddingHorizontal: vw * 2,
     justifyContent: "space-between",
+    backgroundColor: themeColors.cardShade,
+    borderRadius: 5,
   },
   label: {
-    fontSize: vh * 1.6,
+    fontSize: vh * 1.5,
     color: "black",
   },
   rowDirection: {
@@ -397,10 +479,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   logo: {
-    height: 25,
-    width: 25,
+    height: vh * 2,
+    width: vh * 2,
     resizeMode: "contain",
-    marginRight: 15,
+    marginRight: 5,
     tintColor: themeColors.primary,
   },
   tableContainer: {
@@ -464,5 +546,108 @@ const styles = StyleSheet.create({
     backgroundColor: "gray",
     marginRight: 10,
     alignSelf: "center",
+  },
+
+  card: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: vh * 1.5,
+    // elevation: 1,
+    borderWidth: 1,
+    borderColor: "#0003",
+
+    marginTop: 10,
+  },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  iconContainer: {
+    backgroundColor: themeColors.primary, // Use theme color here
+    borderRadius: 8,
+    marginRight: 10,
+    width: vh * 12,
+    height: vh * 12,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  icon: {
+    width: "70%",
+    height: "70%",
+    tintColor: "#B6FF00", // Tennis color
+  },
+  detailsContainer: {
+    flex: 1,
+  },
+  sessionTitle: {
+    fontSize: vh * 2.2,
+    marginBottom: 2,
+    color: "black",
+  },
+  detail: {
+    fontSize: 14,
+    color: "#555",
+    marginBottom: 2,
+  },
+  bold: {
+    fontWeight: "bold",
+  },
+
+  section: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 5,
+  },
+  sectionText: {
+    fontSize: vh * 1.5,
+    marginLeft: 5,
+    color: "#555",
+  },
+  bottomRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  bottomText: {
+    fontSize: vh * 1.4,
+    color: "black",
+  },
+  bottomValue: {
+    fontSize: vh * 1.4,
+    color: "black",
+    marginTop: -3,
+    // marginLeft: 5,
+  },
+  borderSeperator: {
+    height: 1,
+    backgroundColor: "#0003",
+    marginVertical: vh * 1.7,
+  },
+  miniHeading: {
+    fontSize: vh * 1.7,
+    color: "black",
+  },
+  fieldDetail: {
+    fontSize: vh * 1.5,
+    color: "#2A3029",
+  },
+  accordianHeader: {
+    borderWidth: 1,
+    borderColor: "#0003",
+    paddingHorizontal: "3%",
+    paddingVertical: "3%",
+    marginTop: vh * 2,
+    borderRadius: vh * 1,
+  },
+  accordianIcon: {
+    height: vh * 2,
+    width: vh * 2,
+    resizeMode: "contain",
+    marginRight: vw * 2,
+  },
+  dropdownArrow: {
+    height: vh * 1.5,
+    width: vh * 1.5,
+    tintColor: "#0008",
+    resizeMode: "contain",
   },
 });

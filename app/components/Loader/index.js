@@ -11,6 +11,7 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
+import { LinearGradient } from "expo-linear-gradient";
 
 const LoaderComponent = () => {
   const offset = useSharedValue(1);
@@ -26,10 +27,20 @@ const LoaderComponent = () => {
 
   return (
     <Animated.View exiting={FadeOut.duration(400)} style={styles.container}>
-      <Animated.Image
-        source={images.dakarLogo}
-        style={[styles.logo, animatedStyles]}
-      />
+      <LinearGradient
+        style={{
+          height: vh * 100,
+          width: vw * 100,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+        colors={["#00000069", "#ffffff73", "white", "#ffffff73", "#00000069"]}
+      >
+        <Animated.Image
+          source={images.dakarLogo}
+          style={[styles.logo, animatedStyles]}
+        />
+      </LinearGradient>
     </Animated.View>
   );
 };
@@ -44,7 +55,6 @@ const styles = StyleSheet.create({
     zIndex: 100,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "white",
   },
   logo: {
     width: vh * 20,

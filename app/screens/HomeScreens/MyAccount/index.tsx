@@ -21,6 +21,7 @@ import { RootState } from "@/app/store";
 import { vh } from "@/app/utils/units";
 import ArchivoRegular from "@/app/components/TextWrapper/ArchivoRegular";
 import { useTheme } from "@react-navigation/native";
+import LoaderComponent from "@/app/components/Loader";
 
 interface AccountData {
   date: string;
@@ -39,6 +40,7 @@ const MyAccountScreen = () => {
   const loading = useSelector(
     (state: RootState) => state.general.generalLoader
   );
+  console.log(loading, "loading");
   const styles = MyStyles();
   useEffect(() => {
     dispatch(fetchMyAccount());
@@ -73,60 +75,62 @@ const MyAccountScreen = () => {
     <View style={styles.container}>
       <GeneralHeader back={true} title="My Account" />
       {/* Fixed Header */}
+      {loading ? <LoaderComponent /> : null}
       <ScreenWrapper>
         {/* <SearchField /> */}
 
         {/* Scrollable Content */}
         <View style={{ flex: 0.95 }}>
-          <ScrollView horizontal>
-            {/* Data Rows - Vertical Scroll */}
-            <ScrollView style={{ marginTop: 15 }}>
-              <View style={[styles.headerRow]}>
-                <Text style={[styles.headerText, { width: 150 }]}>Date</Text>
-                <View style={styles.rowDirection}>
-                  <View style={styles.whiteDivider} />
-                  <Text style={[styles.headerText, { width: 100 }]}>
-                    Transaction #
-                  </Text>
+          <View
+            style={{
+              borderWidth: 1,
+              marginTop: vh * 2,
+              borderColor: "#0004",
+            }}
+          >
+            <ScrollView horizontal>
+              {/* Data Rows - Vertical Scroll */}
+              <ScrollView style={{ marginTop: 0 }}>
+                <View style={[styles.headerRow]}>
+                  <Text style={[styles.headerText, { width: 150 }]}>Date</Text>
+                  <View style={styles.rowDirection}>
+                    <View style={styles.whiteDivider} />
+                    <Text style={[styles.headerText, { width: 100 }]}>
+                      Transaction #
+                    </Text>
+                  </View>
+                  <View style={styles.rowDirection}>
+                    <View style={styles.whiteDivider} />
+                    <Text style={[styles.headerText, { width: 100 }]}>
+                      Section
+                    </Text>
+                  </View>
+                  <View style={styles.rowDirection}>
+                    <View style={styles.whiteDivider} />
+                    <Text style={[styles.headerText, { width: 120 }]}>
+                      Category
+                    </Text>
+                  </View>
+                  <View style={styles.rowDirection}>
+                    <View style={styles.whiteDivider} />
+                    <Text style={[styles.headerText, { width: 220 }]}>
+                      Remarks
+                    </Text>
+                  </View>
+                  <View style={styles.rowDirection}>
+                    <View style={styles.whiteDivider} />
+                    <Text style={[styles.headerText, { width: 80 }]}>
+                      Amount
+                    </Text>
+                  </View>
+                  <View style={styles.rowDirection}>
+                    <View style={styles.whiteDivider} />
+                    <Text style={[styles.headerText, { width: 120 }]}>
+                      Action
+                    </Text>
+                  </View>
                 </View>
-                <View style={styles.rowDirection}>
-                  <View style={styles.whiteDivider} />
-                  <Text style={[styles.headerText, { width: 100 }]}>
-                    Section
-                  </Text>
-                </View>
-                <View style={styles.rowDirection}>
-                  <View style={styles.whiteDivider} />
-                  <Text style={[styles.headerText, { width: 120 }]}>
-                    Category
-                  </Text>
-                </View>
-                <View style={styles.rowDirection}>
-                  <View style={styles.whiteDivider} />
-                  <Text style={[styles.headerText, { width: 220 }]}>
-                    Remarks
-                  </Text>
-                </View>
-                <View style={styles.rowDirection}>
-                  <View style={styles.whiteDivider} />
-                  <Text style={[styles.headerText, { width: 80 }]}>Amount</Text>
-                </View>
-                <View style={styles.rowDirection}>
-                  <View style={styles.whiteDivider} />
-                  <Text style={[styles.headerText, { width: 120 }]}>
-                    Action
-                  </Text>
-                </View>
-              </View>
-              {loading ? (
-                <View style={{ alignSelf: "center" }}>
-                  <ActivityIndicator
-                    size={"large"}
-                    color={themeColors.secondary}
-                  />
-                </View>
-              ) : (
-                accountData.map((item, index) => (
+                {accountData.map((item, index) => (
                   <View
                     key={index}
                     style={[
@@ -205,10 +209,10 @@ const MyAccountScreen = () => {
                   </Text>
                 </TouchableOpacity> */}
                   </View>
-                ))
-              )}
+                ))}
+              </ScrollView>
             </ScrollView>
-          </ScrollView>
+          </View>
         </View>
       </ScreenWrapper>
     </View>

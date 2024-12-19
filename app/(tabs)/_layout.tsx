@@ -142,7 +142,7 @@ export default function TabLayout() {
           options={{ title: "Menu", tabBarIcon: icons.hamburger }}
         />
       </Tabs>
-      {!isInternetConnected ? (
+      {!true ? (
         <View style={styles.netModal}>
           <Image source={icons.wifi} style={styles.wifiIcon} />
           <BerlingskeMedium style={styles.connectionError}>

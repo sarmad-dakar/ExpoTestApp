@@ -9,13 +9,11 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { themeColors } from "@/app/utils/theme";
 import { icons, images } from "@/app/MyAssets";
 import { vh, vw } from "@/app/utils/units";
-import PoweredBy from "@/app/components/PoweredBy";
-import BerlingskeMedium from "@/app/components/TextWrapper/BerlingskeMedium";
-import { router } from "expo-router";
+
 import { setBaseURL } from "@/app/api";
 import { useAppDispatch } from "../../HomeScreens/LandingScreen";
 import { getAllClubs } from "@/app/api/Auth";
@@ -30,9 +28,11 @@ import BerlingskeBold from "@/app/components/TextWrapper/BerlingskeBold";
 import GeneralHeader from "@/app/components/GeneralHeader";
 import axios from "axios";
 import { sportsIcon } from "@/app/components/HomeHeader";
-import Skeleton from "react-native-reanimated-skeleton";
+// import Skeleton from "react-native-reanimated-skeleton";
 import Animated, { FadeIn } from "react-native-reanimated";
 import ImageView from "react-native-image-viewing";
+import PoweredBy from "@/app/components/PoweredBy";
+import ImageGalleryViewerPopup from "@/app/components/ImageGalleryViewer";
 
 const index = () => {
   const [clubs, setClubs] = useState([]);
@@ -40,7 +40,7 @@ const index = () => {
   const loader = useSelector((state: any) => state.general.generalLoader);
   const [galleryImages, setGalleryImages] = useState([]);
   const [showGalleryViewer, setGalleryViewer] = useState(false);
-
+  const imageGalleryRef = useRef();
   useEffect(() => {
     fetchClubs();
   }, []);
@@ -175,8 +175,12 @@ const index = () => {
                           <Pressable
                             onPress={() => {
                               if (element.gallery?.length) {
+                                imageGalleryRef.current?.show(
+                                  element?.gallery,
+                                  element?.title
+                                );
                                 sortGallery(element);
-                                setGalleryViewer(true);
+                                // setGalleryViewer(true);
                               }
                             }}
                             style={styles.sportIcon}
@@ -244,7 +248,7 @@ const index = () => {
               justifyContent: "center",
             }}
           >
-            <Skeleton
+            {/* <Skeleton
               containerStyle={{ alignItems: "flex-start" }}
               isLoading={true}
               boneColor="#d0d0d0"
@@ -297,7 +301,7 @@ const index = () => {
                   marginRight: 10,
                 }}
               ></View>
-            </Skeleton>
+            </Skeleton> */}
           </View>
         </View>
       )}
@@ -309,7 +313,7 @@ const index = () => {
   return (
     <View style={styles.container}>
       <GeneralHeader title="Sports Clubs" color={"#2A2F28"} />
-
+      <ImageGalleryViewerPopup reference={imageGalleryRef} />
       <ImageView
         images={galleryImages}
         imageIndex={0}
@@ -326,7 +330,7 @@ const index = () => {
           );
         }}
       />
-      <View style={{ flex: 1, paddingHorizontal: 5 }}>
+      <View style={{ flex: 0.9, paddingHorizontal: 5 }}>
         <FlatList
           data={clubs}
           renderItem={renderClub}
@@ -351,7 +355,7 @@ const index = () => {
           }}
         />
       </View>
-      {/* <PoweredBy /> */}
+      <PoweredBy />
     </View>
   );
 };
@@ -383,7 +387,7 @@ const styles = StyleSheet.create({
   },
   clubCard: {
     // width: vw * 42,
-    height: vh * 25,
+    height: vh * 30,
     marginBottom: 20,
     backgroundColor: themeColors.lightGray,
     borderRadius: vh * 2.5,
@@ -430,15 +434,15 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     color: "white",
-    fontSize: vh * 1.7,
+    fontSize: vh * 2.2,
   },
   description: {
     color: "white",
     fontSize: vh * 1.5,
   },
   sportIcon: {
-    height: vh * 4.5,
-    width: vh * 4.5,
+    height: vh * 4.2,
+    width: vh * 4.2,
     borderRadius: 100,
     backgroundColor: "#CCFF05",
     marginRight: 10,

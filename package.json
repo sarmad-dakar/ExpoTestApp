@@ -21,6 +21,7 @@
     "@react-native-community/netinfo": "^11.4.1",
     "@react-navigation/native": "^6.0.2",
     "@reduxjs/toolkit": "^2.2.7",
+    "accordion-collapse-react-native": "^1.1.1",
     "axios": "^1.7.7",
     "expo": "~51.0.24",
     "expo-constants": "~16.0.2",
