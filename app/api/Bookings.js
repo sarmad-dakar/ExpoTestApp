@@ -59,6 +59,14 @@ const GetRemainingBalance = async (data) => {
   return instance.get(endpoints.balance);
 };
 
+const GetSubscriptionReciept = async (data) => {
+  return instance.get(endpoints.getReciepts);
+};
+
+const GetSubscriptionRecieptDetail = async (data) => {
+  return instance.get(endpoints.getRecieptDetail + data);
+};
+
 export {
   FetchMyBookings,
   GetAccountData,
@@ -74,4 +82,6 @@ export {
   GetAlreadyBookedDetails,
   TopupBalance,
   GetRemainingBalance,
+  GetSubscriptionReciept,
+  GetSubscriptionRecieptDetail,
 };

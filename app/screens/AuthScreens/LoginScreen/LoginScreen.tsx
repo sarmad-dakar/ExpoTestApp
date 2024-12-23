@@ -19,7 +19,10 @@ import { vh, vw } from "@/app/utils/units";
 import { router } from "expo-router";
 import { loginApi } from "@/app/api/Auth";
 import { useDispatch, useSelector } from "react-redux";
-import { saveLoginDetails } from "@/app/store/slices/userSlice";
+import {
+  saveLoginDetails,
+  saveMultipleUsers,
+} from "@/app/store/slices/userSlice";
 import { showErrorToast } from "@/app/utils/toastmsg";
 import {
   switchUser,
@@ -42,6 +45,9 @@ const LoginScreen = () => {
   const loader = useSelector((state: any) => state.general.generalLoader);
   const club = useSelector((state) => state.general.clubConfig);
   const btnLoader = useSelector((state: any) => state.general.btnLoader);
+  const allMembers = useSelector(
+    (state: RootState) => state.user.multipleUsers
+  );
   const webviewRef = useRef();
   const dispatch = useDispatch();
 
@@ -73,7 +79,11 @@ const LoginScreen = () => {
       if (response.data.msgCode == "200") {
         dispatch(saveLoginDetails(response.data.data));
         dispatch(toggleBtnLoader(false));
-
+        let data = {
+          user: response?.data?.data,
+          club: club,
+        };
+        dispatch(saveMultipleUsers(data));
         // router.replace("/(tabs)");
       } else {
         showErrorToast(response.data.msgDescription);

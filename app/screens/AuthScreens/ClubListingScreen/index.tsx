@@ -33,17 +33,27 @@ import Animated, { FadeIn } from "react-native-reanimated";
 import ImageView from "react-native-image-viewing";
 import PoweredBy from "@/app/components/PoweredBy";
 import ImageGalleryViewerPopup from "@/app/components/ImageGalleryViewer";
+import { RootState } from "@/app/store";
+import {
+  removeLoginDetails,
+  saveLoginDetails,
+} from "@/app/store/slices/userSlice";
 
 const index = () => {
   const [clubs, setClubs] = useState([]);
   const dispatch = useAppDispatch();
   const loader = useSelector((state: any) => state.general.generalLoader);
+  const multipleUsers = useSelector(
+    (state: RootState) => state.user.multipleUsers
+  );
+
   const [galleryImages, setGalleryImages] = useState([]);
   const [showGalleryViewer, setGalleryViewer] = useState(false);
   const imageGalleryRef = useRef();
   useEffect(() => {
     fetchClubs();
   }, []);
+  console.log(multipleUsers, "multiple users");
 
   const fetchClubs = async () => {
     const response = await getAllClubs();
@@ -84,6 +94,14 @@ const index = () => {
   };
 
   const handleClubPress = (item) => {
+    let isExist = multipleUsers.find(
+      (element) => element.club?.title == item.title
+    );
+    if (isExist) {
+      dispatch(saveLoginDetails(isExist?.user));
+    } else {
+      dispatch(removeLoginDetails());
+    }
     setBaseURL(`${item.apiURL}`);
     dispatch(toggleBtnLoader(true));
 
@@ -100,6 +118,15 @@ const index = () => {
       tempArr.push({ uri: item });
     });
     setGalleryImages(tempArr);
+  };
+
+  const isAlreadyLoggedIn = (obj) => {
+    let isExist = multipleUsers.find((item) => item.club?.title == obj.title);
+    if (isExist) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   const renderClub = ({ item }) => (
@@ -205,7 +232,19 @@ const index = () => {
                     onPress={() => handleClubPress(item)}
                     style={styles.loginBtn}
                   >
-                    <Image source={icons.loginBtn} style={styles.btnIcon} />
+                    <Image
+                      source={
+                        isAlreadyLoggedIn(item)
+                          ? icons.loginAccess
+                          : icons.loginBtn
+                      }
+                      style={[
+                        styles.btnIcon,
+                        isAlreadyLoggedIn(item)
+                          ? null
+                          : { width: "80%", height: "80%" },
+                      ]}
+                    />
                   </Pressable>
                 </View>
               </LinearGradient>

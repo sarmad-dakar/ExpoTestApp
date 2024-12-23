@@ -20,6 +20,7 @@ import { switchUser, toggleBtnLoader } from "@/app/store/slices/generalSlice";
 import { generalApi, setBaseURL, testUrl } from "@/app/api";
 import { clearSportsAndWallet } from "@/app/store/slices/accountSlice";
 import PaymentWebviewPopup from "@/app/components/PaymentWebView";
+import SwitchClubsDD from "@/app/components/SwitchClubsDD";
 
 const AppNavigationScreen = () => {
   const activeOpacity = 0.5;
@@ -67,13 +68,10 @@ const AppNavigationScreen = () => {
 
   const handleSwitch = () => {
     setBaseURL(generalApi);
-    dispatch(switchUser(null));
-    dispatch(logout());
-
+    // dispatch(switchUser(null));
     dispatch(toggleBtnLoader(true));
     setTimeout(() => {
-      // router.push("(navigations)/clublisting");
-
+      router.push("(navigations)/clublisting");
       dispatch(toggleBtnLoader(false));
     }, 100);
   };
@@ -81,6 +79,7 @@ const AppNavigationScreen = () => {
     <View style={{ flex: 1 }}>
       <GeneralHeader title="App Navigations" back={true} />
       <ScrollView style={styles.container}>
+        <SwitchClubsDD />
         <View style={styles.heading}>
           <BerlingskeBold style={styles.headingText}>
             App Settings
@@ -151,7 +150,7 @@ const AppNavigationScreen = () => {
           <ArchivoRegular
             style={{ fontSize: vh * 1.7, color: themeColors.red }}
           >
-            Logout & Switch club
+            Switch club
           </ArchivoRegular>
         </TouchableOpacity>
         <TouchableOpacity

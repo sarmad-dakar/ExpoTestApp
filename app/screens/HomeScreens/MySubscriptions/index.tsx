@@ -1,5 +1,5 @@
 import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import GeneralHeader from "@/app/components/GeneralHeader";
 import SearchField from "@/app/components/SearchField";
 import ScreenWrapper from "@/app/components/ScreenWrapper";
@@ -8,6 +8,8 @@ import { GetAccountData, GetSubscriptionData } from "@/app/api/Bookings";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMySubscription } from "@/app/store/slices/accountSlice";
 import { vh } from "@/app/utils/units";
+import MainButton from "@/app/components/MainButton";
+import SubscriptionRecieptViewerPopup from "@/app/components/SubscriptionRecieptViewer";
 
 interface SubscriptionData {
   date: string;
@@ -22,7 +24,7 @@ const MySubscriptionScreen = () => {
   const subscriptionData = useSelector(
     (state) => state.account.subscriptionData
   );
-
+  const recieptRef = useRef();
   console.log(subscriptionData, "subscription Datt");
   const dispatch = useDispatch();
   const windowWidth = Dimensions.get("window").width;
@@ -37,12 +39,19 @@ const MySubscriptionScreen = () => {
       {/* Fixed Header */}
       <ScreenWrapper>
         {/* <SearchField /> */}
+        <SubscriptionRecieptViewerPopup reference={recieptRef} />
+
+        <MainButton
+          style={styles.viewRecieptBtn}
+          title="Subscription Reciepts"
+          onPress={() => recieptRef?.current?.show()}
+        />
 
         {/* Scrollable Content */}
         <View
           style={{
             borderWidth: 1,
-            marginTop: vh * 3,
+            // marginTop: vh * 3,
             borderColor: "#0004",
             borderRadius: 2,
           }}
@@ -175,5 +184,10 @@ const styles = StyleSheet.create({
     height: 10,
     width: 1,
     backgroundColor: "white",
+  },
+  viewRecieptBtn: {
+    height: vh * 4,
+    width: "50%",
+    alignSelf: "flex-end",
   },
 });

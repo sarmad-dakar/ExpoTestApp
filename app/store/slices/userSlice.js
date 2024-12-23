@@ -5,6 +5,7 @@ const initialState = {
   user: null,
   profile: null,
   token: null,
+  multipleUsers: [],
 };
 
 export const fetchMyProfile = createAsyncThunk("myProfile", async (data) => {
@@ -31,6 +32,11 @@ const user = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
+      const removeMultipleUser = state.multipleUsers.filter(
+        (item) => item?.user?.token !== state.token
+      );
+
+      state.multipleUsers = removeMultipleUser;
       state.user = null;
       state.token = null;
       state.profile = null;
@@ -38,6 +44,13 @@ const user = createSlice({
     saveLoginDetails: (state, action) => {
       state.user = action.payload;
       state.token = action.payload.token;
+    },
+    removeLoginDetails: (state) => {
+      state.user = null;
+      state.token = null;
+    },
+    saveMultipleUsers: (state, action) => {
+      state.multipleUsers = [...state.multipleUsers, action.payload];
     },
   },
   extraReducers: (builder) => {
@@ -54,4 +67,9 @@ const reducer = user.reducer;
 
 export default reducer;
 
-export const { logout, saveLoginDetails } = user.actions;
+export const {
+  logout,
+  saveLoginDetails,
+  saveMultipleUsers,
+  removeLoginDetails,
+} = user.actions;

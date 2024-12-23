@@ -21,4 +21,6 @@ export const endpoints = {
   changePin: "Authentication/user/reset/pincode",
   forgotPassword: "Authentication/user/forget/password/",
   getClubs: "SportServices/sport/clients",
+  getReciepts: "Subscription/sport/member/receipts",
+  getRecieptDetail: "Subscription/sport/member/receipt/info/",
 };
