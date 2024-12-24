@@ -28,7 +28,7 @@ import BerlingskeBold from "@/app/components/TextWrapper/BerlingskeBold";
 import GeneralHeader from "@/app/components/GeneralHeader";
 import axios from "axios";
 import { sportsIcon } from "@/app/components/HomeHeader";
-// import Skeleton from "react-native-reanimated-skeleton";
+import Skeleton from "react-native-reanimated-skeleton";
 import Animated, { FadeIn } from "react-native-reanimated";
 import ImageView from "react-native-image-viewing";
 import PoweredBy from "@/app/components/PoweredBy";
@@ -293,7 +293,7 @@ const index = () => {
               justifyContent: "center",
             }}
           >
-            {/* <Skeleton
+            <Skeleton
               containerStyle={{ alignItems: "flex-start" }}
               isLoading={true}
               boneColor="#d0d0d0"
@@ -346,7 +346,7 @@ const index = () => {
                   marginRight: 10,
                 }}
               ></View>
-            </Skeleton> */}
+            </Skeleton>
           </View>
         </View>
       )}
