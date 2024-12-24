@@ -122,7 +122,9 @@ const index = () => {
 
   const isAlreadyLoggedIn = (obj) => {
     if (multipleUsers?.length) {
-      let isExist = multipleUsers.find((item) => item.club?.title == obj.title);
+      let isExist = multipleUsers?.find(
+        (item) => item.club?.title == obj.title
+      );
       if (isExist) {
         return true;
       } else {

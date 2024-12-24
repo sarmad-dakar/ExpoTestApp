@@ -142,7 +142,7 @@ const AppNavigationScreen = () => {
     if (obj.title == "All Clubs") {
       return handleSwitch();
     }
-    let isExist = multipleUsers.find((item) => item.club?.title == obj.title);
+    let isExist = multipleUsers?.find((item) => item.club?.title == obj.title);
     if (isExist) {
       dispatch(saveLoginDetails(isExist?.user));
     } else {
