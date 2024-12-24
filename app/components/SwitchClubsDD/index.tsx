@@ -26,10 +26,6 @@ const SwitchClubsDD = ({ clubs, handleClubPress }) => {
     dropdownHeight.value = isVisible ? 0 : clubs?.length * (vh * 5 + 5); // Height calculation
   };
 
-  useEffect(() => {
-    dropdownHeight.value = isVisible ? 0 : clubs?.length * (vh * 5 + 5); // Height calculation
-  }, [clubs]);
-
   return (
     <View style={{ marginBottom: vh * 1 }}>
       <TouchableOpacity onPress={toggleDropdown} style={styles.container}>
@@ -40,7 +36,7 @@ const SwitchClubsDD = ({ clubs, handleClubPress }) => {
         <Image source={icons.verticalDropdown} style={styles.icon} />
       </TouchableOpacity>
 
-      <Animated.View style={[styles.dropdown, animatedStyle]}>
+      <Animated.View style={[styles.dropdown]}>
         {clubs?.map((item, index) => (
           <TouchableOpacity
             key={index}
