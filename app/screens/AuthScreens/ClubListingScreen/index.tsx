@@ -94,7 +94,7 @@ const index = () => {
   };
 
   const handleClubPress = (item) => {
-    let isExist = multipleUsers.find(
+    let isExist = multipleUsers?.find(
       (element) => element.club?.title == item.title
     );
     if (isExist) {
