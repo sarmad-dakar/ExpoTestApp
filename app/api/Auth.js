@@ -1,4 +1,5 @@
-import instance from ".";
+import axios from "axios";
+import instance, { generalApi } from ".";
 import { endpoints } from "./config";
 
 const loginApi = async (data) => {
@@ -45,6 +46,10 @@ const getAllClubs = async () => {
   return instance.get(endpoints.getClubs);
 };
 
+const getGeneralAllClubs = async () => {
+  return axios.get(generalApi + "api/v1/" + endpoints.getClubs);
+};
+
 export {
   loginApi,
   getMyProfile,
@@ -56,4 +61,5 @@ export {
   changePin,
   forgotPassword,
   getAllClubs,
+  getGeneralAllClubs,
 };

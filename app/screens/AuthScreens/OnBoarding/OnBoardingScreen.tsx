@@ -32,8 +32,8 @@ const OnBoardingScreen = () => {
     (state: RootState) => state.general.generalLoader
   );
   const dispatch = useAppDispatch();
-    const {colors} = useTheme()
-    console.log(colors,  "colors")
+  const { colors } = useTheme();
+  console.log(colors, "colors");
 
   const handleNavigation = () => {
     dispatch(skipIntro(null));
@@ -58,10 +58,10 @@ const OnBoardingScreen = () => {
           <View style={styles.bottomContainer}>
             <BerlingskeMedium style={styles.heading}>Tennis</BerlingskeMedium>
             <ArchivoExtraLight style={styles.subText}>
-              The Marsa Sports Club is a multi-sport facility offering an array
-              of exciting activities for sports enthusiasts. Whether you’re
-              passionate about tennis, golf, cricket, squash, padel, or looking
-              to try something new, our club has it all.
+              This is a multi-sport facility offering an array of exciting
+              activities for sports enthusiasts. Whether you’re passionate about
+              tennis, golf, cricket, squash, padel, or looking to try something
+              new, our club has it all.
             </ArchivoExtraLight>
             <MainButton title="Book online" onPress={handleNavigation} />
           </View>
@@ -75,10 +75,10 @@ const OnBoardingScreen = () => {
           <View style={styles.bottomContainer}>
             <BerlingskeMedium style={styles.heading}>Squash</BerlingskeMedium>
             <ArchivoExtraLight style={styles.subText}>
-              The Marsa Sports Club is a multi-sport facility offering an array
-              of exciting activities for sports enthusiasts. Whether you’re
-              passionate about tennis, golf, cricket, squash, padel, or looking
-              to try something new, our club has it all.
+              This is a multi-sport facility offering an array of exciting
+              activities for sports enthusiasts. Whether you’re passionate about
+              tennis, golf, cricket, squash, padel, or looking to try something
+              new, our club has it all.
             </ArchivoExtraLight>
             <MainButton title="Book online" onPress={handleNavigation} />
           </View>
@@ -92,10 +92,10 @@ const OnBoardingScreen = () => {
           <View style={styles.bottomContainer}>
             <BerlingskeMedium style={styles.heading}>Padel</BerlingskeMedium>
             <ArchivoExtraLight style={styles.subText}>
-              The Marsa Sports Club is a multi-sport facility offering an array
-              of exciting activities for sports enthusiasts. Whether you’re
-              passionate about tennis, golf, cricket, squash, padel, or looking
-              to try something new, our club has it all.
+              This is a multi-sport facility offering an array of exciting
+              activities for sports enthusiasts. Whether you’re passionate about
+              tennis, golf, cricket, squash, padel, or looking to try something
+              new, our club has it all.
             </ArchivoExtraLight>
             <MainButton title="Book online" onPress={handleNavigation} />
           </View>
@@ -109,10 +109,10 @@ const OnBoardingScreen = () => {
           <View style={styles.bottomContainer}>
             <BerlingskeMedium style={styles.heading}>Cricket</BerlingskeMedium>
             <ArchivoExtraLight style={styles.subText}>
-              The Marsa Sports Club is a multi-sport facility offering an array
-              of exciting activities for sports enthusiasts. Whether you’re
-              passionate about tennis, golf, cricket, squash, padel, or looking
-              to try something new, our club has it all.
+              This is a multi-sport facility offering an array of exciting
+              activities for sports enthusiasts. Whether you’re passionate about
+              tennis, golf, cricket, squash, padel, or looking to try something
+              new, our club has it all.
             </ArchivoExtraLight>
             <MainButton title="Book online" onPress={handleNavigation} />
           </View>

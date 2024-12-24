@@ -11,7 +11,11 @@ import Animated, {
 import { themeColors } from "../../../utils/theme";
 import { vh } from "../../../utils/units";
 import { useDispatch, useSelector } from "react-redux";
-import { skipIntro, toggleBtnLoader, toggletInternet } from "../../../store/slices/generalSlice";
+import {
+  skipIntro,
+  toggleBtnLoader,
+  toggletInternet,
+} from "../../../store/slices/generalSlice";
 import { images } from "../../../MyAssets/index";
 import { router } from "expo-router";
 import { setBaseURL } from "@/app/api";
@@ -44,7 +48,7 @@ const SplashScreen = ({ navigation }) => {
         }
 
         if (token) {
-          router.push("/(tabs)");
+          router.push("/(tabs)/homestack/");
         } else {
           if (!club?.appURL && intoSkip) {
             router.push("/clublisting");

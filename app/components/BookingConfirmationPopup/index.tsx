@@ -145,6 +145,7 @@ const BookingConfirmationPopup = forwardRef<
                 placeholder="Pin code"
                 value={pinCode}
                 onChangeText={setPinCode}
+                secureTextEntry
               />
 
               <View style={styles.rowDirection}>

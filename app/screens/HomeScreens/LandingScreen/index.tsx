@@ -90,6 +90,16 @@ const LandingScreen = () => {
 
   useFocusEffect(
     useCallback(() => {
+      getProfile();
+      getSports();
+      return () => {
+        console.log("This route is now unfocused.");
+      };
+    }, [])
+  );
+
+  useFocusEffect(
+    useCallback(() => {
       if (selectedDate && SelectedSport) {
         getCalendarData(selectedDate, SelectedSport);
       }
