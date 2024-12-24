@@ -121,9 +121,13 @@ const index = () => {
   };
 
   const isAlreadyLoggedIn = (obj) => {
-    let isExist = multipleUsers.find((item) => item.club?.title == obj.title);
-    if (isExist) {
-      return true;
+    if (multipleUsers?.length) {
+      let isExist = multipleUsers.find((item) => item.club?.title == obj.title);
+      if (isExist) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
       return false;
     }
