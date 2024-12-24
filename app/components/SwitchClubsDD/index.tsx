@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -25,6 +25,10 @@ const SwitchClubsDD = ({ clubs, handleClubPress }) => {
     setVisible(!isVisible);
     dropdownHeight.value = isVisible ? 0 : clubs?.length * (vh * 5 + 5); // Height calculation
   };
+
+  useEffect(() => {
+    dropdownHeight.value = isVisible ? 0 : clubs?.length * (vh * 5 + 5); // Height calculation
+  }, [clubs]);
 
   return (
     <View style={{ marginBottom: vh * 1 }}>
