@@ -20,7 +20,7 @@ const slice = createSlice({
       state.generalLoader = action.payload;
     },
     toggletInternet: (state, action) => {
-      state.generalLoader = action.payload;
+      state.internetConnectivity = action.payload;
     },
     setClubConfig: (state, action) => {
       state.clubConfig = action.payload;

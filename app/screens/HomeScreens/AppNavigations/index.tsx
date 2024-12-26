@@ -38,6 +38,9 @@ const AppNavigationScreen = () => {
   const activeOpacity = 0.5;
   const dispatch = useDispatch();
   const club = useSelector((state) => state.general.clubConfig);
+  const internet = useSelector(
+    (state: RootState) => state.general.internetConnectivity
+  );
   const webviewRef = useRef();
   const [clubs, setClubs] = useState([
     { title: "All Clubs", smallLogo: icons.types },
@@ -142,6 +145,8 @@ const AppNavigationScreen = () => {
     if (obj.title == "All Clubs") {
       return handleSwitch();
     }
+    dispatch(clearSportsAndWallet());
+
     let isExist = multipleUsers?.find((item) => item.club?.title == obj.title);
     if (isExist) {
       dispatch(saveLoginDetails(isExist?.user));
@@ -219,6 +224,7 @@ const AppNavigationScreen = () => {
             Logout
           </ArchivoRegular>
         </TouchableOpacity>
+
         {/* <TouchableOpacity
           onPress={handleSwitch}
           activeOpacity={activeOpacity}

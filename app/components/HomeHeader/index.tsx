@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Platform,
   Pressable,
+  ScrollView,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { themeColors } from "@/app/utils/theme";
@@ -95,7 +96,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
   const styles = MyStyles();
   const dropdown = useRef<SelectDropdownRef>(null);
   const { colors } = useTheme();
-
+  console.log(OtherSports, "other sports");
   useEffect(() => {
     if (allSports?.length) {
       SetOtherSports(allSports.slice(1));
@@ -201,32 +202,34 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
       <View
         style={[
           styles.bottomHeaderContainer,
-          { maxHeight: OtherSports.length * 65 },
+          { maxHeight: OtherSports.length * 22 },
         ]}
       >
         <View style={styles.sideBar}>
-          {OtherSports.map((item) => {
-            return (
-              <TouchableOpacity
-                onPress={() => {
-                  handleSelectedSport(item);
-                }}
-                style={styles.sidebarTabs}
-              >
-                <Image
-                  source={
-                    sportsIcon[
-                      `${item?.sportServiceSetting?.title?.toLowerCase()}`
-                    ]
-                  }
-                  style={styles.logo}
-                />
-                <Text style={styles.selectedSport}>
-                  {item?.sportServiceSetting?.title}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
+          <ScrollView>
+            {OtherSports.map((item) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    handleSelectedSport(item);
+                  }}
+                  style={styles.sidebarTabs}
+                >
+                  <Image
+                    source={
+                      sportsIcon[
+                        `${item?.sportServiceSetting?.title?.toLowerCase()}`
+                      ]
+                    }
+                    style={styles.logo}
+                  />
+                  <Text style={styles.selectedSport}>
+                    {item?.sportServiceSetting?.title}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
         </View>
         <View style={styles.slotWrapper}>
           <View style={styles.slotContainer}>
@@ -364,6 +367,7 @@ const MyStyles = () => {
       justifyContent: "center",
       alignItems: "center",
       width: 55,
+      marginBottom: vh * 1.3,
     },
     slotTitle: {
       fontSize: 24,
