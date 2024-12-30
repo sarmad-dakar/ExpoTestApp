@@ -165,82 +165,84 @@ const AppNavigationScreen = () => {
   return (
     <View style={{ flex: 1 }}>
       <GeneralHeader title="App Navigations" back={true} />
-      <Animated.ScrollView
-        entering={FadeIn.duration(500)}
-        style={styles.container}
-      >
-        <SwitchClubsDD handleClubPress={handleClubPress} clubs={clubs} />
-
-        <Animated.View
-          entering={SlideInLeft.duration(500).delay(300)}
-          style={styles.heading}
+      <ScreenWrapper noPadding>
+        <Animated.ScrollView
+          entering={FadeIn.duration(500)}
+          style={styles.container}
+          contentContainerStyle={{ paddingBottom: vh * 5 }}
         >
-          <BerlingskeBold style={styles.headingText}>
-            App Settings
-          </BerlingskeBold>
-        </Animated.View>
-        {AppSettings.map((item) => (
-          <TouchableOpacity
-            onPress={item.onPress}
-            activeOpacity={activeOpacity}
-            style={styles.subHeading}
-          >
-            <ArchivoRegular style={{ fontSize: vh * 1.7, color: "#3B5049" }}>
-              {item.name}
-            </ArchivoRegular>
-          </TouchableOpacity>
-        ))}
+          <SwitchClubsDD handleClubPress={handleClubPress} clubs={clubs} />
 
-        <Animated.View
-          entering={SlideInLeft.duration(500).delay(400)}
-          style={styles.heading}
-        >
-          <BerlingskeBold style={styles.headingText}>Help</BerlingskeBold>
-        </Animated.View>
-        {HelpNavigation.map((item) => (
-          <TouchableOpacity
-            onPress={item.onPress}
-            activeOpacity={activeOpacity}
-            style={styles.subHeading}
+          <Animated.View
+            entering={SlideInLeft.duration(500).delay(300)}
+            style={styles.heading}
           >
-            <ArchivoRegular style={{ fontSize: vh * 1.7, color: "#3B5049" }}>
-              {item.name}
-            </ArchivoRegular>
-          </TouchableOpacity>
-        ))}
-        {club?.privacyURL ? (
-          <TouchableOpacity
-            onPress={() => webviewRef?.current?.show(club?.privacyURL)}
-            activeOpacity={activeOpacity}
-            style={styles.subHeading}
-          >
-            <ArchivoRegular style={{ fontSize: vh * 1.7, color: "#3B5049" }}>
-              Privacy Policy
-            </ArchivoRegular>
-          </TouchableOpacity>
-        ) : null}
-        {club?.termsURL ? (
-          <TouchableOpacity
-            onPress={() => webviewRef?.current?.show(club?.termsURL)}
-            activeOpacity={activeOpacity}
-            style={styles.subHeading}
-          >
-            <ArchivoRegular style={{ fontSize: vh * 1.7, color: "#3B5049" }}>
-              Terms & Condition
-            </ArchivoRegular>
-          </TouchableOpacity>
-        ) : null}
-        <TouchableOpacity
-          onPress={handleLogout}
-          activeOpacity={activeOpacity}
-          style={styles.subHeading}
-        >
-          <ArchivoRegular style={{ fontSize: vh * 1.7, color: "#3B5049" }}>
-            Logout
-          </ArchivoRegular>
-        </TouchableOpacity>
+            <BerlingskeBold style={styles.headingText}>
+              App Settings
+            </BerlingskeBold>
+          </Animated.View>
+          {AppSettings.map((item) => (
+            <TouchableOpacity
+              onPress={item.onPress}
+              activeOpacity={activeOpacity}
+              style={styles.subHeading}
+            >
+              <ArchivoRegular style={{ fontSize: vh * 1.7, color: "#3B5049" }}>
+                {item.name}
+              </ArchivoRegular>
+            </TouchableOpacity>
+          ))}
 
-        {/* <TouchableOpacity
+          <Animated.View
+            entering={SlideInLeft.duration(500).delay(400)}
+            style={styles.heading}
+          >
+            <BerlingskeBold style={styles.headingText}>Help</BerlingskeBold>
+          </Animated.View>
+          {HelpNavigation.map((item) => (
+            <TouchableOpacity
+              onPress={item.onPress}
+              activeOpacity={activeOpacity}
+              style={styles.subHeading}
+            >
+              <ArchivoRegular style={{ fontSize: vh * 1.7, color: "#3B5049" }}>
+                {item.name}
+              </ArchivoRegular>
+            </TouchableOpacity>
+          ))}
+          {club?.privacyURL ? (
+            <TouchableOpacity
+              onPress={() => webviewRef?.current?.show(club?.privacyURL)}
+              activeOpacity={activeOpacity}
+              style={styles.subHeading}
+            >
+              <ArchivoRegular style={{ fontSize: vh * 1.7, color: "#3B5049" }}>
+                Privacy Policy
+              </ArchivoRegular>
+            </TouchableOpacity>
+          ) : null}
+          {club?.termsURL ? (
+            <TouchableOpacity
+              onPress={() => webviewRef?.current?.show(club?.termsURL)}
+              activeOpacity={activeOpacity}
+              style={styles.subHeading}
+            >
+              <ArchivoRegular style={{ fontSize: vh * 1.7, color: "#3B5049" }}>
+                Terms & Condition
+              </ArchivoRegular>
+            </TouchableOpacity>
+          ) : null}
+          <TouchableOpacity
+            onPress={handleLogout}
+            activeOpacity={activeOpacity}
+            style={styles.subHeading}
+          >
+            <ArchivoRegular style={{ fontSize: vh * 1.7, color: "#3B5049" }}>
+              Logout
+            </ArchivoRegular>
+          </TouchableOpacity>
+
+          {/* <TouchableOpacity
           onPress={handleSwitch}
           activeOpacity={activeOpacity}
           style={styles.subHeading}
@@ -251,15 +253,16 @@ const AppNavigationScreen = () => {
             Switch club
           </ArchivoRegular>
         </TouchableOpacity> */}
-        {/* <TouchableOpacity
+          {/* <TouchableOpacity
           activeOpacity={activeOpacity}
           style={styles.subHeading}
         >
           <Text style={{ color: colors.red }}>Delete Account</Text>
         </TouchableOpacity> */}
 
-        <PoweredBy />
-      </Animated.ScrollView>
+          <PoweredBy />
+        </Animated.ScrollView>
+      </ScreenWrapper>
       <PaymentWebviewPopup reference={webviewRef} />
     </View>
   );
