@@ -28,7 +28,7 @@ import BerlingskeBold from "@/app/components/TextWrapper/BerlingskeBold";
 import GeneralHeader from "@/app/components/GeneralHeader";
 import axios from "axios";
 import { sportsIcon } from "@/app/components/HomeHeader";
-import Skeleton from "react-native-reanimated-skeleton";
+// import Skeleton from "react-native-reanimated-skeleton";
 import Animated, { FadeIn } from "react-native-reanimated";
 import ImageView from "react-native-image-viewing";
 import PoweredBy from "@/app/components/PoweredBy";
@@ -53,7 +53,6 @@ const index = () => {
   useEffect(() => {
     fetchClubs();
   }, []);
-  console.log(multipleUsers, "multiple users");
 
   const fetchClubs = async () => {
     const response = await getAllClubs();
@@ -238,19 +237,7 @@ const index = () => {
                     onPress={() => handleClubPress(item)}
                     style={styles.loginBtn}
                   >
-                    <Image
-                      source={
-                        isAlreadyLoggedIn(item)
-                          ? icons.loginAccess
-                          : icons.loginBtn
-                      }
-                      style={[
-                        styles.btnIcon,
-                        isAlreadyLoggedIn(item)
-                          ? null
-                          : { width: "80%", height: "80%" },
-                      ]}
-                    />
+                    <Image source={icons.nextArrow} style={[styles.btnIcon]} />
                   </Pressable>
                 </View>
               </LinearGradient>
@@ -293,7 +280,7 @@ const index = () => {
               justifyContent: "center",
             }}
           >
-            <Skeleton
+            {/* <Skeleton
               containerStyle={{ alignItems: "flex-start" }}
               isLoading={true}
               boneColor="#d0d0d0"
@@ -346,7 +333,7 @@ const index = () => {
                   marginRight: 10,
                 }}
               ></View>
-            </Skeleton>
+            </Skeleton> */}
           </View>
         </View>
       )}
@@ -503,8 +490,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   btnIcon: {
-    height: "60%",
-    width: "60%",
+    height: "40%",
+    width: "40%",
     resizeMode: "contain",
   },
 });

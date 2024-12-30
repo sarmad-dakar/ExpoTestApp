@@ -1,6 +1,7 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { images } from "@/app/MyAssets";
+import { vh } from "@/app/utils/units";
 
 const PoweredBy = () => {
   return (
@@ -25,7 +26,7 @@ export default PoweredBy;
 const styles = StyleSheet.create({
   container: {
     height: 50,
-    marginTop: 20,
+    marginTop: vh * 2,
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
@@ -33,8 +34,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   dakarLogo: {
-    height: 200,
-    width: 200,
+    height: vh * 20,
+    width: vh * 20,
     resizeMode: "contain",
   },
 });

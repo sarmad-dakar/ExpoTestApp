@@ -33,6 +33,8 @@ import { getGeneralAllClubs } from "@/app/api/Auth";
 import axios from "axios";
 import { icons } from "@/app/MyAssets";
 import { RootState } from "@/app/store";
+import PoweredBy from "@/app/components/PoweredBy";
+import Animated, { FadeIn, SlideInLeft } from "react-native-reanimated";
 
 const AppNavigationScreen = () => {
   const activeOpacity = 0.5;
@@ -50,10 +52,10 @@ const AppNavigationScreen = () => {
   );
 
   const AppSettings = [
-    {
-      name: "Notification",
-      onPress: () => router.navigate("/homestack/notifications"),
-    },
+    // {
+    //   name: "Notification",
+    //   onPress: () => router.navigate("/homestack/notifications"),
+    // },
     {
       name: "My Profile",
       onPress: () => router.navigate("/navigationstack/myprofile"),
@@ -125,6 +127,9 @@ const AppNavigationScreen = () => {
   const handleSwitch = () => {
     setBaseURL(generalApi);
     // dispatch(switchUser(null));
+
+    dispatch(clearSportsAndWallet());
+
     dispatch(toggleBtnLoader(true));
     setTimeout(() => {
       router.push("(navigations)/clublisting");
@@ -160,13 +165,20 @@ const AppNavigationScreen = () => {
   return (
     <View style={{ flex: 1 }}>
       <GeneralHeader title="App Navigations" back={true} />
-      <ScrollView style={styles.container}>
+      <Animated.ScrollView
+        entering={FadeIn.duration(500)}
+        style={styles.container}
+      >
         <SwitchClubsDD handleClubPress={handleClubPress} clubs={clubs} />
-        <View style={styles.heading}>
+
+        <Animated.View
+          entering={SlideInLeft.duration(500).delay(300)}
+          style={styles.heading}
+        >
           <BerlingskeBold style={styles.headingText}>
             App Settings
           </BerlingskeBold>
-        </View>
+        </Animated.View>
         {AppSettings.map((item) => (
           <TouchableOpacity
             onPress={item.onPress}
@@ -179,9 +191,12 @@ const AppNavigationScreen = () => {
           </TouchableOpacity>
         ))}
 
-        <View style={styles.heading}>
+        <Animated.View
+          entering={SlideInLeft.duration(500).delay(400)}
+          style={styles.heading}
+        >
           <BerlingskeBold style={styles.headingText}>Help</BerlingskeBold>
-        </View>
+        </Animated.View>
         {HelpNavigation.map((item) => (
           <TouchableOpacity
             onPress={item.onPress}
@@ -236,13 +251,15 @@ const AppNavigationScreen = () => {
             Switch club
           </ArchivoRegular>
         </TouchableOpacity> */}
-        <TouchableOpacity
+        {/* <TouchableOpacity
           activeOpacity={activeOpacity}
           style={styles.subHeading}
         >
-          {/* <Text style={{ color: colors.red }}>Delete Account</Text> */}
-        </TouchableOpacity>
-      </ScrollView>
+          <Text style={{ color: colors.red }}>Delete Account</Text>
+        </TouchableOpacity> */}
+
+        <PoweredBy />
+      </Animated.ScrollView>
       <PaymentWebviewPopup reference={webviewRef} />
     </View>
   );

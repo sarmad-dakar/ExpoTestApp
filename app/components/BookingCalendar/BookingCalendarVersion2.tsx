@@ -16,6 +16,7 @@ import { vh } from "@/app/utils/units";
 import ImageView from "react-native-image-viewing";
 import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
 import { useTheme } from "@react-navigation/native";
+import Animated, { FadeIn } from "react-native-reanimated";
 
 // Define interfaces for the item and data props
 interface SessionItem {
@@ -75,7 +76,6 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
     });
     setGalleryImages(tempArr);
   };
-  console.log(galleryImages, "gallery");
 
   const extractGreenSlotTime = () => {
     if (data.timeSlots.length < 2) {
@@ -255,7 +255,10 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
   };
 
   return (
-    <View style={{ height: vh * 40, width: "100%", paddingHorizontal: "5%" }}>
+    <Animated.View
+      entering={FadeIn.duration(500)}
+      style={{ height: vh * 40, width: "100%", paddingHorizontal: "5%" }}
+    >
       <BerlingskeMedium style={styles.heading}>
         Book Your Slots
       </BerlingskeMedium>
@@ -501,7 +504,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
           </View>
         </ScrollView>
       </View>
-    </View>
+    </Animated.View>
   );
 };
 
