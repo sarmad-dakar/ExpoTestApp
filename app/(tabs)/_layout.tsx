@@ -95,7 +95,7 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
             </Text>
             {isFocused ? (
               <Animated.View
-                entering={FadeIn.duration(600)}
+                entering={FadeIn.duration(200)}
                 exiting={FadeOut.duration(100)}
                 style={styles.selectedBar}
               ></Animated.View>
@@ -126,14 +126,17 @@ export default function TabLayout() {
     <View style={{ flex: 1 }}>
       <Tabs
         tabBar={(props) => <MyTabBar {...props} />}
-        screenOptions={{
+        screenOptions={({ route }) => ({
           tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
           headerShown: false,
-          tabBarStyle: {
-            backgroundColor: "white",
-            height: 60,
-          },
-        }}
+          tabBarStyle: [
+            {
+              backgroundColor: "white",
+              height: 60,
+            },
+            route.name === "navigationstack" && { display: "none" }, // Hide tab bar for navigationstack
+          ],
+        })}
       >
         <Tabs.Screen
           name="homestack"

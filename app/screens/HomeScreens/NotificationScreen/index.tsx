@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   Linking,
@@ -20,13 +21,17 @@ import ArchivoRegular from "@/app/components/TextWrapper/ArchivoRegular";
 import ArchivoExtraLight from "@/app/components/TextWrapper/ArchivoExtraLight";
 import PaymentWebviewPopup from "@/app/components/PaymentWebView";
 import { ConfirmationPopupRef } from "@/app/components/ConfirmationPopup";
+import { useTheme } from "@react-navigation/native";
 
 const NotificationScreen = () => {
   const dispatch = useDispatch();
+  const { colors } = useTheme();
   const notificationData = useSelector(
     (state) => state.account.notificationsData
   );
+  const loader = useSelector((state) => state.general?.generalLoader);
   const webviewRef = useRef<ConfirmationPopupRef>(null);
+
   useEffect(() => {
     dispatch(fetchMyNotifications());
   }, []);
@@ -61,17 +66,29 @@ const NotificationScreen = () => {
 
   const renderEmptyComponenet = () => {
     return (
-      <View style={{ alignItems: "center", marginTop: "40%" }}>
-        <Image source={icons.inbox} style={styles.icon} />
-        <ArchivoRegular
-          style={{ fontSize: 18, marginTop: 5, color: themeColors.darkText }}
-        >
-          INBOX EMPTY
-        </ArchivoRegular>
-        <ArchivoExtraLight>
-          Message is not present to display.
-        </ArchivoExtraLight>
-        <ArchivoExtraLight>Please check back later.</ArchivoExtraLight>
+      <View>
+        {loader ? (
+          <View style={{ alignItems: "center", marginTop: "20%" }}>
+            <ActivityIndicator size={"small"} color={colors.primary} />
+          </View>
+        ) : (
+          <View style={{ alignItems: "center", marginTop: "40%" }}>
+            <Image source={icons.inbox} style={styles.icon} />
+            <ArchivoRegular
+              style={{
+                fontSize: 18,
+                marginTop: 5,
+                color: themeColors.darkText,
+              }}
+            >
+              INBOX EMPTY
+            </ArchivoRegular>
+            <ArchivoExtraLight>
+              Message is not present to display.
+            </ArchivoExtraLight>
+            <ArchivoExtraLight>Please check back later.</ArchivoExtraLight>
+          </View>
+        )}
       </View>
     );
   };

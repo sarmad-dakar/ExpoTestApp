@@ -34,8 +34,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   dakarLogo: {
-    height: vh * 20,
-    width: vh * 20,
+    height: vh * 25,
+    width: vh * 25,
     resizeMode: "contain",
   },
 });

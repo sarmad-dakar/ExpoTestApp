@@ -1,4 +1,5 @@
 import {
+  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -19,7 +20,7 @@ import {
 } from "@/app/store/slices/userSlice";
 import ArchivoRegular from "@/app/components/TextWrapper/ArchivoRegular";
 import BerlingskeBold from "@/app/components/TextWrapper/BerlingskeBold";
-import { vh } from "@/app/utils/units";
+import { vh, vw } from "@/app/utils/units";
 import {
   setClubConfig,
   switchUser,
@@ -35,6 +36,7 @@ import { icons } from "@/app/MyAssets";
 import { RootState } from "@/app/store";
 import PoweredBy from "@/app/components/PoweredBy";
 import Animated, { FadeIn, SlideInLeft } from "react-native-reanimated";
+import NavigationHeader from "@/app/components/navigationHeader";
 
 const AppNavigationScreen = () => {
   const activeOpacity = 0.5;
@@ -56,31 +58,23 @@ const AppNavigationScreen = () => {
     //   name: "Notification",
     //   onPress: () => router.navigate("/homestack/notifications"),
     // },
-    {
-      name: "My Profile",
-      onPress: () => router.navigate("/navigationstack/myprofile"),
-    },
+
     {
       name: "My Accounts",
       onPress: () => router.navigate("/navigationstack/myaccount"),
+      icon: icons.bank,
     },
     {
       name: "My Subscriptions",
       onPress: () => router.navigate("/navigationstack/mysubscription"),
+      icon: icons.subscription,
     },
   ];
   const HelpNavigation = [
     {
-      name: "Change Password",
-      onPress: () => router.navigate("/navigationstack/changepassword"),
-    },
-    {
-      name: "Change Pin",
-      onPress: () => router.navigate("/navigationstack/changepin"),
-    },
-    {
       name: "Help Centre",
       onPress: () => router.navigate("/navigationstack/contactscreen"),
+      icon: icons.helpCenter,
     },
   ];
 
@@ -146,11 +140,11 @@ const AppNavigationScreen = () => {
 
   const handleClubPress = (obj) => {
     setClubs([{ title: "All Clubs", smallLogo: icons.types }]);
+    dispatch(clearSportsAndWallet());
 
     if (obj.title == "All Clubs") {
       return handleSwitch();
     }
-    dispatch(clearSportsAndWallet());
 
     let isExist = multipleUsers?.find((item) => item.club?.title == obj.title);
     if (isExist) {
@@ -164,7 +158,7 @@ const AppNavigationScreen = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <GeneralHeader title="App Navigations" back={true} />
+      <NavigationHeader title="App Navigations" back={true} />
       <ScreenWrapper noPadding>
         <Animated.ScrollView
           entering={FadeIn.duration(500)}
@@ -177,9 +171,7 @@ const AppNavigationScreen = () => {
             entering={SlideInLeft.duration(500).delay(300)}
             style={styles.heading}
           >
-            <BerlingskeBold style={styles.headingText}>
-              App Settings
-            </BerlingskeBold>
+            <BerlingskeBold style={styles.headingText}>Accounts</BerlingskeBold>
           </Animated.View>
           {AppSettings.map((item) => (
             <TouchableOpacity
@@ -187,6 +179,8 @@ const AppNavigationScreen = () => {
               activeOpacity={activeOpacity}
               style={styles.subHeading}
             >
+              <Image source={item.icon} style={styles.icon} />
+
               <ArchivoRegular style={{ fontSize: vh * 1.7, color: "#3B5049" }}>
                 {item.name}
               </ArchivoRegular>
@@ -205,6 +199,7 @@ const AppNavigationScreen = () => {
               activeOpacity={activeOpacity}
               style={styles.subHeading}
             >
+              <Image source={item.icon} style={styles.icon} />
               <ArchivoRegular style={{ fontSize: vh * 1.7, color: "#3B5049" }}>
                 {item.name}
               </ArchivoRegular>
@@ -216,6 +211,8 @@ const AppNavigationScreen = () => {
               activeOpacity={activeOpacity}
               style={styles.subHeading}
             >
+              <Image source={icons.privacy} style={styles.icon} />
+
               <ArchivoRegular style={{ fontSize: vh * 1.7, color: "#3B5049" }}>
                 Privacy Policy
               </ArchivoRegular>
@@ -227,20 +224,13 @@ const AppNavigationScreen = () => {
               activeOpacity={activeOpacity}
               style={styles.subHeading}
             >
+              <Image source={icons.terms} style={styles.icon} />
+
               <ArchivoRegular style={{ fontSize: vh * 1.7, color: "#3B5049" }}>
                 Terms & Condition
               </ArchivoRegular>
             </TouchableOpacity>
           ) : null}
-          <TouchableOpacity
-            onPress={handleLogout}
-            activeOpacity={activeOpacity}
-            style={styles.subHeading}
-          >
-            <ArchivoRegular style={{ fontSize: vh * 1.7, color: "#3B5049" }}>
-              Logout
-            </ArchivoRegular>
-          </TouchableOpacity>
 
           {/* <TouchableOpacity
           onPress={handleSwitch}
@@ -259,11 +249,28 @@ const AppNavigationScreen = () => {
         >
           <Text style={{ color: colors.red }}>Delete Account</Text>
         </TouchableOpacity> */}
-
-          <PoweredBy />
         </Animated.ScrollView>
       </ScreenWrapper>
       <PaymentWebviewPopup reference={webviewRef} />
+
+      <View style={styles.logoutContainer}>
+        <TouchableOpacity
+          onPress={handleLogout}
+          activeOpacity={activeOpacity}
+          style={[styles.subHeading, { borderTopWidth: 0 }]}
+        >
+          <Image source={icons.logout} style={styles.icon} />
+
+          <ArchivoRegular
+            style={{ fontSize: vh * 1.7, color: themeColors.red }}
+          >
+            Logout
+          </ArchivoRegular>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.poweredBy}>
+        <PoweredBy />
+      </View>
     </View>
   );
 };
@@ -284,14 +291,32 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-    paddingTop: 20,
+    // paddingTop: 20,
   },
   subHeading: {
     height: 45,
     backgroundColor: themeColors.white,
-    justifyContent: "center",
+    // justifyContent: "center",
     paddingHorizontal: 30,
     borderWidth: 0.3,
     borderColor: themeColors.lightGray,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  icon: {
+    height: vh * 2,
+    width: vh * 2,
+    resizeMode: "contain",
+    marginRight: vw * 2,
+  },
+  poweredBy: {
+    position: "absolute",
+    bottom: vh * 3,
+    alignSelf: "center",
+  },
+  logoutContainer: {
+    position: "absolute",
+    bottom: vh * 9,
+    width: "100%",
   },
 });
