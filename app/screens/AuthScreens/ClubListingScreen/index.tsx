@@ -344,7 +344,9 @@ const index = () => {
 
   return (
     <View style={styles.container}>
-      <GeneralHeader title="Sports Clubs" color={"#2A2F28"} />
+      <GeneralHeader
+      disable={true }
+      title="Sports Clubs" color={"#2A2F28"} />
       <ImageGalleryViewerPopup reference={imageGalleryRef} />
       <ImageView
         images={galleryImages}

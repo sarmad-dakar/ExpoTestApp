@@ -40,7 +40,7 @@ const NavigationHeader = ({ title, back, sport, color }: headerProps) => {
 
   const styles = MyStyles();
   const { colors } = useTheme();
-
+  console.log(profile?.profilePic)
   const handlePress = () => {
     topupConfirmationRef.current?.show();
   };
@@ -113,13 +113,19 @@ const NavigationHeader = ({ title, back, sport, color }: headerProps) => {
                 style={{
                   fontSize: vh * 1.5,
                   color: "#C5C5C5",
-                  marginTop: -vh * 0.8,
+                  marginTop: -vh * 0.5,
                 }}
               >
                 {user?.email}
               </ArchivoExtraLight>
             </View>
             <TouchableOpacity
+               hitSlop={{
+                top: 20,
+                bottom: 20,
+                left: 20,
+                right: 20,
+              }} // Adjust hitSlop as needed
               onPress={() => router.navigate("/navigationstack/myprofile")}
             >
               <Image source={icons.edit} style={styles.editIcon} />
@@ -199,10 +205,9 @@ const MyStyles = () => {
       width: "75%",
     },
     circle: {
-      width: vh * 9,
-      height: vh * 9,
+      width: vh * 8,
+      height: vh * 8,
       borderRadius: vh * 20,
-      backgroundColor: "white",
       overflow: "hidden",
     },
     nameContainer: {

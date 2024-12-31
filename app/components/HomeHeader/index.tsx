@@ -352,7 +352,7 @@ const MyStyles = () => {
       paddingLeft: 18,
       justifyContent: "space-between",
       paddingBottom: 20,
-      height: vh * 26,
+      height: vh * 24,
       // alignItems: "center",
     },
     slotWrapper: {
