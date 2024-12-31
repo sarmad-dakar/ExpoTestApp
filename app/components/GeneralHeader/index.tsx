@@ -29,9 +29,10 @@ type headerProps = {
     icon: ImageProps;
   };
   color?: string;
+  disable?: boolean
 };
 
-const GeneralHeader = ({ title, back, sport, color }: headerProps) => {
+const GeneralHeader = ({ title, back, sport, color , disable }: headerProps) => {
   const balance = useSelector((state: any) => state.account.balance);
   const topupConfirmationRef = useRef<ConfirmationPopupRef>(null);
   const styles = MyStyles();
@@ -40,6 +41,16 @@ const GeneralHeader = ({ title, back, sport, color }: headerProps) => {
   const handlePress = () => {
     topupConfirmationRef.current?.show();
   };
+
+  const showBalance = ()=> { 
+    if (disable){
+      return false 
+    }
+    if (balance){  
+      return true 
+    }
+    return false 
+  }
 
   return (
     <View style={[styles.container, color ? { backgroundColor: color } : null]}>
@@ -76,7 +87,7 @@ const GeneralHeader = ({ title, back, sport, color }: headerProps) => {
         </View>
       )}
       <BerlingskeMedium style={styles.selectedSport}>{title}</BerlingskeMedium>
-      {balance ? (
+      {showBalance() ? (
         <Pressable
           onPress={handlePress}
           style={{
