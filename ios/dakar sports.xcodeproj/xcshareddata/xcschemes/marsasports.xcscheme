@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "marsasports.app"
-               BlueprintName = "marsasports"
-               ReferencedContainer = "container:marsasports.xcodeproj">
+               BuildableName = "dakar sports.app"
+               BlueprintName = "dakar sports"
+               ReferencedContainer = "container:dakar sports.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
                BuildableName = "marsasportsTests.xctest"
                BlueprintName = "marsasportsTests"
-               ReferencedContainer = "container:marsasports.xcodeproj">
+               ReferencedContainer = "container:dakar sports.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "marsasports.app"
-            BlueprintName = "marsasports"
-            ReferencedContainer = "container:marsasports.xcodeproj">
+            BuildableName = "dakar sports.app"
+            BlueprintName = "dakar sports"
+            ReferencedContainer = "container:dakar sports.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "marsasports.app"
-            BlueprintName = "marsasports"
-            ReferencedContainer = "container:marsasports.xcodeproj">
+            BuildableName = "dakar sports.app"
+            BlueprintName = "dakar sports"
+            ReferencedContainer = "container:dakar sports.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
