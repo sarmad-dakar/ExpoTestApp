@@ -186,7 +186,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
             }}
           />
           <ArchivoRegular style={{ color: "white", fontSize: vh * 1.5 }}>
-            {balance}
+            {balance?.toFixed(2)}
           </ArchivoRegular>
           <Image
             source={icons.dropdown}

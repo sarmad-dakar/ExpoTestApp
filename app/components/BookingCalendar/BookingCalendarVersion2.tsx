@@ -1,5 +1,6 @@
 import {
   Image,
+  PanResponder,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -7,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import BerlingskeBold from "../TextWrapper/BerlingskeBold";
 import { themeColors } from "@/app/utils/theme";
 import moment from "moment";
@@ -56,9 +57,52 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
   const [galleryImages, setGalleryImages] = useState([]);
   const [showGalleryViewer, setGalleryViewer] = useState(false);
   const [greenSlotTime, setGreenSlotTime] = useState("");
+  const [next, setNext] = useState(false);
+  const [previous, setPrevious] = useState(false);
+
   const { colors } = useTheme();
   const COURTS_PER_PAGE = 3; // You display 3 courts at a time
   const styles = MyStyles();
+  const testRef = useRef();
+
+  useEffect(() => {
+    if (next) {
+      handleNext();
+    }
+    if (previous) {
+      handlePrevious();
+    }
+  }, [next, previous]);
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: (evt, gestureState) => {
+        // Allow gesture responder if horizontal movement is detected
+        return Math.abs(gestureState.dx) > Math.abs(gestureState.dy);
+      },
+      onPanResponderMove: (evt, gestureState) => {
+        console.log(gestureState.dx);
+        if (gestureState.dx > 80) {
+          // handlePrevious();
+          setPrevious(true);
+
+          // console.log("Swiped Right");
+        } else if (gestureState.dx < -80) {
+          // handleNext();
+
+          setNext(true);
+
+          // console.log("Swiped Left");
+        }
+      },
+      onPanResponderRelease: () => {
+        console.log("Gesture released");
+        setPrevious(false);
+        setNext(false);
+      },
+    })
+  ).current;
+
   useEffect(() => {
     extractGreenSlotTime();
     const initialCourts = data.bookingSessions.slice(0, COURTS_PER_PAGE);
@@ -285,224 +329,171 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
           );
         }}
       />
-      {/* <View style={styles.btnContainer}>
-        <TouchableOpacity
-          onPress={handlePrevious}
-          style={[
-            styles.navigationContainer,
-            currentIndex === 0 && { opacity: 0.5 }, // Disable styling when at the first set
-          ]}
-          disabled={currentIndex === 0} // Disable the button when at the first set
-        >
-          <Image
-            source={icons.backArrow}
-            style={[
-              styles.navigationIcons,
-              {
-                tintColor: currentIndex == 0 ? "gray" : "black",
-              },
-            ]}
-          />
-          <Text style={{ color: currentIndex === 0 ? "gray" : "black" }}>
-            Back
-          </Text>
-        </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={handleNext}
-          style={[
-            styles.navigationContainer,
-            currentIndex + COURTS_PER_PAGE >= data.bookingSessions.length && {
-              opacity: 0.5,
-            }, // Disable styling when at the end
-          ]}
-          disabled={
-            currentIndex + COURTS_PER_PAGE >= data.bookingSessions.length
-          } // Disable the button when at the end
-        >
-          <Text
-            style={{
-              color:
-                currentIndex + COURTS_PER_PAGE >= data.bookingSessions.length
-                  ? "gray"
-                  : "black",
-            }}
-          >
-            Next
-          </Text>
-          <Image
-            source={icons.nextArrow}
-            style={[
-              styles.navigationIcons,
-              {
-                tintColor:
-                  currentIndex + COURTS_PER_PAGE >= data.bookingSessions.length
-                    ? "gray"
-                    : "black",
-              },
-            ]}
-          />
-        </TouchableOpacity>
-      </View> */}
-
-      <View style={{ backgroundColor: "#E0E0E0", padding: 10 }}>
-        <View style={{ height: 33, width: "100%", flexDirection: "row" }}>
-          <View
-            style={{
-              width: "27%",
-              flexDirection: "row",
-              backgroundColor: "#E0E0E0",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <TouchableOpacity onPress={handleGalleryPress}>
-              <Image
-                source={icons.gallery}
-                style={{
-                  width: 20,
-                  height: 20,
-                  resizeMode: "contain",
-                  marginRight: 5,
-                  tintColor: colors.primary,
-                }}
-              />
-            </TouchableOpacity>
-            {/* <Text style={{ fontSize: 12 }}>Gallery</Text> */}
-          </View>
-          {currentCourts.map((item, index) => (
-            <Pressable
-              key={item.title}
-              // onPress={() => handleCourtPress(item)}
+      <View
+        {...panResponder.panHandlers} // Attach the pan responder
+        style={styles.gestureRegion}
+      >
+        <View style={{ backgroundColor: "#E0E0E0", padding: 10 }}>
+          <View style={{ height: 33, width: "100%", flexDirection: "row" }}>
+            <View
               style={{
-                flex: 1,
-                backgroundColor: colors.secondary,
+                width: "27%",
+                flexDirection: "row",
+                backgroundColor: "#E0E0E0",
                 alignItems: "center",
                 justifyContent: "center",
-                borderWidth: 1,
-                borderColor: "#E0E0E0",
               }}
             >
-              {index == 0 ? (
-                <TouchableOpacity
-                  onPress={handlePrevious}
+              <TouchableOpacity onPress={handleGalleryPress}>
+                <Image
+                  source={icons.gallery}
                   style={{
-                    position: "absolute",
-                    left: 0,
-                    backgroundColor: colors.primary,
-                    height: "100%",
-                    width: "15%",
-                    justifyContent: "center",
-                    alignItems: "center",
+                    width: 20,
+                    height: 20,
+                    resizeMode: "contain",
+                    marginRight: 5,
+                    tintColor: colors.primary,
                   }}
-                >
-                  <Image
-                    source={icons.backArrow}
-                    style={{
-                      height: 12,
-                      width: 12,
-                      resizeMode: "contain",
-                      tintColor: currentIndex == 0 ? "white" : "white",
-                    }}
-                  />
-                </TouchableOpacity>
-              ) : null}
-              {index == currentCourts.length - 1 ? (
-                <TouchableOpacity
-                  onPress={handleNext}
-                  style={{
-                    position: "absolute",
-                    right: 0,
-                    alignItems: "center",
-                    backgroundColor: colors.primary,
-                    height: "100%",
-                    width: "15%",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Image
-                    source={icons.nextArrow}
-                    style={{
-                      height: 10,
-                      width: 10,
-                      resizeMode: "contain",
-
-                      tintColor:
-                        currentIndex + COURTS_PER_PAGE >=
-                        data.bookingSessions.length
-                          ? "white"
-                          : "white",
-                    }}
-                  />
-                </TouchableOpacity>
-              ) : null}
-              <Text style={{ fontSize: 12 }}>{item.title}</Text>
-            </Pressable>
-          ))}
-        </View>
-
-        <ScrollView>
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: "#E0E0E0",
-              flexDirection: "row",
-              overflow: "hidden",
-            }}
-          >
-            <View style={{ width: "27%" }}>
-              {data.timeSlots.map((timeSlot, index) => (
-                <View key={index} style={styles.time}>
-                  {isAvailableTimeSlot(timeSlot, data.timeSlots) && (
-                    <View style={styles.greenLight} />
-                  )}
-                  <Text style={styles.timeFont}>{timeSlot || "N/A"}</Text>
-                </View>
-              ))}
+                />
+              </TouchableOpacity>
+              {/* <Text style={{ fontSize: 12 }}>Gallery</Text> */}
             </View>
+            {currentCourts.map((item, index) => (
+              <Pressable
+                key={item.title}
+                // onPress={() => handleCourtPress(item)}
+                style={{
+                  flex: 1,
+                  backgroundColor: colors.secondary,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderWidth: 1,
+                  borderColor: "#E0E0E0",
+                }}
+              >
+                {index == 0 ? (
+                  <TouchableOpacity
+                    onPress={handlePrevious}
+                    style={{
+                      position: "absolute",
+                      left: 0,
+                      backgroundColor: colors.primary,
+                      height: "100%",
+                      width: "15%",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Image
+                      source={icons.backArrow}
+                      style={{
+                        height: 12,
+                        width: 12,
+                        resizeMode: "contain",
+                        tintColor: currentIndex == 0 ? "white" : "white",
+                      }}
+                    />
+                  </TouchableOpacity>
+                ) : null}
+                {index == currentCourts.length - 1 ? (
+                  <TouchableOpacity
+                    onPress={handleNext}
+                    ref={testRef}
+                    style={{
+                      position: "absolute",
+                      right: 0,
+                      alignItems: "center",
+                      backgroundColor: colors.primary,
+                      height: "100%",
+                      width: "15%",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Image
+                      source={icons.nextArrow}
+                      style={{
+                        height: 10,
+                        width: 10,
+                        resizeMode: "contain",
 
-            {currentCourts.map((session, sessionIndex) => (
-              <View style={{ flex: 1 }} key={sessionIndex}>
-                {session.session.map((item, itemIndex) =>
-                  session?.session[itemIndex - 1]?.rows == 2 ? (
-                    <View style={{}} />
-                  ) : (
-                    <TouchableOpacity
-                      onPress={() => onBookingPress(session, item)}
-                      disabled={handleDisabled(item)}
-                      key={itemIndex}
-                      style={[
-                        styles.court,
-                        {
-                          backgroundColor: getColor(item),
-                          borderWidth: 1,
-                          borderColor: "#E0E0E0",
-                        },
-                        item.rows == 2 && { height: 66 },
-                      ]}
-                    >
-                      {/* {item.icon && (
+                        tintColor:
+                          currentIndex + COURTS_PER_PAGE >=
+                          data.bookingSessions.length
+                            ? "white"
+                            : "white",
+                      }}
+                    />
+                  </TouchableOpacity>
+                ) : null}
+                <Text style={{ fontSize: 12 }}>{item.title}</Text>
+              </Pressable>
+            ))}
+          </View>
+
+          <ScrollView>
+            <View
+              style={{
+                flex: 1,
+                backgroundColor: "#E0E0E0",
+                flexDirection: "row",
+                overflow: "hidden",
+              }}
+            >
+              <View style={{ width: "27%" }}>
+                {data.timeSlots.map((timeSlot, index) => (
+                  <View key={index} style={styles.time}>
+                    {isAvailableTimeSlot(timeSlot, data.timeSlots) && (
+                      <View style={styles.greenLight} />
+                    )}
+                    <Text style={styles.timeFont}>{timeSlot || "N/A"}</Text>
+                  </View>
+                ))}
+              </View>
+
+              {currentCourts.map((session, sessionIndex) => (
+                <View style={{ flex: 1 }} key={sessionIndex}>
+                  {session.session.map((item, itemIndex) =>
+                    session?.session[itemIndex - 1]?.rows == 2 ? (
+                      <View style={{}} />
+                    ) : (
+                      <TouchableOpacity
+                        onPress={() => onBookingPress(session, item)}
+                        disabled={handleDisabled(item)}
+                        key={itemIndex}
+                        style={[
+                          styles.court,
+                          {
+                            backgroundColor: getColor(item),
+                            borderWidth: 1,
+                            borderColor: "#E0E0E0",
+                          },
+                          item.rows == 2 && { height: 66 },
+                        ]}
+                      >
+                        {/* {item.icon && (
                         <Image
                           source={{ uri: item.icon }}
                           style={styles.icon}
                         />
                       )} */}
-                      <Text
-                        style={{
-                          fontSize: 10,
-                          fontWeight: "600",
-                          color: getTextColor(item),
-                        }}
-                      >
-                        {getText(item)}
-                      </Text>
-                    </TouchableOpacity>
-                  )
-                )}
-              </View>
-            ))}
-          </View>
-        </ScrollView>
+                        <Text
+                          style={{
+                            fontSize: 10,
+                            fontWeight: "600",
+                            color: getTextColor(item),
+                          }}
+                        >
+                          {getText(item)}
+                        </Text>
+                      </TouchableOpacity>
+                    )
+                  )}
+                </View>
+              ))}
+            </View>
+          </ScrollView>
+        </View>
       </View>
     </Animated.View>
   );
@@ -579,6 +570,14 @@ const MyStyles = () => {
       position: "absolute",
       top: 5,
       right: 5,
+    },
+    gestureRegion: {
+      // width: "80%",
+      // height: 150,
+      // backgroundColor: "#D1E3F8",
+      // justifyContent: "center",
+      // alignItems: "center",
+      // borderRadius: 10,
     },
   });
 

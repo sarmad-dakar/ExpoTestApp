@@ -40,7 +40,7 @@ const GeneralHeader = ({ title, back, sport, color }: headerProps) => {
   const handlePress = () => {
     topupConfirmationRef.current?.show();
   };
-
+  console.log(balance, "balance");
   return (
     <View style={[styles.container, color ? { backgroundColor: color } : null]}>
       {back ? (
@@ -102,7 +102,7 @@ const GeneralHeader = ({ title, back, sport, color }: headerProps) => {
             }}
           />
           <ArchivoRegular style={{ color: "white", fontSize: vh * 1.5 }}>
-            {balance}
+            {balance?.toFixed(2)}
           </ArchivoRegular>
           <Image
             source={icons.dropdown}
