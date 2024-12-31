@@ -16,6 +16,7 @@ import { vh } from "@/app/utils/units";
 import ImageView from "react-native-image-viewing";
 import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
 import { useTheme } from "@react-navigation/native";
+import Animated, { FadeIn } from "react-native-reanimated";
 
 // Define interfaces for the item and data props
 interface SessionItem {
@@ -75,7 +76,6 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
     });
     setGalleryImages(tempArr);
   };
-  console.log(galleryImages, "gallery");
 
   const extractGreenSlotTime = () => {
     if (data.timeSlots.length < 2) {
@@ -255,7 +255,10 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
   };
 
   return (
-    <View style={{ height: vh * 40, width: "100%", paddingHorizontal: "5%" }}>
+    <Animated.View
+      entering={FadeIn.duration(500)}
+      style={{ height: vh * 40, width: "100%", paddingHorizontal: "5%" }}
+    >
       <BerlingskeMedium style={styles.heading}>
         Book Your Slots
       </BerlingskeMedium>
@@ -276,7 +279,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
           return (
             <View style={{ alignSelf: "center", bottom: 40 }}>
               <Text style={{ color: "white" }}>
-                {imageIndex +1} / {galleryImages.length}
+                {imageIndex + 1} / {galleryImages.length}
               </Text>
             </View>
           );
@@ -346,7 +349,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
         <View style={{ height: 33, width: "100%", flexDirection: "row" }}>
           <View
             style={{
-              flex: 1,
+              width: "27%",
               flexDirection: "row",
               backgroundColor: "#E0E0E0",
               alignItems: "center",
@@ -447,7 +450,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
               overflow: "hidden",
             }}
           >
-            <View style={{ flex: 1 }}>
+            <View style={{ width: "27%" }}>
               {data.timeSlots.map((timeSlot, index) => (
                 <View key={index} style={styles.time}>
                   {isAvailableTimeSlot(timeSlot, data.timeSlots) && (
@@ -501,7 +504,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
           </View>
         </ScrollView>
       </View>
-    </View>
+    </Animated.View>
   );
 };
 

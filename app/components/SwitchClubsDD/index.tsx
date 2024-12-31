@@ -8,7 +8,7 @@ const SwitchClubsDD = ({ clubs, handleClubPress }) => {
   const [isVisible, setVisible] = useState(false);
 
   return (
-    <View style={{ marginBottom: 20 }}>
+    <View style={{ marginVertical: 15 }}>
       <TouchableOpacity
         onPress={() => setVisible(!isVisible)}
         style={styles.container}

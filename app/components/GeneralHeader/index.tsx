@@ -44,11 +44,19 @@ const GeneralHeader = ({ title, back, sport, color }: headerProps) => {
   return (
     <View style={[styles.container, color ? { backgroundColor: color } : null]}>
       {back ? (
-        <TouchableOpacity style={{ width: 60 }} onPress={() => router.back()}>
+        <TouchableOpacity
+          style={{ alignItems: "flex-start", width: "25%" }}
+          onPress={() => router.back()}
+        >
           <Image source={icons.back} style={styles.backIcon} />
         </TouchableOpacity>
       ) : (
-        <View style={{ alignItems: "center", width: 60 }}>
+        <View
+          style={{
+            alignItems: "flex-start",
+            width: "25%",
+          }}
+        >
           {sport?.icon ? (
             <Image
               source={sport?.icon}
@@ -56,7 +64,12 @@ const GeneralHeader = ({ title, back, sport, color }: headerProps) => {
             />
           ) : null}
           {sport?.icon ? (
-            <Text style={[styles.selectedSport, { color: colors.secondary }]}>
+            <Text
+              style={[
+                styles.selectedSport,
+                { color: colors.secondary, fontSize: vh * 1.5 },
+              ]}
+            >
               {sport?.name || "Tennis"}
             </Text>
           ) : null}
@@ -67,10 +80,11 @@ const GeneralHeader = ({ title, back, sport, color }: headerProps) => {
         <Pressable
           onPress={handlePress}
           style={{
-            width: 60,
+            width: "25%",
             height: 50,
             alignItems: "center",
             flexDirection: "row",
+            justifyContent: "flex-end",
           }}
         >
           {/* <View style={{ backgroundColor: "red", marginRight: 10 }}>
@@ -80,20 +94,20 @@ const GeneralHeader = ({ title, back, sport, color }: headerProps) => {
           <Image
             source={icons.euro}
             style={{
-              width: 12,
-              height: 12,
+              width: vh * 1.5,
+              height: vh * 1.5,
               resizeMode: "contain",
               marginRight: 5,
               tintColor: "white",
             }}
           />
-          <ArchivoRegular style={{ color: "white", fontSize: 10 }}>
+          <ArchivoRegular style={{ color: "white", fontSize: vh * 1.5 }}>
             {balance}
           </ArchivoRegular>
           <Image
             source={icons.dropdown}
             style={{
-              height: 12,
+              height: vh * 1.5,
               width: 12,
               resizeMode: "contain",
               tintColor: "white",
@@ -127,13 +141,14 @@ const MyStyles = () => {
       paddingTop: Platform.OS == "ios" ? 25 : 10,
     },
     logo: {
-      height: 30,
-      width: 30,
+      height: vh * 4,
+      width: vh * 4,
       resizeMode: "contain",
       tintColor: themeColors.white,
     },
     selectedSport: {
       color: "white",
+      fontSize: vh * 2.5,
     },
     backIcon: {
       height: 22,

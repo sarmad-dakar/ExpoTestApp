@@ -20,6 +20,15 @@ import { RootState } from "../store";
 import { useSelector } from "react-redux";
 import BerlingskeMedium from "../components/TextWrapper/BerlingskeMedium";
 import ArchivoMedium from "../components/TextWrapper/ArchivoMedium";
+import Animated, {
+  BounceInDown,
+  BounceInUp,
+  FadeIn,
+  FadeOut,
+  SlideInDown,
+  SlideInLeft,
+  SlideInUp,
+} from "react-native-reanimated";
 
 const MyTabBar = ({ state, descriptors, navigation }) => {
   const store = useSelector((state: RootState) => state.general.clubConfig);
@@ -73,20 +82,24 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
             style={styles.tab}
           >
             <Image
-              style={[
-                styles.icon,
-                { tintColor: isFocused ? themeColors.primary : "black" },
-              ]}
+              style={[styles.icon, { tintColor: "black" }]}
               source={options.tabBarIcon}
             />
             <Text
               style={{
-                color: isFocused ? themeColors.primary : "black",
+                color: "black",
                 fontSize: vh * 1.2,
               }}
             >
               {label}
             </Text>
+            {isFocused ? (
+              <Animated.View
+                entering={FadeIn.duration(200)}
+                exiting={FadeOut.duration(100)}
+                style={styles.selectedBar}
+              ></Animated.View>
+            ) : null}
           </TouchableOpacity>
         );
       })}
@@ -113,14 +126,17 @@ export default function TabLayout() {
     <View style={{ flex: 1 }}>
       <Tabs
         tabBar={(props) => <MyTabBar {...props} />}
-        screenOptions={{
+        screenOptions={({ route }) => ({
           tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
           headerShown: false,
-          tabBarStyle: {
-            backgroundColor: "white",
-            height: 60,
-          },
-        }}
+          tabBarStyle: [
+            {
+              backgroundColor: "white",
+              height: 60,
+            },
+            route.name === "navigationstack" && { display: "none" }, // Hide tab bar for navigationstack
+          ],
+        })}
       >
         <Tabs.Screen
           name="homestack"
@@ -142,7 +158,7 @@ export default function TabLayout() {
           options={{ title: "Menu", tabBarIcon: icons.hamburger }}
         />
       </Tabs>
-      {!true ? (
+      {!isInternetConnected ? (
         <View style={styles.netModal}>
           <Image source={icons.wifi} style={styles.wifiIcon} />
           <BerlingskeMedium style={styles.connectionError}>
@@ -162,8 +178,8 @@ const styles = StyleSheet.create({
     height: vh * 8,
     backgroundColor: "white",
     flexDirection: "row",
-    justifyContent: "space-around",
-    width: "100%",
+    justifyContent: "space-between",
+    width: vw * 100,
     alignSelf: "center",
 
     // paddingHorizontal: 10,
@@ -173,6 +189,7 @@ const styles = StyleSheet.create({
     // marginHorizontal: Platform.OS == "android" ? 10 : 18,
     justifyContent: "center",
     alignItems: "center",
+    width: "22%",
   },
   icon: {
     width: vh * 2.2,
@@ -183,7 +200,7 @@ const styles = StyleSheet.create({
   centralBar: {
     position: "absolute",
     height: "100%",
-    width: "85%",
+    width: "100%",
     alignSelf: "center",
   },
   circle: {
@@ -227,5 +244,14 @@ const styles = StyleSheet.create({
   connectionError: {
     color: themeColors.red,
     fontSize: vh * 3,
+  },
+  selectedBar: {
+    width: "50%",
+    height: vh * 0.5,
+    borderRadius: 10,
+    backgroundColor: "#0003",
+    position: "absolute",
+    bottom: vh * 1,
+    // alignSelf: "center",
   },
 });

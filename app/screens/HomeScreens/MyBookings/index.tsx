@@ -286,26 +286,6 @@ const MyBookingsScreen: React.FC = () => {
               );
             }}
           />
-
-          {/* {allSports.map((tab, index) => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => setSelectedTab(tab)}
-              style={styles.tabButton}
-            >
-              <ArchivoLight
-                style={[
-                  styles.tabText,
-                  selectedTab.name === tab.name && styles.activeTabText,
-                ]}
-              >
-                {tab.name}
-              </ArchivoLight>
-              {selectedTab.name === tab.name && (
-                <View style={styles.activeTabIndicator} />
-              )}
-            </TouchableOpacity>
-          ))} */}
         </View>
         {/* <View style={styles.tabContainer}>
           {allSports.map((item) => (

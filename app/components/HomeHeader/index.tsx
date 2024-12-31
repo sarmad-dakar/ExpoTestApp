@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Platform,
   Pressable,
+  ScrollView,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { themeColors } from "@/app/utils/theme";
@@ -95,7 +96,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
   const styles = MyStyles();
   const dropdown = useRef<SelectDropdownRef>(null);
   const { colors } = useTheme();
-
+  console.log(OtherSports, "other sports");
   useEffect(() => {
     if (allSports?.length) {
       SetOtherSports(allSports.slice(1));
@@ -150,7 +151,9 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
             </Text>
           )}
         </View>
-        <BerlingskeMedium style={[styles.selectedSport, { fontSize: 19 }]}>
+        <BerlingskeMedium
+          style={[styles.selectedSport, { fontSize: vh * 2.5 }]}
+        >
           {selectedSport?.sportServiceSetting?.title} Bookings
         </BerlingskeMedium>
         {/* <TouchableOpacity
@@ -162,7 +165,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
         <Pressable
           onPress={handlePress}
           style={{
-            width: 60,
+            // width: 60,
             height: 50,
             alignItems: "center",
             flexDirection: "row",
@@ -175,21 +178,21 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
           <Image
             source={icons.euro}
             style={{
-              width: 12,
-              height: 12,
+              width: vh * 1.5,
+              height: vh * 1.5,
               resizeMode: "contain",
               marginRight: 5,
               tintColor: "white",
             }}
           />
-          <ArchivoRegular style={{ color: "white", fontSize: 10 }}>
+          <ArchivoRegular style={{ color: "white", fontSize: vh * 1.5 }}>
             {balance}
           </ArchivoRegular>
           <Image
             source={icons.dropdown}
             style={{
-              height: 12,
-              width: 12,
+              width: vh * 1.5,
+              height: vh * 1.5,
               resizeMode: "contain",
               tintColor: "white",
               marginLeft: 4,
@@ -201,32 +204,37 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
       <View
         style={[
           styles.bottomHeaderContainer,
-          { maxHeight: OtherSports.length * 65 },
+          // { maxHeight: OtherSports.length * 22 },
         ]}
       >
         <View style={styles.sideBar}>
-          {OtherSports.map((item) => {
-            return (
-              <TouchableOpacity
-                onPress={() => {
-                  handleSelectedSport(item);
-                }}
-                style={styles.sidebarTabs}
-              >
-                <Image
-                  source={
-                    sportsIcon[
-                      `${item?.sportServiceSetting?.title?.toLowerCase()}`
-                    ]
-                  }
-                  style={styles.logo}
-                />
-                <Text style={styles.selectedSport}>
-                  {item?.sportServiceSetting?.title}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
+          <ScrollView>
+            {[...OtherSports].map((item, index) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    handleSelectedSport(item);
+                  }}
+                  style={[
+                    styles.sidebarTabs,
+                    index == 0 ? { marginTop: vh * 0 } : null,
+                  ]}
+                >
+                  <Image
+                    source={
+                      sportsIcon[
+                        `${item?.sportServiceSetting?.title?.toLowerCase()}`
+                      ]
+                    }
+                    style={styles.logo}
+                  />
+                  <Text style={styles.selectedSport}>
+                    {item?.sportServiceSetting?.title}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
         </View>
         <View style={styles.slotWrapper}>
           <View style={styles.slotContainer}>
@@ -321,14 +329,14 @@ const MyStyles = () => {
       paddingTop: Platform.OS == "ios" ? 25 : 10,
     },
     logo: {
-      height: 30,
-      width: 30,
+      height: vh * 4,
+      width: vh * 4,
       resizeMode: "contain",
       tintColor: themeColors.white,
     },
     selectedSport: {
       color: "white",
-      fontSize: 13,
+      fontSize: vh * 1.5,
       fontWeight: "300",
     },
     bottomHeaderContainer: {
@@ -344,7 +352,7 @@ const MyStyles = () => {
       paddingLeft: 18,
       justifyContent: "space-between",
       paddingBottom: 20,
-      minHeight: vh * 22,
+      height: vh * 26,
       // alignItems: "center",
     },
     slotWrapper: {
@@ -364,6 +372,7 @@ const MyStyles = () => {
       justifyContent: "center",
       alignItems: "center",
       width: 55,
+      marginTop: vh * 2,
     },
     slotTitle: {
       fontSize: 24,
