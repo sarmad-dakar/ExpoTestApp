@@ -95,14 +95,16 @@ const NavigationHeader = ({ title, back, sport, color }: headerProps) => {
         )}
       </View>
       <View style={styles.profileContainer}>
-        <View style={styles.pictureContainer}>
+        <Pressable 
+        onPress={() => router.navigate("/navigationstack/myprofile")}
+        style={styles.pictureContainer}>
           <View style={styles.circle}>
             <Image
               source={{ uri: profile?.profilePic }}
               style={styles.profile}
             />
           </View>
-        </View>
+        </Pressable>
         <View style={styles.detailContainer}>
           <View style={styles.nameContainer}>
             <View>
