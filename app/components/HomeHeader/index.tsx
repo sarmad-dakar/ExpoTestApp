@@ -342,7 +342,7 @@ const MyStyles = () => {
     },
     bottomHeaderContainer: {
       flexDirection: "row",
-      minHeight: vh * 23,
+      height: vh * 25,
       backgroundColor: "white",
       width: "100%",
     },
@@ -353,12 +353,13 @@ const MyStyles = () => {
       paddingLeft: 18,
       justifyContent: "space-between",
       paddingBottom: 20,
-      height: vh * 24,
+      height: vh * 25,
       // alignItems: "center",
     },
     slotWrapper: {
       backgroundColor: colors.primary,
       height: vh * 25,
+
       width: "70%",
     },
     slotContainer: {
