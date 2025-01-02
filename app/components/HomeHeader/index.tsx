@@ -272,7 +272,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
 
                 <Image source={icons.dropdown} style={styles.inputIcon} />
               </View>
-wn             ) : null}
+            ) : null}
 
             {showDatePicker && Platform.OS == "android" && (
               <DateTimePicker
