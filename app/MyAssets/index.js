@@ -82,6 +82,6 @@ export const images = {
   tennis_OB: require("../MyAssets/images/tennis_OB.png"),
   squash_OB: require("../MyAssets/images/squash_OB.png"),
   padel_OB: require("../MyAssets/images/Padel_OB.png"),
-  dakarFooterLogo: require("../MyAssets/images/dakarFooterLogo.png"),
+  dakarFooterLogo: require("../MyAssets/images/dakarFooterLogo.jpg"),
   backgroundDummy: require("../MyAssets/images/backgroundDummy.png"),
 };
