@@ -71,7 +71,7 @@ const LoginScreen = () => {
     }
     if (membershipNumber && password) {
       let data = {
-        LoginName: membershipNumber,
+        LoginName: membershipNumber.trim(),
         UserPassword: password,
       };
 
