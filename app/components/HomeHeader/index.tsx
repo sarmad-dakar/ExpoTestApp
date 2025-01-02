@@ -269,9 +269,10 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
                     />
                   </View>
                 </View>
+
                 <Image source={icons.dropdown} style={styles.inputIcon} />
               </View>
-            ) : null}
+wn             ) : null}
 
             {showDatePicker && Platform.OS == "android" && (
               <DateTimePicker
@@ -341,7 +342,7 @@ const MyStyles = () => {
     },
     bottomHeaderContainer: {
       flexDirection: "row",
-      minHeight: vh * 22,
+      minHeight: vh * 23,
       backgroundColor: "white",
       width: "100%",
     },
