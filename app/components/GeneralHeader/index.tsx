@@ -29,10 +29,10 @@ type headerProps = {
     icon: ImageProps;
   };
   color?: string;
-  disable?: boolean
+  disable?: boolean;
 };
 
-const GeneralHeader = ({ title, back, sport, color , disable }: headerProps) => {
+const GeneralHeader = ({ title, back, sport, color, disable }: headerProps) => {
   const balance = useSelector((state: any) => state.account.balance);
   const topupConfirmationRef = useRef<ConfirmationPopupRef>(null);
   const styles = MyStyles();
@@ -42,15 +42,15 @@ const GeneralHeader = ({ title, back, sport, color , disable }: headerProps) => 
     topupConfirmationRef.current?.show();
   };
 
-  const showBalance = ()=> { 
-    if (disable){
-      return false 
+  const showBalance = () => {
+    if (disable) {
+      return false;
     }
-    if (balance){  
-      return true 
+    if (balance) {
+      return true;
     }
-    return false 
-  }
+    return false;
+  };
 
   return (
     <View style={[styles.container, color ? { backgroundColor: color } : null]}>
@@ -113,7 +113,7 @@ const GeneralHeader = ({ title, back, sport, color , disable }: headerProps) => 
             }}
           />
           <ArchivoRegular style={{ color: "white", fontSize: vh * 1.5 }}>
-            {balance}
+            {balance?.toFixed(2)}
           </ArchivoRegular>
           <Image
             source={icons.dropdown}
