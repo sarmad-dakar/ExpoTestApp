@@ -367,8 +367,8 @@ const MyStyles = () => {
       width: "100%",
       backgroundColor: "white",
       borderTopLeftRadius: 30,
-      paddingLeft: 30,
-      paddingTop: 30,
+      paddingLeft: "8%",
+      paddingTop: "8%",
     },
     sidebarTabs: {
       justifyContent: "center",
