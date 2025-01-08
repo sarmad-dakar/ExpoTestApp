@@ -7,7 +7,7 @@ import { themeColors } from "@/app/utils/theme";
 
 const BerlingskeMedium = (props) => {
   const [fontsLoaded] = useFonts({
-    "BerlingskeSerifCn-Md": require("../../../assets/fonts/BerlingskeSerifCn-Md.ttf"),
+    "FiraSans-Medium": require("../../../assets/fonts/FiraSans-Medium.ttf"),
   });
   return (
     <TextWrapper {...props} style={[styles.font, props?.style]}>
@@ -20,7 +20,7 @@ export default BerlingskeMedium;
 
 const styles = StyleSheet.create({
   font: {
-    fontFamily: "BerlingskeSerifCn-Md",
+    fontFamily: "FiraSans-Medium",
     color: themeColors.headingColor,
     // letterSpacing: -0.2,
     fontSize: vh * 2.4,

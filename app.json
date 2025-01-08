@@ -46,7 +46,12 @@
           "Archivo-ExtraLight" : "./assets/fonts/Archivo-ExtraLight.ttf",
           "Archivo-Light" : "./assets/fonts/Archivo-Light.ttf",
           "Archivo-Medium" : "./assets/fonts/Archivo-Medium.ttf", 
-          "Archivo-Regular" : "./assets/fonts/Archivo-Regular.ttf"
+          "Archivo-Regular" : "./assets/fonts/Archivo-Regular.ttf",
+          "FiraSans-Bold" :  "./assets/fonts/Archivo-Regular.ttf" , 
+          "FiraSans-ExtraLight" : "./assets/fonts/Archivo-Regular.ttf" , 
+          "FiraSans-Light" : "./assets/fonts/Archivo-Regular.ttf" , 
+          "FiraSans-Medium" :"./assets/fonts/Archivo-Regular.ttf" , 
+          "FiraSans-Regular"  : "./assets/fonts/Archivo-Regular.ttf" 
         }
       ]
     ],

@@ -88,11 +88,12 @@ const PaymentWebviewPopup = forwardRef<
   };
 
   const getLinkForAndroid = (url: string) => {
-    const fileExtensions = [".pdf", ".doc", ".docx"];
+    const fileExtensions = [".pdf", ".doc", ".docx", ".PDF"];
     let result = fileExtensions.some((extension) =>
       url.toLowerCase().includes(extension)
     );
     if (result) {
+      console.log(result, "result for pdf");
       return `https://docs.google.com/gview?embedded=true&url=${url}`;
     } else {
       return url;

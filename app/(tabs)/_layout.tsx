@@ -85,21 +85,29 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
               style={[styles.icon, { tintColor: "black" }]}
               source={options.tabBarIcon}
             />
-            <Text
-              style={{
-                color: "black",
-                fontSize: vh * 1.2,
-              }}
+            <View
+              style={[
+                styles.selectedBar,
+                isFocused && { backgroundColor: "#E0E0E0" },
+              ]}
             >
-              {label}
-            </Text>
-            {isFocused ? (
+              <Text
+                style={{
+                  color: "black",
+                  fontSize: vh * 1.2,
+                  fontWeight: isFocused ? "bold" : "400",
+                }}
+              >
+                {label}
+              </Text>
+            </View>
+            {/* {isFocused ? (
               <Animated.View
                 entering={FadeIn.duration(200)}
                 exiting={FadeOut.duration(100)}
                 style={styles.selectedBar}
               ></Animated.View>
-            ) : null}
+            ) : null} */}
           </TouchableOpacity>
         );
       })}
@@ -246,12 +254,10 @@ const styles = StyleSheet.create({
     fontSize: vh * 3,
   },
   selectedBar: {
-    width: "50%",
-    height: vh * 0.5,
-    borderRadius: 10,
-    backgroundColor: "#0003",
-    position: "absolute",
-    bottom: vh * 1,
+    paddingHorizontal: vw * 2,
+    paddingVertical: 2,
+    backgroundColor: "white",
+    borderRadius: 5,
     // alignSelf: "center",
   },
 });

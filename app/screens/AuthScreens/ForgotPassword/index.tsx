@@ -100,7 +100,9 @@ const ForgotPasswordScreen = () => {
         <ArchivoLight style={styles.termsHeading}>
           Terms & Conditions | Privacy Policy
         </ArchivoLight>
-        <PoweredBy />
+        <View style={styles.poweredBy}>
+          <PoweredBy />
+        </View>
       </View>
     </ScreenWrapper>
   );
@@ -148,6 +150,12 @@ const styles = StyleSheet.create({
     color: "black",
     marginTop: vh * 2,
     fontSize: 14,
+    alignSelf: "center",
+  },
+  poweredBy: {
+    // position: "absolute",
+    position: "absolute",
+    bottom: vh * 1.5,
     alignSelf: "center",
   },
 });

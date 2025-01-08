@@ -38,6 +38,7 @@ import {
   removeLoginDetails,
   saveLoginDetails,
 } from "@/app/store/slices/userSlice";
+import LoaderComponent from "@/app/components/Loader";
 
 const index = () => {
   const [clubs, setClubs] = useState([]);
@@ -46,7 +47,7 @@ const index = () => {
   const multipleUsers = useSelector(
     (state: RootState) => state.user.multipleUsers
   );
-
+  const [localLoader, setLocalLoader] = useState(false);
   const [galleryImages, setGalleryImages] = useState([]);
   const [showGalleryViewer, setGalleryViewer] = useState(false);
   const imageGalleryRef = useRef();
@@ -75,7 +76,7 @@ const index = () => {
         `${currentUrl}/api/v1/SportServices/sport/club/services`
       );
       const clubDetails = response.data;
-
+      console.log(clubDetails, "clubDetails");
       // Update the `clubs` state with new details
       setClubs((prevClubs) => {
         const updatedClubs = [...prevClubs];
@@ -93,22 +94,26 @@ const index = () => {
   };
 
   const handleClubPress = (item) => {
-    let isExist = multipleUsers?.find(
-      (element) => element.club?.title == item.title
-    );
-    if (isExist) {
-      dispatch(saveLoginDetails(isExist?.user));
-    } else {
-      dispatch(removeLoginDetails());
+    try {
+      setLocalLoader(true);
+      let isExist = multipleUsers?.find(
+        (element) => element.club?.title == item.title
+      );
+      if (isExist) {
+        dispatch(saveLoginDetails(isExist?.user));
+      } else {
+        dispatch(removeLoginDetails());
+      }
+      setBaseURL(`${item.apiURL}`);
+      dispatch(toggleBtnLoader(true));
+
+      dispatch(setClubConfig(item));
+      setTimeout(() => {
+        setLocalLoader(false);
+      }, 2000);
+    } catch (error) {
+      setLocalLoader(false);
     }
-    setBaseURL(`${item.apiURL}`);
-    dispatch(toggleBtnLoader(true));
-
-    dispatch(setClubConfig(item));
-
-    // setTimeout(() => {
-    //   router.push("/login");
-    // }, 500);
   };
 
   const sortGallery = (data) => {
@@ -143,7 +148,7 @@ const index = () => {
           }
         }}
         style={{
-          height: "55%",
+          height: "60%",
           position: "absolute",
           width: "100%",
           zIndex: 100,
@@ -166,6 +171,17 @@ const index = () => {
             source={{ uri: item?.clubImage }}
           >
             <View style={styles.bottomBlurCard}>
+              <View style={styles.circle}>
+                <Image
+                  source={images.jugaar}
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                    resizeMode: "contain",
+                  }}
+                />
+              </View>
+
               <LinearGradient
                 style={{
                   flex: 1,
@@ -173,18 +189,22 @@ const index = () => {
                   justifyContent: "space-between",
                   alignItems: "center",
                   paddingHorizontal: "5%",
+                  zIndex: 10,
                 }}
-                colors={["#0000003b", "#000000e6", "black"]}
+                colors={["#5A564E", "#5A564E", "#2F2F2D"]}
+                start={{ x: 1, y: 0 }}
+                end={{ x: 1, y: 1 }}
               >
                 <View style={styles.col1}>
                   <BerlingskeBold style={styles.cardTitle}>
                     {item?.title}
                   </BerlingskeBold>
-                  {item?.description ? (
+                  {item?.shortDescription ? (
                     <ArchivoMedium style={styles.description} numberOfLines={1}>
-                      {item?.description}
+                      {item?.shortDescription}
                     </ArchivoMedium>
                   ) : null}
+
                   <View
                     style={{
                       height: vh * 5,
@@ -237,7 +257,7 @@ const index = () => {
                     onPress={() => handleClubPress(item)}
                     style={styles.loginBtn}
                   >
-                    <Image source={icons.nextArrow} style={[styles.btnIcon]} />
+                    <Image source={icons.enterLogin} style={[styles.btnIcon]} />
                   </Pressable>
                 </View>
               </LinearGradient>
@@ -343,10 +363,14 @@ const index = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <GeneralHeader
-      disable={true }
-      title="Sports Clubs" color={"#2A2F28"} />
+    <ImageBackground
+      source={images.linesBackground}
+      imageStyle={{ width: "100%", height: "100%", resizeMode: "cover" }}
+      style={styles.container}
+    >
+      {localLoader ? <LoaderComponent /> : null}
+
+      <GeneralHeader disable={true} title="Sports Clubs" color={"#2A2F28"} />
       <ImageGalleryViewerPopup reference={imageGalleryRef} />
       <ImageView
         images={galleryImages}
@@ -364,7 +388,7 @@ const index = () => {
           );
         }}
       />
-      <View style={{ flex: 0.9, paddingHorizontal: 5 }}>
+      <View style={{ flex: 0.95, paddingHorizontal: "5%" }}>
         <FlatList
           data={clubs}
           renderItem={renderClub}
@@ -389,8 +413,10 @@ const index = () => {
           }}
         />
       </View>
-      <PoweredBy />
-    </View>
+      <View style={styles.poweredBy}>
+        <PoweredBy />
+      </View>
+    </ImageBackground>
   );
 };
 
@@ -421,7 +447,7 @@ const styles = StyleSheet.create({
   },
   clubCard: {
     // width: vw * 42,
-    height: vh * 30,
+    height: vh * 35,
     marginBottom: 20,
     backgroundColor: themeColors.lightGray,
     borderRadius: vh * 2.5,
@@ -458,7 +484,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   bottomBlurCard: {
-    height: "45%",
+    height: "40%",
     width: "100%",
     backgroundColor: "#0000008c",
     alignSelf: "flex-end",
@@ -475,8 +501,8 @@ const styles = StyleSheet.create({
     fontSize: vh * 1.5,
   },
   sportIcon: {
-    height: vh * 4.2,
-    width: vh * 4.2,
+    height: vh * 4.5,
+    width: vh * 4.5,
     borderRadius: 100,
     backgroundColor: "#CCFF05",
     marginRight: 10,
@@ -492,8 +518,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   btnIcon: {
-    height: "40%",
-    width: "40%",
+    height: "55%",
+    width: "55%",
     resizeMode: "contain",
+  },
+  circle: {
+    height: 140,
+    width: "100%",
+    // backgroundColor: "#5A564E",
+    position: "absolute",
+    top: -vh * 2,
+    zIndex: -1,
+    alignSelf: "center",
+    // borderRadius: vh * 100,
+  },
+  poweredBy: {
+    position: "absolute",
+    bottom: vh * 1.5,
+    alignSelf: "center",
   },
 });

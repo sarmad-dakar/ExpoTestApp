@@ -250,6 +250,7 @@ const LandingScreen = () => {
             onBookingPress={onBookingPress}
             data={calendarData}
             date={selectedDate}
+            selectedSport={SelectedSport?.sportServiceSetting?.title}
           />
         ) : null}
       </ScreenWrapper>

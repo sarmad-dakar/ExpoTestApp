@@ -6,7 +6,7 @@ import { useFonts } from "expo-font";
 
 const ArchivoRegular = (props) => {
   const [fontsLoaded] = useFonts({
-    "Archivo-Regular": require("../../../assets/fonts/Archivo-Regular.ttf"),
+    "FiraSans-Regular": require("../../../assets/fonts/FiraSans-Regular.ttf"),
   });
   return (
     <TextWrapper {...props} style={[styles.font, props?.style]}>
@@ -19,7 +19,7 @@ export default ArchivoRegular;
 
 const styles = StyleSheet.create({
   font: {
-    fontFamily: "Archivo-Regular",
+    fontFamily: "FiraSans-Regular",
     color: themeColors.headingColor,
     fontSize: 20,
   },

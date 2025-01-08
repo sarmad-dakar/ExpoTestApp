@@ -6,7 +6,7 @@ import { useFonts } from "expo-font";
 
 const ArchivoMedium = (props) => {
   const [fontsLoaded] = useFonts({
-    "Archivo-Medium": require("../../../assets/fonts/Archivo-Medium.ttf"),
+    "FiraSans-Medium": require("../../../assets/fonts/FiraSans-Medium.ttf"),
   });
   return (
     <TextWrapper {...props} style={[styles.font, props?.style]}>
@@ -19,7 +19,7 @@ export default ArchivoMedium;
 
 const styles = StyleSheet.create({
   font: {
-    fontFamily: "Archivo-Medium",
+    fontFamily: "FiraSans-Medium",
     color: themeColors.headingColor,
     fontSize: 20,
   },

@@ -3,7 +3,7 @@ import { store } from "../store";
 import { logout } from "../store/slices/userSlice";
 import { toggleGeneralLoader } from "../store/slices/generalSlice";
 
-const version = "v1/";
+export const version = "v1/";
 export const liveUrl = "https://api.mscbookings.com/";
 export const generalApi = "https://unionclubapi.dakarhr.com/";
 export const testUrl = "https://mscapi.dakarhr.com/";
