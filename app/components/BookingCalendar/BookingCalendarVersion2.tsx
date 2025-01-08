@@ -18,6 +18,7 @@ import ImageView from "react-native-image-viewing";
 import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
 import { useTheme } from "@react-navigation/native";
 import Animated, { FadeIn } from "react-native-reanimated";
+import ImageGalleryViewerPopup from "../ImageGalleryViewer";
 
 // Define interfaces for the item and data props
 interface SessionItem {
@@ -43,12 +44,14 @@ interface BookingCalendarProps {
   data: BookingData;
   date: string | Date;
   onBookingPress: (session: any, item: any) => void;
+  selectedSport: String;
 }
 
 const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
   data,
   date,
   onBookingPress,
+  selectedSport,
 }) => {
   const [currentCourts, setCurrentCourts] = useState<CourtSession[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0); // Tracks the current index for the courts
@@ -60,11 +63,11 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
   const [next, setNext] = useState(false);
   const [previous, setPrevious] = useState(false);
 
+  const imageGalleryRef = useRef();
   const { colors } = useTheme();
   const COURTS_PER_PAGE = 3; // You display 3 courts at a time
   const styles = MyStyles();
   const testRef = useRef();
-
   useEffect(() => {
     if (next) {
       handleNext();
@@ -115,7 +118,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
     let tempArr = [];
     data.bookingSessions.map((item) => {
       item.resources.map((element) => {
-        tempArr.push({ uri: element });
+        tempArr.push(element);
       });
     });
     setGalleryImages(tempArr);
@@ -295,7 +298,8 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
   };
 
   const handleGalleryPress = () => {
-    setGalleryViewer(true);
+    imageGalleryRef.current.show(galleryImages, `${selectedSport}`);
+    // setGalleryViewer(true);
   };
 
   return (
@@ -312,6 +316,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
         visible={showImageViewer}
         onRequestClose={() => setShowImageViewer(false)}
       />
+      <ImageGalleryViewerPopup reference={imageGalleryRef} />
 
       <ImageView
         images={galleryImages}
@@ -336,29 +341,27 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
       >
         <View style={{ backgroundColor: "#E0E0E0", padding: 10 }}>
           <View style={{ height: 33, width: "100%", flexDirection: "row" }}>
-            <View
+            <TouchableOpacity
+              onPress={handleGalleryPress}
               style={{
                 width: "27%",
                 flexDirection: "row",
-                backgroundColor: "#E0E0E0",
                 alignItems: "center",
                 justifyContent: "center",
               }}
             >
-              <TouchableOpacity onPress={handleGalleryPress}>
-                <Image
-                  source={icons.gallery}
-                  style={{
-                    width: 20,
-                    height: 20,
-                    resizeMode: "contain",
-                    marginRight: 5,
-                    tintColor: colors.primary,
-                  }}
-                />
-              </TouchableOpacity>
+              <Image
+                source={icons.gallery}
+                style={{
+                  width: 20,
+                  height: 20,
+                  resizeMode: "contain",
+                  marginRight: 5,
+                  tintColor: colors.primary,
+                }}
+              />
               {/* <Text style={{ fontSize: 12 }}>Gallery</Text> */}
-            </View>
+            </TouchableOpacity>
             {currentCourts.map((item, index) => (
               <Pressable
                 key={item.title}
@@ -375,10 +378,12 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
                 {index == 0 ? (
                   <TouchableOpacity
                     onPress={handlePrevious}
+                    disabled={currentIndex == 0 ? true : false}
                     style={{
                       position: "absolute",
                       left: 0,
-                      backgroundColor: colors.primary,
+                      backgroundColor:
+                        currentIndex == 0 ? "gray" : colors.primary,
                       height: "100%",
                       width: "15%",
                       justifyContent: "center",
@@ -399,12 +404,21 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
                 {index == currentCourts.length - 1 ? (
                   <TouchableOpacity
                     onPress={handleNext}
-                    ref={testRef}
+                    disabled={
+                      currentIndex + COURTS_PER_PAGE >=
+                      data.bookingSessions.length
+                        ? true
+                        : false
+                    }
                     style={{
                       position: "absolute",
                       right: 0,
                       alignItems: "center",
-                      backgroundColor: colors.primary,
+                      backgroundColor:
+                        currentIndex + COURTS_PER_PAGE >=
+                        data.bookingSessions.length
+                          ? "gray"
+                          : colors.primary,
                       height: "100%",
                       width: "15%",
                       justifyContent: "center",
@@ -431,7 +445,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
             ))}
           </View>
 
-          <ScrollView>
+          <ScrollView contentContainerStyle={{ paddingBottom: 10 }}>
             <View
               style={{
                 flex: 1,
@@ -440,7 +454,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
                 overflow: "hidden",
               }}
             >
-              <View style={{ width: "27%" }}>
+              <View style={{ width: "27.3%" }}>
                 {data.timeSlots.map((timeSlot, index) => (
                   <View key={index} style={styles.time}>
                     {isAvailableTimeSlot(timeSlot, data.timeSlots) && (
@@ -517,7 +531,7 @@ const MyStyles = () => {
       //
     },
     heading: {
-      marginVertical: 15,
+      marginVertical: vh * 1,
     },
     time: {
       width: "100%",

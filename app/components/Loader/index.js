@@ -49,7 +49,7 @@ export default LoaderComponent;
 
 const styles = StyleSheet.create({
   container: {
-    height: vh * 100,
+    height: "100%",
     width: vw * 100,
     position: "absolute",
     zIndex: 100,

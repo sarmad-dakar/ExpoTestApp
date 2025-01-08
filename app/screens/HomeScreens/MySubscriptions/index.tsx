@@ -1,15 +1,45 @@
-import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Dimensions,
+  Image,
+  Linking,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import GeneralHeader from "@/app/components/GeneralHeader";
 import SearchField from "@/app/components/SearchField";
 import ScreenWrapper from "@/app/components/ScreenWrapper";
 import { themeColors } from "@/app/utils/theme";
-import { GetAccountData, GetSubscriptionData } from "@/app/api/Bookings";
+import {
+  GetAccountData,
+  GetSubscriptionData,
+  GetSubscriptionInvoice,
+} from "@/app/api/Bookings";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMySubscription } from "@/app/store/slices/accountSlice";
 import { vh } from "@/app/utils/units";
 import MainButton from "@/app/components/MainButton";
 import SubscriptionRecieptViewerPopup from "@/app/components/SubscriptionRecieptViewer";
+import ArchivoRegular from "@/app/components/TextWrapper/ArchivoRegular";
+import ArchivoMedium from "@/app/components/TextWrapper/ArchivoMedium";
+import ArchivoExtraLight from "@/app/components/TextWrapper/ArchivoExtraLight";
+import { icons } from "@/app/MyAssets";
+import Animated, {
+  SlideInLeft,
+  SlideInRight,
+  SlideInUp,
+  ZoomInRight,
+} from "react-native-reanimated";
+import PaymentWebviewPopup from "@/app/components/PaymentWebView";
+import { ConfirmationPopupRef } from "@/app/components/ConfirmationPopup";
+import axios from "axios";
+import { RootState } from "@/app/store";
+import { version } from "@/app/api";
+import { showErrorToast } from "@/app/utils/toastmsg";
 
 interface SubscriptionData {
   date: string;
@@ -28,10 +58,180 @@ const MySubscriptionScreen = () => {
   console.log(subscriptionData, "subscription Datt");
   const dispatch = useDispatch();
   const windowWidth = Dimensions.get("window").width;
-
+  const webviewRef = useRef<ConfirmationPopupRef>(null);
+  const storeConfig = useSelector(
+    (state: RootState) => state.general.clubConfig
+  );
+  console.log(storeConfig, "store config");
   useEffect(() => {
     dispatch(fetchMySubscription());
   }, []);
+
+  const fetchInvoice = async (invoice) => {
+    try {
+      const pdfurl =
+        // "https://api.mscbookings.com/api/v1/Subscription/invoice/download/5064M_91716.PDF";
+        storeConfig?.apiURL +
+        "api/" +
+        version +
+        "Subscription/invoice/download/" +
+        invoice;
+
+      // const testApi = await axios.get(
+      //   "https://api.mscbookings.com/api/v1/Subscription/invoice/download/5064M_91716.PDF",
+      //   {
+      //     headers: {
+      //       Authorization:
+      //         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiNTA2NE0iLCJuYW1laGFzaCI6Im1HbmV6bHlRRVJZPSIsImVtcGxveWVlc2VjcmV0IjoiNjZDNDEzN0JGOTI1NEE2OUY3NDc0QTdEQUU2M0NDNEIxMzEwNTJCRjk2NDkyMjNEMkFBQkJGQkIwNzM4NThFMi01MDY0TSIsInVzZXJlbSI6Im5hIiwiZXhwIjoxNzM2MzQ4MDQzLCJpc3MiOiJEYWthclN5c3RlbVNlY3VyaXR5IiwiYXVkIjoiRGFrYXJTeXN0ZW1TZWN1cml0eSJ9._L4jPRskg1sD9Qtw0TwfxSSUvwSFrhkCvkSDaROE-PQ",
+      //     },
+      //   }
+      // );
+
+      // const blob = await testApi.data;
+
+      // const reader = new FileReader();
+
+      // reader.onload = () => {
+      //   const base64Data = reader.result.split(",")[1]; // Extract base64 part
+      //   webviewRef?.current?.show(`data:application/pdf;base64,${base64Data}`);
+      // };
+      // reader.readAsDataURL(new Blob([blob], { type: "application/pdf" }));
+
+      // webviewRef?.current?.show(url);
+
+      const response = await GetSubscriptionInvoice(invoice);
+      // webviewRef?.current?.show(pdfurl);
+
+      if (response.status == 200) {
+        // webviewRef?.current?.show(pdfurl);
+      }
+    } catch (error) {
+      showErrorToast("No Record Found");
+      console.log(error, "error");
+    }
+  };
+
+  const AccountCard = ({ item, index }) => {
+    const [enablePopup, setEnablePopup] = useState(false);
+    const [ViewMore, setViewMore] = useState(false);
+    return (
+      <Pressable
+        onPress={() => setEnablePopup(false)}
+        style={styles.accountCard}
+      >
+        {enablePopup && (
+          <Animated.View
+            entering={ZoomInRight.duration(300)}
+            style={styles.listView}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                setEnablePopup(false);
+                setViewMore(true);
+              }}
+              style={styles.listBtn}
+            >
+              <Text style={styles.listText}>View More</Text>
+            </TouchableOpacity>
+            {item.invoiceURL ? (
+              <TouchableOpacity
+                onPress={() => {
+                  setEnablePopup(false);
+                  fetchInvoice("5064M_91716.PDF");
+                }}
+                style={[
+                  styles.listBtn,
+                  { borderTopWidth: 1, borderColor: "#0001" },
+                ]}
+              >
+                <Text style={styles.listText}>View Invoice</Text>
+              </TouchableOpacity>
+            ) : null}
+          </Animated.View>
+        )}
+        <View
+          style={[styles.rowDirection, { justifyContent: "space-between" }]}
+        >
+          <ArchivoRegular style={styles.bold}>
+            <ArchivoMedium style={styles.bold}>Invoice# :</ArchivoMedium>
+            {item?.invoiceNo}
+          </ArchivoRegular>
+
+          <TouchableOpacity
+            onPress={() => setEnablePopup(!enablePopup)}
+            style={styles.iconContainer}
+          >
+            <Image style={styles.more} source={icons.more} />
+          </TouchableOpacity>
+        </View>
+
+        <View
+          style={[styles.rowDirection, { justifyContent: "space-between" }]}
+        >
+          <View style={{}}>
+            <ArchivoMedium style={styles.bold}>Type</ArchivoMedium>
+            <ArchivoExtraLight style={{ fontSize: vh * 1.5, marginTop: "-8%" }}>
+              {item?.type}
+            </ArchivoExtraLight>
+          </View>
+          <View
+            style={{
+              alignItems: "flex-start",
+              width: "25%",
+            }}
+          >
+            <ArchivoMedium style={styles.bold}>Date</ArchivoMedium>
+            <ArchivoExtraLight style={{ fontSize: vh * 1.5, marginTop: "-8%" }}>
+              {item.date}
+            </ArchivoExtraLight>
+          </View>
+        </View>
+
+        <View
+          style={[
+            styles.rowDirection,
+            { justifyContent: "space-between", marginTop: "-0.5%" },
+          ]}
+        >
+          <View style={{ alignItems: "flex-start" }}>
+            <ArchivoMedium style={styles.bold}>Amount due</ArchivoMedium>
+            <ArchivoExtraLight style={{ fontSize: vh * 1.5, marginTop: "-8%" }}>
+              {item.dueAmount}
+            </ArchivoExtraLight>
+          </View>
+          <View
+            style={{
+              alignItems: "flex-start",
+              width: "25%",
+            }}
+          >
+            <ArchivoMedium style={styles.bold}>Amount paid</ArchivoMedium>
+            <ArchivoExtraLight style={{ fontSize: vh * 1.5, marginTop: "-8%" }}>
+              {item.paidAmount}
+            </ArchivoExtraLight>
+          </View>
+        </View>
+
+        {ViewMore ? (
+          <View
+            style={[
+              styles.rowDirection,
+              { justifyContent: "space-between", marginTop: "-0.5%" },
+            ]}
+          >
+            <View style={{ alignItems: "flex-start" }}>
+              <ArchivoMedium style={styles.bold}>Balance (€)</ArchivoMedium>
+              <ArchivoExtraLight
+                style={{ fontSize: vh * 1.5, marginTop: "-8%" }}
+              >
+                {item?.balance ? parseFloat(item?.balance).toFixed(2) : "N/A"}
+              </ArchivoExtraLight>
+            </View>
+          </View>
+        ) : null}
+      </Pressable>
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -40,15 +240,16 @@ const MySubscriptionScreen = () => {
       <ScreenWrapper>
         {/* <SearchField /> */}
         <SubscriptionRecieptViewerPopup reference={recieptRef} />
+        <PaymentWebviewPopup reference={webviewRef} />
 
         <MainButton
           style={styles.viewRecieptBtn}
-          title="Subscription Reciepts"
+          title="Subscription Receipts"
           onPress={() => recieptRef?.current?.show()}
         />
 
         {/* Scrollable Content */}
-        <View
+        {/* <View
           style={{
             borderWidth: 1,
             // marginTop: vh * 3,
@@ -57,7 +258,6 @@ const MySubscriptionScreen = () => {
           }}
         >
           <ScrollView horizontal>
-            {/* Data Rows - Vertical Scroll */}
             <ScrollView style={{}}>
               <View style={[styles.headerRow]}>
                 <Text style={[styles.headerText, { width: 150 }]}>Date</Text>
@@ -136,7 +336,16 @@ const MySubscriptionScreen = () => {
               ))}
             </ScrollView>
           </ScrollView>
-        </View>
+        </View> */}
+
+        <ScrollView
+          contentContainerStyle={{ paddingBottom: 30 }}
+          style={{ flex: 1 }}
+        >
+          {[...subscriptionData, ...subscriptionData]?.map((item) => {
+            return <AccountCard item={item} />;
+          })}
+        </ScrollView>
       </ScreenWrapper>
     </View>
   );
@@ -189,5 +398,51 @@ const styles = StyleSheet.create({
     height: vh * 4,
     width: "50%",
     alignSelf: "flex-end",
+  },
+  bold: {
+    fontSize: vh * 1.7,
+    color: themeColors.primary,
+  },
+  euro: {
+    height: vh * 1.5,
+    width: vh * 1.5,
+    resizeMode: "contain",
+    marginRight: 2,
+  },
+  accountCard: {
+    borderWidth: 1,
+    padding: 10,
+    marginTop: 10,
+    borderRadius: 15,
+    borderColor: "#0004",
+    backgroundColor: "white",
+  },
+  listView: {
+    // height: 90,
+    // paddingVertical: 10,
+    width: 120,
+    backgroundColor: "#BEBEBE",
+    position: "absolute",
+    right: 20,
+    top: 40,
+    zIndex: 2,
+  },
+  listText: {
+    fontSize: 12,
+  },
+  listBtn: {
+    flex: 1,
+    height: 35,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  more: {
+    height: "100%",
+    width: "100%",
+    resizeMode: "contain",
+  },
+  iconContainer: {
+    height: vh * 3,
+    width: vh * 3,
   },
 });

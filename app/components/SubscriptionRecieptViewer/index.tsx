@@ -97,6 +97,7 @@ const SubscriptionRecieptViewerPopup = forwardRef<
 
   const hide = () => {
     setVisible(false);
+    setStep(1);
   };
 
   const show = () => {
@@ -187,7 +188,7 @@ const SubscriptionRecieptViewerPopup = forwardRef<
                   <View style={[styles.headerRow]}>
                     <View style={styles.rowDirection}>
                       <Text style={[styles.headerText, { width: 100 }]}>
-                        Reciept #
+                        Receipt #
                       </Text>
                     </View>
 
@@ -324,7 +325,6 @@ const SubscriptionRecieptViewerPopup = forwardRef<
                         ]}
                       >
                         <View style={styles.rowDirection}>
-                          <View style={styles.divider} />
                           <Text style={[styles.cell, { width: "50%" }]}>
                             {item?.date}
                           </Text>

@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { themeColors } from "@/app/utils/theme";
-import { vh } from "@/app/utils/units";
+import { vh, vw } from "@/app/utils/units";
 import { icons, images } from "@/app/MyAssets";
 import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
 import BerlingskeBold from "../TextWrapper/BerlingskeBold";
@@ -32,6 +32,8 @@ import TopupConfirmationPopup from "../TopupConfirmationPopup";
 import { useTheme } from "@react-navigation/native";
 import { RootState } from "@/app/store";
 import ArchivoRegular from "../TextWrapper/ArchivoRegular";
+import { LinearGradient } from "expo-linear-gradient";
+import ArchivoMedium from "../TextWrapper/ArchivoMedium";
 interface Sport {
   sportServiceSetting: {
     title: string;
@@ -287,21 +289,62 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
               style={{ height: 40 }}
               title="Search Now"
             /> */}
-            <View
+            <LinearGradient
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 2 }}
+              colors={["#E9FDF9", "#F2F1F4", "#FFE0EE"]}
               style={{
-                flexDirection: "row",
-                alignItems: "center",
+                // flexDirection: "row",
+                // alignItems: "center",
+                height: vh * 12,
                 marginTop: 5,
+                backgroundColor: "red",
+                borderRadius: 10,
+                justifyContent: "center",
+                // paddingLeft: "5%",
                 // justifyContent: "space-between",
               }}
             >
-              <Image source={icons.court} style={styles.courtIcon} />
-              <Text style={{ color: "black", fontSize: 13 }}>
+              {/* <Image source={icons.court} style={styles.courtIcon} /> */}
+              {/* <Text style={{ color: "black", fontSize: vh * 1.5 }}>
                 {`${club?.title}\n${
                   selectedSport?.sportServiceSetting?.title
                 } Booking\n ${moment(selectedDate).format("DD MMM YYYY")}`}
-              </Text>
-            </View>
+              </Text> */}
+              <View style={{ paddingLeft: "4%" }}>
+                <View style={styles.bar}></View>
+                <ArchivoRegular
+                  style={{ fontSize: vh * 1.5, color: "#2A2F28" }}
+                >
+                  {club?.title}
+                </ArchivoRegular>
+                <ArchivoRegular
+                  style={{ fontSize: vh * 1.5, color: "#888888" }}
+                >
+                  {selectedSport?.sportServiceSetting?.title} Booking
+                </ArchivoRegular>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  paddingLeft: "4%",
+                }}
+              >
+                <Image
+                  source={icons.calendar}
+                  style={{
+                    width: vh * 2,
+                    height: vh * 2,
+                    resizeMode: "contain",
+                    marginRight: vw * 1.5,
+                  }}
+                />
+                <ArchivoMedium style={{ fontSize: vh * 1.8, color: "black" }}>
+                  {moment(selectedDate).format("DD MMM YYYY")}
+                </ArchivoMedium>
+              </View>
+            </LinearGradient>
           </View>
         </View>
       </View>
@@ -318,7 +361,11 @@ export default HomeHeader;
 
 const MyStyles = () => {
   const { colors } = useTheme();
+
   const styles = StyleSheet.create({
+    html: {
+      fontFamily: "",
+    },
     container: {
       backgroundColor: colors.primary,
       height: vh * 15,
@@ -342,7 +389,7 @@ const MyStyles = () => {
     },
     bottomHeaderContainer: {
       flexDirection: "row",
-      height: vh * 25,
+      height: vh * 28,
       backgroundColor: "white",
       width: "100%",
     },
@@ -353,12 +400,12 @@ const MyStyles = () => {
       paddingLeft: 18,
       justifyContent: "space-between",
       paddingBottom: 20,
-      height: vh * 25,
+      height: vh * 27,
       // alignItems: "center",
     },
     slotWrapper: {
       backgroundColor: colors.primary,
-      height: vh * 25,
+      // height: vh * 25,
 
       width: "70%",
     },
@@ -368,7 +415,7 @@ const MyStyles = () => {
       backgroundColor: "white",
       borderTopLeftRadius: 30,
       paddingLeft: "8%",
-      paddingTop: "8%",
+      paddingTop: "6%",
     },
     sidebarTabs: {
       justifyContent: "center",
@@ -377,7 +424,7 @@ const MyStyles = () => {
       marginTop: vh * 2,
     },
     slotTitle: {
-      fontSize: 24,
+      fontSize: vh * 3,
     },
     courtIcon: {
       width: 50,
@@ -410,6 +457,15 @@ const MyStyles = () => {
       height: 20,
       width: 20,
       resizeMode: "contain",
+    },
+    bar: {
+      height: "100%",
+      width: vw * 1,
+      backgroundColor: "black",
+      position: "absolute",
+      borderTopRightRadius: 5,
+      borderBottomRightRadius: 5,
+      // top: vh * 0.5,
     },
   });
   return styles;

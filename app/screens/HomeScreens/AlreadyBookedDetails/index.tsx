@@ -71,8 +71,11 @@ const AlreadyBookedDetails = () => {
 
   const [isExpanded1, setIsExpanded1] = useState(false);
   const [isExpanded2, setIsExpanded2] = useState(false);
+  const [isExpanded3, setIsExpanded3] = useState(false);
+
   const arrowAnimation1 = useRef(new Animated.Value(0)).current;
   const arrowAnimation2 = useRef(new Animated.Value(0)).current;
+  const arrowAnimation3 = useRef(new Animated.Value(0)).current;
 
   const loading = useSelector((state: RootState) => state.general.btnLoader);
   useEffect(() => {
@@ -158,6 +161,57 @@ const AlreadyBookedDetails = () => {
         }),
       },
     ],
+  };
+
+  const arrowStyle3 = {
+    transform: [
+      {
+        rotate: arrowAnimation3.interpolate({
+          inputRange: [0, 1],
+          outputRange: ["0deg", "90deg"], // Rotates the arrow downward
+        }),
+      },
+    ],
+  };
+
+  const AccountCard = ({ item, index }) => {
+    const [enablePopup, setEnablePopup] = useState(false);
+
+    return (
+      <View style={styles.accountCard}>
+        <View
+          style={[styles.rowDirection, { justifyContent: "space-between" }]}
+        >
+          <ArchivoRegular style={styles.bold}>
+            <ArchivoMedium style={styles.bold}>Receipt# :</ArchivoMedium>
+            {item?.bookingReceipt}
+          </ArchivoRegular>
+          <View style={[styles.rowDirection]}>
+            <Image source={icons.euro} style={styles.euro} />
+            <ArchivoMedium style={{ fontSize: vh * 1.5 }}>
+              {item?.bookingRate}
+            </ArchivoMedium>
+          </View>
+        </View>
+
+        <View
+          style={[styles.rowDirection, { justifyContent: "space-between" }]}
+        >
+          <View>
+            <ArchivoMedium style={styles.bold}>Name</ArchivoMedium>
+            <ArchivoExtraLight style={{ fontSize: vh * 1.4, marginTop: "-8%" }}>
+              {item?.payerName}
+            </ArchivoExtraLight>
+          </View>
+          <View style={{}}>
+            <ArchivoMedium style={styles.bold}>Payment Method</ArchivoMedium>
+            <ArchivoExtraLight style={{ fontSize: vh * 1.4, marginTop: "-8%" }}>
+              {item.paymentMethod}
+            </ArchivoExtraLight>
+          </View>
+        </View>
+      </View>
+    );
   };
 
   return (
@@ -354,11 +408,11 @@ const AlreadyBookedDetails = () => {
                   >
                     <View style={styles.rowDirection}>
                       <Image
-                        source={icons.bankTransfer}
+                        source={icons.calendar}
                         style={styles.accordianIcon}
                       />
                       <BerlingskeMedium style={{ fontSize: vh * 1.8 }}>
-                        Booking & Payments
+                        Booking Info
                       </BerlingskeMedium>
                     </View>
                     <Animated.Image
@@ -385,10 +439,51 @@ const AlreadyBookedDetails = () => {
                   </View>
                 </CollapseBody>
               </Collapse>
+
+              <View style={styles.borderSeperator} />
+              <Collapse
+                isExpanded={isExpanded3}
+                onToggle={(expanded) => {
+                  setIsExpanded3(expanded);
+                  rotateArrow(expanded, arrowAnimation3);
+                }}
+              >
+                <CollapseHeader>
+                  <View
+                    style={[
+                      styles.rowDirection,
+                      {
+                        justifyContent: "space-between",
+                      },
+                    ]}
+                  >
+                    <View style={styles.rowDirection}>
+                      <Image
+                        source={icons.bankTransfer}
+                        style={styles.accordianIcon}
+                      />
+                      <BerlingskeMedium style={{ fontSize: vh * 1.8 }}>
+                        Payment Info
+                      </BerlingskeMedium>
+                    </View>
+                    <Animated.Image
+                      source={icons.nextArrow}
+                      style={[styles.dropdownArrow, arrowStyle3]}
+                    />
+                  </View>
+                </CollapseHeader>
+                <CollapseBody>
+                  <View style={{ marginTop: 0 }}>
+                    {bookingDetails?.paymentPlayers?.map((item) => {
+                      return <AccountCard item={item} />;
+                    })}
+                  </View>
+                </CollapseBody>
+              </Collapse>
             </View>
           ) : null}
 
-          {bookingDetails ? (
+          {/* {bookingDetails ? (
             <View
               style={{ borderWidth: 1, marginTop: 20, borderColor: "#0003" }}
             >
@@ -449,7 +544,7 @@ const AlreadyBookedDetails = () => {
                 </View>
               </ScrollView>
             </View>
-          ) : null}
+          ) : null} */}
         </ScrollView>
       )}
     </View>
@@ -590,7 +685,8 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   bold: {
-    fontWeight: "bold",
+    fontSize: vh * 1.5,
+    color: themeColors.primary,
   },
 
   section: {
@@ -649,5 +745,19 @@ const styles = StyleSheet.create({
     width: vh * 1.5,
     tintColor: "#0008",
     resizeMode: "contain",
+  },
+  accountCard: {
+    borderWidth: 1,
+    padding: 10,
+    marginTop: 10,
+    borderRadius: 15,
+    borderColor: "#0004",
+    backgroundColor: "white",
+  },
+  euro: {
+    height: vh * 1.4,
+    width: vh * 1.4,
+    resizeMode: "contain",
+    marginRight: 2,
   },
 });

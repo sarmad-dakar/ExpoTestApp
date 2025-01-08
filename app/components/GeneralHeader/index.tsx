@@ -127,7 +127,7 @@ const GeneralHeader = ({ title, back, sport, color, disable }: headerProps) => {
           />
         </Pressable>
       ) : (
-        <View style={{ width: 60 }} />
+        <View style={{ width: "25%" }} />
       )}
       <TopupConfirmationPopup reference={topupConfirmationRef} />
     </View>

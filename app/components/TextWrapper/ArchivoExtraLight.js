@@ -6,7 +6,7 @@ import { useFonts } from "expo-font";
 
 const ArchivoExtraLight = (props) => {
   const [fontsLoaded] = useFonts({
-    "Archivo-ExtraLight": require("../../../assets/fonts/Archivo-ExtraLight.ttf"),
+    "FiraSans-ExtraLight": require("../../../assets/fonts/FiraSans-ExtraLight.ttf"),
   });
   return (
     <TextWrapper {...props} style={[styles.font, props?.style]}>
@@ -19,7 +19,7 @@ export default ArchivoExtraLight;
 
 const styles = StyleSheet.create({
   font: {
-    fontFamily: "Archivo-ExtraLight",
+    fontFamily: "FiraSans-ExtraLight",
     fontSize: 15,
     lineHeight: 22,
   },

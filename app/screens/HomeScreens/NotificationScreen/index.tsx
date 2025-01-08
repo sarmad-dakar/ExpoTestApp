@@ -49,6 +49,9 @@ const NotificationScreen = () => {
         onPress={() => onNotificationPress(item)}
         style={styles.card}
       >
+        <View style={styles.viewContainer}>
+          <Image source={icons.viewDocument} style={styles.viewIcon} />
+        </View>
         <ArchivoRegular style={styles.heading}>{item.heading}</ArchivoRegular>
         <ArchivoRegular style={styles.subheading}>
           {item.section}
@@ -146,5 +149,16 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: vh * 1.2,
+  },
+  viewContainer: {
+    position: "absolute",
+    top: "20%",
+    right: "5%",
+  },
+  viewIcon: {
+    height: vh * 3,
+    width: vh * 3,
+    resizeMode: "contain",
+    tintColor: "#0008",
   },
 });

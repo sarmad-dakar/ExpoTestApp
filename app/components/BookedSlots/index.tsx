@@ -93,14 +93,14 @@ const BookedSlots = ({
       </ArchivoRegular>
 
       <View style={styles.rowDirection}>
-        <ArchivoRegular style={styles.bold}> Booking Member: </ArchivoRegular>
+        <ArchivoRegular style={styles.bold}>Booking Member: </ArchivoRegular>
         <ArchivoExtraLight style={{ fontSize: vh * 1.5 }}>
           {user?.title}
         </ArchivoExtraLight>
       </View>
 
       <View style={[styles.rowDirection, { marginTop: -vh * 0.7 }]}>
-        <ArchivoRegular style={styles.bold}> Description: </ArchivoRegular>
+        <ArchivoRegular style={styles.bold}>Description: </ArchivoRegular>
         <ArchivoExtraLight style={{ fontSize: vh * 1.5 }}>
           {booking.description}
         </ArchivoExtraLight>

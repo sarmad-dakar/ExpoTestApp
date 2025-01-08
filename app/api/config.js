@@ -23,4 +23,5 @@ export const endpoints = {
   getClubs: "SportServices/sport/clients",
   getReciepts: "Subscription/sport/member/receipts",
   getRecieptDetail: "Subscription/sport/member/receipt/info/",
+  getInvoice: "Subscription/invoice/download/",
 };

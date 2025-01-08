@@ -6,7 +6,7 @@ import { useFonts } from "expo-font";
 
 const BerlingskeBold = (props) => {
   const [fontsLoaded] = useFonts({
-    "BerlingskeSerifCn-Bold": require("../../../assets/fonts/BerlingskeSerifCn-Bold.ttf"),
+    "FiraSans-Bold": require("../../../assets/fonts/FiraSans-Bold.ttf"),
   });
   return (
     <TextWrapper {...props} style={[styles.font, props?.style]}>
@@ -19,7 +19,7 @@ export default BerlingskeBold;
 
 const styles = StyleSheet.create({
   font: {
-    fontFamily: "BerlingskeSerifCn-Bold",
+    fontFamily: "FiraSans-Bold",
     color: themeColors.headingColor,
     fontSize: 20,
   },

@@ -7,7 +7,7 @@ import { vh } from "@/app/utils/units";
 
 const BerlingskeRegular = (props) => {
   const [fontsLoaded] = useFonts({
-    "BerlingskeSerifCn-Regular": require("../../../assets/fonts/BerlingskeSerifCn-Regular.ttf"),
+    "FiraSans-Regular": require("../../../assets/fonts/FiraSans-Regular.ttf"),
   });
   return (
     <TextWrapper {...props} style={[styles.font, props?.style]}>
@@ -20,7 +20,7 @@ export default BerlingskeRegular;
 
 const styles = StyleSheet.create({
   font: {
-    fontFamily: "BerlingskeSerifCn-Regular",
+    fontFamily: "FiraSans-Regular",
     color: themeColors.headingColor,
     letterSpacing: -0.2,
     fontSize: vh * 2.4,

@@ -195,7 +195,9 @@ const LoginScreen = () => {
             </TouchableOpacity>
           ) : null}
         </View>
-        <PoweredBy />
+        <View style={styles.poweredBy}>
+          <PoweredBy />
+        </View>
       </View>
       {btnLoader ? <LoaderComponent /> : null}
       <PaymentWebviewPopup reference={webviewRef} />
@@ -249,5 +251,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     justifyContent: "center",
     alignItems: "center",
+  },
+  poweredBy: {
+    // position: "absolute",
+    position: "absolute",
+    bottom: vh * 1.5,
+    alignSelf: "center",
   },
 });
