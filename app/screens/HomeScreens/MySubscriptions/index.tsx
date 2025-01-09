@@ -70,33 +70,53 @@ const MySubscriptionScreen = () => {
   const fetchInvoice = async (invoice) => {
     try {
       const pdfurl =
-        // "https://api.mscbookings.com/api/v1/Subscription/invoice/download/5064M_91716.PDF";
-        storeConfig?.apiURL +
-        "api/" +
-        version +
-        "Subscription/invoice/download/" +
-        invoice;
+        "https://api.mscbookings.com/api/v1/Subscription/invoice/download/5064M_91716.PDF";
+      // storeConfig?.apiURL +
+      // "api/" +
+      // version +
+      // "Subscription/invoice/download/" +
+      // invoice;
 
-      // const testApi = await axios.get(
-      //   "https://api.mscbookings.com/api/v1/Subscription/invoice/download/5064M_91716.PDF",
-      //   {
-      //     headers: {
-      //       Authorization:
-      //         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiNTA2NE0iLCJuYW1laGFzaCI6Im1HbmV6bHlRRVJZPSIsImVtcGxveWVlc2VjcmV0IjoiNjZDNDEzN0JGOTI1NEE2OUY3NDc0QTdEQUU2M0NDNEIxMzEwNTJCRjk2NDkyMjNEMkFBQkJGQkIwNzM4NThFMi01MDY0TSIsInVzZXJlbSI6Im5hIiwiZXhwIjoxNzM2MzQ4MDQzLCJpc3MiOiJEYWthclN5c3RlbVNlY3VyaXR5IiwiYXVkIjoiRGFrYXJTeXN0ZW1TZWN1cml0eSJ9._L4jPRskg1sD9Qtw0TwfxSSUvwSFrhkCvkSDaROE-PQ",
-      //     },
-      //   }
-      // );
+      var oReq = new XMLHttpRequest();
+      oReq.open("GET", `${pdfurl}`, true);
 
-      // const blob = await testApi.data;
+      // Set the Authorization header
+      oReq.setRequestHeader(
+        "Authorization",
+        `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiNTA2NE0iLCJuYW1laGFzaCI6Im1HbmV6bHlRRVJZPSIsImVtcGxveWVlc2VjcmV0IjoiNjZDNDEzN0JGOTI1NEE2OUY3NDc0QTdEQUU2M0NDNEIxMzEwNTJCRjk2NDkyMjNEMkFBQkJGQkIwNzM4NThFMi01MDY0TSIsInVzZXJlbSI6Im5hIiwiZXhwIjoxNzM2NDMxNjE2LCJpc3MiOiJEYWthclN5c3RlbVNlY3VyaXR5IiwiYXVkIjoiRGFrYXJTeXN0ZW1TZWN1cml0eSJ9.8Dv3BHz-dYbiMHZ1FJvtqzNt1ggT4LqhAd2lbU4cd08`
+      );
 
-      // const reader = new FileReader();
+      oReq.responseType = "blob";
+      oReq.onload = function (oEvent) {
+        if (oReq.status === 200) {
+          var blob = oReq.response;
 
-      // reader.onload = () => {
-      //   const base64Data = reader.result.split(",")[1]; // Extract base64 part
-      //   webviewRef?.current?.show(`data:application/pdf;base64,${base64Data}`);
-      // };
-      // reader.readAsDataURL(new Blob([blob], { type: "application/pdf" }));
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const base64Data = reader.result.split(",")[1]; // Extract base64 data
+            const dataUrl = `data:application/pdf;base64,${base64Data}`;
 
+            console.log(dataUrl, "data url");
+            webviewRef?.current?.show(dataUrl);
+            // webviewRef.current?.injectJavaScript(
+            //   `document.body.innerHTML = '<iframe src="${dataUrl}" width="100%" height="100%" style="border:none;"></iframe>';`
+            // );
+          };
+          reader.readAsDataURL(blob);
+
+          // var url = URL.createObjectURL(blob);
+          // webviewRef?.current?.show(url);
+
+          //  setDocumentPreview(url);
+          //  setIsLoading(false)
+        } else {
+          //  setIsLoading(false)
+        }
+      };
+
+      oReq.send();
+
+      return;
       // webviewRef?.current?.show(url);
 
       const response = await GetSubscriptionInvoice(invoice);
@@ -133,7 +153,7 @@ const MySubscriptionScreen = () => {
             >
               <Text style={styles.listText}>View More</Text>
             </TouchableOpacity>
-            {item.invoiceURL ? (
+            {true ? (
               <TouchableOpacity
                 onPress={() => {
                   setEnablePopup(false);

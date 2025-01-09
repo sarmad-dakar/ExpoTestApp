@@ -48,7 +48,7 @@ const PaymentWebviewPopup = forwardRef<
   const translateY = useRef(new Animated.Value(height)).current;
   const [visible, setVisible] = useState(false);
   const [url, setUrl] = useState("");
-
+  const webviewRef = useRef();
   useImperativeHandle(ref || props.reference, () => ({
     hide: hide,
     show: show,
@@ -130,8 +130,10 @@ const PaymentWebviewPopup = forwardRef<
           {Platform.OS == "android" ? (
             <WebView
               source={{
-                uri: getLinkForAndroid(url),
+                // uri: getLinkForAndroid(url),
+                uri: url,
               }}
+              ref={webviewRef}
               style={{ flex: 0.9 }}
             />
           ) : (
