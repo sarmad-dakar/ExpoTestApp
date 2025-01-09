@@ -272,6 +272,17 @@ const BookingDetailsPopup = forwardRef<
         />
         {/* Bottom sheet content */}
         <View style={styles.content}>
+          <TouchableOpacity onPress={hide} style={styles.crossIconContainer}>
+            <Image
+              source={icons.cross}
+              style={{
+                width: 25,
+                height: 25,
+                resizeMode: "contain",
+              }}
+            />
+          </TouchableOpacity>
+
           <View style={{ flex: 1 }}>
             {loading ? (
               <View style={{ alignSelf: "center", marginTop: 100 }}>
@@ -784,6 +795,11 @@ const styles = StyleSheet.create({
     width: vh * 1.4,
     resizeMode: "contain",
     marginRight: 2,
+  },
+  crossIconContainer: {
+    alignSelf: "flex-end",
+    marginTop: vh * 2,
+    marginRight: vw * 5,
   },
 });
 export default BookingDetailsPopup;
