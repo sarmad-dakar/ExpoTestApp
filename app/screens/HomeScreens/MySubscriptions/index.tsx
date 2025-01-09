@@ -185,8 +185,8 @@ const MySubscriptionScreen = () => {
           style={[styles.rowDirection, { justifyContent: "space-between" }]}
         >
           <View style={{}}>
-            <ArchivoMedium style={styles.bold}>Type</ArchivoMedium>
-            <ArchivoExtraLight style={{ fontSize: vh * 1.5, marginTop: "-8%" }}>
+            <ArchivoRegular style={styles.bold}>Type</ArchivoRegular>
+            <ArchivoExtraLight style={{ fontSize: vh * 1.5, marginTop: "-4%" }}>
               {item?.type}
             </ArchivoExtraLight>
           </View>
@@ -196,8 +196,8 @@ const MySubscriptionScreen = () => {
               width: "30%",
             }}
           >
-            <ArchivoMedium style={styles.bold}>Date</ArchivoMedium>
-            <ArchivoExtraLight style={{ fontSize: vh * 1.5, marginTop: "-8%" }}>
+            <ArchivoRegular style={styles.bold}>Date</ArchivoRegular>
+            <ArchivoExtraLight style={{ fontSize: vh * 1.5, marginTop: "-4%" }}>
               {item.date}
             </ArchivoExtraLight>
           </View>
@@ -210,8 +210,8 @@ const MySubscriptionScreen = () => {
           ]}
         >
           <View style={{ alignItems: "flex-start" }}>
-            <ArchivoMedium style={styles.bold}>Amount due</ArchivoMedium>
-            <ArchivoExtraLight style={{ fontSize: vh * 1.5, marginTop: "-8%" }}>
+            <ArchivoRegular style={styles.bold}>Amount due</ArchivoRegular>
+            <ArchivoExtraLight style={{ fontSize: vh * 1.5, marginTop: "-4%" }}>
               {item.dueAmount}
             </ArchivoExtraLight>
           </View>
@@ -221,8 +221,8 @@ const MySubscriptionScreen = () => {
               width: "30%",
             }}
           >
-            <ArchivoMedium style={styles.bold}>Amount paid</ArchivoMedium>
-            <ArchivoExtraLight style={{ fontSize: vh * 1.5, marginTop: "-8%" }}>
+            <ArchivoRegular style={styles.bold}>Amount paid</ArchivoRegular>
+            <ArchivoExtraLight style={{ fontSize: vh * 1.5, marginTop: "-4%" }}>
               {item.paidAmount}
             </ArchivoExtraLight>
           </View>
