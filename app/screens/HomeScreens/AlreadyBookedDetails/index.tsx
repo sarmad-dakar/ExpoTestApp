@@ -241,6 +241,23 @@ const AlreadyBookedDetails = () => {
 
           {bookingDetails ? (
             <View style={styles.card}>
+              {shouldCancelVisible() ? (
+                <TouchableOpacity
+                  onPress={() => bookingConfirmationRef.current?.show()}
+                  style={styles.cancelBtn}
+                >
+                  <Text
+                    style={{
+                      fontWeight: "bold",
+                      color: "white",
+                      fontSize: vh * 1.5,
+                    }}
+                  >
+                    Cancel Booking
+                  </Text>
+                </TouchableOpacity>
+              ) : null}
+
               <View style={styles.row}>
                 {/* Icon */}
                 <View style={styles.iconContainer}>
@@ -616,12 +633,17 @@ const styles = StyleSheet.create({
     color: themeColors.darkText,
   },
   cancelBtn: {
-    height: vh * 4.5,
-    width: 120,
+    height: vh * 3.5,
+    width: vw * 30,
+    alignSelf: "flex-end",
     backgroundColor: themeColors.red,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
+    position: "absolute",
+    right: vh * 1.5,
+    top: vh * 1.5,
+    zIndex: 120,
   },
   cardContainer: {
     backgroundColor: themeColors.cardShade,

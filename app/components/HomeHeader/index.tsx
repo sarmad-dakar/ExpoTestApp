@@ -329,7 +329,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
                   flexDirection: "row",
                   alignItems: "center",
                   paddingLeft: "4%",
-                  marginTop : vh *0.5
+                  marginTop: vh * 0.5,
                 }}
               >
                 <Image

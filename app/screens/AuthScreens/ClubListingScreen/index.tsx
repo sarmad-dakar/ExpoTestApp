@@ -300,60 +300,64 @@ const index = () => {
               justifyContent: "center",
             }}
           >
-            <Skeleton
-              containerStyle={{ alignItems: "flex-start" }}
-              isLoading={true}
-              boneColor="#d0d0d0"
-              highlightColor="#ffffff"
-            >
-              <View style={{ height: 15, width: "30%" }}></View>
-              <View
-                style={{ height: 15, width: "50%", marginVertical: 3 }}
-              ></View>
-            </Skeleton>
-            <Skeleton
-              containerStyle={{
-                alignItems: "flex-start",
-                flexDirection: "row",
-                marginTop: 5,
-              }}
-              isLoading={true}
-              boneColor="#d0d0d0"
-              highlightColor="#ffffff"
-            >
-              <View
-                style={{
-                  height: vh * 5,
-                  width: vh * 5,
-                  borderRadius: 100,
-                  marginRight: 10,
-                }}
-              ></View>
-              <View
-                style={{
-                  height: vh * 5,
-                  width: vh * 5,
-                  borderRadius: 100,
-                  marginRight: 10,
-                }}
-              ></View>
-              <View
-                style={{
-                  height: vh * 5,
-                  width: vh * 5,
-                  borderRadius: 100,
-                  marginRight: 10,
-                }}
-              ></View>
-              <View
-                style={{
-                  height: vh * 5,
-                  width: vh * 5,
-                  borderRadius: 100,
-                  marginRight: 10,
-                }}
-              ></View>
-            </Skeleton>
+            {!__DEV__ ? (
+              <View>
+                <Skeleton
+                  containerStyle={{ alignItems: "flex-start" }}
+                  isLoading={true}
+                  boneColor="#d0d0d0"
+                  highlightColor="#ffffff"
+                >
+                  <View style={{ height: 15, width: "30%" }}></View>
+                  <View
+                    style={{ height: 15, width: "50%", marginVertical: 3 }}
+                  ></View>
+                </Skeleton>
+                <Skeleton
+                  containerStyle={{
+                    alignItems: "flex-start",
+                    flexDirection: "row",
+                    marginTop: 5,
+                  }}
+                  isLoading={true}
+                  boneColor="#d0d0d0"
+                  highlightColor="#ffffff"
+                >
+                  <View
+                    style={{
+                      height: vh * 5,
+                      width: vh * 5,
+                      borderRadius: 100,
+                      marginRight: 10,
+                    }}
+                  ></View>
+                  <View
+                    style={{
+                      height: vh * 5,
+                      width: vh * 5,
+                      borderRadius: 100,
+                      marginRight: 10,
+                    }}
+                  ></View>
+                  <View
+                    style={{
+                      height: vh * 5,
+                      width: vh * 5,
+                      borderRadius: 100,
+                      marginRight: 10,
+                    }}
+                  ></View>
+                  <View
+                    style={{
+                      height: vh * 5,
+                      width: vh * 5,
+                      borderRadius: 100,
+                      marginRight: 10,
+                    }}
+                  ></View>
+                </Skeleton>
+              </View>
+            ) : null}
           </View>
         </View>
       )}

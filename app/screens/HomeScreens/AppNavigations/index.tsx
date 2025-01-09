@@ -159,9 +159,10 @@ const AppNavigationScreen = () => {
 
   return (
     <ImageBackground
-    source={images.linesBackground}
-    imageStyle={{width : "100%" , height : "100%" , resizeMode : "cover"}}
-    style={{ flex: 1 }}>
+      source={images.linesBackground}
+      imageStyle={{ width: "100%", height: "100%", resizeMode: "cover" }}
+      style={{ flex: 1 }}
+    >
       <NavigationHeader title="App Navigations" back={true} />
       <ScreenWrapper noPadding>
         <Animated.ScrollView
@@ -299,7 +300,6 @@ const styles = StyleSheet.create({
   },
   subHeading: {
     height: 45,
-    backgroundColor: themeColors.white,
     // justifyContent: "center",
     paddingHorizontal: 30,
     borderWidth: 0.3,

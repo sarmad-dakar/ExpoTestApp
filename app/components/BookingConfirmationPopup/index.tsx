@@ -18,11 +18,12 @@ import {
   Platform,
   ScrollView,
   Image,
+  ImageBackground,
 } from "react-native";
 import BerlingskeBold from "../TextWrapper/BerlingskeBold";
 import InputField from "../InputField";
 import { showErrorToast } from "@/app/utils/toastmsg";
-import { icons } from "@/app/MyAssets";
+import { icons, images } from "@/app/MyAssets";
 import { themeColors } from "@/app/utils/theme";
 
 // Get screen dimensions
@@ -121,7 +122,16 @@ const BookingConfirmationPopup = forwardRef<
             contentContainerStyle={styles.scrollContainer}
             keyboardShouldPersistTaps="handled"
           >
-            <View style={styles.content}>
+            <ImageBackground
+              source={images.linesBackground}
+              imageStyle={{
+                height: "100%",
+                width: "100%",
+                resizeMode: "cover",
+                opacity: 0.6,
+              }}
+              style={styles.content}
+            >
               <TouchableOpacity
                 onPress={hide}
                 style={styles.crossIconContainer}
@@ -163,7 +173,7 @@ const BookingConfirmationPopup = forwardRef<
                   <Text style={{ color: "black" }}>Confirm</Text>
                 </TouchableOpacity>
               </View>
-            </View>
+            </ImageBackground>
           </ScrollView>
         </Animated.View>
       </KeyboardAvoidingView>
