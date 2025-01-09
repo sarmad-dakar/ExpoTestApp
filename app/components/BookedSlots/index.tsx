@@ -99,7 +99,7 @@ const BookedSlots = ({
         </ArchivoExtraLight>
       </View>
 
-      <View style={[styles.rowDirection, { marginTop: -vh * 0.7 }]}>
+      <View style={[styles.rowDirection, { marginTop: -vh * 0.4 }]}>
         <ArchivoRegular style={styles.bold}>Description: </ArchivoRegular>
         <ArchivoExtraLight style={{ fontSize: vh * 1.5 }}>
           {booking.description}
