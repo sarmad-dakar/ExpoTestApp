@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   heading: {
-    marginBottom: 10,
+    marginBottom: vh * 0.5,
     fontSize: vh * 1.8,
     color: themeColors.primary,
   },

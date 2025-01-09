@@ -271,14 +271,14 @@ const MyBookingsScreen: React.FC = () => {
                   onPress={() => setSelectedTab(item)}
                   style={styles.tabButton}
                 >
-                  <ArchivoLight
+                  <ArchivoRegular
                     style={[
                       styles.tabText,
                       selectedTab.name === item.name && styles.activeTabText,
                     ]}
                   >
                     {item.name}
-                  </ArchivoLight>
+                  </ArchivoRegular>
                   {selectedTab.name === item.name && (
                     <View style={styles.activeTabIndicator} />
                   )}

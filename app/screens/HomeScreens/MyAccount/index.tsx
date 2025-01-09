@@ -211,14 +211,14 @@ const MyAccountScreen = () => {
                   }}
                   style={styles.tabButton}
                 >
-                  <ArchivoLight
+                  <ArchivoRegular
                     style={[
                       styles.tabText,
                       selectedTab === item && styles.activeTabText,
                     ]}
                   >
                     {capitalizeFirstLetter(item)}
-                  </ArchivoLight>
+                  </ArchivoRegular>
                   {selectedTab === item && (
                     <View style={styles.activeTabIndicator} />
                   )}
