@@ -27,13 +27,13 @@ import InAppBrowser from "react-native-inappbrowser-reborn";
 import WebView from "react-native-webview";
 import { icons } from "@/app/MyAssets";
 import { vh } from "@/app/utils/units";
-// import Pdf from "react-native-pdf";
+import Pdf from "react-native-pdf";
 
 // Get screen dimensions
 const { height } = Dimensions.get("window");
 
 export type PaymentWebviewPopupRef = {
-  show: (url: string) => void;
+  show: (url: string, isPdf?: boolean) => void;
   hide: () => void;
 };
 
@@ -48,6 +48,7 @@ const PaymentWebviewPopup = forwardRef<
   const translateY = useRef(new Animated.Value(height)).current;
   const [visible, setVisible] = useState(false);
   const [url, setUrl] = useState("");
+  const [isPdf, setIsPdf] = useState();
   const webviewRef = useRef();
   useImperativeHandle(ref || props.reference, () => ({
     hide: hide,
@@ -58,8 +59,12 @@ const PaymentWebviewPopup = forwardRef<
     setVisible(false);
   };
 
-  const show = (url: string) => {
+  const show = (url: string, isPdf) => {
+    console.log(url, isPdf);
     setUrl(url);
+    if (isPdf) {
+      setIsPdf(true);
+    }
     setVisible(true);
   };
 
@@ -127,24 +132,36 @@ const PaymentWebviewPopup = forwardRef<
             />
           </TouchableOpacity>
 
-          {Platform.OS == "android" ? (
-            <WebView
-              source={{
-                // uri: getLinkForAndroid(url),
-                uri: url,
-              }}
-              ref={webviewRef}
-              style={{ flex: 0.9 }}
-            />
-          ) : (
-            <WebView
-              source={{
-                uri: url,
-              }}
-              style={{ flex: 0.8 }}
-            />
-          )}
-          {/* <Pdf source={{ uri: url, cache: true }} /> */}
+          <View style={{ flex: 1 }}>
+            {isPdf ? (
+              <View style={{ flex: 1, backgroundColor: "green" }}>
+                <Pdf source={{ uri: url, cache: true }} style={{ flex: 1 }} />
+              </View>
+            ) : (
+              <View style={{ flex: 1 }}>
+                {Platform.OS == "android" ? (
+                  <WebView
+                    source={{
+                      uri: url,
+                    }}
+                    ref={webviewRef}
+                    javaScriptEnabled
+                    allowUniversalAccessFromFileURLs={true} // Allow file access from file:// URLs
+                    allowFileAcces={true}
+                    originWhitelist={["*"]}
+                    style={{ flex: 0.9 }}
+                  />
+                ) : (
+                  <WebView
+                    source={{
+                      uri: url,
+                    }}
+                    style={{ flex: 0.8 }}
+                  />
+                )}
+              </View>
+            )}
+          </View>
         </View>
       </Animated.View>
     </Modal>

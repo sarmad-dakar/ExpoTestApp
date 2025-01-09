@@ -40,6 +40,7 @@ import axios from "axios";
 import { RootState } from "@/app/store";
 import { version } from "@/app/api";
 import { showErrorToast } from "@/app/utils/toastmsg";
+import * as FileSystem from "expo-file-system"; // Ensure expo-file-system is installed
 
 interface SubscriptionData {
   date: string;
@@ -95,12 +96,7 @@ const MySubscriptionScreen = () => {
           reader.onloadend = () => {
             const base64Data = reader.result.split(",")[1]; // Extract base64 data
             const dataUrl = `data:application/pdf;base64,${base64Data}`;
-
-            console.log(dataUrl, "data url");
-            webviewRef?.current?.show(dataUrl);
-            // webviewRef.current?.injectJavaScript(
-            //   `document.body.innerHTML = '<iframe src="${dataUrl}" width="100%" height="100%" style="border:none;"></iframe>';`
-            // );
+            webviewRef?.current?.show(dataUrl, true);
           };
           reader.readAsDataURL(blob);
 
