@@ -49,7 +49,7 @@ export const icons = {
   defaultUser: require("./icons/defaultUser.png"),
   types: require("./icons/list.png"),
   message: require("./icons/chat.png"),
-  gallery: require("./icons/gallery.png"),
+  gallery: require("./icons/galleryIcon.png"),
   wallet: require("./icons/wallet.png"),
   bankTransfer: require("./icons/bankTransfer.png"),
   inbox: require("./icons/inbox.png"),
