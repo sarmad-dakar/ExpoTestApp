@@ -177,7 +177,7 @@ const MySubscriptionScreen = () => {
           <View
             style={{
               alignItems: "flex-start",
-              width: "25%",
+              width: "30%",
             }}
           >
             <ArchivoMedium style={styles.bold}>Date</ArchivoMedium>
@@ -202,7 +202,7 @@ const MySubscriptionScreen = () => {
           <View
             style={{
               alignItems: "flex-start",
-              width: "25%",
+              width: "30%",
             }}
           >
             <ArchivoMedium style={styles.bold}>Amount paid</ArchivoMedium>

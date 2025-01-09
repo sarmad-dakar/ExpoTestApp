@@ -27,7 +27,7 @@ import { TopupBalance } from "@/app/api/Bookings";
 import * as WebBrowser from "expo-web-browser";
 import InAppBrowser from "react-native-inappbrowser-reborn";
 import WebView from "react-native-webview";
-import { icons } from "@/app/MyAssets";
+import { icons , images as newimages } from "@/app/MyAssets";
 import { vh } from "@/app/utils/units";
 // import Pdf from "react-native-pdf";
 
@@ -121,7 +121,10 @@ const ImageGalleryViewerPopup = forwardRef<
       <Animated.View
         style={[styles.bottomSheet, { transform: [{ translateY }] }]}
       >
-        <View style={styles.content}>
+        <ImageBackground 
+        source={newimages.linesBackground}
+        imageStyle={{width : "100%" , height : "100%" , resizeMode : "cover" , opacity : 0.6}}
+        style={styles.content}>
           <BerlingskeBold style={{ marginBottom: 10 }}>
             {sportName} Gallery
           </BerlingskeBold>
@@ -158,7 +161,7 @@ const ImageGalleryViewerPopup = forwardRef<
           <Text style={{ alignSelf: "center", marginTop: 10 }}>
             {currentIndex + 1} / {images.length}
           </Text>
-        </View>
+        </ImageBackground>
       </Animated.View>
     </Modal>
   );

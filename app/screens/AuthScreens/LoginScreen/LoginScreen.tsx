@@ -1,6 +1,7 @@
 import {
   ActivityIndicator,
   Alert,
+  ImageBackground,
   Platform,
   StyleSheet,
   Text,
@@ -11,7 +12,7 @@ import React, { useEffect, useRef, useState } from "react";
 import MainButton from "@/app/components/MainButton";
 import LogoHeader from "@/app/components/LogoHeader";
 import InputField from "@/app/components/InputField";
-import { icons } from "@/app/MyAssets";
+import { icons, images } from "@/app/MyAssets";
 import ScreenWrapper from "@/app/components/ScreenWrapper";
 import PoweredBy from "@/app/components/PoweredBy";
 import { themeColors } from "@/app/utils/theme";
@@ -120,7 +121,9 @@ const LoginScreen = () => {
 
   return (
     <ScreenWrapper hideShadow={true}>
-      <View
+      <ImageBackground
+      source={images.linesBackground}
+      imageStyle ={{width : "100%" , height : "100%" ,resizeMode : "cover"}}
         style={[
           styles.container,
           Platform.OS == "web" && { paddingHorizontal: "30%" },
@@ -198,7 +201,7 @@ const LoginScreen = () => {
         <View style={styles.poweredBy}>
           <PoweredBy />
         </View>
-      </View>
+      </ImageBackground>
       {btnLoader ? <LoaderComponent /> : null}
       <PaymentWebviewPopup reference={webviewRef} />
     </ScreenWrapper>

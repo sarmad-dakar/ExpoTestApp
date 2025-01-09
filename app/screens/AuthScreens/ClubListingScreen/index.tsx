@@ -524,10 +524,10 @@ const styles = StyleSheet.create({
   },
   circle: {
     height: 140,
-    width: "100%",
+    width: "120%",
     // backgroundColor: "#5A564E",
     position: "absolute",
-    top: -vh * 2,
+    top: -vh * 1,
     zIndex: -1,
     alignSelf: "center",
     // borderRadius: vh * 100,

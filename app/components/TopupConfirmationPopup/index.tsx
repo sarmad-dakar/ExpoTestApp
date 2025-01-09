@@ -17,6 +17,7 @@ import {
   Linking,
   Alert,
   Image,
+  ImageBackground,
 } from "react-native";
 import BerlingskeBold from "../TextWrapper/BerlingskeBold";
 import InputField from "../InputField";
@@ -27,7 +28,7 @@ import WebView from "react-native-webview";
 import { fetchRemainingBalance } from "@/app/store/slices/accountSlice";
 import { useAppDispatch } from "@/app/screens/HomeScreens/LandingScreen";
 import { showErrorToast } from "@/app/utils/toastmsg";
-import { icons } from "@/app/MyAssets";
+import { icons, images } from "@/app/MyAssets";
 import GeneralHeader from "../GeneralHeader";
 import { themeColors } from "@/app/utils/theme";
 import { vh } from "@/app/utils/units";
@@ -148,7 +149,10 @@ const TopupConfirmationPopup = forwardRef<
         ]}
       >
         {steps == 1 ? (
-          <View style={styles.content}>
+          <ImageBackground 
+          source={images.linesBackground}
+          imageStyle= {{width : "100%" , height : "100%" , resizeMode : "cover" , opacity : 0.6}}
+          style={styles.content}>
             <TouchableOpacity onPress={hide} style={styles.crossIconContainer}>
               <Image
                 source={icons.cross}
@@ -183,7 +187,7 @@ const TopupConfirmationPopup = forwardRef<
                 <Text style={{ color: "black" }}>Confirm</Text>
               </TouchableOpacity>
             </View>
-          </View>
+          </ImageBackground>
         ) : (
           <View style={styles.content}>
             <View style={styles.webHeder}>

@@ -14,9 +14,10 @@ import {
   StyleSheet,
   Dimensions,
   Image,
+  ImageBackground,
 } from "react-native";
 import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
-import { icons } from "@/app/MyAssets";
+import { icons, images } from "@/app/MyAssets";
 import InputField from "../InputField";
 import MainButton from "../MainButton";
 
@@ -97,7 +98,10 @@ const BookingFilterPopup = forwardRef<
         ]}
       >
         {/* Bottom sheet content */}
-        <View style={styles.content}>
+        <ImageBackground 
+        source={images.linesBackground}
+        imageStyle={{height : "100%" , width:  "100%" , resizeMode: "cover" , opacity: 0.7}}
+        style={styles.content}>
           <View style={styles.rowDirection}>
             <BerlingskeMedium>My Bookings Filters</BerlingskeMedium>
             <TouchableOpacity onPress={hide}>
@@ -120,7 +124,7 @@ const BookingFilterPopup = forwardRef<
           <BerlingskeMedium style={styles.heading}>
             Booking Info
           </BerlingskeMedium>
-        </View>
+        </ImageBackground>
       </Animated.View>
     </Modal>
   );

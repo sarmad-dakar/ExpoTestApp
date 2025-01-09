@@ -1,5 +1,6 @@
 import {
   Image,
+  ImageBackground,
   ScrollView,
   StyleSheet,
   Text,
@@ -32,7 +33,7 @@ import PaymentWebviewPopup from "@/app/components/PaymentWebView";
 import SwitchClubsDD from "@/app/components/SwitchClubsDD";
 import { getGeneralAllClubs } from "@/app/api/Auth";
 import axios from "axios";
-import { icons } from "@/app/MyAssets";
+import { icons, images } from "@/app/MyAssets";
 import { RootState } from "@/app/store";
 import PoweredBy from "@/app/components/PoweredBy";
 import Animated, { FadeIn, SlideInLeft } from "react-native-reanimated";
@@ -157,7 +158,10 @@ const AppNavigationScreen = () => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <ImageBackground
+    source={images.linesBackground}
+    imageStyle={{width : "100%" , height : "100%" , resizeMode : "cover"}}
+    style={{ flex: 1 }}>
       <NavigationHeader title="App Navigations" back={true} />
       <ScreenWrapper noPadding>
         <Animated.ScrollView
@@ -271,7 +275,7 @@ const AppNavigationScreen = () => {
       <View style={styles.poweredBy}>
         <PoweredBy />
       </View>
-    </View>
+    </ImageBackground>
   );
 };
 

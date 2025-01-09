@@ -15,6 +15,7 @@ import {
   Dimensions,
   Text,
   Image,
+  ImageBackground,
 } from "react-native";
 import BerlingskeBold from "../TextWrapper/BerlingskeBold";
 import { icons, images } from "@/app/MyAssets";
@@ -121,7 +122,10 @@ const ConfirmationPopup = forwardRef<
         ]}
       >
         {/* Bottom sheet content */}
-        <View style={styles.content}>
+        <ImageBackground 
+        source={images.linesBackground}
+        imageStyle={{height : "100%" , width:  "100%" , resizeMode: "cover" , opacity: 0.6}}
+        style={styles.content}>
           <TouchableOpacity onPress={hide} style={styles.crossIconContainer}>
             <Image
               source={icons.cross}
@@ -162,8 +166,8 @@ const ConfirmationPopup = forwardRef<
             <Image source={{ uri: image }} style={styles.image} />
           </View>
           <View style={styles.rowDirection}>
-            <TouchableOpacity onPress={hide} style={styles.btn}>
-              <Text style={{ color: "white" }}>NO</Text>
+            <TouchableOpacity onPress={hide} style={[styles.btn, ]}>
+              <Text style={{ color: "white"   }}>NO</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -173,7 +177,7 @@ const ConfirmationPopup = forwardRef<
               <Text style={{ color: themeColors.primary }}>YES</Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </ImageBackground>
       </Animated.View>
     </Modal>
   );
@@ -239,6 +243,7 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 100,
   },
+
 });
 
 export default ConfirmationPopup;

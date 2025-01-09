@@ -329,6 +329,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
                   flexDirection: "row",
                   alignItems: "center",
                   paddingLeft: "4%",
+                  marginTop : vh *0.5
                 }}
               >
                 <Image
@@ -340,7 +341,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
                     marginRight: vw * 1.5,
                   }}
                 />
-                <ArchivoMedium style={{ fontSize: vh * 1.8, color: "black" }}>
+                <ArchivoMedium style={{ fontSize: vh * 1.6, color: "black" }}>
                   {moment(selectedDate).format("DD MMM YYYY")}
                 </ArchivoMedium>
               </View>
@@ -460,7 +461,7 @@ const MyStyles = () => {
     },
     bar: {
       height: "100%",
-      width: vw * 1,
+      width: vw * 0.7,
       backgroundColor: "black",
       position: "absolute",
       borderTopRightRadius: 5,
