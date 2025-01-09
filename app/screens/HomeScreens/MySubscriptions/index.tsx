@@ -57,13 +57,13 @@ const MySubscriptionScreen = () => {
   );
   const recieptRef = useRef();
   console.log(subscriptionData, "subscription Datt");
+  const token = useSelector((state: RootState) => state.user?.token);
   const dispatch = useDispatch();
   const windowWidth = Dimensions.get("window").width;
   const webviewRef = useRef<ConfirmationPopupRef>(null);
   const storeConfig = useSelector(
     (state: RootState) => state.general.clubConfig
   );
-  console.log(storeConfig, "store config");
   useEffect(() => {
     dispatch(fetchMySubscription());
   }, []);
@@ -71,21 +71,18 @@ const MySubscriptionScreen = () => {
   const fetchInvoice = async (invoice) => {
     try {
       const pdfurl =
-        "https://api.mscbookings.com/api/v1/Subscription/invoice/download/5064M_91716.PDF";
-      // storeConfig?.apiURL +
-      // "api/" +
-      // version +
-      // "Subscription/invoice/download/" +
-      // invoice;
+        // "https://api.mscbookings.com/api/v1/Subscription/invoice/download/5064M_91716.PDF";
+        storeConfig?.apiURL +
+        "api/" +
+        version +
+        "Subscription/invoice/download/" +
+        invoice;
 
       var oReq = new XMLHttpRequest();
       oReq.open("GET", `${pdfurl}`, true);
 
       // Set the Authorization header
-      oReq.setRequestHeader(
-        "Authorization",
-        `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiNTA2NE0iLCJuYW1laGFzaCI6Im1HbmV6bHlRRVJZPSIsImVtcGxveWVlc2VjcmV0IjoiNjZDNDEzN0JGOTI1NEE2OUY3NDc0QTdEQUU2M0NDNEIxMzEwNTJCRjk2NDkyMjNEMkFBQkJGQkIwNzM4NThFMi01MDY0TSIsInVzZXJlbSI6Im5hIiwiZXhwIjoxNzM2NDQwMTk3LCJpc3MiOiJEYWthclN5c3RlbVNlY3VyaXR5IiwiYXVkIjoiRGFrYXJTeXN0ZW1TZWN1cml0eSJ9.im5GE4GOt7Mewysn13xoTzEEyI7EA8-kYcXcLrornK8`
-      );
+      oReq.setRequestHeader("Authorization", `Bearer ${token}`);
 
       oReq.responseType = "blob";
       oReq.onload = function (oEvent) {
@@ -149,11 +146,11 @@ const MySubscriptionScreen = () => {
             >
               <Text style={styles.listText}>View More</Text>
             </TouchableOpacity>
-            {true ? (
+            {item?.invoiceURL ? (
               <TouchableOpacity
                 onPress={() => {
                   setEnablePopup(false);
-                  fetchInvoice("5064M_91716.PDF");
+                  fetchInvoice(item?.invoiceURL);
                 }}
                 style={[
                   styles.listBtn,
