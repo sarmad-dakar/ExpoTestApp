@@ -37,6 +37,7 @@ import LoaderComponent from "@/app/components/Loader";
 import { RootState } from "@/app/store";
 import { generalApi, setBaseURL, testUrl } from "@/app/api";
 import PaymentWebviewPopup from "@/app/components/PaymentWebView";
+import ArchivoMedium from "@/app/components/TextWrapper/ArchivoMedium";
 const LoginScreen = () => {
   const [membershipNumber, setMemberShipNumber] = useState("");
   const [password, setPassword] = useState("");
@@ -160,7 +161,7 @@ const LoginScreen = () => {
           style={styles.switchContainer}
           onPress={handleSwitchClub}
         >
-          <ArchivoLight>Switch Club</ArchivoLight>
+          <ArchivoMedium style ={{fontSize : vh *1.6 , color : "#272727"}}>Switch Club</ArchivoMedium>
         </TouchableOpacity>
 
         <ArchivoExtraLight style={styles.terms}>
