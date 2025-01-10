@@ -195,17 +195,20 @@ const AlreadyBookedDetails = () => {
         </View>
 
         <View
-          style={[styles.rowDirection, { justifyContent: "space-between" }]}
+          style={[
+            styles.rowDirection,
+            { justifyContent: "space-between", marginTop: vh * 0.5 },
+          ]}
         >
           <View>
             <ArchivoMedium style={styles.bold}>Name</ArchivoMedium>
-            <ArchivoExtraLight style={{ fontSize: vh * 1.4, marginTop: "-8%" }}>
+            <ArchivoExtraLight style={{ fontSize: vh * 1.4, marginTop: "-3%" }}>
               {item?.payerName}
             </ArchivoExtraLight>
           </View>
           <View style={{}}>
             <ArchivoMedium style={styles.bold}>Payment Method</ArchivoMedium>
-            <ArchivoExtraLight style={{ fontSize: vh * 1.4, marginTop: "-8%" }}>
+            <ArchivoExtraLight style={{ fontSize: vh * 1.4, marginTop: "-3%" }}>
               {item.paymentMethod}
             </ArchivoExtraLight>
           </View>

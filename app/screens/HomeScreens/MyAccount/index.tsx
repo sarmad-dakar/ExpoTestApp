@@ -3,6 +3,7 @@ import {
   Dimensions,
   FlatList,
   Image,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -28,6 +29,7 @@ import ArchivoExtraLight from "@/app/components/TextWrapper/ArchivoExtraLight";
 import { icons } from "@/app/MyAssets";
 import ArchivoMedium from "@/app/components/TextWrapper/ArchivoMedium";
 import ArchivoLight from "@/app/components/TextWrapper/ArchivoLight";
+import Animated, { ZoomInRight } from "react-native-reanimated";
 
 interface AccountData {
   date: string;
@@ -121,10 +123,22 @@ const MyAccountScreen = () => {
     const [enablePopup, setEnablePopup] = useState(false);
 
     return (
-      <View style={styles.accountCard}>
+      <Pressable
+        onPress={() => setEnablePopup(false)}
+        style={styles.accountCard}
+      >
         {enablePopup && (
-          <View style={styles.listView}>
+          <Animated.View
+            entering={ZoomInRight.duration(300)}
+            style={styles.listView}
+          >
             <TouchableOpacity
+              hitSlop={{
+                top: 10,
+                bottom: 10,
+                left: 10,
+                right: 10,
+              }} // Adjust hitSlop as needed
               onPress={() => {
                 setEnablePopup(false);
                 onDetailPress(item);
@@ -133,7 +147,7 @@ const MyAccountScreen = () => {
             >
               <Text style={styles.listText}>View Details</Text>
             </TouchableOpacity>
-          </View>
+          </Animated.View>
         )}
 
         <View
@@ -147,18 +161,26 @@ const MyAccountScreen = () => {
             <ArchivoMedium style={{ fontSize: vh * 1.8 }}>
               {parseFloat(item?.amount).toFixed(2)}
             </ArchivoMedium>
-            {item?.bookingKey ? (
-              <TouchableOpacity
-                onPress={() => setEnablePopup(!enablePopup)}
-                style={styles.iconContainer}
-              >
-                <Image style={styles.more} source={icons.more} />
-              </TouchableOpacity>
-            ) : null}
+
+            <TouchableOpacity
+              disabled={item?.bookingKey ? false : true}
+              onPress={() => setEnablePopup(!enablePopup)}
+              style={[styles.iconContainer]}
+            >
+              <Image
+                style={[
+                  styles.more,
+                  !item?.bookingKey && { tintColor: "#0005" },
+                ]}
+                source={icons.more}
+              />
+            </TouchableOpacity>
           </View>
         </View>
         {item?.receipt ? (
-          <ArchivoMedium style={{ fontSize: vh * 1.3, color: "#0008" }}>
+          <ArchivoMedium
+            style={{ fontSize: vh * 1.3, color: "#0008", marginTop: "-1%" }}
+          >
             Receipt# {item?.receipt}
           </ArchivoMedium>
         ) : null}
@@ -167,13 +189,13 @@ const MyAccountScreen = () => {
         >
           <View>
             <ArchivoMedium style={styles.bold}>Category</ArchivoMedium>
-            <ArchivoExtraLight style={{ fontSize: vh * 1.5, marginTop: "-8%" }}>
+            <ArchivoExtraLight style={{ fontSize: vh * 1.5, marginTop: "-3%" }}>
               {item?.category}
             </ArchivoExtraLight>
           </View>
           <View style={{}}>
             <ArchivoMedium style={styles.bold}>Date</ArchivoMedium>
-            <ArchivoExtraLight style={{ fontSize: vh * 1.5, marginTop: "-8%" }}>
+            <ArchivoExtraLight style={{ fontSize: vh * 1.5, marginTop: "-3%" }}>
               {item.date}
             </ArchivoExtraLight>
           </View>
@@ -185,7 +207,7 @@ const MyAccountScreen = () => {
             {item?.remarks}
           </ArchivoExtraLight>
         </View>
-      </View>
+      </Pressable>
     );
   };
 
@@ -429,6 +451,7 @@ const MyStyles = () => {
       color: "#0008",
       fontSize: vh * 1.4,
       lineHeight: vh * 2,
+      marginTop: vh * 0.5,
     },
     bold: {
       fontSize: vh * 1.7,

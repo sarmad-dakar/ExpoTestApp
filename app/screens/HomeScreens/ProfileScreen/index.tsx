@@ -186,17 +186,17 @@ const ProfileScreen = () => {
             <InputField
               placeholder="Name"
               icon={icons.dummyUser}
-              rightIcon={isEdited && icons.edit}
+              // rightIcon={isEdited && icons.edit}
               value={editableUser?.name}
-              editable={isEdited}
+              editable={false}
               onChangeText={(value: string) => handleInputChange("name", value)}
             />
             <InputField
               placeholder="Surname"
               icon={icons.dummyUser}
-              rightIcon={isEdited && icons.edit}
+              // rightIcon={isEdited && icons.edit}
               value={editableUser?.surName}
-              editable={isEdited}
+              editable={false}
               onChangeText={(value: string) =>
                 handleInputChange("surName", value)
               }

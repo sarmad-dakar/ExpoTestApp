@@ -138,6 +138,12 @@ const MySubscriptionScreen = () => {
             style={styles.listView}
           >
             <TouchableOpacity
+              hitSlop={{
+                top: 10,
+                bottom: 10,
+                left: 10,
+                right: 10,
+              }} // Adjust hitSlop as needed
               onPress={() => {
                 setEnablePopup(false);
                 setViewMore(true);
@@ -183,7 +189,7 @@ const MySubscriptionScreen = () => {
         >
           <View style={{}}>
             <ArchivoRegular style={styles.bold}>Type</ArchivoRegular>
-            <ArchivoExtraLight style={{ fontSize: vh * 1.5, marginTop: "-4%" }}>
+            <ArchivoExtraLight style={{ fontSize: vh * 1.5, marginTop: "-3%" }}>
               {item?.type}
             </ArchivoExtraLight>
           </View>
@@ -194,7 +200,7 @@ const MySubscriptionScreen = () => {
             }}
           >
             <ArchivoRegular style={styles.bold}>Date</ArchivoRegular>
-            <ArchivoExtraLight style={{ fontSize: vh * 1.5, marginTop: "-4%" }}>
+            <ArchivoExtraLight style={{ fontSize: vh * 1.5, marginTop: "-3%" }}>
               {item.date}
             </ArchivoExtraLight>
           </View>
@@ -208,7 +214,7 @@ const MySubscriptionScreen = () => {
         >
           <View style={{ alignItems: "flex-start" }}>
             <ArchivoRegular style={styles.bold}>Amount due</ArchivoRegular>
-            <ArchivoExtraLight style={{ fontSize: vh * 1.5, marginTop: "-4%" }}>
+            <ArchivoExtraLight style={{ fontSize: vh * 1.5, marginTop: "-3%" }}>
               {item.dueAmount}
             </ArchivoExtraLight>
           </View>
@@ -219,7 +225,7 @@ const MySubscriptionScreen = () => {
             }}
           >
             <ArchivoRegular style={styles.bold}>Amount paid</ArchivoRegular>
-            <ArchivoExtraLight style={{ fontSize: vh * 1.5, marginTop: "-4%" }}>
+            <ArchivoExtraLight style={{ fontSize: vh * 1.5, marginTop: "-3%" }}>
               {item.paidAmount}
             </ArchivoExtraLight>
           </View>
@@ -235,7 +241,7 @@ const MySubscriptionScreen = () => {
             <View style={{ alignItems: "flex-start" }}>
               <ArchivoMedium style={styles.bold}>Balance (€)</ArchivoMedium>
               <ArchivoExtraLight
-                style={{ fontSize: vh * 1.5, marginTop: "-8%" }}
+                style={{ fontSize: vh * 1.5, marginTop: "-3%" }}
               >
                 {item?.balance ? parseFloat(item?.balance).toFixed(2) : "N/A"}
               </ArchivoExtraLight>

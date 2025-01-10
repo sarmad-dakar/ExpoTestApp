@@ -15,6 +15,7 @@ import ArchivoExtraLight from "../TextWrapper/ArchivoExtraLight";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
 import { vh } from "@/app/utils/units";
+import Animated, { ZoomInRight } from "react-native-reanimated";
 
 const BookedSlots = ({
   booking,
@@ -55,8 +56,17 @@ const BookedSlots = ({
       </TouchableOpacity>
 
       {enablePopup && (
-        <View style={styles.listView}>
+        <Animated.View
+          entering={ZoomInRight.duration(300)}
+          style={styles.listView}
+        >
           <TouchableOpacity
+            hitSlop={{
+              top: 10,
+              bottom: 10,
+              left: 10,
+              right: 10,
+            }} // Adjust hitSlop as needed
             onPress={() => {
               setEnablePopup(false);
               onDetailViewPress(booking);
@@ -85,7 +95,7 @@ const BookedSlots = ({
               <Text style={styles.listText}>Cancel Booking</Text>
             </TouchableOpacity>
           ) : null}
-        </View>
+        </Animated.View>
       )}
 
       <ArchivoRegular style={styles.heading}>
