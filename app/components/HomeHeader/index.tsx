@@ -34,6 +34,7 @@ import { RootState } from "@/app/store";
 import ArchivoRegular from "../TextWrapper/ArchivoRegular";
 import { LinearGradient } from "expo-linear-gradient";
 import ArchivoMedium from "../TextWrapper/ArchivoMedium";
+import DatePickerCustomModal from "../../components/DatePickerCustomModal";
 interface Sport {
   sportServiceSetting: {
     title: string;
@@ -256,7 +257,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
 
             {/* For Ios Only */}
 
-            {Platform.OS == "ios" ? (
+            {/* {Platform.OS == "ios" ? (
               <View style={styles.datePickerField}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <Image source={icons.calendar} style={styles.inputIcon} />
@@ -274,16 +275,14 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
 
                 <Image source={icons.dropdown} style={styles.inputIcon} />
               </View>
-            ) : null}
+            ) : null} */}
 
-            {showDatePicker && Platform.OS == "android" && (
-              <DateTimePicker
-                value={selectedDate}
-                mode="date"
-                display="calendar"
-                onChange={onChangeDate}
-              />
-            )}
+            <DatePickerCustomModal
+              selectedDate={selectedDate}
+              isVisible={showDatePicker}
+              onRequestClose={() => setShowDatePicker(false)}
+              onChangeDate={onChangeDate}
+            />
             {/* <MainButton
               onPress={onSearchPress}
               style={{ height: 40 }}
