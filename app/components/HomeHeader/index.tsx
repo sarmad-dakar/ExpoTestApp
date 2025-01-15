@@ -244,7 +244,6 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
             <BerlingskeMedium style={styles.slotTitle}>
               Find Your Slot
             </BerlingskeMedium>
-            {Platform.OS == "android" ? (
               <InputField
                 // style={{ width: 250 }}
                 dropdown={true}
@@ -253,7 +252,6 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
                 rightIcon={icons.dropdown}
                 value={moment(selectedDate).format("DD/MM/YYYY")}
               />
-            ) : null}
 
             {/* For Ios Only */}
 
