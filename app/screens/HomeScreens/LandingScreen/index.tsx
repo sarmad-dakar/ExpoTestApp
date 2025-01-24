@@ -83,6 +83,10 @@ const LandingScreen = () => {
   const bookingConfirmationRef = useRef<ConfirmationPopupRef>(null);
 
   const loader = useSelector((state: RootState) => state.general?.btnLoader);
+
+  const token = useSelector((state) => state.user.token);
+  const club = useSelector((state) => state.general.clubConfig);
+
   useEffect(() => {
     // handleNavigation();
     getProfile();
@@ -226,29 +230,16 @@ const LandingScreen = () => {
     console.log(sports, "response of cancel");
   };
 
-  useFocusEffect(() => {
-    const backAction = () => {
-      Alert.alert("Hold on!", "Are you sure you want to exit the app?", [
-        {
-          text: "Cancel",
-          onPress: () => null, // Do nothing, dismiss the alert
-          style: "cancel",
-        },
-        {
-          text: "YES",
-          onPress: () => BackHandler.exitApp(), // Close the app
-        },
-      ]);
-      return true; // Prevent the default back action
+  React.useEffect(() => {
+    const checkTokenAndNavigate = async () => {
+      if (!token) {
+        router.replace("/login");
+      } else {
+      }
     };
 
-    // Add the back button listener
-    const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      backAction
-    );
-    return () => backHandler.remove();
-  });
+    checkTokenAndNavigate();
+  }, [token]);
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>

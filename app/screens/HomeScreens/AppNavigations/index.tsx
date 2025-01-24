@@ -85,6 +85,9 @@ const AppNavigationScreen = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    setTimeout(() => {
+      // router.replace("/login");
+    }, 200);
     dispatch(clearSportsAndWallet());
   };
 

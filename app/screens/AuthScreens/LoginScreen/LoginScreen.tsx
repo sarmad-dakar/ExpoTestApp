@@ -107,7 +107,7 @@ const LoginScreen = () => {
           club: club,
         };
         dispatch(saveMultipleUsers(data));
-        // router.replace("/(tabs)");
+        router.replace("/(tabs)");
       } else {
         showErrorToast(response.data.msgDescription);
       }
@@ -128,6 +128,10 @@ const LoginScreen = () => {
     dispatch(switchUser(null));
 
     dispatch(toggleBtnLoader(true));
+    setTimeout(() => {
+      router.replace("(navigations)/clublisting");
+      dispatch(toggleBtnLoader(false));
+    }, 100);
     setTimeout(() => {
       dispatch(toggleBtnLoader(false));
     }, 2000);

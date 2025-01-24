@@ -39,6 +39,7 @@ import {
   saveLoginDetails,
 } from "@/app/store/slices/userSlice";
 import LoaderComponent from "@/app/components/Loader";
+import { router } from "expo-router";
 
 const index = () => {
   const [clubs, setClubs] = useState([]);
@@ -110,6 +111,7 @@ const index = () => {
       dispatch(setClubConfig(item));
       setTimeout(() => {
         setLocalLoader(false);
+        router.replace("/login");
       }, 2000);
     } catch (error) {
       setLocalLoader(false);
