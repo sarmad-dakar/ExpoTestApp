@@ -48,16 +48,17 @@ const SplashScreen = ({ navigation }) => {
         }
 
         if (token) {
-          router.push("/(tabs)/homestack/");
+          router.replace("/(tabs)/homestack/");
         } else {
           if (!club?.appURL && intoSkip) {
-            router.push("/clublisting");
+            router.replace("/clublisting");
           }
           if (!club?.appURL && !intoSkip) {
-            router.push("/onboarding");
+            router.replace("/onboarding");
           }
           if (club?.appURL && intoSkip) {
-            router.push("/login");
+            console.log("here?");
+            router.replace("/login");
           }
         }
       }, 1000);
