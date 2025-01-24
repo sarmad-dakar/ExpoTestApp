@@ -26,9 +26,11 @@ import InputField from "../InputField";
 import { TopupBalance } from "@/app/api/Bookings";
 import * as WebBrowser from "expo-web-browser";
 import InAppBrowser from "react-native-inappbrowser-reborn";
+import ImageView from "react-native-image-viewing";
 import WebView from "react-native-webview";
 import { icons, images as newimages } from "@/app/MyAssets";
 import { vh } from "@/app/utils/units";
+import Swiper from "react-native-swiper";
 // import Pdf from "react-native-pdf";
 
 // Get screen dimensions
@@ -145,6 +147,64 @@ const ImageGalleryViewerPopup = forwardRef<
               }}
             />
           </TouchableOpacity>
+          <View style={{ flex: 0.8 }}>
+            <Swiper
+              renderPagination={(index, total, context) => {
+                return (
+                  <Text style={{ alignSelf: "center", marginTop: 10 }}>
+                    {index + 1}/{total}
+                  </Text>
+                );
+              }}
+              nextButton={
+                <View
+                  style={styles.circle}
+
+                  // onPress={}
+                >
+                  <Image source={icons.nextArrow} style={styles.icon} />
+                </View>
+              }
+              prevButton={
+                <View
+                  style={styles.circle}
+
+                  // onPress={}
+                >
+                  <Image source={icons.backArrow} style={styles.icon} />
+                </View>
+              }
+              showsButtons={true}
+            >
+              {images.map((item, index) => {
+                return (
+                  <View style={styles.imageViewer}>
+                    <Image
+                      style={{
+                        height: "100%",
+                        width: "100%",
+                        resizeMode: "cover",
+                      }}
+                      source={{ uri: item }}
+                    ></Image>
+                  </View>
+                );
+              })}
+            </Swiper>
+          </View>
+          {/* <BerlingskeBold style={{ marginBottom: 10 }}>
+            {sportName} Gallery
+          </BerlingskeBold>
+          <TouchableOpacity onPress={hide} style={styles.crossIconContainer}>
+            <Image
+              source={icons.cross}
+              style={{
+                width: 25,
+                height: 25,
+                resizeMode: "contain",
+              }}
+            />
+          </TouchableOpacity>
           <ImageBackground
             onLoadStart={() => setLoading(true)}
             onLoadEnd={() => setLoading(false)}
@@ -167,7 +227,7 @@ const ImageGalleryViewerPopup = forwardRef<
           </ImageBackground>
           <Text style={{ alignSelf: "center", marginTop: 10 }}>
             {currentIndex + 1} / {images.length}
-          </Text>
+          </Text> */}
         </ImageBackground>
       </Animated.View>
     </Modal>
@@ -221,7 +281,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: "2%",
+    // paddingHorizontal: "2%",
     borderRadius: vh * 4,
     overflow: "hidden",
   },

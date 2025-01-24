@@ -17,7 +17,13 @@ import { vh } from "@/app/utils/units";
 import ImageView from "react-native-image-viewing";
 import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
 import { useTheme } from "@react-navigation/native";
-import Animated, { FadeIn } from "react-native-reanimated";
+import Animated, {
+  FadeIn,
+  SlideInLeft,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
 import ImageGalleryViewerPopup from "../ImageGalleryViewer";
 
 // Define interfaces for the item and data props
@@ -68,6 +74,15 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
   const COURTS_PER_PAGE = 3; // You display 3 courts at a time
   const styles = MyStyles();
   const testRef = useRef();
+
+  const offset = useSharedValue(1);
+
+  const animatedStyles = useAnimatedStyle(() => {
+    return {
+      opacity: withSpring(offset.value),
+    };
+  });
+
   useEffect(() => {
     if (next) {
       handleNext();
@@ -238,6 +253,11 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
     const shiftBy = Math.min(COURTS_PER_PAGE, remainingCourts);
     console.log(shiftBy, "shiftBy");
 
+    offset.value = 0.2;
+    setTimeout(() => {
+      offset.value = 1;
+    }, 350);
+
     // Calculate the new index
     const newIndex = currentIndex + shiftBy;
     console.log(newIndex, "newIndex");
@@ -252,7 +272,10 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
   const handlePrevious = () => {
     // Determine the number of courts we can shift backward by
     const shiftBy = Math.min(COURTS_PER_PAGE, currentIndex);
-
+    offset.value = 0.2;
+    setTimeout(() => {
+      offset.value = 1;
+    }, 350);
     // Calculate the new index
     const newIndex = currentIndex - shiftBy;
 
@@ -313,6 +336,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
       <ImageView
         images={selectedCourtResources}
         imageIndex={0}
+        presentationStyle="pageSheet"
         visible={showImageViewer}
         onRequestClose={() => setShowImageViewer(false)}
       />
@@ -363,85 +387,87 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
               {/* <Text style={{ fontSize: 12 }}>Gallery</Text> */}
             </TouchableOpacity>
             {currentCourts.map((item, index) => (
-              <Pressable
-                key={item.title}
-                // onPress={() => handleCourtPress(item)}
-                style={{
-                  flex: 1,
-                  backgroundColor: colors.secondary,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderWidth: 1,
-                  borderColor: "#E0E0E0",
-                }}
-              >
-                {index == 0 ? (
-                  <TouchableOpacity
-                    onPress={handlePrevious}
-                    disabled={currentIndex == 0 ? true : false}
-                    style={{
-                      position: "absolute",
-                      left: 0,
-                      backgroundColor:
-                        currentIndex == 0 ? "gray" : colors.primary,
-                      height: "100%",
-                      width: "15%",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Image
-                      source={icons.backArrow}
+              <Animated.View style={[{ flex: 1 }, animatedStyles]}>
+                <Pressable
+                  key={item.title}
+                  // onPress={() => handleCourtPress(item)}
+                  style={{
+                    flex: 1,
+                    backgroundColor: colors.secondary,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderWidth: 1,
+                    borderColor: "#E0E0E0",
+                  }}
+                >
+                  {index == 0 ? (
+                    <TouchableOpacity
+                      onPress={handlePrevious}
+                      disabled={currentIndex == 0 ? true : false}
                       style={{
-                        height: 12,
-                        width: 12,
-                        resizeMode: "contain",
-                        tintColor: currentIndex == 0 ? "white" : "white",
+                        position: "absolute",
+                        left: 0,
+                        backgroundColor:
+                          currentIndex == 0 ? "gray" : colors.primary,
+                        height: "100%",
+                        width: "15%",
+                        justifyContent: "center",
+                        alignItems: "center",
                       }}
-                    />
-                  </TouchableOpacity>
-                ) : null}
-                {index == currentCourts.length - 1 ? (
-                  <TouchableOpacity
-                    onPress={handleNext}
-                    disabled={
-                      currentIndex + COURTS_PER_PAGE >=
-                      data.bookingSessions.length
-                        ? true
-                        : false
-                    }
-                    style={{
-                      position: "absolute",
-                      right: 0,
-                      alignItems: "center",
-                      backgroundColor:
+                    >
+                      <Image
+                        source={icons.backArrow}
+                        style={{
+                          height: 12,
+                          width: 12,
+                          resizeMode: "contain",
+                          tintColor: currentIndex == 0 ? "white" : "white",
+                        }}
+                      />
+                    </TouchableOpacity>
+                  ) : null}
+                  {index == currentCourts.length - 1 ? (
+                    <TouchableOpacity
+                      onPress={handleNext}
+                      disabled={
                         currentIndex + COURTS_PER_PAGE >=
                         data.bookingSessions.length
-                          ? "gray"
-                          : colors.primary,
-                      height: "100%",
-                      width: "15%",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Image
-                      source={icons.nextArrow}
+                          ? true
+                          : false
+                      }
                       style={{
-                        height: 10,
-                        width: 10,
-                        resizeMode: "contain",
-
-                        tintColor:
+                        position: "absolute",
+                        right: 0,
+                        alignItems: "center",
+                        backgroundColor:
                           currentIndex + COURTS_PER_PAGE >=
                           data.bookingSessions.length
-                            ? "white"
-                            : "white",
+                            ? "gray"
+                            : colors.primary,
+                        height: "100%",
+                        width: "15%",
+                        justifyContent: "center",
                       }}
-                    />
-                  </TouchableOpacity>
-                ) : null}
-                <Text style={{ fontSize: 12 }}>{item.title}</Text>
-              </Pressable>
+                    >
+                      <Image
+                        source={icons.nextArrow}
+                        style={{
+                          height: 10,
+                          width: 10,
+                          resizeMode: "contain",
+
+                          tintColor:
+                            currentIndex + COURTS_PER_PAGE >=
+                            data.bookingSessions.length
+                              ? "white"
+                              : "white",
+                        }}
+                      />
+                    </TouchableOpacity>
+                  ) : null}
+                  <Text style={{ fontSize: 12 }}>{item.title}</Text>
+                </Pressable>
+              </Animated.View>
             ))}
           </View>
 
@@ -466,7 +492,10 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
               </View>
 
               {currentCourts.map((session, sessionIndex) => (
-                <View style={{ flex: 1 }} key={sessionIndex}>
+                <Animated.View
+                  style={[{ flex: 1 }, animatedStyles]}
+                  key={sessionIndex}
+                >
                   {session.session.map((item, itemIndex) =>
                     session?.session[itemIndex - 1]?.rows == 2 ? (
                       <View style={{}} />
@@ -503,7 +532,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
                       </TouchableOpacity>
                     )
                   )}
-                </View>
+                </Animated.View>
               ))}
             </View>
           </ScrollView>

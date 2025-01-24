@@ -1,12 +1,13 @@
 import {
   Image,
+  Keyboard,
   Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MainButton from "@/app/components/MainButton";
 import LogoHeader from "@/app/components/LogoHeader";
 import InputField from "@/app/components/InputField";
@@ -23,13 +24,34 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
 import ArchivoLight from "@/app/components/TextWrapper/ArchivoLight";
 import ArchivoExtraLight from "@/app/components/TextWrapper/ArchivoExtraLight";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
 const ForgotPasswordScreen = () => {
   const [step, setStep] = useState(1);
   const [membershipNumber, setMemberShipNumber] = useState("");
+  const [showPoweredBy, setShowPoweredBy] = useState(true);
+
   const loading = useSelector(
     (state: RootState) => state?.general?.generalLoader
   );
+
+  useEffect(() => {
+    // Add listeners for keyboard events
+
+    const hideSubscription = Keyboard.addListener(
+      Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide",
+      () => {
+        console.log("keyboard event,,,");
+        setShowPoweredBy(true);
+      } // Keyboard is closed
+    );
+
+    // Cleanup listeners on component unmount
+    return () => {
+      hideSubscription.remove();
+    };
+  }, []);
+
   const onForgotPress = async () => {
     if (!membershipNumber) {
       showErrorToast("Membership number is required");
@@ -65,6 +87,7 @@ const ForgotPasswordScreen = () => {
               icon={icons.idCard}
               placeholder="Membership Number*"
               onChangeText={setMemberShipNumber}
+              onPress={() => setShowPoweredBy(false)}
             />
             <MainButton
               title="Send Email"
@@ -100,9 +123,15 @@ const ForgotPasswordScreen = () => {
         <ArchivoLight style={styles.termsHeading}>
           Terms & Conditions | Privacy Policy
         </ArchivoLight>
-        <View style={styles.poweredBy}>
-          <PoweredBy />
-        </View>
+        {showPoweredBy ? (
+          <Animated.View
+            exiting={FadeOut.duration(300)}
+            entering={FadeIn.duration(100)}
+            style={styles.poweredBy}
+          >
+            <PoweredBy />
+          </Animated.View>
+        ) : null}
       </View>
     </ScreenWrapper>
   );

@@ -1,5 +1,7 @@
 import {
   ActivityIndicator,
+  Alert,
+  BackHandler,
   ImageSourcePropType,
   ScrollView,
   StyleSheet,
@@ -223,6 +225,30 @@ const LandingScreen = () => {
 
     console.log(sports, "response of cancel");
   };
+
+  useFocusEffect(() => {
+    const backAction = () => {
+      Alert.alert("Hold on!", "Are you sure you want to exit the app?", [
+        {
+          text: "Cancel",
+          onPress: () => null, // Do nothing, dismiss the alert
+          style: "cancel",
+        },
+        {
+          text: "YES",
+          onPress: () => BackHandler.exitApp(), // Close the app
+        },
+      ]);
+      return true; // Prevent the default back action
+    };
+
+    // Add the back button listener
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+    return () => backHandler.remove();
+  });
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>

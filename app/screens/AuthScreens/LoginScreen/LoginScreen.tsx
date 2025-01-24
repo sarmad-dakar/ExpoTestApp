@@ -2,6 +2,8 @@ import {
   ActivityIndicator,
   Alert,
   ImageBackground,
+  Keyboard,
+  KeyboardAvoidingView,
   Platform,
   StyleSheet,
   Text,
@@ -38,6 +40,7 @@ import { RootState } from "@/app/store";
 import { generalApi, setBaseURL, testUrl } from "@/app/api";
 import PaymentWebviewPopup from "@/app/components/PaymentWebView";
 import ArchivoMedium from "@/app/components/TextWrapper/ArchivoMedium";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 const LoginScreen = () => {
   const [membershipNumber, setMemberShipNumber] = useState("");
   const [password, setPassword] = useState("");
@@ -47,6 +50,7 @@ const LoginScreen = () => {
   const loader = useSelector((state: any) => state.general.generalLoader);
   const club = useSelector((state) => state.general.clubConfig);
   const btnLoader = useSelector((state: any) => state.general.btnLoader);
+  const [showPoweredBy, setShowPoweredBy] = useState(true);
   const allMembers = useSelector(
     (state: RootState) => state.user.multipleUsers
   );
@@ -60,6 +64,23 @@ const LoginScreen = () => {
     setTimeout(() => {
       dispatch(toggleBtnLoader(false));
     }, 1500);
+  }, []);
+
+  useEffect(() => {
+    // Add listeners for keyboard events
+
+    const hideSubscription = Keyboard.addListener(
+      Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide",
+      () => {
+        console.log("keyboard event,,,");
+        setShowPoweredBy(true);
+      } // Keyboard is closed
+    );
+
+    // Cleanup listeners on component unmount
+    return () => {
+      hideSubscription.remove();
+    };
   }, []);
 
   const handleSignInPress = async () => {
@@ -123,8 +144,8 @@ const LoginScreen = () => {
   return (
     <ScreenWrapper hideShadow={true}>
       <ImageBackground
-      source={images.linesBackground}
-      imageStyle ={{width : "100%" , height : "100%" ,resizeMode : "cover"}}
+        source={images.linesBackground}
+        imageStyle={{ width: "100%", height: "100%", resizeMode: "cover" }}
         style={[
           styles.container,
           Platform.OS == "web" && { paddingHorizontal: "30%" },
@@ -138,6 +159,7 @@ const LoginScreen = () => {
           icon={icons.idCard}
           error={membershipError}
           placeholder="Membership Number*"
+          onPress={() => setShowPoweredBy(false)}
         />
         <InputField
           error={passwordError}
@@ -145,6 +167,7 @@ const LoginScreen = () => {
           icon={icons.lock}
           placeholder="password"
           secureTextEntry={true}
+          onPress={() => setShowPoweredBy(false)}
         />
         <TouchableOpacity onPress={() => router.replace("/forgotpassword")}>
           <ArchivoLight style={styles.forgotPass}>
@@ -161,7 +184,9 @@ const LoginScreen = () => {
           style={styles.switchContainer}
           onPress={handleSwitchClub}
         >
-          <ArchivoMedium style ={{fontSize : vh *1.6 , color : "#272727"}}>Switch Club</ArchivoMedium>
+          <ArchivoMedium style={{ fontSize: vh * 1.6, color: "#272727" }}>
+            Switch Club
+          </ArchivoMedium>
         </TouchableOpacity>
 
         <ArchivoExtraLight style={styles.terms}>
@@ -199,9 +224,15 @@ const LoginScreen = () => {
             </TouchableOpacity>
           ) : null}
         </View>
-        <View style={styles.poweredBy}>
-          <PoweredBy />
-        </View>
+        {showPoweredBy ? (
+          <Animated.View
+            exiting={FadeOut.duration(300)}
+            entering={FadeIn.duration(100)}
+            style={styles.poweredBy}
+          >
+            <PoweredBy />
+          </Animated.View>
+        ) : null}
       </ImageBackground>
       {btnLoader ? <LoaderComponent /> : null}
       <PaymentWebviewPopup reference={webviewRef} />
