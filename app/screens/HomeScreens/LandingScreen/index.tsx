@@ -156,7 +156,6 @@ const LandingScreen = () => {
       };
       console.log(data);
       const response = await FetchCalendarData(data);
-      console.log(response.data, "response of calendar");
       if (response && response.data && response.data.data) {
         setCalendarData(response.data.data);
       }

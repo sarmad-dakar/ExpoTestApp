@@ -149,10 +149,16 @@ const TopupConfirmationPopup = forwardRef<
         ]}
       >
         {steps == 1 ? (
-          <ImageBackground 
-          source={images.linesBackground}
-          imageStyle= {{width : "100%" , height : "100%" , resizeMode : "cover" , opacity : 0.6}}
-          style={styles.content}>
+          <ImageBackground
+            source={images.linesBackground}
+            imageStyle={{
+              width: "100%",
+              height: "100%",
+              resizeMode: "cover",
+              opacity: 0.6,
+            }}
+            style={styles.content}
+          >
             <TouchableOpacity onPress={hide} style={styles.crossIconContainer}>
               <Image
                 source={icons.cross}
@@ -172,7 +178,14 @@ const TopupConfirmationPopup = forwardRef<
               keyboardType="decimal-pad"
               placeholder="Amount"
               value={amount}
-              onChangeText={setAmount}
+              onChangeText={(text) => {
+                console.log(text);
+                const regex = /^(\d+(\.\d{0,2})?)?$/;
+                const validate = regex.test(text);
+                if (validate) {
+                  setAmount(text);
+                }
+              }}
             />
 
             <View style={styles.rowDirection}>

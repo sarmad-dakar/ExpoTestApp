@@ -24,7 +24,11 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
 import ArchivoLight from "@/app/components/TextWrapper/ArchivoLight";
 import ArchivoExtraLight from "@/app/components/TextWrapper/ArchivoExtraLight";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import Animated, {
+  FadeIn,
+  FadeOut,
+  SlideOutDown,
+} from "react-native-reanimated";
 
 const ForgotPasswordScreen = () => {
   const [step, setStep] = useState(1);
@@ -46,9 +50,18 @@ const ForgotPasswordScreen = () => {
       } // Keyboard is closed
     );
 
+    const OpenSubscription = Keyboard.addListener(
+      Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow",
+      () => {
+        console.log("keyboard event,,,");
+        setShowPoweredBy(false);
+      } // Keyboard is closed
+    );
+
     // Cleanup listeners on component unmount
     return () => {
       hideSubscription.remove();
+      OpenSubscription.remove();
     };
   }, []);
 
@@ -125,7 +138,7 @@ const ForgotPasswordScreen = () => {
         </ArchivoLight>
         {showPoweredBy ? (
           <Animated.View
-            exiting={FadeOut.duration(300)}
+            exiting={SlideOutDown.duration(300)}
             entering={FadeIn.duration(100)}
             style={styles.poweredBy}
           >

@@ -14,6 +14,17 @@ const getUserProfile = async () => {
   return instance.get(endpoints.validate);
 };
 
+const refreshToken = async (data) => {
+  const formData = new URLSearchParams();
+
+  // Append key-value pairs
+  Object.keys(data).forEach((key) => {
+    formData.append(key, data[key]);
+  });
+
+  return instance.post(endpoints.refresh);
+};
+
 const updateUserInfo = async (data) => {
   return instance.post(endpoints.updateUserInfo, data);
 };
@@ -62,4 +73,5 @@ export {
   forgotPassword,
   getAllClubs,
   getGeneralAllClubs,
+  refreshToken,
 };
