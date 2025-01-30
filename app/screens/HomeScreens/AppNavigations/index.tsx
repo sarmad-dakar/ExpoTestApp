@@ -144,11 +144,10 @@ const AppNavigationScreen = () => {
 
   const handleClubPress = (obj) => {
     setClubs([{ title: "All Clubs", smallLogo: icons.types }]);
-    dispatch(clearSportsAndWallet());
-
     if (obj.title == "All Clubs") {
-      return handleSwitch();
+      return router.replace("(navigations)/clublisting");
     }
+    dispatch(clearSportsAndWallet());
 
     let isExist = multipleUsers?.find((item) => item.club?.title == obj.title);
     if (isExist) {

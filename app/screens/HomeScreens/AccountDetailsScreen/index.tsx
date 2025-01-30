@@ -58,6 +58,7 @@ const AccountDetailScreen = () => {
   const loading = useSelector(
     (state: RootState) => state.general.generalLoader
   );
+  const [localLoader, setLocalLoader] = useState(false);
   const [isExpanded1, setIsExpanded1] = useState(false);
   const [isExpanded2, setIsExpanded2] = useState(false);
   const [isExpanded3, setIsExpanded3] = useState(false);
@@ -111,12 +112,19 @@ const AccountDetailScreen = () => {
     }).start();
   };
   const fetchData = async () => {
-    let data = {
-      id: bookingData.id,
-      sport: bookingData.sport,
-    };
-    const response = await GetAlreadyBookedDetails(data);
-    setBookingDetails(response.data.data);
+    try {
+      let data = {
+        id: bookingData.id,
+        sport: bookingData.sport,
+      };
+      console.log("called");
+      setLocalLoader(true);
+      const response = await GetAlreadyBookedDetails(data);
+      setLocalLoader(false);
+      setBookingDetails(response.data.data);
+    } catch (error) {
+      setLocalLoader(false);
+    }
   };
 
   const AccountCard = ({ item, index }) => {
@@ -172,7 +180,7 @@ const AccountDetailScreen = () => {
         title="Booking Details"
         back={true}
       />
-      {loading ? (
+      {localLoader ? (
         <View style={{ alignSelf: "center", marginTop: 100 }}>
           <ActivityIndicator size={"large"} color={themeColors.primary} />
         </View>
