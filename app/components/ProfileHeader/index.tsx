@@ -44,7 +44,6 @@ const ProfileHeader = ({
   const user = useSelector((state: any) => state.user.profile);
   const loading = useSelector((state: RootState) => state.general.btnLoader);
   const styles = MyStyles();
-  console.log(user, "user");
 
   useEffect(() => {
     if (image) {

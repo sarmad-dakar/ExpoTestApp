@@ -16,7 +16,6 @@ const DatePickerCustomModal = ({
   isVisible,
   onRequestClose,
 }) => {
-  console.log(selectedDate, "selected date");
   return (
     <View>
       {Platform.OS == "android" ? (

@@ -33,7 +33,6 @@ const SplashScreen = ({ navigation }) => {
   }));
   React.useEffect(() => {
     let validatingTimeout;
-    console.log(club, "selected Club");
 
     const checkTokenAndNavigate = async () => {
       offset.value = withRepeat(withTiming(0.3, { duration: 1000 }), -1, true);

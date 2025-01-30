@@ -22,7 +22,11 @@ const refreshToken = async (data) => {
     formData.append(key, data[key]);
   });
 
-  return instance.post(endpoints.refresh);
+  return instance.post(endpoints.refresh, formData, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  });
 };
 
 const updateUserInfo = async (data) => {

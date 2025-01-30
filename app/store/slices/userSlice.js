@@ -70,6 +70,7 @@ const user = createSlice({
       state.token = action.payload.data?.token;
     });
     builder.addCase(fetchnewToken.fulfilled, (state, action) => {
+      console.log(JSON.stringify(action.payload), "api Payload");
       state.user = action.payload.data;
       state.token = action.payload.data?.token;
     });
