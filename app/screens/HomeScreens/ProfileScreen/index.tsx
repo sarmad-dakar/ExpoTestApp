@@ -74,7 +74,8 @@ const ProfileScreen = () => {
     }
     setEditableUser(user);
   }, [user]);
-
+  console.log(user);
+  console.log(profile);
   const onAddChildren = (children: children) => {
     setIsEdited(true);
     setEnableSave(true);
@@ -111,11 +112,10 @@ const ProfileScreen = () => {
     try {
       setIsEdited(false);
       setEnableSave(false);
-      dispatch(toggleBtnLoader(true));
+      // dispatch(toggleBtnLoader(true));
       let data = JSON.parse(JSON.stringify(editableUser));
       data.children = currentChildren;
       data.carInfo = currentCars;
-
       const response = await updateUserInfo(data);
       console.log(response.data, "Response of update");
       dispatch(toggleBtnLoader(false));
