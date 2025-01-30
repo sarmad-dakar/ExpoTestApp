@@ -40,7 +40,11 @@ import { RootState } from "@/app/store";
 import { generalApi, setBaseURL, testUrl } from "@/app/api";
 import PaymentWebviewPopup from "@/app/components/PaymentWebView";
 import ArchivoMedium from "@/app/components/TextWrapper/ArchivoMedium";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import Animated, {
+  FadeIn,
+  FadeOut,
+  SlideOutDown,
+} from "react-native-reanimated";
 const LoginScreen = () => {
   const [membershipNumber, setMemberShipNumber] = useState("");
   const [password, setPassword] = useState("");
@@ -77,9 +81,18 @@ const LoginScreen = () => {
       } // Keyboard is closed
     );
 
+    const OpenSubscription = Keyboard.addListener(
+      Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow",
+      () => {
+        console.log("keyboard event,,,");
+        setShowPoweredBy(false);
+      } // Keyboard is closed
+    );
+
     // Cleanup listeners on component unmount
     return () => {
       hideSubscription.remove();
+      OpenSubscription.remove();
     };
   }, []);
 
@@ -230,7 +243,7 @@ const LoginScreen = () => {
         </View>
         {showPoweredBy ? (
           <Animated.View
-            exiting={FadeOut.duration(300)}
+            exiting={SlideOutDown.duration(300)}
             entering={FadeIn.duration(100)}
             style={styles.poweredBy}
           >

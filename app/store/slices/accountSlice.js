@@ -82,7 +82,6 @@ const slice = createSlice({
       state.notificationsData = action.payload.data;
     });
     builder.addCase(fetchCurrentSports.fulfilled, (state, action) => {
-      console.log(action.payload, "data ");
       state.sportsData = action.payload;
     });
     builder.addCase(fetchRemainingBalance.fulfilled, (state, action) => {

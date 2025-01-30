@@ -453,8 +453,12 @@ const BookingDetailScreen = () => {
           Session Information
         </BerlingskeMedium>
         <InputField icon={icons.calendar} value={bookingData?.selectedDate} />
-        <InputField icon={icons.clock} value={bookingData.sessionDetail.slot} />
+
         <View style={{ pointerEvents: "none" }}>
+          <InputField
+            icon={icons.clock}
+            value={bookingData.sessionDetail.slot}
+          />
           <InputField
             icon={icons.court2}
             value={bookingData.courtDetail.title}

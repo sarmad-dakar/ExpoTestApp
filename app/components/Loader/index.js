@@ -29,7 +29,7 @@ const LoaderComponent = () => {
     <Animated.View exiting={FadeOut.duration(400)} style={styles.container}>
       <LinearGradient
         style={{
-          height: vh * 100,
+          height: vh * 110,
           width: vw * 100,
           justifyContent: "center",
           alignItems: "center",
@@ -49,7 +49,7 @@ export default LoaderComponent;
 
 const styles = StyleSheet.create({
   container: {
-    height: "100%",
+    height: vh * 110,
     width: vw * 100,
     position: "absolute",
     zIndex: 100,
@@ -60,5 +60,6 @@ const styles = StyleSheet.create({
     width: vh * 20,
     height: vh * 20,
     resizeMode: "contain",
+    marginTop: -vh * 10,
   },
 });

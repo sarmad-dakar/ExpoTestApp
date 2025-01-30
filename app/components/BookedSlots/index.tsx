@@ -25,7 +25,6 @@ const BookedSlots = ({
 }: any) => {
   const [enablePopup, setEnablePopup] = useState(false);
   const user = useSelector((state: RootState) => state.user.user);
-  console.log(user, "user");
 
   const shouldCancelVisible = () => {
     const bookingDate = moment(

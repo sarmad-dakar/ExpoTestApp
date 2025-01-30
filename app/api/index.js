@@ -1,6 +1,6 @@
 import axios from "axios";
 import { store } from "../store";
-import { logout } from "../store/slices/userSlice";
+import { fetchnewToken, fetchuserProfile } from "../store/slices/userSlice";
 import { toggleGeneralLoader } from "../store/slices/generalSlice";
 
 export const version = "v1/";
@@ -21,9 +21,9 @@ export const setBaseURL = (url) => {
   instance.defaults.baseURL = baseUrl;
 };
 
+// Request Interceptor
 instance.interceptors.request.use(
   (config) => {
-    // You can add request headers or do other modifications here
     const state = store.getState();
     store.dispatch(toggleGeneralLoader(true));
     if (state.user?.token) {
@@ -32,54 +32,82 @@ instance.interceptors.request.use(
     return config;
   },
   (error) => {
-    // Handle request error (e.g., network issues)
     return Promise.reject(error);
   }
 );
 
+// Flag to prevent multiple token refresh calls at once
+let isRefreshing = false;
+let failedQueue = [];
+
+const processQueue = (error, token = null) => {
+  failedQueue.forEach((prom) => {
+    if (token) {
+      prom.resolve(token);
+    } else {
+      prom.reject(error);
+    }
+  });
+
+  failedQueue = [];
+};
+
+// Response Interceptor
 instance.interceptors.response.use(
   (response) => {
     store.dispatch(toggleGeneralLoader(false));
-    console.log(response, "response of api");
-    // Check for successful response status codes (e.g., 2xx)
-    if (response.status >= 200 && response.status < 300) {
-      // You can perform response transformations here
-      // For example, you can extract the data you need
-      return response;
-    } else {
-      // Handle other non-successful status codes (e.g., 4xx, 5xx)
-      return Promise.reject(response);
-    }
+    return response;
   },
   async (error) => {
-    // Handle response error (e.g., 4xx, 5xx)
     store.dispatch(toggleGeneralLoader(false));
-    console.log(JSON.stringify(error), "error");
-    if (error.response) {
-      // You can access the response status code, data, headers, etc.
-      const { status, data } = error.response;
-      console.log(data, "error");
-      // Handle specific error codes as needed
-      if (status === 401) {
-        await store.dispatch(logout());
 
-        // return Promise.reject({message: 'Token Expired', status: 401});
-        // Unauthorized: Redirect or handle accordingly
-      } else if (status === 404) {
-        // Resource not found: Handle accordingly
-      } else {
-        // Handle other error codes
-        // You can log the error or display a user-friendly message
-      }
-      if (data.message) {
-        return Promise.reject(data.message);
+    const originalRequest = error.config;
+    console.log(originalRequest, "api error");
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      !originalRequest._retry
+    ) {
+      if (isRefreshing) {
+        // If a token refresh request is already in progress, queue the failed request
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject });
+        })
+          .then((token) => {
+            originalRequest.headers["Authorization"] = `Bearer ${token}`;
+            return instance(originalRequest);
+          })
+          .catch((err) => {
+            return Promise.reject(err);
+          });
       }
 
-      return Promise.reject(error);
-    } else {
-      // Handle network errors or other issues
-      return Promise.reject(error);
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      try {
+        const state = store.getState();
+        const previousToken = {
+          token: state.user.token,
+        };
+        await store.dispatch(fetchnewToken(previousToken)); // Refresh the token
+        const newToken = state.user?.token;
+
+        processQueue(null, newToken);
+
+        if (newToken) {
+          originalRequest.headers["Authorization"] = `Bearer ${newToken}`;
+          return instance(originalRequest);
+        }
+      } catch (refreshError) {
+        processQueue(refreshError, null);
+        return Promise.reject(refreshError);
+      } finally {
+        isRefreshing = false;
+      }
     }
+
+    return Promise.reject(error);
   }
 );
 

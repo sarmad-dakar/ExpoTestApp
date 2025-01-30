@@ -225,7 +225,6 @@ const MyBookingsScreen: React.FC = () => {
   };
 
   const onDetailViewPress = (booking: any) => {
-    console.log(booking?.bookingKey, "data");
     let data = {
       id: booking?.bookingKey,
       sport: selectedTab.name.toUpperCase(),

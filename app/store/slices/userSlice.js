@@ -1,4 +1,4 @@
-import { getMyProfile, getUserProfile } from "@/app/api/Auth";
+import { getMyProfile, getUserProfile, refreshToken } from "@/app/api/Auth";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -25,6 +25,13 @@ export const fetchuserProfile = createAsyncThunk(
     } catch (error) {}
   }
 );
+
+export const fetchnewToken = createAsyncThunk("newToken", async (data) => {
+  try {
+    const response = await refreshToken(data);
+    return response.data;
+  } catch (error) {}
+});
 
 // create a slice of user
 const user = createSlice({
@@ -60,6 +67,12 @@ const user = createSlice({
     });
     builder.addCase(fetchuserProfile.fulfilled, (state, action) => {
       state.user = action.payload.data;
+      state.token = action.payload.data?.token;
+    });
+    builder.addCase(fetchnewToken.fulfilled, (state, action) => {
+      console.log(JSON.stringify(action.payload), "api Payload");
+      state.user = action.payload.data;
+      state.token = action.payload.data?.token;
     });
   },
 });

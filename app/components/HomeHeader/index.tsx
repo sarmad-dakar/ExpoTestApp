@@ -99,7 +99,6 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
   const styles = MyStyles();
   const dropdown = useRef<SelectDropdownRef>(null);
   const { colors } = useTheme();
-  console.log(OtherSports, "other sports");
   useEffect(() => {
     if (allSports?.length) {
       SetOtherSports(allSports.slice(1));
@@ -244,14 +243,14 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
             <BerlingskeMedium style={styles.slotTitle}>
               Find Your Slot
             </BerlingskeMedium>
-              <InputField
-                // style={{ width: 250 }}
-                dropdown={true}
-                onPress={() => setShowDatePicker(true)}
-                icon={icons.calendar}
-                rightIcon={icons.dropdown}
-                value={moment(selectedDate).format("DD/MM/YYYY")}
-              />
+            <InputField
+              // style={{ width: 250 }}
+              dropdown={true}
+              onPress={() => setShowDatePicker(true)}
+              icon={icons.calendar}
+              rightIcon={icons.dropdown}
+              value={moment(selectedDate).format("DD/MM/YYYY")}
+            />
 
             {/* For Ios Only */}
 
