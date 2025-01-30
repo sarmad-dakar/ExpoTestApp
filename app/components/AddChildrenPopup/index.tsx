@@ -43,7 +43,7 @@ const AddChildrenPopup = forwardRef<AddChildrenPopupRef, AddChildrenPopupProps>(
     const [visible, setVisible] = useState(false);
     const [children, setChildren] = useState("");
     const [showDatePicker, setShowDatePicker] = useState(false);
-    const [date, setDate] = useState(moment().format("MM/DD/YYYY"));
+    const [date, setDate] = useState(moment().format("DD/MM/YYYY"));
 
     useImperativeHandle(ref || props.reference, () => ({
       hide: hide,
@@ -78,7 +78,7 @@ const AddChildrenPopup = forwardRef<AddChildrenPopupRef, AddChildrenPopupProps>(
     const onChangeDate = (event: DateTimePickerEvent, selectedDate?: Date) => {
       const currentDate = selectedDate || date;
       setShowDatePicker(false); // Close the picker
-      setDate(moment(currentDate).format("MM/DD/YYYY"));
+      setDate(moment(currentDate).format("DD/MM/YYYY"));
     };
 
     // Slide-up animation
@@ -137,50 +137,38 @@ const AddChildrenPopup = forwardRef<AddChildrenPopupRef, AddChildrenPopupProps>(
               onChangeText={setChildren}
               placeholder="Add Children Name"
             />
-         {
-          Platform.OS =="android" ? 
-          <InputField
-          // style={{ width: 250 }}
-          dropdown={true}
-          onPress={() => setShowDatePicker(true)}
-          icon={icons.calendar}
-          rightIcon={icons.dropdown}
-          value={date}
-        />
-        :
-        null
-         }
+            {Platform.OS == "android" ? (
+              <InputField
+                // style={{ width: 250 }}
+                dropdown={true}
+                onPress={() => setShowDatePicker(true)}
+                icon={icons.calendar}
+                rightIcon={icons.dropdown}
+                value={date}
+              />
+            ) : null}
 
-{
-              Platform.OS == "ios" ? 
+            {Platform.OS == "ios" ? (
               <View style={styles.datePickerField}>
-                <View style={{flexDirection : "row" , alignItems : "center"}}>
-                <Image
-                source={icons.calendar}
-                style={styles.inputIcon}  />
-                <View 
-                style={{
-                  transform : [{scale : 0.8}]
-                }}
-               
-                >
-                <DateTimePicker
-              value={moment(date , "MM/DD/YYYY").toDate()}
-              mode="date"
-              key = {moment(date).format("MM/DD/YYYY")}
-              display="default"
-              onChange={onChangeDate}
-            />
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Image source={icons.calendar} style={styles.inputIcon} />
+                  <View
+                    style={{
+                      transform: [{ scale: 0.8 }],
+                    }}
+                  >
+                    <DateTimePicker
+                      value={moment(date, "DD/MM/YYYY").toDate()}
+                      mode="date"
+                      key={moment(date).format("DD/MM/YYYY")}
+                      display="default"
+                      onChange={onChangeDate}
+                    />
                   </View>
-                  </View>
-                  <Image 
-                  source={icons.dropdown}
-                  style={styles.inputIcon}
-                  />
                 </View>
-               : 
-               null 
-            }
+                <Image source={icons.dropdown} style={styles.inputIcon} />
+              </View>
+            ) : null}
 
             <MainButton title="Save" onPress={onSave} />
           </View>
@@ -270,19 +258,19 @@ const styles = StyleSheet.create({
     width: 100,
     height: 25,
   },
-  datePickerField : { 
-    flexDirection : "row" , 
-    justifyContent : "space-between", 
-    alignItems : "center",
-    borderBottomWidth : 1,
-    paddingBottom : 10,
-    marginVertical : 10
- },
- inputIcon : { 
-   height : 20, 
-   width : 20 ,
-   resizeMode : "contain"
- }
+  datePickerField: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    paddingBottom: 10,
+    marginVertical: 10,
+  },
+  inputIcon: {
+    height: 20,
+    width: 20,
+    resizeMode: "contain",
+  },
 });
 
 export default AddChildrenPopup;
