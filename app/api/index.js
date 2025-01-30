@@ -100,6 +100,8 @@ instance.interceptors.response.use(
           return instance(originalRequest);
         }
       } catch (refreshError) {
+        store.dispatch(logout());
+
         processQueue(refreshError, null);
         return Promise.reject(refreshError);
       } finally {

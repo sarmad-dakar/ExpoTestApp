@@ -100,19 +100,29 @@ const index = () => {
       let isExist = multipleUsers?.find(
         (element) => element.club?.title == item.title
       );
-      if (isExist) {
-        dispatch(saveLoginDetails(isExist?.user));
-      } else {
-        dispatch(removeLoginDetails());
-      }
       setBaseURL(`${item.apiURL}`);
       dispatch(toggleBtnLoader(true));
-
       dispatch(setClubConfig(item));
-      setTimeout(() => {
-        setLocalLoader(false);
-        router.replace("/login");
-      }, 2000);
+      console.log(isExist, "existing user");
+      if (isExist?.user) {
+        dispatch(saveLoginDetails(isExist?.user));
+        setTimeout(() => {
+          setLocalLoader(false);
+          router.replace("/(tabs)/homestack/");
+        }, 2000);
+      } else {
+        dispatch(removeLoginDetails());
+
+        setTimeout(() => {
+          setLocalLoader(false);
+          router.replace("/login");
+        }, 2000);
+      }
+
+      // setTimeout(() => {
+      //   setLocalLoader(false);
+      //   router.replace("/login");
+      // }, 2000);
     } catch (error) {
       setLocalLoader(false);
     }

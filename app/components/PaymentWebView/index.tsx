@@ -142,7 +142,7 @@ const PaymentWebviewPopup = forwardRef<
                 {Platform.OS == "android" ? (
                   <WebView
                     source={{
-                      uri: url,
+                      uri: getLinkForAndroid(url),
                     }}
                     ref={webviewRef}
                     javaScriptEnabled

@@ -178,6 +178,7 @@ const TopupConfirmationPopup = forwardRef<
               keyboardType="decimal-pad"
               placeholder="Amount"
               value={amount}
+              maxLength={4}
               onChangeText={(text) => {
                 console.log(text);
                 const regex = /^(\d+(\.\d{0,2})?)?$/;

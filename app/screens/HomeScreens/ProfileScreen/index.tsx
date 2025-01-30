@@ -77,13 +77,13 @@ const ProfileScreen = () => {
 
   const onAddChildren = (children: children) => {
     setIsEdited(true);
-    setEnableSave(false);
+    setEnableSave(true);
 
     setCurrentChildren([...currentChildren, children]);
   };
   const onAddCar = (car: string) => {
     setIsEdited(true);
-    setEnableSave(false);
+    setEnableSave(true);
 
     setCurrentCars([...currentCars, car]);
   };
@@ -149,6 +149,7 @@ const ProfileScreen = () => {
   };
 
   const onRemovePhone = (data: any) => {
+    console.log("called ??");
     let newData = JSON.parse(JSON.stringify(editableUser));
     const removedPhones = newData.telephones.filter(
       (item: any) => item.number !== data.number
@@ -279,7 +280,7 @@ const ProfileScreen = () => {
                   value={item.number}
                   editable={isEdited}
                   rightIcon={isEdited && icons.cross}
-                  onRightIconPress={() => onRemovePhone(item)}
+                  onPress={() => onRemovePhone(item)}
                 />
               );
             })}
