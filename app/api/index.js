@@ -1,6 +1,6 @@
 import axios from "axios";
 import { store } from "../store";
-import { fetchnewToken, fetchuserProfile } from "../store/slices/userSlice";
+import { fetchnewToken, fetchuserProfile, logout } from "../store/slices/userSlice";
 import { toggleGeneralLoader } from "../store/slices/generalSlice";
 
 export const version = "v1/";
