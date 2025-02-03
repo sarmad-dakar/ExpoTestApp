@@ -72,7 +72,6 @@ const BookingDetailScreen = () => {
   const [checkedPlayers, setCheckedPlayers] = useState<Player[]>([]);
   const [bookingType, setBookingType] = useState<dropdownTypes>();
   const [playersAmountData, setPlayersAmountData] = useState();
-  console.log(selectedPlayers, "selected Players");
   const LocalParams = useLocalSearchParams().bookingData;
   const bookingData = Array.isArray(LocalParams)
     ? JSON.parse(LocalParams[0])

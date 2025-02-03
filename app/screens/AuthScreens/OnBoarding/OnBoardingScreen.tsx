@@ -25,6 +25,7 @@ import { useAppDispatch } from "../../HomeScreens/LandingScreen";
 import { skipIntro } from "@/app/store/slices/generalSlice";
 import { RootState } from "@/app/store";
 import { useTheme } from "@react-navigation/native";
+import { vh } from "@/app/utils/units";
 
 const OnBoardingScreen = () => {
   const user = useSelector((state: any) => state.user.user);
@@ -144,7 +145,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   heading: {
-    fontSize: 30,
+    fontSize: vh * 3.3,
+    color: "#2A2F28",
+    // fontSize: 30,
   },
   subText: {
     textAlign: "center",

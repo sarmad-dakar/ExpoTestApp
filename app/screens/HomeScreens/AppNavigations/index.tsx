@@ -152,6 +152,9 @@ const AppNavigationScreen = () => {
     let isExist = multipleUsers?.find((item) => item.club?.title == obj.title);
     if (isExist) {
       dispatch(saveLoginDetails(isExist?.user));
+      setTimeout(() => {
+        router.push("/homestack");
+      }, 300);
     } else {
       dispatch(removeLoginDetails());
     }
