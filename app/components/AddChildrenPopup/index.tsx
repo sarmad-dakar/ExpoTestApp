@@ -166,7 +166,7 @@ const AddChildrenPopup = forwardRef<AddChildrenPopupRef, AddChildrenPopupProps>(
                     />
                   </View>
                 </View>
-                <Image source={icons.dropdown} style={styles.inputIcon} />
+                {/* <Image source={icons.dropdown} style={styles.inputIcon} /> */}
               </View>
             ) : null}
 
