@@ -404,7 +404,7 @@ const index = () => {
           );
         }}
       />
-      <View style={{ flex: 0.95, paddingHorizontal: "5%" }}>
+      <View style={{ flex: 0.9, paddingHorizontal: "5%" }}>
         <FlatList
           data={clubs}
           renderItem={renderClub}
