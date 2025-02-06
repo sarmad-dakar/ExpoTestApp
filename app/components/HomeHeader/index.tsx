@@ -136,7 +136,17 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
       </SlidingDrawer>
 
       <View style={styles.container}>
-        <View style={{ alignItems: "center", width: 60 }}>
+        <View
+          style={{
+            alignItems: "center",
+            width: 60,
+
+            // Border Glow
+            // borderWidth: 2,
+            // borderColor: "rgba(255,255,255,0.5)", // Slight glow effect
+            // padding: 5,
+          }}
+        >
           {selectedSport && (
             <Image
               source={
@@ -144,15 +154,29 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
                   `${selectedSport?.sportServiceSetting?.title?.toLowerCase()}`
                 ]
               }
-              style={[styles.logo, { tintColor: colors.secondary }]}
+              style={[
+                styles.logo,
+                {
+                  tintColor: colors.secondary,
+                },
+              ]}
             />
           )}
           {selectedSport && (
-            <Text style={[styles.selectedSport, { color: colors.secondary }]}>
+            <ArchivoMedium
+              style={[
+                styles.selectedSport,
+                {
+                  color: colors.secondary,
+                  fontSize: vh * 1.5,
+                },
+              ]}
+            >
               {selectedSport?.sportServiceSetting?.title}
-            </Text>
+            </ArchivoMedium>
           )}
         </View>
+
         <BerlingskeMedium
           style={[styles.selectedSport, { fontSize: vh * 2.5 }]}
         >
@@ -297,6 +321,15 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
                 backgroundColor: "red",
                 borderRadius: 10,
                 justifyContent: "center",
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 1,
+                },
+                shadowOpacity: 0.2,
+                shadowRadius: 1.41,
+
+                elevation: 2,
                 // paddingLeft: "5%",
                 // justifyContent: "space-between",
               }}

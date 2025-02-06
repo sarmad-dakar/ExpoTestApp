@@ -67,6 +67,8 @@ export const icons = {
   logout: require("./icons/logout.png"),
   viewDocument: require("./icons/file.png"),
   enterLogin: require("./icons/EnterLogin.png"),
+  exchange2: require("./icons/exchange2.png"),
+  add: require("./icons/add.png"),
 };
 
 export const images = {

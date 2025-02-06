@@ -122,10 +122,16 @@ const ConfirmationPopup = forwardRef<
         ]}
       >
         {/* Bottom sheet content */}
-        <ImageBackground 
-        source={images.linesBackground}
-        imageStyle={{height : "100%" , width:  "100%" , resizeMode: "cover" , opacity: 0.6}}
-        style={styles.content}>
+        <ImageBackground
+          source={images.linesBackground}
+          imageStyle={{
+            height: "100%",
+            width: "100%",
+            resizeMode: "cover",
+            opacity: 0.6,
+          }}
+          style={styles.content}
+        >
           <TouchableOpacity onPress={hide} style={styles.crossIconContainer}>
             <Image
               source={icons.cross}
@@ -166,8 +172,8 @@ const ConfirmationPopup = forwardRef<
             <Image source={{ uri: image }} style={styles.image} />
           </View>
           <View style={styles.rowDirection}>
-            <TouchableOpacity onPress={hide} style={[styles.btn, ]}>
-              <Text style={{ color: "white"   }}>NO</Text>
+            <TouchableOpacity onPress={hide} style={[styles.btn]}>
+              <Text style={{ color: "white" }}>NO</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -208,7 +214,17 @@ const styles = StyleSheet.create({
     height: 250,
     marginTop: 20,
     borderRadius: 20,
+    backgroundColor: "white",
     overflow: "hidden",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+
+    elevation: 2,
   },
   image: {
     height: "100%",
@@ -228,6 +244,15 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     justifyContent: "center",
     alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+
+    elevation: 2,
   },
   yesBtn: {
     height: 40,
@@ -243,7 +268,6 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 100,
   },
-
 });
 
 export default ConfirmationPopup;

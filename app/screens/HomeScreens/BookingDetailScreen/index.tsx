@@ -2,6 +2,7 @@ import {
   ActivityIndicator,
   Alert,
   Image,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -42,6 +43,16 @@ import { RootState } from "@/app/store";
 import { toggleBtnLoader } from "@/app/store/slices/generalSlice";
 import { vh, vw } from "@/app/utils/units";
 import ArchivoRegular from "@/app/components/TextWrapper/ArchivoRegular";
+import ArchivoExtraLight from "@/app/components/TextWrapper/ArchivoExtraLight";
+import ScreenWrapper from "@/app/components/ScreenWrapper";
+import ArchivoLight from "@/app/components/TextWrapper/ArchivoLight";
+import Animated, {
+  FadeIn,
+  RotateInDownLeft,
+  SlideInDown,
+  SlideInLeft,
+  SlideInRight,
+} from "react-native-reanimated";
 interface Player {
   gender: string;
   name: string;
@@ -94,6 +105,7 @@ const BookingDetailScreen = () => {
   const dispatch = useAppDispatch();
   const user = useSelector((state: any) => state.user.profile);
   const profile = useSelector((state: any) => state.user.user);
+  const [newFavList, setNewFavList] = useState([]);
   const btnLoader = useSelector((state: RootState) => state.general.btnLoader);
   console.log(
     bookingData?.selectedSport?.sportServiceOptions,
@@ -169,6 +181,8 @@ const BookingDetailScreen = () => {
 
     const response = await FetchMembers(data);
     setAllPlayers(response.data?.data);
+    const favMembers = response.data?.data.filter((item) => item.isFavourite);
+    setNewFavList(favMembers);
   };
 
   const onDonePress = () => {
@@ -242,7 +256,9 @@ const BookingDetailScreen = () => {
       return false;
     }
   };
-
+  const reduceString = (str, count) => {
+    return str.length > count ? str.slice(0, count) + "..." : str;
+  };
   const handleAddPlayer = (player: Player) => {
     // const isAlreadyAdded = checkedPlayers.find(
     //   (item) => item.memberCode == player.memberCode
@@ -278,6 +294,8 @@ const BookingDetailScreen = () => {
     );
     setSelectedPlayers(removedPlayers);
     setCheckedPlayers(removeCheckPlayer);
+    getAmountDue(removedPlayers);
+    // setNewFavList([player, ...newFavList]);
   };
 
   const validateAmount = (amount, balance) => {
@@ -411,6 +429,17 @@ const BookingDetailScreen = () => {
     }
   };
 
+  const onQuickFavPress = (item) => {
+    const totalSelected = [...selectedPlayers, item];
+    const remainingFav = newFavList.filter(
+      (obj) => obj?.memberCode !== item?.memberCode
+    );
+    console.log(item, " item");
+    setNewFavList(remainingFav);
+    setSelectedPlayers(totalSelected);
+    getAmountDue(totalSelected);
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: themeColors.white }}>
       <GeneralHeader
@@ -441,72 +470,153 @@ const BookingDetailScreen = () => {
         />
       )}
 
-      <ScrollView
-        contentContainerStyle={{ paddingBottom: 50 }}
-        style={{ flex: 1, paddingHorizontal: 20 }}
-      >
-        <BerlingskeBold style={styles.heading}>
-          Booking Payment & Add Players
-        </BerlingskeBold>
-        <BerlingskeMedium style={{ color: themeColors.primary, fontSize: 17 }}>
-          Session Information
-        </BerlingskeMedium>
-        <InputField icon={icons.calendar} value={bookingData?.selectedDate} />
+      <ScreenWrapper>
+        <ScrollView
+          contentContainerStyle={{ paddingBottom: 50 }}
+          style={{ flex: 1 }}
+        >
+          <BerlingskeBold style={styles.heading}>
+            Booking Payment & Add Players
+          </BerlingskeBold>
+          {/* <View>
+          <BerlingskeBold style={styles.heading}>
+            Booking Payment & Add Players
+          </BerlingskeBold>
+          <BerlingskeMedium
+            style={{ color: themeColors.primary, fontSize: 17 }}
+          >
+            Session Information
+          </BerlingskeMedium>
 
-        <View style={{ pointerEvents: "none" }}>
-          <InputField
-            icon={icons.clock}
-            value={bookingData.sessionDetail.slot}
-          />
-          <InputField
-            icon={icons.court2}
-            value={bookingData.courtDetail.title}
-          />
-        </View>
-        <MainButton onPress={() => router.back()} title="Change" />
-        <BerlingskeMedium style={{ color: themeColors.primary, fontSize: 17 }}>
-          Booking Types
-        </BerlingskeMedium>
-        <InputField
-          icon={icons.court2}
-          rightIcon={icons.dropdown}
-          value={bookingType?.title}
-          dropdown={true}
-          onPress={() => dropdownRef.current?.show()}
-        />
+          <View style={{ pointerEvents: "none" }}>
+            <InputField
+              icon={icons.calendar}
+              value={bookingData?.selectedDate}
+            />
+            <InputField
+              icon={icons.clock}
+              value={bookingData.sessionDetail.slot}
+            />
+            <InputField
+              icon={icons.court2}
+              value={bookingData.courtDetail.title}
+            />
+          </View>
+          <MainButton onPress={() => router.back()} title="Change" />
+        </View> */}
 
-        {bookingData?.selectedSport?.sportServiceOptions
-          ? bookingData?.selectedSport?.sportServiceOptions.map((item) => {
-              return (
+          <Animated.View entering={FadeIn.duration(500)}>
+            <BerlingskeMedium
+              style={{
+                color: themeColors.primary,
+                fontSize: 17,
+                marginBottom: vh * 1,
+              }}
+            >
+              Session Information
+            </BerlingskeMedium>
+
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <View>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Image source={icons.calendar} style={styles.icon} />
+                  <ArchivoRegular style={{ fontSize: vh * 1.6 }}>
+                    {moment(bookingData?.selectedDate, "DD/MM/YYYY").format(
+                      "ddd DD MMM YYYY"
+                    )}{" "}
+                    , {bookingData.sessionDetail.slot}
+                  </ArchivoRegular>
+                </View>
+
                 <View
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
-                    marginBottom: 10,
+                    marginTop: vh * 0.5,
                   }}
                 >
-                  <TouchableOpacity
-                    onPress={() => onChangeServicesOption(item.id)}
-                    style={styles.checkbox}
-                  >
-                    {checkTickMark(item.id) ? (
-                      <Image
-                        source={icons.tick}
-                        style={{
-                          width: "60%",
-                          height: "60%",
-                          resizeMode: "contain",
-                        }}
-                      />
-                    ) : null}
-                  </TouchableOpacity>
-                  <Text style={styles.playerName}>{item?.title}</Text>
+                  <Image source={icons.court2} style={styles.icon} />
+                  <ArchivoRegular style={{ fontSize: vh * 1.6 }}>
+                    {bookingData.courtDetail.title} (
+                    {bookingData.courtDetail.courtType})
+                  </ArchivoRegular>
                 </View>
-              );
-            })
-          : null}
+              </View>
+              <TouchableOpacity
+                onPress={() => router.back()}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <Animated.View
+                  entering={RotateInDownLeft.duration(1200).delay(1500)}
+                >
+                  <Image
+                    source={icons.exchange2}
+                    style={[styles.icon, { tintColor: "black" }]}
+                  />
+                </Animated.View>
+                <ArchivoRegular style={{ fontSize: vh * 1.5, color: "black" }}>
+                  Change
+                </ArchivoRegular>
+              </TouchableOpacity>
+            </View>
+            {/* <MainButton onPress={() => router.back()} title="Change" /> */}
+          </Animated.View>
 
-        {/* {bookingData?.selectedSport?.sportServiceSetting?.hasHalfTimeSetting ? (
+          <Animated.View entering={FadeIn.duration(500).delay(500)}>
+            <BerlingskeMedium
+              style={{
+                color: themeColors.primary,
+                fontSize: 17,
+                marginTop: vh * 3,
+              }}
+            >
+              Booking Types
+            </BerlingskeMedium>
+            <InputField
+              icon={icons.court2}
+              rightIcon={icons.dropdown}
+              value={bookingType?.title}
+              dropdown={true}
+              onPress={() => dropdownRef.current?.show()}
+            />
+
+            {bookingData?.selectedSport?.sportServiceOptions
+              ? bookingData?.selectedSport?.sportServiceOptions.map((item) => {
+                  return (
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        marginBottom: 10,
+                      }}
+                    >
+                      <TouchableOpacity
+                        onPress={() => onChangeServicesOption(item.id)}
+                        style={styles.checkbox}
+                      >
+                        {checkTickMark(item.id) ? (
+                          <Image
+                            source={icons.tick}
+                            style={{
+                              width: "60%",
+                              height: "60%",
+                              resizeMode: "contain",
+                            }}
+                          />
+                        ) : null}
+                      </TouchableOpacity>
+                      <Text style={styles.playerName}>{item?.title}</Text>
+                    </View>
+                  );
+                })
+              : null}
+
+            {/* {bookingData?.selectedSport?.sportServiceSetting?.hasHalfTimeSetting ? (
           <View
             style={{
               flexDirection: "row",
@@ -558,85 +668,32 @@ const BookingDetailScreen = () => {
             <Text style={styles.playerName}>Include A/C</Text>
           </View>
         ) : null} */}
-        <View style={styles.rowDirection}>
-          <BerlingskeMedium
-            style={{ color: themeColors.primary, fontSize: 17 }}
-          >
-            Players
-          </BerlingskeMedium>
-          {enableAddPlayers ? (
-            <MainButton
-              title="Add Players"
-              style={styles.addPlayer}
-              onPress={() => addPlayerPopup.current?.show()}
-            />
-          ) : null}
-        </View>
-
-        {/* Fixed player */}
-
-        <View>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginBottom: 2,
-            }}
-          >
-            <View style={styles.checkbox}>
-              <Image
-                source={icons.tick}
-                style={{
-                  width: "60%",
-                  height: "60%",
-                  resizeMode: "contain",
-                }}
-              />
-            </View>
-            <View>
-              <ArchivoRegular style={styles.playerName}>
-                {user?.name} {user?.surName}
-              </ArchivoRegular>
-              <View style={styles.chip}>
-                <ArchivoRegular
-                  style={[
-                    {
-                      color: themeColors.darkText,
-                      fontSize: 10,
-                      marginTop: -5,
-                    },
-                  ]}
-                >
-                  ( {playersAmountData?.p1Label} )
-                </ArchivoRegular>
-              </View>
-            </View>
-          </View>
-          <View style={{ pointerEvents: "none" }}>
-            <InputField
-              icon={icons.euro}
-              value={String(playersAmountData?.p1AmountDue || 0)}
-              invalid={validateAmount(
-                playersAmountData?.p1AmountDue,
-                playersAmountData?.p1BalanceAmount
-              )}
-            />
-          </View>
-        </View>
-        {selectedPlayers.map((item, index) => (
-          <View style={{ marginTop: 10 }}>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginBottom: 2,
-              }}
-            >
-              <TouchableOpacity
-                onPress={() => handleAddPlayer(item)}
-                style={styles.checkbox}
+            <View style={styles.rowDirection}>
+              <BerlingskeMedium
+                style={{ color: themeColors.primary, fontSize: 17 }}
               >
-                {item?.isChecked && (
+                Players
+              </BerlingskeMedium>
+              {enableAddPlayers ? (
+                <MainButton
+                  title="Add Players"
+                  style={styles.addPlayer}
+                  onPress={() => addPlayerPopup.current?.show()}
+                />
+              ) : null}
+            </View>
+
+            {/* Fixed player */}
+
+            <View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginBottom: 2,
+                }}
+              >
+                <View style={styles.checkbox}>
                   <Image
                     source={icons.tick}
                     style={{
@@ -645,64 +702,218 @@ const BookingDetailScreen = () => {
                       resizeMode: "contain",
                     }}
                   />
-                )}
-              </TouchableOpacity>
-              <View>
-                <ArchivoRegular style={styles.playerName}>
-                  {item.name} ({item.memberCode})
-                </ArchivoRegular>
-                <View style={styles.chip}>
-                  <ArchivoRegular
-                    style={[
-                      {
-                        color: themeColors.darkText,
-                        fontSize: 12,
-                        marginTop: -5,
-                      },
-                    ]}
-                  >
-                    ( {playersAmountData[`p${index + 2}Label`]} )
+                </View>
+                <View>
+                  <ArchivoRegular style={styles.playerName}>
+                    {user?.name} {user?.surName}
                   </ArchivoRegular>
+                  <View style={styles.chip}>
+                    <ArchivoRegular
+                      style={[
+                        {
+                          color: themeColors.darkText,
+                          fontSize: 10,
+                          marginTop: -5,
+                        },
+                      ]}
+                    >
+                      ( {playersAmountData?.p1Label} )
+                    </ArchivoRegular>
+                  </View>
                 </View>
               </View>
+              <View style={{ pointerEvents: "none" }}>
+                <InputField
+                  icon={icons.euro}
+                  value={String(playersAmountData?.p1AmountDue || 0)}
+                  invalid={validateAmount(
+                    playersAmountData?.p1AmountDue,
+                    playersAmountData?.p1BalanceAmount
+                  )}
+                />
+              </View>
             </View>
-            {item?.isChecked && (
-              <InputField
-                icon={icons.euro}
-                value={String(playersAmountData[`p${index + 2}AmountDue`])}
-                invalid={validateAmount(
-                  playersAmountData[`p${index + 2}AmountDue`],
-                  playersAmountData[`p${index + 2}BalanceAmount`]
+            {selectedPlayers.map((item, index) => (
+              <View style={{ marginTop: 10 }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginBottom: 2,
+                  }}
+                >
+                  <TouchableOpacity
+                    onPress={() => handleAddPlayer(item)}
+                    style={styles.checkbox}
+                  >
+                    {item?.isChecked && (
+                      <Image
+                        source={icons.tick}
+                        style={{
+                          width: "60%",
+                          height: "60%",
+                          resizeMode: "contain",
+                        }}
+                      />
+                    )}
+                  </TouchableOpacity>
+                  <View style={{ width: "90%" }}>
+                    <ArchivoRegular style={styles.playerName}>
+                      {item.name} ({item.memberCode})
+                    </ArchivoRegular>
+                    <View style={styles.chip}>
+                      <ArchivoRegular
+                        style={[
+                          {
+                            color: themeColors.darkText,
+                            fontSize: 12,
+                            marginTop: -5,
+                          },
+                        ]}
+                      >
+                        ( {playersAmountData[`p${index + 2}Label`]} )
+                      </ArchivoRegular>
+                    </View>
+                    <TouchableOpacity
+                      style={{
+                        position: "absolute",
+                        right: 0,
+                      }}
+                      onPress={() => handleRemovePlayers(item)}
+                    >
+                      <Image
+                        source={icons.cross}
+                        style={{
+                          width: vh * 3,
+                          height: vh * 3,
+                          resizeMode: "contain",
+                        }}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                {item?.isChecked && (
+                  <InputField
+                    icon={icons.euro}
+                    value={String(playersAmountData[`p${index + 2}AmountDue`])}
+                    invalid={validateAmount(
+                      playersAmountData[`p${index + 2}AmountDue`],
+                      playersAmountData[`p${index + 2}BalanceAmount`]
+                    )}
+                  />
                 )}
-              />
-            )}
-          </View>
-        ))}
-        <MainButton
-          onPress={() => bookingConfirmationRef.current?.show()}
-          disabled={disableBooking}
-          title="BOOK"
-        />
-        {selectedPlayers.length ? (
-          <BerlingskeMedium style={styles.heading}>
-            Remove Players
-          </BerlingskeMedium>
-        ) : (
-          <View />
-        )}
-        {selectedPlayers.map((item) => {
-          return (
-            <View style={styles.removePlayerContainer}>
-              <ArchivoRegular style={{ fontSize: 13 }}>
-                {item.name} ({item.memberCode})
-              </ArchivoRegular>
-              <TouchableOpacity onPress={() => handleRemovePlayers(item)}>
-                <Image source={icons.cross} style={styles.icon} />
-              </TouchableOpacity>
-            </View>
-          );
-        })}
-      </ScrollView>
+              </View>
+            ))}
+
+            {newFavList?.length ? (
+              <Animated.View>
+                <BerlingskeMedium
+                  style={{ color: themeColors.primary, fontSize: 17 }}
+                >
+                  Favourite Members
+                </BerlingskeMedium>
+              </Animated.View>
+            ) : null}
+            {newFavList?.length ? (
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "flex-end",
+                  marginVertical: vh * 1,
+                }}
+              >
+                {newFavList.slice(0, 4).map((item, index) => {
+                  return (
+                    <Animated.View
+                      entering={SlideInRight.duration((index + 1) * 150).delay(
+                        (index + 1) * 20
+                      )}
+                      style={{
+                        width: 55,
+                        marginRight: 10,
+                        alignItems: "center",
+                      }}
+                    >
+                      <TouchableOpacity
+                        onPress={() => onQuickFavPress(item)}
+                        style={styles.circle}
+                      >
+                        <Text style={{ color: "white" }}>
+                          {item.name?.split(" ")[0][0]}
+                          {item.name?.split(" ")[1][0]}
+                        </Text>
+                      </TouchableOpacity>
+                      <ArchivoLight
+                        numberOfLines={2}
+                        style={{
+                          fontSize: vh * 1.4,
+                        }}
+                      >
+                        {item.name}
+                      </ArchivoLight>
+                    </Animated.View>
+                  );
+                })}
+                <Animated.View
+                  entering={SlideInRight.duration(750).delay(300)}
+                  style={{
+                    alignItems: "center",
+
+                    width: 55,
+                    marginRight: 10,
+                  }}
+                >
+                  <TouchableOpacity
+                    onPress={() => addPlayerPopup.current?.show()}
+                    style={[styles.circle, { backgroundColor: "#0002" }]}
+                  >
+                    <Image
+                      style={{
+                        width: "40%",
+                        height: "40%",
+                        resizeMode: "contain",
+                        tintColor: "black",
+                      }}
+                      source={icons.add}
+                    />
+                  </TouchableOpacity>
+                  <ArchivoLight
+                    numberOfLines={2}
+                    style={{ fontSize: vh * 1.4, width: 55 }}
+                  >
+                    Add More
+                  </ArchivoLight>
+                </Animated.View>
+              </View>
+            ) : null}
+
+            <MainButton
+              onPress={() => bookingConfirmationRef.current?.show()}
+              disabled={disableBooking}
+              title="BOOK"
+            />
+            {/* {selectedPlayers.length ? (
+              <BerlingskeMedium style={styles.heading}>
+                Remove Players
+              </BerlingskeMedium>
+            ) : (
+              <View />
+            )} */}
+            {/* {selectedPlayers.map((item) => {
+              return (
+                <View style={styles.removePlayerContainer}>
+                  <ArchivoRegular style={{ fontSize: 13 }}>
+                    {item.name} ({item.memberCode})
+                  </ArchivoRegular>
+                  <TouchableOpacity onPress={() => handleRemovePlayers(item)}>
+                    <Image source={icons.cross} style={styles.icon} />
+                  </TouchableOpacity>
+                </View>
+              );
+            })} */}
+          </Animated.View>
+        </ScrollView>
+      </ScreenWrapper>
       <AddPlayerModal
         allPlayers={allPlayers}
         reference={addPlayerPopup}
@@ -769,9 +980,11 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   icon: {
-    height: 20,
-    width: 20,
+    height: vh * 2.3,
+    width: vh * 2.3,
+    marginRight: vw * 2,
     resizeMode: "contain",
+    tintColor: "#0009",
   },
   loader: {
     height: vh * 100,
@@ -787,5 +1000,13 @@ const styles = StyleSheet.create({
     // width: 80,
     // position : "absolute",
     // alignItems: "center",
+  },
+  circle: {
+    height: vh * 4.5,
+    width: vh * 4.5,
+    borderRadius: vh * 100,
+    backgroundColor: themeColors.primary,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

@@ -10,6 +10,7 @@ import React, { useEffect, useState } from "react";
 import { themeColors } from "../../utils/theme";
 import { icons } from "@/app/MyAssets";
 import { useTheme } from "@react-navigation/native";
+import { vh } from "@/app/utils/units";
 
 const MainButton = (props) => {
   const [width, setWidth] = useState(Dimensions.get("window").width);
@@ -74,7 +75,7 @@ const MyStyles = () => {
 
   const styles = StyleSheet.create({
     container: {
-      height: 40,
+      height: vh * 4.3,
       width: "100%",
       backgroundColor: colors.secondary,
       justifyContent: "center",
@@ -83,6 +84,15 @@ const MyStyles = () => {
       marginVertical: 14,
       alignSelf: "center",
       flexDirection: "row",
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+      shadowOpacity: 0.22,
+      shadowRadius: 2.22,
+
+      elevation: 3,
     },
     buttonText: {
       color: "black",

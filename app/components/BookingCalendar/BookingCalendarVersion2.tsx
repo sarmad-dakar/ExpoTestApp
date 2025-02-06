@@ -363,7 +363,12 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
         {...panResponder.panHandlers} // Attach the pan responder
         style={styles.gestureRegion}
       >
-        <View style={{ backgroundColor: "#E0E0E0", padding: 10 }}>
+        <View
+          style={{
+            backgroundColor: "#E0E0E0",
+            padding: 10,
+          }}
+        >
           <View style={{ height: 33, width: "100%", flexDirection: "row" }}>
             <TouchableOpacity
               onPress={handleGalleryPress}
