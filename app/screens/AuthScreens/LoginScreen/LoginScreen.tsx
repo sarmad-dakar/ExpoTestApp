@@ -9,6 +9,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  NativeModules,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import MainButton from "@/app/components/MainButton";
@@ -45,6 +46,9 @@ import Animated, {
   FadeOut,
   SlideOutDown,
 } from "react-native-reanimated";
+// import Payments from "react-native-payments";
+const { TrustPaymentsModule } = NativeModules;
+
 const LoginScreen = () => {
   const [membershipNumber, setMemberShipNumber] = useState("");
   const [password, setPassword] = useState("");
@@ -97,6 +101,73 @@ const LoginScreen = () => {
   }, []);
 
   const handleSignInPress = async () => {
+    // console.log("Apply implementation here..");
+    // const result = await TrustPaymentsModule.processGooglePay();
+    // console.log(result, "result of native module");
+    // return;
+
+    const allowedCardNetworks = [
+      "AMEX",
+      "DISCOVER",
+      "INTERAC",
+      "JCB",
+      "MASTERCARD",
+      "VISA",
+    ];
+
+    // const allowedCardAuthMethods = ["PAN_ONLY", "CRYPTOGRAM_3DS"];
+    // try {
+    //   const DETAILS = {
+    //     id: "basic-example",
+    //     displayItems: [
+    //       {
+    //         label: "Movie Ticket",
+    //         amount: { currency: "USD", value: "15.00" },
+    //       },
+    //     ],
+    //     total: {
+    //       label: "Atta bhai",
+    //       amount: { currency: "USD", value: "15.00" },
+    //     },
+    //   };
+
+    //   const METHOD_DATA = [
+    //     {
+    //       supportedMethods: ["android-pay"],
+    //       data: {
+    //         supportedNetworks: ["visa", "mastercard", "amex"],
+    //         currencyCode: "USD",
+    //         environment: "TEST", // defaults to production
+    //         // paymentMethodTokenizationParameters: {
+    //         //   tokenizationType: "NETWORK_TOKEN",
+    //         //   parameters: {
+    //         //     publicKey:
+    //         //       "pk_test_51OLSSkDzaeDL8jWuNrMWNkM5UMIOrVr1UpO1XgDP1URMxnLSJBoS3MIQBiLdPNcncXeVRDShf5IXg3cU1MHzCe8200sXGYV8gK",
+    //         //   },
+    //         // },
+
+    //         paymentMethodTokenizationParameters: {
+    //           tokenizationType: "GATEWAY_TOKEN",
+    //           parameters: {
+    //             gateway: "stripe", // Change if using Stripe or another gateway
+    //           },
+    //         },
+    //       },
+    //     },
+    //   ];
+    //   const paymentRequest = new PaymentRequest(METHOD_DATA, DETAILS);
+    //   paymentRequest
+    //     .show()
+    //     .then((res) => {
+    //       console.log(res);
+    //     })
+    //     .catch((err) => {
+    //       console.log(JSON.stringify(err), "Error");
+    //     });
+    // } catch (error) {
+    //   console.log(error, "Error caught");
+    // }
+
     setMemberShipError("");
     setPasswordError("");
     if (!membershipNumber) {

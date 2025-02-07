@@ -159,9 +159,9 @@ const InputField = (props) => {
         )}
       </Animated.View>
       {props.error && <Text style={styles.error}>{props?.error}</Text>}
-      {props.invalid && (
+      {/* {props.invalid && (
         <Text style={styles.error}>Balance is less. Kindly topup</Text>
-      )}
+      )} */}
     </View>
   );
 };

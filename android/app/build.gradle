@@ -149,6 +149,9 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
+    // implementation 'com.trustpayments.mobile:core:2.8.3'
+    // implementation 'com.trustpayments.mobile:ui:2.8.3'
+
 
     def isGifEnabled = (findProperty('expo.gif.enabled') ?: "") == "true";
     def isWebpEnabled = (findProperty('expo.webp.enabled') ?: "") == "true";

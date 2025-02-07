@@ -16,6 +16,7 @@ import { vh } from "./utils/units";
 import BerlingskeMedium from "./components/TextWrapper/BerlingskeMedium";
 import ArchivoMedium from "./components/TextWrapper/ArchivoMedium";
 import { themeColors } from "./utils/theme";
+// global.PaymentRequest = require("react-native-payments").PaymentRequest;
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -70,7 +71,6 @@ const MyApp = () => {
 
   useEffect(() => {
     if (club?.primaryColorCode) {
-      
       let data = {
         dark: false,
         colors: {

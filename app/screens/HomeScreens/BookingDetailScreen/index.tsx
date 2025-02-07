@@ -52,7 +52,11 @@ import Animated, {
   SlideInDown,
   SlideInLeft,
   SlideInRight,
+  SlideInUp,
+  ZoomIn,
 } from "react-native-reanimated";
+import Toast from "react-native-toast-message";
+import ArchivoMedium from "@/app/components/TextWrapper/ArchivoMedium";
 interface Player {
   gender: string;
   name: string;
@@ -126,7 +130,7 @@ const BookingDetailScreen = () => {
 
   useEffect(() => {
     if (bookingType?.key) {
-      getAmountDue([]);
+      getAmountDue(selectedPlayers);
       // sortTheSelectedPlayers();
     }
   }, [bookingType]);
@@ -430,14 +434,29 @@ const BookingDetailScreen = () => {
   };
 
   const onQuickFavPress = (item) => {
+    if (maximumPlayers == selectedPlayers.length) {
+      Toast.show({ type: "info", text1: "Maximum players limit reached" });
+      return true;
+    }
     const totalSelected = [...selectedPlayers, item];
-    const remainingFav = newFavList.filter(
-      (obj) => obj?.memberCode !== item?.memberCode
-    );
+    // const remainingFav = newFavList.filter(
+    //   (obj) => obj?.memberCode !== item?.memberCode
+    // );
     console.log(item, " item");
-    setNewFavList(remainingFav);
+    // setNewFavList(remainingFav);
     setSelectedPlayers(totalSelected);
     getAmountDue(totalSelected);
+  };
+
+  const isAddedInList = (item) => {
+    const isAdded = selectedPlayers.find(
+      (player) => player?.memberCode == item.memberCode
+    );
+    if (isAdded) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   return (
@@ -472,6 +491,7 @@ const BookingDetailScreen = () => {
 
       <ScreenWrapper>
         <ScrollView
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 50 }}
           style={{ flex: 1 }}
         >
@@ -730,11 +750,37 @@ const BookingDetailScreen = () => {
                     playersAmountData?.p1AmountDue,
                     playersAmountData?.p1BalanceAmount
                   )}
+                  error={
+                    validateAmount(
+                      playersAmountData?.p1AmountDue,
+                      playersAmountData?.p1BalanceAmount
+                    )
+                      ? "Balance is less. Kindly topup"
+                      : null
+                  }
                 />
               </View>
             </View>
+
+            {selectedPlayers.length ? (
+              <Animated.View
+                entering={ZoomIn.duration(1000)}
+                style={{ alignSelf: "center" }}
+              >
+                <ArchivoMedium style={{ fontSize: vh * 1.8 }}>
+                  Split the Cost with Ease!
+                </ArchivoMedium>
+                <Image
+                  source={icons.split}
+                  style={[styles.icon, { alignSelf: "center" }]}
+                />
+              </Animated.View>
+            ) : null}
             {selectedPlayers.map((item, index) => (
-              <View style={{ marginTop: 10 }}>
+              <Animated.View
+                entering={SlideInRight.duration(500)}
+                style={{ marginTop: 10 }}
+              >
                 <View
                   style={{
                     flexDirection: "row",
@@ -800,9 +846,17 @@ const BookingDetailScreen = () => {
                       playersAmountData[`p${index + 2}AmountDue`],
                       playersAmountData[`p${index + 2}BalanceAmount`]
                     )}
+                    error={
+                      validateAmount(
+                        playersAmountData[`p${index + 2}AmountDue`],
+                        playersAmountData[`p${index + 2}BalanceAmount`]
+                      )
+                        ? "Balance is less. Kindly topup"
+                        : null
+                    }
                   />
                 )}
-              </View>
+              </Animated.View>
             ))}
 
             {newFavList?.length ? (
@@ -829,14 +883,21 @@ const BookingDetailScreen = () => {
                         (index + 1) * 20
                       )}
                       style={{
-                        width: 55,
-                        marginRight: 10,
+                        width: vw * 15,
+                        marginRight: vw * 1,
                         alignItems: "center",
                       }}
                     >
                       <TouchableOpacity
                         onPress={() => onQuickFavPress(item)}
-                        style={styles.circle}
+                        disabled={isAddedInList(item)}
+                        style={[
+                          styles.circle,
+                          isAddedInList(item) && {
+                            borderWidth: 2,
+                            borderColor: themeColors.secondary,
+                          },
+                        ]}
                       >
                         <Text style={{ color: "white" }}>
                           {item.name?.split(" ")[0][0]}
@@ -859,7 +920,7 @@ const BookingDetailScreen = () => {
                   style={{
                     alignItems: "center",
 
-                    width: 55,
+                    width: vw * 15,
                     marginRight: 10,
                   }}
                 >
