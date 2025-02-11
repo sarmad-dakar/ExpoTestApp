@@ -921,7 +921,6 @@ const BookingDetailScreen = () => {
                     alignItems: "center",
 
                     width: vw * 15,
-                    marginRight: 10,
                   }}
                 >
                   <TouchableOpacity

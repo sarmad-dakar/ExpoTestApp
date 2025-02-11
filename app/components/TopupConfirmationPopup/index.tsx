@@ -33,6 +33,7 @@ import GeneralHeader from "../GeneralHeader";
 import { themeColors } from "@/app/utils/theme";
 import { vh } from "@/app/utils/units";
 import ArchivoRegular from "../TextWrapper/ArchivoRegular";
+import { useSelector } from "react-redux";
 
 // Get screen dimensions
 const { height } = Dimensions.get("window");
@@ -54,7 +55,14 @@ const TopupConfirmationPopup = forwardRef<
   const [visible, setVisible] = useState(false);
   const [amount, setAmount] = useState<string>("");
   const [steps, setSteps] = useState(1);
+  const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
+
   const [url, setUrl] = useState("");
+  const user = useSelector((state: any) => state.user.profile);
+  const profile = useSelector((state: any) => state.user.user);
+
+  // const savedCards = JSON.parse(profile?.payInfo) || [];
+
   const dispatch = useAppDispatch();
   useImperativeHandle(ref || props.reference, () => ({
     hide: hide,
@@ -111,6 +119,9 @@ const TopupConfirmationPopup = forwardRef<
       Comment: "",
       PinCode: "",
     };
+    if (selectedCardId !== "other") {
+      data.payment;
+    }
     const result = await TopupBalance(data);
     console.log(result.data, "amount");
     // hide();
@@ -173,6 +184,47 @@ const TopupConfirmationPopup = forwardRef<
             <ArchivoRegular style={{ fontSize: 13 }}>
               Please enter the amount you wish to top-up:
             </ArchivoRegular>
+
+            {/* Saved Cards as Radio Buttons */}
+            {/* {savedCards.map((card: any) => (
+              <TouchableOpacity
+                key={card.Id}
+                style={styles.cardContainer}
+                onPress={() => {
+                  setSelectedCardId(card.Id);
+                  setAmount(""); // Clear input when a card is selected
+                }}
+              >
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <View style={styles.radio}>
+                    {selectedCardId === card.Id && (
+                      <View style={styles.radioInner} />
+                    )}
+                  </View>
+                  <Text style={styles.cardText}>
+                    {card.CardNumber} {"    "} (Exp: {card.CardExpiryDate})
+                  </Text>
+                </View>
+                <Image source={icons.card} style={styles.cardIcon} />
+              </TouchableOpacity>
+            ))} */}
+
+            {/* <TouchableOpacity
+              style={styles.cardContainer}
+              onPress={() => {
+                setSelectedCardId("other");
+                setAmount(""); // Clear input when a card is selected
+              }}
+            >
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <View style={styles.radio}>
+                  {selectedCardId === "other" && (
+                    <View style={styles.radioInner} />
+                  )}
+                </View>
+                <Text style={styles.cardText}>Add New Card</Text>
+              </View>
+            </TouchableOpacity> */}
 
             <InputField
               keyboardType="decimal-pad"
@@ -278,6 +330,33 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     zIndex: 100,
+  },
+  cardContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  radio: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: "black",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  radioInner: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: "black",
+  },
+  cardText: { marginLeft: 10 },
+  cardIcon: {
+    height: vh * 3,
+    width: vh * 3,
+    resizeMode: "contain",
   },
 });
 

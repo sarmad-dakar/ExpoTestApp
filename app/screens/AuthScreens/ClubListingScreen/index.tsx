@@ -18,6 +18,7 @@ import { setBaseURL } from "@/app/api";
 import { useAppDispatch } from "../../HomeScreens/LandingScreen";
 import { getAllClubs } from "@/app/api/Auth";
 import {
+  setAllClubs,
   setClubConfig,
   toggleBtnLoader,
 } from "@/app/store/slices/generalSlice";
@@ -40,11 +41,17 @@ import {
 } from "@/app/store/slices/userSlice";
 import LoaderComponent from "@/app/components/Loader";
 import { router } from "expo-router";
+import moment from "moment";
 
 const index = () => {
   const [clubs, setClubs] = useState([]);
   const dispatch = useAppDispatch();
   const loader = useSelector((state: any) => state.general.generalLoader);
+  const allClubsInRedux = useSelector((state: any) => state.general.allClubs);
+  const nextFetchDate = useSelector(
+    (state: any) => state.general.nextFetchDate
+  );
+
   const multipleUsers = useSelector(
     (state: RootState) => state.user.multipleUsers
   );
@@ -57,51 +64,51 @@ const index = () => {
   }, []);
 
   const fetchClubs = async () => {
+    const isDatePassed = moment().isBefore(moment(nextFetchDate));
+    if (allClubsInRedux && isDatePassed) {
+      console.log(nextFetchDate, "nextFetchDate");
+      setClubs(allClubsInRedux);
+      return;
+    }
     const response = await getAllClubs();
     const clubs = response.data;
     setClubs(clubs);
     getEachClubData(clubs, 0);
     console.log(clubs, "response of clubs");
   };
-  const getEachClubData = async (allClubs, index) => {
+
+  const getEachClubData = async (allClubs, index, clubsData = []) => {
     if (index >= allClubs.length) {
-      console.log("Finished processing all clubs.");
-      return; // Base case: Stop recursion when all clubs are processed
+      setClubs(clubsData); // Update state once all clubs are processed
+      console.log(clubsData, "Finished processing all clubs.");
+      dispatch(setAllClubs(clubsData));
+      return;
     }
 
     const currentUrl = allClubs[index];
 
     try {
-      // Fetch details for the current club
       const response = await axios.get(
         `${currentUrl}/api/v1/SportServices/sport/club/services`
       );
       const clubDetails = response.data;
-      console.log(clubDetails, "clubDetails");
-      // Update the `clubs` state with new details
-      setClubs((prevClubs) => {
-        const updatedClubs = [...prevClubs];
-        updatedClubs[index] = clubDetails; // Replace URL with club details
-        return updatedClubs;
-      });
 
       // Recursively process the next club
-      await getEachClubData(allClubs, index + 1);
+      await getEachClubData(allClubs, index + 1, [...clubsData, clubDetails]);
     } catch (error) {
       console.error(`Error fetching data for club at ${currentUrl}:`, error);
-      // You may choose to keep the URL as is if an error occurs
-      await getEachClubData(allClubs, index + 1);
+      await getEachClubData(allClubs, index + 1, [...clubsData, null]); // Keep track of failed requests
     }
   };
 
   const handleClubPress = (item) => {
     try {
-      setLocalLoader(true);
+      // setLocalLoader(true);
       let isExist = multipleUsers?.find(
         (element) => element.club?.title == item.title
       );
       setBaseURL(`${item.apiURL}`);
-      dispatch(toggleBtnLoader(true));
+      // dispatch(toggleBtnLoader(true));
       dispatch(setClubConfig(item));
       console.log(isExist, "existing user");
       if (isExist?.user) {
@@ -109,14 +116,14 @@ const index = () => {
         setTimeout(() => {
           setLocalLoader(false);
           router.replace("/(tabs)/homestack/");
-        }, 2000);
+        }, 100);
       } else {
         dispatch(removeLoginDetails());
 
         setTimeout(() => {
           setLocalLoader(false);
           router.replace("/login");
-        }, 2000);
+        }, 100);
       }
 
       // setTimeout(() => {

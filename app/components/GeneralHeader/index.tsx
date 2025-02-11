@@ -20,6 +20,7 @@ import TopupConfirmationPopup from "../TopupConfirmationPopup";
 import { ConfirmationPopupRef } from "../ConfirmationPopup";
 import { useTheme } from "@react-navigation/native";
 import ArchivoRegular from "../TextWrapper/ArchivoRegular";
+import ArchivoMedium from "../TextWrapper/ArchivoMedium";
 
 type headerProps = {
   title: string;
@@ -75,14 +76,14 @@ const GeneralHeader = ({ title, back, sport, color, disable }: headerProps) => {
             />
           ) : null}
           {sport?.icon ? (
-            <Text
+            <ArchivoMedium
               style={[
                 styles.selectedSport,
                 { color: colors.secondary, fontSize: vh * 1.5 },
               ]}
             >
               {sport?.name || "Tennis"}
-            </Text>
+            </ArchivoMedium>
           ) : null}
         </View>
       )}

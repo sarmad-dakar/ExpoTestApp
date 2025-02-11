@@ -134,7 +134,7 @@ const ImageGalleryViewerPopup = forwardRef<
           }}
           style={styles.content}
         >
-          <BerlingskeBold style={{ marginBottom: 10 }}>
+          {/* <BerlingskeBold style={{ marginBottom: 10 }}>
             {sportName} Gallery
           </BerlingskeBold>
           <TouchableOpacity onPress={hide} style={styles.crossIconContainer}>
@@ -146,16 +146,16 @@ const ImageGalleryViewerPopup = forwardRef<
                 resizeMode: "contain",
               }}
             />
-          </TouchableOpacity>
-          <View style={{ flex: 0.8 }}>
+          </TouchableOpacity> */}
+          <View style={{ flex: 1 }}>
             <Swiper
-              renderPagination={(index, total, context) => {
-                return (
-                  <Text style={{ alignSelf: "center", marginTop: 10 }}>
-                    {index + 1}/{total}
-                  </Text>
-                );
-              }}
+              // renderPagination={(index, total, context) => {
+              //   return (
+              //     <Text style={{ alignSelf: "center", marginTop: 10 }}>
+              //       {index + 1}/{total}
+              //     </Text>
+              //   );
+              // }}
               nextButton={
                 <View
                   style={styles.circle}
@@ -248,12 +248,14 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    padding: 16,
+    // padding: 16,
     height: height * 0.6,
+    overflow: "hidden",
   },
   content: {
     flex: 1,
-    paddingTop: vh * 3,
+    // overflow: "hidden",
+    // paddingTop: vh * 3,
   },
   rowDirection: {
     flexDirection: "row",
@@ -276,13 +278,13 @@ const styles = StyleSheet.create({
     zIndex: 100,
   },
   imageViewer: {
-    height: vh * 35,
+    height: "100%",
     backgroundColor: "#0002",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     // paddingHorizontal: "2%",
-    borderRadius: vh * 4,
+    // borderRadius: vh * 4,
     overflow: "hidden",
   },
   icon: {

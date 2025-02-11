@@ -10,10 +10,7 @@ const LogoHeader = () => {
   const store = useSelector((state: RootState) => state.general.clubConfig);
 
   return (
-    <Animated.View
-      entering={ZoomIn.duration(1000).delay(1500)}
-      style={styles.container}
-    >
+    <Animated.View entering={ZoomIn.duration(1000)} style={styles.container}>
       <Image source={{ uri: store?.logo }} style={styles.logo} />
     </Animated.View>
   );

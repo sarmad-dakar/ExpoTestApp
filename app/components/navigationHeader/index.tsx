@@ -9,8 +9,8 @@ import {
   useColorScheme,
   View,
 } from "react-native";
-import React, { useRef } from "react";
-import { icons } from "@/app/MyAssets";
+import React, { useRef, useState } from "react";
+import { icons, images } from "@/app/MyAssets";
 import { themeColors } from "@/app/utils/theme";
 import { vh } from "@/app/utils/units";
 import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
@@ -37,10 +37,11 @@ const NavigationHeader = ({ title, back, sport, color }: headerProps) => {
   const topupConfirmationRef = useRef<ConfirmationPopupRef>(null);
   const profile = useSelector((state: any) => state.user?.user);
   const user = useSelector((state: any) => state.user.profile);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   const styles = MyStyles();
   const { colors } = useTheme();
-  console.log(profile?.profilePic)
+  console.log(profile?.profilePic);
   const handlePress = () => {
     topupConfirmationRef.current?.show();
   };
@@ -95,13 +96,19 @@ const NavigationHeader = ({ title, back, sport, color }: headerProps) => {
         )}
       </View>
       <View style={styles.profileContainer}>
-        <Pressable 
-        onPress={() => router.navigate("/navigationstack/myprofile")}
-        style={styles.pictureContainer}>
+        <Pressable
+          onPress={() => router.navigate("/navigationstack/myprofile")}
+          style={styles.pictureContainer}
+        >
           <View style={styles.circle}>
+            {!imageLoaded && (
+              <Image source={icons.dummyUser2} style={styles.profile} />
+            )}
+
             <Image
               source={{ uri: profile?.profilePic }}
-              style={styles.profile}
+              style={[styles.profile, imageLoaded ? {} : { display: "none" }]} // Hide until loaded
+              onLoad={() => setImageLoaded(true)}
             />
           </View>
         </Pressable>
@@ -122,7 +129,7 @@ const NavigationHeader = ({ title, back, sport, color }: headerProps) => {
               </ArchivoExtraLight>
             </View>
             <TouchableOpacity
-               hitSlop={{
+              hitSlop={{
                 top: 20,
                 bottom: 20,
                 left: 20,
