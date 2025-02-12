@@ -70,6 +70,13 @@ export const icons = {
   exchange2: require("./icons/exchange2.png"),
   add: require("./icons/add.png"),
   split: require("./icons/split.png"),
+  card: require("./icons/credit-card.png"),
+  dummyUser2: require("./icons/dummyUser.png"),
+  card2: require("./icons/card2.png"),
+  card3: require("./icons/card3.png"),
+  addMore: require("./icons/addmore.png"),
+  gpay: require("./icons/google-pay.png"),
+  applePay: require("./icons/apple-pay.png"),
 };
 
 export const images = {

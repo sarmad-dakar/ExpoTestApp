@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import moment from "moment";
 
 const initialState = {
   btnLoader: false,
@@ -6,6 +7,8 @@ const initialState = {
   internetConnectivity: true,
   clubConfig: {},
   skipIntro: false,
+  allClubs: [],
+  nextFetchDate: null,
 };
 
 // create a slice of user
@@ -31,6 +34,11 @@ const slice = createSlice({
     skipIntro: (state, action) => {
       state.skipIntro = true;
     },
+    setAllClubs: (state, action) => {
+      state.allClubs = action.payload;
+      // Store nextFetchDate as an ISO string (which is serializable)
+      state.nextFetchDate = moment().add(24, "hours").toISOString();
+    },
   },
 });
 const reducer = slice.reducer;
@@ -44,4 +52,5 @@ export const {
   setClubConfig,
   switchUser,
   skipIntro,
+  setAllClubs,
 } = slice.actions;

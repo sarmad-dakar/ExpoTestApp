@@ -38,6 +38,7 @@ import { RootState } from "@/app/store";
 import PoweredBy from "@/app/components/PoweredBy";
 import Animated, { FadeIn, SlideInLeft } from "react-native-reanimated";
 import NavigationHeader from "@/app/components/navigationHeader";
+import moment from "moment";
 
 const AppNavigationScreen = () => {
   const activeOpacity = 0.5;
@@ -52,6 +53,10 @@ const AppNavigationScreen = () => {
   ]);
   const multipleUsers = useSelector(
     (state: RootState) => state.user.multipleUsers
+  );
+  const allClubsInRedux = useSelector((state: any) => state.general.allClubs);
+  const nextFetchDate = useSelector(
+    (state: any) => state.general.nextFetchDate
   );
 
   const AppSettings = [
@@ -84,7 +89,7 @@ const AppNavigationScreen = () => {
   }, [club]);
 
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(logout(club));
     setTimeout(() => {
       // router.replace("/login");
     }, 200);
@@ -112,7 +117,6 @@ const AppNavigationScreen = () => {
         });
       }
       // Update the `clubs` state with new details
-
       // Recursively process the next club
       await getEachClubData(allClubs, index + 1);
     } catch (error) {
@@ -136,10 +140,22 @@ const AppNavigationScreen = () => {
   };
 
   const getAllClubs = async () => {
+    const isDatePassed = moment().isBefore(moment(nextFetchDate));
+
+    if (allClubsInRedux && isDatePassed) {
+      console.log(nextFetchDate, "nextFetchDate");
+      const myClubs = allClubsInRedux.filter(
+        (item) => item.title !== club?.title
+      );
+      console.log(clubs, "state my clubs");
+
+      console.log(myClubs, "myclubs");
+      setClubs([...clubs, ...myClubs]);
+      return;
+    }
     const response = await getGeneralAllClubs();
-    const clubs = response.data;
     // setClubs(clubs);
-    getEachClubData(clubs, 0);
+    getEachClubData(response.data, 0);
   };
 
   const handleClubPress = (obj) => {

@@ -38,10 +38,10 @@ const user = createSlice({
   name: "user",
   initialState,
   reducers: {
-    logout: (state) => {
+    logout: (state, action) => {
       const removeMultipleUser = state.multipleUsers.filter((item) => {
         console.log(item?.user?.name, state.user.name, "testtt");
-        return item?.user?.token !== state.user.token;
+        return item?.club?.title !== action.payload?.title;
       });
       console.log(removeMultipleUser, "multiple users");
       state.multipleUsers = removeMultipleUser;

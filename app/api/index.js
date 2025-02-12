@@ -1,6 +1,10 @@
 import axios from "axios";
 import { store } from "../store";
-import { fetchnewToken, fetchuserProfile, logout } from "../store/slices/userSlice";
+import {
+  fetchnewToken,
+  fetchuserProfile,
+  logout,
+} from "../store/slices/userSlice";
 import { toggleGeneralLoader } from "../store/slices/generalSlice";
 
 export const version = "v1/";
@@ -62,7 +66,7 @@ instance.interceptors.response.use(
     store.dispatch(toggleGeneralLoader(false));
 
     const originalRequest = error.config;
-    console.log(originalRequest, "api error");
+    console.log(JSON.stringify(error.response), "api error");
     if (
       error.response &&
       error.response.status === 401 &&
@@ -100,7 +104,8 @@ instance.interceptors.response.use(
           return instance(originalRequest);
         }
       } catch (refreshError) {
-        store.dispatch(logout());
+        const club = state.general.clubConfig;
+        store.dispatch(logout(club));
 
         processQueue(refreshError, null);
         return Promise.reject(refreshError);

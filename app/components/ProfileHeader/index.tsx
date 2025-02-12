@@ -44,6 +44,7 @@ const ProfileHeader = ({
   const user = useSelector((state: any) => state.user.profile);
   const loading = useSelector((state: RootState) => state.general.btnLoader);
   const styles = MyStyles();
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
     if (image) {
@@ -113,9 +114,14 @@ const ProfileHeader = ({
 
       <View style={styles.footerContainer}>
         <View style={styles.profileConatiner}>
+          {!imageLoaded && (
+            <Image source={icons.dummyUser2} style={styles.image} />
+          )}
+
           <Image
-            source={profilePic || images.dummyAvatar}
-            style={styles.image}
+            source={profilePic}
+            style={[styles.image, imageLoaded ? {} : { display: "none" }]} // Hide until loaded
+            onLoad={() => setImageLoaded(true)}
           />
           <TouchableOpacity
             onPress={onCameraPress}

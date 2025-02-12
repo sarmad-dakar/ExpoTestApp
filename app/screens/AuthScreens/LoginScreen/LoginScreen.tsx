@@ -66,12 +66,11 @@ const LoginScreen = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(toggleGeneralLoader(false));
-
-    dispatch(toggleBtnLoader(true));
+    // dispatch(toggleGeneralLoader(false));
+    // dispatch(toggleBtnLoader(true));
     setTimeout(() => {
       dispatch(toggleBtnLoader(false));
-    }, 1500);
+    }, 200);
   }, []);
 
   useEffect(() => {
