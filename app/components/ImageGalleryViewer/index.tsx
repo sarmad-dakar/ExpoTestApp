@@ -31,6 +31,9 @@ import WebView from "react-native-webview";
 import { icons, images as newimages } from "@/app/MyAssets";
 import { vh } from "@/app/utils/units";
 import Swiper from "react-native-swiper";
+import { LinearGradient } from "expo-linear-gradient";
+import { themeColors } from "@/app/utils/theme";
+import { useTheme } from "@react-navigation/native";
 // import Pdf from "react-native-pdf";
 
 // Get screen dimensions
@@ -55,6 +58,7 @@ const ImageGalleryViewerPopup = forwardRef<
   const [images, setImages] = useState([]);
   const [sportName, setSportName] = useState("");
   const [loading, setLoading] = useState(false);
+  const { colors } = useTheme();
 
   useImperativeHandle(ref || props.reference, () => ({
     hide: hide,
@@ -148,7 +152,39 @@ const ImageGalleryViewerPopup = forwardRef<
             />
           </TouchableOpacity> */}
           <View style={{ flex: 1 }}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                position: "absolute",
+                zIndex: 100,
+                width: "100%",
+                paddingHorizontal: 10,
+                top: 10,
+              }}
+            >
+              <BerlingskeBold style={{ marginBottom: 10, color: "white" }}>
+                {sportName} Gallery
+              </BerlingskeBold>
+              <TouchableOpacity
+                onPress={hide}
+                style={styles.crossIconContainer}
+              >
+                <Image
+                  source={icons.cross}
+                  style={{
+                    width: 25,
+                    height: 25,
+                    resizeMode: "contain",
+                    tintColor: "white",
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
             <Swiper
+              dotColor="white"
+              activeDotColor={colors.secondary}
               // renderPagination={(index, total, context) => {
               //   return (
               //     <Text style={{ alignSelf: "center", marginTop: 10 }}>
@@ -178,16 +214,39 @@ const ImageGalleryViewerPopup = forwardRef<
             >
               {images.map((item, index) => {
                 return (
-                  <View style={styles.imageViewer}>
-                    <Image
+                  <ImageBackground
+                    source={{ uri: item }}
+                    imageStyle={{
+                      height: "100%",
+                      width: "100%",
+                      resizeMode: "cover",
+                    }}
+                    style={styles.imageViewer}
+                  >
+                    <LinearGradient
+                      style={{
+                        flex: 1,
+                        paddingHorizontal: "4%",
+                        paddingTop: "2%",
+                      }}
+                      colors={[
+                        "#000000c2",
+                        "#0000009e",
+                        "#00000045",
+                        "#00000000",
+                        "#00000000",
+                        "#00000000",
+                      ]}
+                    ></LinearGradient>
+                    {/* <Image
                       style={{
                         height: "100%",
                         width: "100%",
                         resizeMode: "cover",
                       }}
                       source={{ uri: item }}
-                    ></Image>
-                  </View>
+                    ></Image> */}
+                  </ImageBackground>
                 );
               })}
             </Swiper>
@@ -249,11 +308,12 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     // padding: 16,
-    height: height * 0.6,
+    height: height * 0.7,
     overflow: "hidden",
   },
   content: {
     flex: 1,
+    padding: 7,
     // overflow: "hidden",
     // paddingTop: vh * 3,
   },
@@ -272,19 +332,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   crossIconContainer: {
-    position: "absolute",
-    top: 0,
-    right: 0,
-    zIndex: 100,
+    // position: "absolute",
+    // top: 0,
+    // right: 0,
+    // zIndex: 100,
   },
   imageViewer: {
     height: "100%",
     backgroundColor: "#0002",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    // flexDirection: "row",
+    // alignItems: "center",
+    // justifyContent: "space-between",
     // paddingHorizontal: "2%",
-    // borderRadius: vh * 4,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+
     overflow: "hidden",
   },
   icon: {
