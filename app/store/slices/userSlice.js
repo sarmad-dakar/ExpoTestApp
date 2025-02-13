@@ -30,7 +30,9 @@ export const fetchnewToken = createAsyncThunk("newToken", async (data) => {
   try {
     const response = await refreshToken(data);
     return response.data;
-  } catch (error) {}
+  } catch (error) {
+    console.log(error, "error in fetch new token");
+  }
 });
 
 // create a slice of user
@@ -40,7 +42,7 @@ const user = createSlice({
   reducers: {
     logout: (state, action) => {
       const removeMultipleUser = state.multipleUsers.filter((item) => {
-        console.log(item?.user?.name, state.user.name, "testtt");
+        console.log(item?.user?.name, state.user?.name, "testtt");
         return item?.club?.title !== action.payload?.title;
       });
       console.log(removeMultipleUser, "multiple users");
@@ -79,15 +81,17 @@ const user = createSlice({
     });
     builder.addCase(fetchnewToken.fulfilled, (state, action) => {
       console.log(JSON.stringify(action.payload), "api Payload");
-      state.user = action.payload.data;
-      const updateWithTokens = state.multipleUsers.map((item) => {
-        if (item.user?.token == state.user.token) {
-          item.user.token = action.payload.data.token;
-        }
-        return item;
-      });
-      state.multipleUsers = updateWithTokens;
-      state.token = action.payload.data?.token;
+      if (action.payload) {
+        state.user = action.payload.data;
+        const updateWithTokens = state.multipleUsers.map((item) => {
+          if (item.user?.token == state.user.token) {
+            item.user.token = action.payload.data.token;
+          }
+          return item;
+        });
+        state.multipleUsers = updateWithTokens;
+        state.token = action.payload.data?.token;
+      }
     });
   },
 });

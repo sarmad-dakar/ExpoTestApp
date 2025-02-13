@@ -45,7 +45,7 @@ const NavigationHeader = ({ title, back, sport, color }: headerProps) => {
   const handlePress = () => {
     topupConfirmationRef.current?.show();
   };
-
+  console.log(balance, "here ...");
   return (
     <View style={[styles.container, color ? { backgroundColor: color } : null]}>
       <View style={styles.header}>
@@ -78,7 +78,7 @@ const NavigationHeader = ({ title, back, sport, color }: headerProps) => {
               }}
             />
             <ArchivoRegular style={{ color: "white", fontSize: vh * 1.5 }}>
-              {balance}
+              {balance ? balance?.toFixed(2) : "0"}
             </ArchivoRegular>
             <Image
               source={icons.dropdown}
@@ -234,7 +234,7 @@ const MyStyles = () => {
     textBtns: {
       fontSize: vh * 1.5,
       marginRight: vh * 2,
-      color: themeColors.secondary,
+      color: colors.secondary,
       textDecorationLine: "underline",
     },
     profile: {

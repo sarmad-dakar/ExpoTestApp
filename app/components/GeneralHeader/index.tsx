@@ -114,7 +114,7 @@ const GeneralHeader = ({ title, back, sport, color, disable }: headerProps) => {
             }}
           />
           <ArchivoRegular style={{ color: "white", fontSize: vh * 1.5 }}>
-            {balance?.toFixed(2)}
+            {balance ? balance?.toFixed(2) : "0"}
           </ArchivoRegular>
           <Image
             source={icons.dropdown}

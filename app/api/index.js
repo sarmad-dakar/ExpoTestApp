@@ -36,6 +36,8 @@ instance.interceptors.request.use(
     return config;
   },
   (error) => {
+    console.log("Logout Urgent3");
+
     return Promise.reject(error);
   }
 );
@@ -64,6 +66,7 @@ instance.interceptors.response.use(
   },
   async (error) => {
     store.dispatch(toggleGeneralLoader(false));
+    const state = store.getState();
 
     const originalRequest = error.config;
     console.log(JSON.stringify(error.response), "api error");
@@ -82,6 +85,9 @@ instance.interceptors.response.use(
             return instance(originalRequest);
           })
           .catch((err) => {
+            // const club = state.general.clubConfig;
+            // console.log(club, "Logout Urgent 3");
+            // store.dispatch(logout(club));
             return Promise.reject(err);
           });
       }
@@ -90,7 +96,6 @@ instance.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const state = store.getState();
         const previousToken = {
           token: state.user.token,
         };
@@ -105,6 +110,8 @@ instance.interceptors.response.use(
         }
       } catch (refreshError) {
         const club = state.general.clubConfig;
+        console.log(club, "Logout Urgent2");
+
         store.dispatch(logout(club));
 
         processQueue(refreshError, null);
@@ -114,6 +121,9 @@ instance.interceptors.response.use(
       }
     }
 
+    const club = state.general.clubConfig;
+    console.log(club, "Logout Urgent");
+    // store.dispatch(logout(club));
     return Promise.reject(error);
   }
 );

@@ -50,7 +50,7 @@ const changePassword = async (data) => {
 };
 
 const changePin = async (data) => {
-  return instance.post(endpoints.changePass, data);
+  return instance.post(endpoints.changePin, data);
 };
 
 const forgotPassword = async (data) => {
