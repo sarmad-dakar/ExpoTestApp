@@ -5,6 +5,8 @@
     <item name="android:editTextBackground">@drawable/rn_edit_text_material</item>
     <item name="colorPrimary">@color/colorPrimary</item>
     <item name="android:statusBarColor">#ffffff</item>
+       <item name="android:datePickerDialogTheme">@style/Dialog.Theme</item>
+    <item name="android:timePickerDialogTheme">@style/Dialog.Theme</item>
   </style>
   <style name="ResetEditText" parent="@android:style/Widget.EditText">
     <item name="android:padding">0dp</item>
@@ -14,12 +16,7 @@
   <style name="Theme.App.SplashScreen" parent="AppTheme">
     <item name="android:windowBackground">@drawable/splashscreen</item>
   </style>
-  <style name="Dialog.Theme" parent="Theme.AppCompat.Light.Dialog">
-<!-- BackgroundColor of the date modal -->
-<item name="colorAccent">#2A2F28</item>
-<!-- Change textColor of the date modal -->
-<item name="android:textColorPrimary">#000000</item>
-</style>
+
    <style name="MyDatePickerDialogTheme" parent="android:Theme.Material.Light.Dialog">
       <!-- If you want you can override only colorAccent -->
       <item name="colorPrimary">#2A2F28</item>
@@ -28,4 +25,10 @@
       
       <!-- Or you can change very item color -->
    </style>
+   <style name="Dialog.Theme" parent="Theme.AppCompat.Light.Dialog">
+<!-- BackgroundColor of the date modal -->
+<item name="colorAccent">#2A2F28</item>
+<!-- Change textColor of the date modal -->
+<item name="android:textColorPrimary">#000000</item>
+</style>
 </resources>

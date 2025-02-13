@@ -46,6 +46,7 @@ const ContactScreen = () => {
     };
 
     const response = await postContactus(data);
+    console.log(response.data, "response of post contact");
     router.back();
   };
 

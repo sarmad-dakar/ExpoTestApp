@@ -20,6 +20,7 @@ import {
   ImageBackground,
   FlatList,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 import BerlingskeBold from "../TextWrapper/BerlingskeBold";
 import InputField from "../InputField";
@@ -68,6 +69,7 @@ const TopupConfirmationPopup = forwardRef<
     "Other",
   ]);
   const [selectedAmountType, setSelectedAmountType] = useState("20");
+  const [localLoader, setLocalLoader] = useState(false);
 
   const [url, setUrl] = useState("");
   const user = useSelector((state: any) => state.user.profile);
@@ -85,6 +87,9 @@ const TopupConfirmationPopup = forwardRef<
   const hide = () => {
     setSteps(1);
     dispatch(fetchRemainingBalance());
+    setSelectedAmountType("20");
+    setAmount("20");
+    setSelectedCardId("Add");
     setVisible(false);
   };
 
@@ -118,36 +123,47 @@ const TopupConfirmationPopup = forwardRef<
   };
 
   const handleConfirm = async () => {
-    const topupAmount = parseFloat(amount);
-    if (!topupAmount) {
-      showErrorToast("Please write an amount");
-      return;
-    }
-    if (topupAmount < 20) {
-      showErrorToast("Minimum topup amount should be 20");
-      return;
-    }
-    let data = {
-      Amount: topupAmount,
-      Comment: "",
-      PinCode: "",
-    };
-    if (selectedCardId !== "Add") {
-      data.PaymentId = selectedCardId;
-    }
-    const result = await TopupBalance(data);
-    console.log(result.data, "amount");
-    // hide();
+    try {
+      const topupAmount = parseFloat(amount);
+      if (!topupAmount) {
+        showErrorToast("Please write an amount");
+        return;
+      }
+      if (topupAmount < 20) {
+        showErrorToast("Minimum topup amount should be 20");
+        return;
+      }
+      setLocalLoader(true);
+      let data = {
+        Amount: topupAmount,
+        Comment: "",
+        PinCode: "",
+      };
+      if (
+        selectedCardId !== "Add" &&
+        selectedCardId !== "Gpay" &&
+        selectedCardId !== "ApplePay"
+      ) {
+        data.PaymentId = selectedCardId;
+      }
+      const result = await TopupBalance(data);
 
-    if (result.data?.data?.isok) {
-      const paymentUrl = result.data?.data?.url;
-      console.log(paymentUrl);
+      console.log(result.data, "amount");
+      // hide();
 
-      // setUrl(paymentUrl);
-      // setSteps(2);
-      // let webResponse = await WebBrowser.openBrowserAsync(paymentUrl, {});
-      // console.log(webResponse, "web response");
-      // Linking.openURL(result.data?.data?.url);
+      if (result.data?.data?.isok) {
+        const paymentUrl = result.data?.data?.url;
+        console.log(paymentUrl);
+
+        setUrl(paymentUrl);
+        setSteps(2);
+        setLocalLoader(false);
+        // let webResponse = await WebBrowser.openBrowserAsync(paymentUrl, {});
+        // console.log(webResponse, "web response");
+        // Linking.openURL(result.data?.data?.url);
+      }
+    } catch (error) {
+      setLocalLoader(false);
     }
   };
 
@@ -376,7 +392,7 @@ const TopupConfirmationPopup = forwardRef<
                 flexWrap: "wrap",
                 flexDirection: "row",
                 alignItems: "center",
-                marginTop: vh * 1,
+                marginVertical: vh * 1,
               }}
             >
               {predefineEuro.map((item) => {
@@ -413,9 +429,14 @@ const TopupConfirmationPopup = forwardRef<
 
               <TouchableOpacity
                 style={[styles.btn, { backgroundColor: themeColors.secondary }]}
+                disabled={localLoader}
                 onPress={handleConfirm}
               >
-                <Text style={{ color: "black" }}>Confirm</Text>
+                {localLoader ? (
+                  <ActivityIndicator size={"small"} color={"black"} />
+                ) : (
+                  <Text style={{ color: "black" }}>Confirm</Text>
+                )}
               </TouchableOpacity>
             </View>
           </ImageBackground>

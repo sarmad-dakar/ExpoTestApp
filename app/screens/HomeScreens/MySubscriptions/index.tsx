@@ -1,5 +1,7 @@
 import {
+  ActivityIndicator,
   Dimensions,
+  FlatList,
   Image,
   Linking,
   Pressable,
@@ -61,6 +63,7 @@ const MySubscriptionScreen = () => {
   const dispatch = useDispatch();
   const windowWidth = Dimensions.get("window").width;
   const webviewRef = useRef<ConfirmationPopupRef>(null);
+  const loader = useSelector((state: RootState) => state.general.generalLoader);
   const storeConfig = useSelector(
     (state: RootState) => state.general.clubConfig
   );
@@ -261,11 +264,13 @@ const MySubscriptionScreen = () => {
         <SubscriptionRecieptViewerPopup reference={recieptRef} />
         <PaymentWebviewPopup reference={webviewRef} />
 
-        <MainButton
-          style={styles.viewRecieptBtn}
-          title="Subscription Receipts"
-          onPress={() => recieptRef?.current?.show()}
-        />
+        {subscriptionData?.length ? (
+          <MainButton
+            style={styles.viewRecieptBtn}
+            title="Subscription Receipts"
+            onPress={() => recieptRef?.current?.show()}
+          />
+        ) : null}
 
         {/* Scrollable Content */}
         {/* <View
@@ -356,15 +361,41 @@ const MySubscriptionScreen = () => {
             </ScrollView>
           </ScrollView>
         </View> */}
-
+        {/* 
         <ScrollView
           contentContainerStyle={{ paddingBottom: 30 }}
           style={{ flex: 1 }}
         >
-          {[...subscriptionData, ...subscriptionData]?.map((item) => {
+          {subscriptionData?.map((item) => {
             return <AccountCard item={item} />;
           })}
-        </ScrollView>
+        </ScrollView> */}
+
+        <FlatList
+          data={subscriptionData}
+          ListEmptyComponent={() => {
+            return (
+              <View>
+                {loader ? (
+                  <ActivityIndicator
+                    color={themeColors.primary}
+                    style={{ marginTop: vh * 2 }}
+                    size={"small"}
+                  />
+                ) : (
+                  <ArchivoRegular
+                    style={{ alignSelf: "center", fontSize: vh * 2 }}
+                  >
+                    No Subscription Found
+                  </ArchivoRegular>
+                )}
+              </View>
+            );
+          }}
+          renderItem={({ item, index }) => {
+            return <AccountCard item={item} />;
+          }}
+        />
       </ScreenWrapper>
     </View>
   );

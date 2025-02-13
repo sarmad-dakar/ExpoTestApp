@@ -8,6 +8,7 @@ import { icons } from "@/app/MyAssets";
 import MainButton from "@/app/components/MainButton";
 import { changePin } from "@/app/api/Auth";
 import { showErrorToast, showSuccessToast } from "@/app/utils/toastmsg";
+import { router } from "expo-router";
 
 const ChangePinScreen = () => {
   // State for input fields
@@ -27,15 +28,17 @@ const ChangePinScreen = () => {
       return;
     }
     let data = {
-      NewPassword: newPin,
-      OldPassword: oldPin,
+      NewPin: newPin,
+      OldPin: oldPin,
     };
     const response = await changePin(data);
+    console.log(response?.data, "response of change pin");
     if (response.data.msgCode == "500") {
       showErrorToast(response.data.data);
     }
     if (response.data.msgCode == "200") {
       showSuccessToast(response.data.data);
+      router.back();
     }
 
     // Call an API or perform an action with oldPin and newPin

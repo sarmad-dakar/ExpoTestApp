@@ -7,15 +7,18 @@ import InputField from "@/app/components/InputField";
 import { icons } from "@/app/MyAssets";
 import MainButton from "@/app/components/MainButton";
 import { changePassword } from "@/app/api/Auth";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { showErrorToast, showSuccessToast } from "@/app/utils/toastmsg";
 import { RootState } from "@/app/store";
+import { saveLoginDetails } from "@/app/store/slices/userSlice";
+import { router } from "expo-router";
 
 const ChangePasswordScreen = () => {
   // State for input fields
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [verifyPassword, setVerifyPassword] = useState("");
+  const dispatch = useDispatch();
   const loading = useSelector(
     (state: RootState) => state.general.generalLoader
   );
@@ -37,11 +40,14 @@ const ChangePasswordScreen = () => {
       OldPassword: oldPassword,
     };
     const response = await changePassword(data);
-    if (response.data.msgCode == "500") {
+    console.log(response?.data, "response ");
+    if (response.data.msgCode !== "200") {
       showErrorToast(response.data.data);
     }
     if (response.data.msgCode == "200") {
-      showSuccessToast(response.data.data);
+      dispatch(saveLoginDetails(response.data?.data));
+      showSuccessToast(response.data.msgDescription);
+      router.back();
     }
     // Call an API or perform an action with oldPassword and newPassword
     // For example purposes, we show an alert
