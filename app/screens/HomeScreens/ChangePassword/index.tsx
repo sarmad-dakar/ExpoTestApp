@@ -46,7 +46,8 @@ const ChangePasswordScreen = () => {
     }
     if (response.data.msgCode == "200") {
       dispatch(saveLoginDetails(response.data?.data));
-      showSuccessToast(response.data.msgDescription);
+      // showSuccessToast(response.data.msgDescription);
+      showSuccessToast("Your password has been successfully changed");
       router.back();
     }
     // Call an API or perform an action with oldPassword and newPassword
