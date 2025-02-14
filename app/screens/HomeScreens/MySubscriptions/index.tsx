@@ -384,7 +384,7 @@ const MySubscriptionScreen = () => {
                   />
                 ) : (
                   <ArchivoRegular
-                    style={{ alignSelf: "center", fontSize: vh * 2 }}
+                    style={{ alignSelf: "center", fontSize: vh * 2, marginTop: vh * 2 }}
                   >
                     No Subscription Found
                   </ArchivoRegular>

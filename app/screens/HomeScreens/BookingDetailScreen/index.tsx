@@ -919,7 +919,6 @@ const BookingDetailScreen = () => {
                   entering={SlideInRight.duration(750).delay(300)}
                   style={{
                     alignItems: "center",
-
                     width: vw * 15,
                   }}
                 >
@@ -939,7 +938,7 @@ const BookingDetailScreen = () => {
                   </TouchableOpacity>
                   <ArchivoLight
                     numberOfLines={2}
-                    style={{ fontSize: vh * 1.4, width: 55 }}
+                    style={{ fontSize: vh * 1.4,  }}
                   >
                     Add More
                   </ArchivoLight>

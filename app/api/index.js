@@ -123,7 +123,7 @@ instance.interceptors.response.use(
 
     const club = state.general.clubConfig;
     console.log(club, "Logout Urgent");
-    // store.dispatch(logout(club));
+    store.dispatch(logout(club));
     return Promise.reject(error);
   }
 );
