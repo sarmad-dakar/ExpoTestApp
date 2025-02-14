@@ -10,6 +10,7 @@ import { postContactus } from "@/app/api/Auth";
 import { router } from "expo-router";
 import { showErrorToast, showSuccessToast } from "@/app/utils/toastmsg";
 import BerlingskeMedium from "@/app/components/TextWrapper/BerlingskeMedium";
+import { vh } from "@/app/utils/units";
 const ContactTypes = [
   { label: "Complaint", value: "complaint" },
   { label: "Help", value: "help" },
@@ -47,6 +48,7 @@ const ContactScreen = () => {
 
     const response = await postContactus(data);
     console.log(response.data, "response of post contact");
+    showSuccessToast("Response has been successfully submitted");
     router.back();
   };
 
@@ -67,10 +69,12 @@ const ContactScreen = () => {
             borderRightWidth: 1,
             borderLeftWidth: 1,
             borderWidth: 1,
-            paddingTop: "2%",
+            paddingTop: vh * 0.5,
             borderColor: "#0004",
             borderRadius: 5,
             paddingHorizontal: 10,
+            // height: vh * 5,
+            justifyContent: "center",
           }}
         />
         <View style={{ height: 10 }} />

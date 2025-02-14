@@ -49,6 +49,7 @@ const OnBoardingScreen = () => {
         activeDotColor="#D4CDC5"
         dotColor="#0B0C0F"
         activeDotStyle={{ height: 12, width: 12, borderRadius: 100 }}
+        removeClippedSubviews={false} // Prevents flickering
         paginationStyle={{ position: "absolute", bottom: 220 }}
       >
         <ImageBackground
