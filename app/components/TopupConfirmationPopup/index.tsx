@@ -21,6 +21,7 @@ import {
   FlatList,
   Platform,
   ActivityIndicator,
+  Keyboard,
 } from "react-native";
 import BerlingskeBold from "../TextWrapper/BerlingskeBold";
 import InputField from "../InputField";
@@ -371,21 +372,28 @@ const TopupConfirmationPopup = forwardRef<
               </View>
             </TouchableOpacity> */}
 
-            <InputField
-              keyboardType="decimal-pad"
-              placeholder="Amount"
-              editable={selectedAmountType == "Other" ? true : false}
-              value={`${amount}`}
-              maxLength={4}
-              onChangeText={(text) => {
-                console.log(text);
-                const regex = /^(\d+(\.\d{0,2})?)?$/;
-                const validate = regex.test(text);
-                if (validate) {
-                  setAmount(text);
-                }
-              }}
-            />
+            <View
+              pointerEvents={selectedAmountType == "Other" ? "auto" : "none"}
+            >
+              <InputField
+                keyboardType="decimal-pad"
+                placeholder="Amount"
+                value={`${amount}`}
+                style={{
+                  color: selectedAmountType == "Other" ? "black" : "#0006",
+                }}
+                // style={{ marginTop: 20 }}
+                maxLength={4}
+                onChangeText={(text) => {
+                  console.log(text);
+                  const regex = /^(\d+(\.\d{0,2})?)?$/;
+                  const validate = regex.test(text);
+                  if (validate) {
+                    setAmount(text);
+                  }
+                }}
+              />
+            </View>
 
             <View
               style={{
@@ -400,6 +408,7 @@ const TopupConfirmationPopup = forwardRef<
                   <TouchableOpacity
                     onPress={() => {
                       setSelectedAmountType(item);
+                      Keyboard.dismiss();
                       if (item !== "Other") {
                         setAmount(item);
                       }
