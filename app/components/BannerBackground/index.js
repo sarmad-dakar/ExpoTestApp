@@ -23,6 +23,6 @@ const styles = StyleSheet.create({
     height: 100,
     backgroundColor: "#EAC84D", // Yellow color
     borderTopLeftRadius: 50, // Rounded top-left
-    transform: [{ skewX: "-25deg" }], // Skew to match the design
+    transform: [{ skewX: "-15deg" }], // Skew to match the design
   },
 });

@@ -276,7 +276,7 @@ const LoginScreen = () => {
             Switch Club
           </ArchivoMedium>
         </TouchableOpacity>
-        <BannerBackground />
+        {/* <BannerBackground /> */}
 
         <ArchivoExtraLight style={styles.terms}>
           By signing in, you are agreeing to the online Terms and Conditions of
