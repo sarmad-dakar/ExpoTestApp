@@ -10,12 +10,16 @@ import React, { useState } from "react";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
+import { themeColors } from "@/app/utils/theme";
+import { LinearGradient } from "expo-linear-gradient";
+import { useTheme } from "@react-navigation/native";
 const DatePickerCustomModal = ({
   selectedDate,
   onChangeDate,
   isVisible,
   onRequestClose,
 }) => {
+  const {colors} = useTheme()
   return (
     <View>
       {Platform.OS == "android" ? (
@@ -48,9 +52,14 @@ const DatePickerCustomModal = ({
               }}
               onPress={onRequestClose}
             />
-            <View
+            <LinearGradient
+            // colors={["#0003" , colors.secondary]}
+            colors={[colors.secondary,  "#FFE0EE", ]}
+
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 2 }}
               style={{
-                backgroundColor: "white",
+                backgroundColor: colors.secondary,
                 borderTopLeftRadius: 20,
                 borderTopRightRadius: 20,
                 width: "100%",
@@ -61,9 +70,10 @@ const DatePickerCustomModal = ({
                 value={selectedDate}
                 mode="date"
                 display="inline"
+                accentColor={"black"}
                 onChange={onChangeDate}
               />
-            </View>
+            </LinearGradient>
           </View>
         </Modal>
       ) : null}
