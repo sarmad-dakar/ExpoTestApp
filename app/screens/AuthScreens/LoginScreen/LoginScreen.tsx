@@ -46,6 +46,7 @@ import Animated, {
   FadeOut,
   SlideOutDown,
 } from "react-native-reanimated";
+import BannerBackground from "@/app/components/BannerBackground";
 // import Payments from "react-native-payments";
 const { TrustPaymentsModule } = NativeModules;
 
@@ -275,6 +276,7 @@ const LoginScreen = () => {
             Switch Club
           </ArchivoMedium>
         </TouchableOpacity>
+        <BannerBackground />
 
         <ArchivoExtraLight style={styles.terms}>
           By signing in, you are agreeing to the online Terms and Conditions of
