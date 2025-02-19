@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import GeneralHeader from "@/app/components/GeneralHeader";
 import SearchField from "@/app/components/SearchField";
 import ScreenWrapper from "@/app/components/ScreenWrapper";
@@ -18,7 +18,7 @@ import { themeColors } from "@/app/utils/theme";
 import { FetchMyBookings, GetAccountData } from "@/app/api/Bookings";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMyAccount } from "@/app/store/slices/accountSlice";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import { useAppDispatch } from "../LandingScreen";
 import { RootState } from "@/app/store";
 import { vh, vw } from "@/app/utils/units";
@@ -54,9 +54,19 @@ const MyAccountScreen = () => {
   console.log(sections, "section");
 
   const styles = MyStyles();
-  useEffect(() => {
-    dispatch(fetchMyAccount());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchMyAccount());
+  // }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(fetchMyAccount());
+
+      return () => {
+        console.log("This route is now unfocused.");
+      };
+    }, [])
+  );
 
   useEffect(() => {
     if (accountData.length) {
@@ -215,10 +225,8 @@ const MyAccountScreen = () => {
     <View style={styles.container}>
       <GeneralHeader back={true} title="My Account" />
       {/* Fixed Header */}
-      {loading ? <LoaderComponent /> : null}
+      {/* {loading ? <LoaderComponent /> : null} */}
       <ScreenWrapper>
-        {/* <SearchField /> */}
-
         <View style={styles.tabContainer}>
           <FlatList
             data={sections}
@@ -252,126 +260,13 @@ const MyAccountScreen = () => {
 
         {/* Scrollable Content */}
         <View style={{ flex: 0.95 }}>
-          {/* <View
-            style={{
-              borderWidth: 1,
-              marginTop: vh * 2,
-              borderColor: "#0004",
-            }}
-          >
-            <ScrollView horizontal>
-              <ScrollView style={{ marginTop: 0 }}>
-                <View style={[styles.headerRow]}>
-                  <Text style={[styles.headerText, { width: 150 }]}>Date</Text>
-                  <View style={styles.rowDirection}>
-                    <View style={styles.whiteDivider} />
-                    <Text style={[styles.headerText, { width: 100 }]}>
-                      Transaction #
-                    </Text>
-                  </View>
-                  <View style={styles.rowDirection}>
-                    <View style={styles.whiteDivider} />
-                    <Text style={[styles.headerText, { width: 100 }]}>
-                      Section
-                    </Text>
-                  </View>
-                  <View style={styles.rowDirection}>
-                    <View style={styles.whiteDivider} />
-                    <Text style={[styles.headerText, { width: 120 }]}>
-                      Category
-                    </Text>
-                  </View>
-                  <View style={styles.rowDirection}>
-                    <View style={styles.whiteDivider} />
-                    <Text style={[styles.headerText, { width: 220 }]}>
-                      Remarks
-                    </Text>
-                  </View>
-                  <View style={styles.rowDirection}>
-                    <View style={styles.whiteDivider} />
-                    <Text style={[styles.headerText, { width: 80 }]}>
-                      Amount
-                    </Text>
-                  </View>
-                  <View style={styles.rowDirection}>
-                    <View style={styles.whiteDivider} />
-                    <Text style={[styles.headerText, { width: 120 }]}>
-                      Action
-                    </Text>
-                  </View>
-                </View>
-                {accountData.map((item, index) => (
-                  <View
-                    key={index}
-                    style={[
-                      styles.row,
-                      {
-                        backgroundColor:
-                          index % 2 !== 0 ? "white" : themeColors.lightShade,
-                      },
-                    ]}
-                  >
-                    <ArchivoRegular style={[styles.cell, { width: 150 }]}>
-                      {item.date}
-                    </ArchivoRegular>
-                    <View style={styles.rowDirection}>
-                      <View style={styles.divider} />
-                      <ArchivoRegular style={[styles.cell, { width: 100 }]}>
-                        {item.transactionNumber}
-                      </ArchivoRegular>
-                    </View>
-                    <View style={styles.rowDirection}>
-                      <View style={styles.divider} />
-                      <ArchivoRegular style={[styles.cell, { width: 100 }]}>
-                        {item.section}
-                      </ArchivoRegular>
-                    </View>
-                    <View style={styles.rowDirection}>
-                      <View style={styles.divider} />
-                      <ArchivoRegular style={[styles.cell, { width: 120 }]}>
-                        {item.category}
-                      </ArchivoRegular>
-                    </View>
-                    <View style={styles.rowDirection}>
-                      <View style={styles.divider} />
-                      <ArchivoRegular style={[styles.cell, { width: 220 }]}>
-                        {item.remarks}
-                      </ArchivoRegular>
-                    </View>
-                    <View style={styles.rowDirection}>
-                      <View style={styles.divider} />
-                      <ArchivoRegular style={[styles.cell, { width: 80 }]}>
-                        {item.amount}
-                      </ArchivoRegular>
-                    </View>
-                    <View style={styles.rowDirection}>
-                      <View style={styles.divider} />
-                      <TouchableOpacity
-                        disabled={!item?.bookingKey}
-                        onPress={() => onDetailPress(item)}
-                      >
-                        <ArchivoRegular
-                          style={[
-                            styles.cell,
-                            {
-                              width: 120,
-                              textDecorationLine: "underline",
-                              color: !item.bookingKey ? "gray" : "#0000EE",
-                            },
-                          ]}
-                        >
-                          View Details
-                        </ArchivoRegular>
-                      </TouchableOpacity>
-                    </View>
-  
-                  </View>
-                ))}
-              </ScrollView>
-            </ScrollView>
-          </View> */}
           <FlatList
             data={dataForList}
+            ListEmptyComponent={() => (
+              <View style={{ marginTop: 20 }}>
+                <ActivityIndicator size={"large"} color={themeColors.primary} />
+              </View>
+            )}
             renderItem={({ item, index }) => {
               return <AccountCard item={item} index={index} />;
             }}

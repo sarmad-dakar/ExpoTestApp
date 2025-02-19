@@ -9,7 +9,11 @@ const ArchivoThin = (props) => {
     "Archivo-Thin": require("../../../assets/fonts/Archivo-Thin.ttf"),
   });
   return (
-    <TextWrapper {...props} style={[styles.font, props?.style]}>
+    <TextWrapper
+      key={fontsLoaded ? "loaded" : "loading"}
+      {...props}
+      style={[styles.font, props?.style]}
+    >
       {props.children}
     </TextWrapper>
   );

@@ -286,30 +286,7 @@ const MyBookingsScreen: React.FC = () => {
             }}
           />
         </View>
-        {/* <View style={styles.tabContainer}>
-          {allSports.map((item) => (
-            <TouchableOpacity
-              key={item.name}
-              activeOpacity={0.6}
-              onPress={() => {
-                setSelectedTab(item);
-                fetchData(item.name, selectedDate);
-              }}
-            >
-              <Text
-                style={[
-                  styles.heading,
-                  selectedTab.name === item.name && {
-                    color: themeColors.green,
-                    textDecorationLine: "underline",
-                  },
-                ]}
-              >
-                {item.name}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View> */}
+
         <View style={styles.filterContainer}>
           <BerlingskeMedium style={{ color: themeColors.darkText }}>
             Search

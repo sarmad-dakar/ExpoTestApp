@@ -15,7 +15,7 @@ import ArchivoExtraLight from "../TextWrapper/ArchivoExtraLight";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
 import { vh } from "@/app/utils/units";
-import Animated, { ZoomInRight } from "react-native-reanimated";
+import Animated, { FadeIn, ZoomInRight } from "react-native-reanimated";
 
 const BookedSlots = ({
   booking,
@@ -37,44 +37,45 @@ const BookedSlots = ({
     return bookingDate.diff(currentDate, "hours") >= 10;
   };
   return (
-    <Pressable
-      onPress={() => {
-        if (enablePopup) {
-          setEnablePopup(false);
-        } else {
-          onDetailViewPress(booking);
-        }
-      }}
-      style={styles.container}
-    >
-      <TouchableOpacity
-        onPress={() => setEnablePopup(!enablePopup)}
-        style={styles.iconContainer}
+    <Animated.View entering={FadeIn.duration(400)}>
+      <Pressable
+        onPress={() => {
+          if (enablePopup) {
+            setEnablePopup(false);
+          } else {
+            onDetailViewPress(booking);
+          }
+        }}
+        style={styles.container}
       >
-        <Image style={styles.more} source={icons.more} />
-      </TouchableOpacity>
-
-      {enablePopup && (
-        <Animated.View
-          entering={ZoomInRight.duration(300)}
-          style={styles.listView}
+        <TouchableOpacity
+          onPress={() => setEnablePopup(!enablePopup)}
+          style={styles.iconContainer}
         >
-          <TouchableOpacity
-            hitSlop={{
-              top: 10,
-              bottom: 10,
-              left: 10,
-              right: 10,
-            }} // Adjust hitSlop as needed
-            onPress={() => {
-              setEnablePopup(false);
-              onDetailViewPress(booking);
-            }}
-            style={styles.listBtn}
+          <Image style={styles.more} source={icons.more} />
+        </TouchableOpacity>
+
+        {enablePopup && (
+          <Animated.View
+            entering={ZoomInRight.duration(300)}
+            style={styles.listView}
           >
-            <Text style={styles.listText}>View Details</Text>
-          </TouchableOpacity>
-          {/* <View
+            <TouchableOpacity
+              hitSlop={{
+                top: 10,
+                bottom: 10,
+                left: 10,
+                right: 10,
+              }} // Adjust hitSlop as needed
+              onPress={() => {
+                setEnablePopup(false);
+                onDetailViewPress(booking);
+              }}
+              style={styles.listBtn}
+            >
+              <Text style={styles.listText}>View Details</Text>
+            </TouchableOpacity>
+            {/* <View
             style={[
               styles.listBtn,
               {
@@ -86,39 +87,40 @@ const BookedSlots = ({
           >
             <Text style={styles.listText}>Edit Booking</Text>
           </View> */}
-          {shouldCancelVisible() ? (
-            <TouchableOpacity
-              onPress={() => setSelectedBooking(booking)}
-              style={styles.listBtn}
-            >
-              <Text style={styles.listText}>Cancel Booking</Text>
-            </TouchableOpacity>
-          ) : null}
-        </Animated.View>
-      )}
+            {shouldCancelVisible() ? (
+              <TouchableOpacity
+                onPress={() => setSelectedBooking(booking)}
+                style={styles.listBtn}
+              >
+                <Text style={styles.listText}>Cancel Booking</Text>
+              </TouchableOpacity>
+            ) : null}
+          </Animated.View>
+        )}
 
-      <ArchivoRegular style={styles.heading}>
-        {selectedSport} Booking
-      </ArchivoRegular>
+        <ArchivoRegular style={styles.heading}>
+          {selectedSport} Booking
+        </ArchivoRegular>
 
-      <View style={styles.rowDirection}>
-        <ArchivoRegular style={styles.bold}>Booking Member: </ArchivoRegular>
-        <ArchivoExtraLight style={{ fontSize: vh * 1.5 }}>
-          {user?.title}
-        </ArchivoExtraLight>
-      </View>
+        <View style={styles.rowDirection}>
+          <ArchivoRegular style={styles.bold}>Booking Member: </ArchivoRegular>
+          <ArchivoExtraLight style={{ fontSize: vh * 1.5 }}>
+            {user?.title}
+          </ArchivoExtraLight>
+        </View>
 
-      <View style={[styles.rowDirection, { marginTop: -vh * 0.4 }]}>
-        <ArchivoRegular style={styles.bold}>Description: </ArchivoRegular>
-        <ArchivoExtraLight style={{ fontSize: vh * 1.5 }}>
-          {booking.description}
-        </ArchivoExtraLight>
-      </View>
+        <View style={[styles.rowDirection, { marginTop: -vh * 0.4 }]}>
+          <ArchivoRegular style={styles.bold}>Description: </ArchivoRegular>
+          <ArchivoExtraLight style={{ fontSize: vh * 1.5 }}>
+            {booking.description}
+          </ArchivoExtraLight>
+        </View>
 
-      <Text style={styles.footerText}>
-        {moment(booking.date, "DD/MM/YYYY").format("dddd, DD MMM YYYY")}
-      </Text>
-    </Pressable>
+        <Text style={styles.footerText}>
+          {moment(booking.date, "DD/MM/YYYY").format("dddd, DD MMM YYYY")}
+        </Text>
+      </Pressable>
+    </Animated.View>
   );
 };
 

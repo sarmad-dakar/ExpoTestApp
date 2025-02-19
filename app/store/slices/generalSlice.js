@@ -37,7 +37,7 @@ const slice = createSlice({
     setAllClubs: (state, action) => {
       state.allClubs = action.payload;
       // Store nextFetchDate as an ISO string (which is serializable)
-      state.nextFetchDate = moment().add(24, "hours").toISOString();
+      state.nextFetchDate = moment().add(48, "hours").toISOString();
     },
   },
 });

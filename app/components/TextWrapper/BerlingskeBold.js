@@ -9,7 +9,11 @@ const BerlingskeBold = (props) => {
     "FiraSans-Bold": require("../../../assets/fonts/FiraSans-Bold.ttf"),
   });
   return (
-    <TextWrapper {...props} style={[styles.font, props?.style]}>
+    <TextWrapper
+      key={fontsLoaded ? "loaded" : "loading"}
+      {...props}
+      style={[styles.font, props?.style]}
+    >
       {props.children}
     </TextWrapper>
   );

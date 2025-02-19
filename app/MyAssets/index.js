@@ -77,6 +77,19 @@ export const icons = {
   addMore: require("./icons/addmore.png"),
   gpay: require("./icons/google-pay.png"),
   applePay: require("./icons/apple-pay.png"),
+  golf: require("./icons/golf-player.png"),
+  swimming: require("./icons/swim.png"),
+  basketball: require("./icons/basketball.png"),
+  football: require("./icons/football.png"),
+  table_tennis: require("./icons/ping-pong.png"),
+  baseball: require("./icons/ball.png"),
+  rugby: require("./icons/rugby-ball.png"),
+  karate: require("./icons/karate.png"),
+  boxing: require("./icons/boxing-gloves.png"),
+  bowling: require("./icons/bowling-ball.png"),
+  gym: require("./icons/gym.png"),
+  boxing: require("./icons/boxing-gloves.png"),
+  running: require("./icons/running.png"),
 };
 
 export const images = {

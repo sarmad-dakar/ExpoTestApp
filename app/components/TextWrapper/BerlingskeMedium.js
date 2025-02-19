@@ -10,7 +10,11 @@ const BerlingskeMedium = (props) => {
     "FiraSans-Medium": require("../../../assets/fonts/FiraSans-Medium.ttf"),
   });
   return (
-    <TextWrapper {...props} style={[styles.font, props?.style]}>
+    <TextWrapper
+      {...props}
+      key={fontsLoaded ? "loaded" : "loading"}
+      style={[styles.font, props?.style]}
+    >
       {props.children}
     </TextWrapper>
   );

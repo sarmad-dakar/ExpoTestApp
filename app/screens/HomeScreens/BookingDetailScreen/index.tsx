@@ -938,7 +938,7 @@ const BookingDetailScreen = () => {
                   </TouchableOpacity>
                   <ArchivoLight
                     numberOfLines={2}
-                    style={{ fontSize: vh * 1.4,  }}
+                    style={{ fontSize: vh * 1.4 }}
                   >
                     Add More
                   </ArchivoLight>

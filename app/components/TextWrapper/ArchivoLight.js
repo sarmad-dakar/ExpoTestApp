@@ -9,7 +9,11 @@ const ArchivoLight = (props) => {
     "FiraSans-Light": require("../../../assets/fonts/FiraSans-Light.ttf"),
   });
   return (
-    <TextWrapper {...props} style={[styles.font, props?.style]}>
+    <TextWrapper
+      key={fontsLoaded ? "loaded" : "loading"}
+      {...props}
+      style={[styles.font, props?.style]}
+    >
       {props.children}
     </TextWrapper>
   );

@@ -65,11 +65,11 @@ const index = () => {
 
   const fetchClubs = async () => {
     const isDatePassed = moment().isBefore(moment(nextFetchDate));
-    // if (allClubsInRedux && isDatePassed) {
-    //   console.log(nextFetchDate, "nextFetchDate");
-    //   setClubs(allClubsInRedux);
-    //   return;
-    // }
+    if (allClubsInRedux && isDatePassed) {
+      console.log(nextFetchDate, "nextFetchDate");
+      setClubs(allClubsInRedux);
+      return;
+    }
     const response = await getAllClubs();
     const clubs = response.data;
     setClubs(clubs);
