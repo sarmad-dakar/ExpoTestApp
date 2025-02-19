@@ -87,7 +87,11 @@ const AccountCard = ({ item, index }) => {
   );
 };
 
-const NewBookingDetailComponent = ({ bookingDetails, bookingData }: any) => {
+const NewBookingDetailComponent = ({
+  bookingDetails,
+  bookingData,
+  onCancelPress,
+}: any) => {
   const bookingConfirmationRef = useRef<ConfirmationPopupRef>(null);
   const dispatch = useAppDispatch();
 
@@ -152,39 +156,14 @@ const NewBookingDetailComponent = ({ bookingDetails, bookingData }: any) => {
       return bookingDate.diff(currentDate, "hours") >= 10;
     }
   };
-  const capitalizeFirstLetter = (word: string) => {
-    if (!word) return ""; // Handle empty or undefined input
-    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-  };
-
-  const onConfirmedCancel = async (pin: string) => {
-    const data = {
-      key: bookingData.id,
-      pin: pin,
-      section: capitalizeFirstLetter(bookingData?.sport),
-    };
-    const response = await CancelBooking(data);
-    setTimeout(() => {
-      dispatch(fetchRemainingBalance());
-    }, 1000);
-    console.log(response.data, "Response of cancel");
-    if (response.data.msgCode == "200") {
-      console.log("fetch again");
-      router.back();
-    }
-  };
 
   return (
     <View>
-      <BookingConfirmationPopup
-        reference={bookingConfirmationRef}
-        onAccept={onConfirmedCancel}
-      />
       {bookingDetails ? (
         <View style={styles.card}>
           {shouldCancelVisible() ? (
             <TouchableOpacity
-              onPress={() => bookingConfirmationRef.current?.show()}
+              onPress={() => onCancelPress()}
               style={styles.cancelBtn}
             >
               <Text

@@ -11,8 +11,8 @@ import React, { useEffect, useRef, useState } from "react";
 import GeneralHeader from "@/app/components/GeneralHeader";
 import BerlingskeBold from "@/app/components/TextWrapper/BerlingskeBold";
 import { icons } from "@/app/MyAssets";
-import { useLocalSearchParams } from "expo-router";
-import { GetAlreadyBookedDetails } from "@/app/api/Bookings";
+import { router, useLocalSearchParams } from "expo-router";
+import { CancelBooking, GetAlreadyBookedDetails } from "@/app/api/Bookings";
 import { themeColors } from "@/app/utils/theme";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
@@ -27,6 +27,11 @@ import { vh, vw } from "@/app/utils/units";
 import ArchivoExtraLight from "@/app/components/TextWrapper/ArchivoExtraLight";
 import BerlingskeMedium from "@/app/components/TextWrapper/BerlingskeMedium";
 import ArchivoMedium from "@/app/components/TextWrapper/ArchivoMedium";
+import NewBookingDetailComponent from "@/app/components/NewBookingDetailComponent";
+import BookingConfirmationPopup from "@/app/components/BookingConfirmationPopup";
+import { ConfirmationPopupRef } from "@/app/components/ConfirmationPopup";
+import { fetchRemainingBalance } from "@/app/store/slices/accountSlice";
+import { useAppDispatch } from "../LandingScreen";
 const DetailComponent = ({ label, hideBorder, value }: any) => {
   return (
     <View style={[styles.container, hideBorder && { borderBottomWidth: 0 }]}>
@@ -55,6 +60,9 @@ const sportsIcon = {
 const AccountDetailScreen = () => {
   const bookingData = JSON.parse(useLocalSearchParams()?.bookingData);
   const [bookingDetails, setBookingDetails] = useState();
+  const bookingConfirmationRef = useRef<ConfirmationPopupRef>(null);
+  const dispatch = useAppDispatch();
+
   const loading = useSelector(
     (state: RootState) => state.general.generalLoader
   );
@@ -71,46 +79,6 @@ const AccountDetailScreen = () => {
     fetchData();
   }, []);
 
-  const arrowStyle1 = {
-    transform: [
-      {
-        rotate: arrowAnimation1.interpolate({
-          inputRange: [0, 1],
-          outputRange: ["0deg", "90deg"], // Rotates the arrow downward
-        }),
-      },
-    ],
-  };
-
-  const arrowStyle2 = {
-    transform: [
-      {
-        rotate: arrowAnimation2.interpolate({
-          inputRange: [0, 1],
-          outputRange: ["0deg", "90deg"], // Rotates the arrow downward
-        }),
-      },
-    ],
-  };
-
-  const arrowStyle3 = {
-    transform: [
-      {
-        rotate: arrowAnimation3.interpolate({
-          inputRange: [0, 1],
-          outputRange: ["0deg", "90deg"], // Rotates the arrow downward
-        }),
-      },
-    ],
-  };
-
-  const rotateArrow = (isExpanded, animation) => {
-    Animated.timing(animation, {
-      toValue: isExpanded ? 1 : 0,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-  };
   const fetchData = async () => {
     try {
       let data = {
@@ -127,47 +95,26 @@ const AccountDetailScreen = () => {
     }
   };
 
-  const AccountCard = ({ item, index }) => {
-    const [enablePopup, setEnablePopup] = useState(false);
+  const capitalizeFirstLetter = (word: string) => {
+    if (!word) return ""; // Handle empty or undefined input
+    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+  };
 
-    return (
-      <View style={styles.accountCard}>
-        <View
-          style={[styles.rowDirection, { justifyContent: "space-between" }]}
-        >
-          <ArchivoRegular style={styles.bold}>
-            <ArchivoMedium style={styles.bold}>Receipt# :</ArchivoMedium>
-            {item?.bookingReceipt}
-          </ArchivoRegular>
-          <View style={[styles.rowDirection]}>
-            <Image source={icons.euro} style={styles.euro} />
-            <ArchivoMedium style={{ fontSize: vh * 1.5 }}>
-              {item?.bookingRate}
-            </ArchivoMedium>
-          </View>
-        </View>
-
-        <View
-          style={[
-            styles.rowDirection,
-            { justifyContent: "space-between", marginTop: vh * 0.5 },
-          ]}
-        >
-          <View>
-            <ArchivoMedium style={styles.bold}>Name</ArchivoMedium>
-            <ArchivoExtraLight style={{ fontSize: vh * 1.4, marginTop: "-3%" }}>
-              {item?.payerName}
-            </ArchivoExtraLight>
-          </View>
-          <View style={{}}>
-            <ArchivoMedium style={styles.bold}>Payment Method</ArchivoMedium>
-            <ArchivoExtraLight style={{ fontSize: vh * 1.4, marginTop: "-3%" }}>
-              {item.paymentMethod}
-            </ArchivoExtraLight>
-          </View>
-        </View>
-      </View>
-    );
+  const onConfirmedCancel = async (pin: string) => {
+    const data = {
+      key: bookingData.id,
+      pin: pin,
+      section: capitalizeFirstLetter(bookingData?.sport),
+    };
+    const response = await CancelBooking(data);
+    setTimeout(() => {
+      dispatch(fetchRemainingBalance());
+    }, 200);
+    console.log(response.data, "Response of cancel");
+    if (response.data.msgCode == "200") {
+      console.log("fetch again");
+      router.back();
+    }
   };
 
   return (
@@ -180,6 +127,10 @@ const AccountDetailScreen = () => {
         title="Booking Details"
         back={true}
       />
+      <BookingConfirmationPopup
+        reference={bookingConfirmationRef}
+        onAccept={onConfirmedCancel}
+      />
       {localLoader ? (
         <View style={{ alignSelf: "center", marginTop: 100 }}>
           <ActivityIndicator size={"large"} color={themeColors.primary} />
@@ -191,12 +142,16 @@ const AccountDetailScreen = () => {
             paddingBottom: 20,
           }}
         >
-          {/* Booking Info */}
+          <NewBookingDetailComponent
+            bookingDetails={bookingDetails}
+            onCancelPress={() => bookingConfirmationRef.current?.show()}
+          />
 
+          {/* Booking Info */}
+          {/* 
           {bookingDetails ? (
             <View style={styles.card}>
               <View style={styles.row}>
-                {/* Icon */}
                 <View style={styles.iconContainer}>
                   <Image
                     source={icons.tennis} // Replace with actual image path
@@ -204,7 +159,6 @@ const AccountDetailScreen = () => {
                   />
                 </View>
 
-                {/* Session Details */}
                 <View style={styles.detailsContainer}>
                   <BerlingskeMedium style={styles.sessionTitle}>
                     Session
@@ -237,7 +191,6 @@ const AccountDetailScreen = () => {
                 </View>
               </View>
 
-              {/* Booking Member */}
               <View style={[styles.section, { marginTop: vh * 2 }]}>
                 <Image source={icons.defaultUser} style={styles.logo} />
 
@@ -250,7 +203,6 @@ const AccountDetailScreen = () => {
               </Text>
               <View style={styles.borderSeperator} />
 
-              {/* Date and Time */}
               <View style={styles.bottomRow}>
                 <View>
                   <View style={styles.section}>
@@ -276,11 +228,11 @@ const AccountDetailScreen = () => {
                 </View>
               </View>
             </View>
-          ) : null}
+          ) : null} */}
 
           {/* Players Info */}
 
-          {bookingDetails ? (
+          {/* {bookingDetails ? (
             <View style={styles.accordianHeader}>
               <Collapse
                 isExpanded={isExpanded1}
@@ -434,7 +386,7 @@ const AccountDetailScreen = () => {
                 </CollapseBody>
               </Collapse>
             </View>
-          ) : null}
+          ) : null} */}
         </ScrollView>
       )}
     </View>

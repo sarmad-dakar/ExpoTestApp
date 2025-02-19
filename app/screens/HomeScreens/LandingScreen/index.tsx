@@ -204,7 +204,7 @@ const LandingScreen = () => {
     confirmationPopup.current?.show(court, session, selectedDate);
   };
 
-  const onCancelBookingPress = (item: Session) => {
+  const onCancelBookingPress = () => {
     bookingDetailsPopup.current?.hide();
     setTimeout(() => {
       bookingConfirmationRef.current?.show();

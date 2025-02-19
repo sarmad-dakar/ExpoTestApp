@@ -9,7 +9,11 @@ const ArchivoRegular = (props) => {
     "FiraSans-Regular": require("../../../assets/fonts/FiraSans-Regular.ttf"),
   });
   return (
-    <TextWrapper {...props} style={[styles.font, props?.style]}>
+    <TextWrapper
+      key={fontsLoaded ? "loaded" : "loading"}
+      {...props}
+      style={[styles.font, props?.style]}
+    >
       {props.children}
     </TextWrapper>
   );

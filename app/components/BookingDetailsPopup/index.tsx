@@ -37,6 +37,7 @@ import BerlingskeMedium from "@/app/components/TextWrapper/BerlingskeMedium";
 import ArchivoMedium from "@/app/components/TextWrapper/ArchivoMedium";
 import { ConfirmationPopupRef } from "../ConfirmationPopup";
 import BookingConfirmationPopup from "../BookingConfirmationPopup";
+import NewBookingDetailComponent from "../NewBookingDetailComponent";
 // Get screen dimensions
 const { height } = Dimensions.get("window");
 
@@ -137,120 +138,6 @@ const BookingDetailsPopup = forwardRef<
     }).start(() => setVisible(false)); // Call onClose after animation
   };
 
-  const shouldCancelVisible = () => {
-    if (bookingDetails) {
-      const bookingDate = moment(
-        `${bookingDetails.bookingSessionDate} ${bookingDetails.bookingSessionTimeFrom}`,
-        "DD/MM/YYYY hh:mma"
-      );
-      const currentDate = moment();
-      console.log(bookingDate.diff(currentDate, "hours"), "time diff");
-
-      return bookingDate.diff(currentDate, "hours") >= 10;
-    }
-  };
-
-  const arrowStyle1 = {
-    transform: [
-      {
-        rotate: arrowAnimation1.interpolate({
-          inputRange: [0, 1],
-          outputRange: ["0deg", "90deg"], // Rotates the arrow downward
-        }),
-      },
-    ],
-  };
-
-  const arrowStyle2 = {
-    transform: [
-      {
-        rotate: arrowAnimation2.interpolate({
-          inputRange: [0, 1],
-          outputRange: ["0deg", "90deg"], // Rotates the arrow downward
-        }),
-      },
-    ],
-  };
-
-  const arrowStyle3 = {
-    transform: [
-      {
-        rotate: arrowAnimation3.interpolate({
-          inputRange: [0, 1],
-          outputRange: ["0deg", "90deg"], // Rotates the arrow downward
-        }),
-      },
-    ],
-  };
-
-  const onConfirmedCancel = async (pin: string) => {
-    const data = {
-      key: bookingData.id,
-      pin: pin,
-      section: capitalizeFirstLetter(bookingData?.sport),
-    };
-    const response = await CancelBooking(data);
-    setTimeout(() => {
-      dispatch(fetchRemainingBalance());
-    }, 1000);
-    console.log(response.data, "Response of cancel");
-    if (response.data.msgCode == "200") {
-      console.log("fetch again");
-      router.back();
-    }
-  };
-
-  const AccountCard = ({ item, index }) => {
-    const [enablePopup, setEnablePopup] = useState(false);
-
-    return (
-      <View style={styles.accountCard}>
-        <View
-          style={[styles.rowDirection, { justifyContent: "space-between" }]}
-        >
-          <ArchivoRegular style={styles.bold}>
-            <ArchivoMedium style={styles.bold}>Receipt# :</ArchivoMedium>
-            {item?.bookingReceipt}
-          </ArchivoRegular>
-          <View style={[styles.rowDirection]}>
-            <Image source={icons.euro} style={styles.euro} />
-            <ArchivoMedium style={{ fontSize: vh * 1.5 }}>
-              {item?.bookingRate}
-            </ArchivoMedium>
-          </View>
-        </View>
-
-        <View
-          style={[
-            styles.rowDirection,
-            { justifyContent: "space-between", marginTop: vh * 0.5 },
-          ]}
-        >
-          <View>
-            <ArchivoMedium style={styles.bold}>Name</ArchivoMedium>
-            <ArchivoExtraLight style={{ fontSize: vh * 1.4, marginTop: "-3%" }}>
-              {item?.payerName}
-            </ArchivoExtraLight>
-          </View>
-          <View style={{}}>
-            <ArchivoMedium style={styles.bold}>Payment Method</ArchivoMedium>
-            <ArchivoExtraLight style={{ fontSize: vh * 1.4, marginTop: "-3%" }}>
-              {item.paymentMethod}
-            </ArchivoExtraLight>
-          </View>
-        </View>
-      </View>
-    );
-  };
-
-  const rotateArrow = (isExpanded, animation) => {
-    Animated.timing(animation, {
-      toValue: isExpanded ? 1 : 0,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-  };
-
   return (
     <Modal
       transparent
@@ -269,10 +156,6 @@ const BookingDetailsPopup = forwardRef<
           { transform: [{ translateY }] }, // Animated slide-up
         ]}
       >
-        <BookingConfirmationPopup
-          reference={bookingConfirmationRef}
-          onAccept={onConfirmedCancel}
-        />
         {/* Bottom sheet content */}
         <View style={styles.content}>
           <TouchableOpacity onPress={hide} style={styles.crossIconContainer}>
@@ -298,9 +181,13 @@ const BookingDetailsPopup = forwardRef<
                   paddingBottom: 20,
                 }}
               >
+                <NewBookingDetailComponent
+                  bookingDetails={bookingDetails}
+                  onCancelPress={() => props.onCancelBookingPress()}
+                />
                 {/* Booking Info */}
 
-                {bookingDetails ? (
+                {/* {bookingDetails ? (
                   <View style={styles.card}>
                     {shouldCancelVisible() ? (
                       <TouchableOpacity
@@ -319,7 +206,6 @@ const BookingDetailsPopup = forwardRef<
                       </TouchableOpacity>
                     ) : null}
                     <View style={styles.row}>
-                      {/* Icon */}
                       <View style={styles.iconContainer}>
                         <Image
                           source={icons.tennis} // Replace with actual image path
@@ -327,7 +213,6 @@ const BookingDetailsPopup = forwardRef<
                         />
                       </View>
 
-                      {/* Session Details */}
                       <View style={styles.detailsContainer}>
                         <BerlingskeMedium style={styles.sessionTitle}>
                           Session
@@ -360,7 +245,6 @@ const BookingDetailsPopup = forwardRef<
                       </View>
                     </View>
 
-                    {/* Booking Member */}
                     <View style={[styles.section, { marginTop: vh * 2 }]}>
                       <Image source={icons.defaultUser} style={styles.logo} />
 
@@ -373,7 +257,6 @@ const BookingDetailsPopup = forwardRef<
                     </Text>
                     <View style={styles.borderSeperator} />
 
-                    {/* Date and Time */}
                     <View style={styles.bottomRow}>
                       <View>
                         <View style={styles.section}>
@@ -399,10 +282,9 @@ const BookingDetailsPopup = forwardRef<
                       </View>
                     </View>
                   </View>
-                ) : null}
+                ) : null} */}
 
-                {/* Players Info */}
-
+                {/* 
                 {bookingDetails ? (
                   <View style={styles.accordianHeader}>
                     <Collapse
@@ -559,7 +441,7 @@ const BookingDetailsPopup = forwardRef<
                       </CollapseBody>
                     </Collapse>
                   </View>
-                ) : null}
+                ) : null} */}
               </ScrollView>
             )}
           </View>

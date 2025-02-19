@@ -68,6 +68,7 @@ const AlreadyBookedDetails = () => {
   const bookingData = JSON.parse(useLocalSearchParams()?.bookingData);
   const [bookingDetails, setBookingDetails] = useState();
   const dispatch = useAppDispatch();
+  const bookingConfirmationRef = useRef<ConfirmationPopupRef>(null);
 
   const loading = useSelector((state: RootState) => state.general.btnLoader);
   useEffect(() => {
@@ -90,8 +91,35 @@ const AlreadyBookedDetails = () => {
     }
   };
 
+  const capitalizeFirstLetter = (word: string) => {
+    if (!word) return ""; // Handle empty or undefined input
+    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+  };
+
+  const onConfirmedCancel = async (pin: string) => {
+    const data = {
+      key: bookingData.id,
+      pin: pin,
+      section: capitalizeFirstLetter(bookingData?.sport),
+    };
+    const response = await CancelBooking(data);
+    setTimeout(() => {
+      dispatch(fetchRemainingBalance());
+    }, 1000);
+    console.log(response.data, "Response of cancel");
+    if (response.data.msgCode == "200") {
+      console.log("fetch again");
+      router.back();
+    }
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: themeColors.white }}>
+      <BookingConfirmationPopup
+        reference={bookingConfirmationRef}
+        onAccept={onConfirmedCancel}
+      />
+
       <GeneralHeader
         sport={{
           name: bookingData.sport,
@@ -114,6 +142,7 @@ const AlreadyBookedDetails = () => {
           <NewBookingDetailComponent
             bookingData={bookingData}
             bookingDetails={bookingDetails}
+            onCancelPress={() => bookingConfirmationRef.current?.show()}
           />
         </ScrollView>
       )}

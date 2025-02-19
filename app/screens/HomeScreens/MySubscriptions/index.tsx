@@ -373,6 +373,7 @@ const MySubscriptionScreen = () => {
 
         <FlatList
           data={subscriptionData}
+          ItemSeparatorComponent={() => <View style={{ marginVertical: 5 }} />}
           ListEmptyComponent={() => {
             return (
               <View>
@@ -384,7 +385,11 @@ const MySubscriptionScreen = () => {
                   />
                 ) : (
                   <ArchivoRegular
-                    style={{ alignSelf: "center", fontSize: vh * 2, marginTop: vh * 2 }}
+                    style={{
+                      alignSelf: "center",
+                      fontSize: vh * 2,
+                      marginTop: vh * 2,
+                    }}
                   >
                     No Subscription Found
                   </ArchivoRegular>
@@ -462,7 +467,7 @@ const styles = StyleSheet.create({
   accountCard: {
     borderWidth: 1,
     padding: 10,
-    marginTop: 10,
+    // marginTop: 10,
     borderRadius: 15,
     borderColor: "#0004",
     backgroundColor: "white",
