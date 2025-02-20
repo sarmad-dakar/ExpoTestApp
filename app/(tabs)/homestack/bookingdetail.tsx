@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import BookingDetailScreen from "@/app/screens/HomeScreens/BookingDetailScreen";
+import BookingDetailScreen from "@/app/screens/HomeScreens/BookingDetailRevamp";
 
 const bookingdetail = () => {
   return <BookingDetailScreen />;
