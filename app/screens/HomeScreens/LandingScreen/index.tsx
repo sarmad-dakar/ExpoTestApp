@@ -1,38 +1,22 @@
-import {
-  ActivityIndicator,
-  Alert,
-  BackHandler,
-  ImageSourcePropType,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { StyleSheet, Animated, View, Easing } from "react-native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import ScreenWrapper from "@/app/components/ScreenWrapper";
-import Banner from "@/app/components/Banner";
-import SportsCard from "@/app/components/SportsCard";
-import { images } from "@/app/MyAssets";
+
+import { bannerIcon } from "@/app/MyAssets";
 import HomeHeader from "@/app/components/HomeHeader";
-import { AllSports } from "@/app/utils/dummyJson";
-import HomeHeaderBeta from "@/app/components/HomeHeaderBeta";
-import SelectDropDown from "@/app/components/Dropdown";
-import AvailableSlots from "@/app/components/AvailableSlots";
+
 import ConfirmationPopup, {
   ConfirmationPopupRef,
 } from "@/app/components/ConfirmationPopup";
 import { router } from "expo-router";
-import BookingCalendar from "@/app/components/BookingCalendar";
-import { getMyProfile } from "@/app/api/Auth";
+
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMyProfile, fetchuserProfile } from "@/app/store/slices/userSlice";
-import { AnyAction, ThunkAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { RootState } from "@/app/store";
 import type { AppDispatch } from "@/app/store/index"; // Path to your store.ts
 import { CancelBooking, FetchCalendarData } from "@/app/api/Bookings";
 import moment from "moment";
 import { vh, vw } from "@/app/utils/units";
-import { themeColors } from "@/app/utils/theme";
 import BookingCalendarVersion2 from "@/app/components/BookingCalendar/BookingCalendarVersion2";
 import { fetchCurrentSports } from "@/app/store/slices/bookingSlice";
 import { useFocusEffect } from "expo-router";
@@ -87,6 +71,14 @@ const LandingScreen = () => {
   const token = useSelector((state) => state.user.token);
   const club = useSelector((state) => state.general.clubConfig);
 
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+  const translateX = useRef(new Animated.Value(0)).current;
+  const translateY = useRef(new Animated.Value(0)).current;
+
+  const scale2Anim = useRef(new Animated.Value(1)).current;
+  const translate2X = useRef(new Animated.Value(0)).current;
+  const translate2Y = useRef(new Animated.Value(0)).current;
+
   useEffect(() => {
     // handleNavigation();
     getProfile();
@@ -115,6 +107,106 @@ const LandingScreen = () => {
       };
     }, [selectedDate, SelectedSport])
   );
+
+  useEffect(() => {
+    // Zoom In and Out Animation
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(scaleAnim, {
+          toValue: 1.1, // Slightly zoom in
+          duration: 5000,
+          easing: Easing.inOut(Easing.ease),
+          useNativeDriver: true,
+        }),
+        Animated.timing(scaleAnim, {
+          toValue: 1, // Zoom out to normal
+          duration: 5000,
+          easing: Easing.inOut(Easing.ease),
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+
+    // Circular Motion Animation
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(translateX, {
+          toValue: 20,
+          duration: 5000,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }),
+        Animated.timing(translateY, {
+          toValue: 10,
+          duration: 5000,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }),
+        Animated.timing(translateX, {
+          toValue: 0,
+          duration: 5000,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }),
+        Animated.timing(translateY, {
+          toValue: 0,
+          duration: 5000,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  }, []);
+
+  useEffect(() => {
+    // Zoom In and Out Animation
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(scale2Anim, {
+          toValue: 1.12, // Slightly zoom in
+          duration: 5000,
+          easing: Easing.inOut(Easing.ease),
+          useNativeDriver: true,
+        }),
+        Animated.timing(scale2Anim, {
+          toValue: 1, // Zoom out to normal
+          duration: 5000,
+          easing: Easing.inOut(Easing.ease),
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+
+    // Circular Motion Animation
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(translate2X, {
+          toValue: 20,
+          duration: 5000,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }),
+        Animated.timing(translate2Y, {
+          toValue: 10,
+          duration: 5000,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }),
+        Animated.timing(translate2X, {
+          toValue: 0,
+          duration: 5000,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }),
+        Animated.timing(translate2Y, {
+          toValue: 0,
+          duration: 5000,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  }, []);
 
   const getSports = async (): Promise<void> => {
     dispatch(fetchCurrentSports());
@@ -240,8 +332,76 @@ const LandingScreen = () => {
     checkTokenAndNavigate();
   }, [token]);
 
+  const bannerImages = {
+    cricket: bannerIcon.cricket,
+    general: bannerIcon.general,
+    paddle: bannerIcon.paddle,
+    padel: bannerIcon.paddle,
+    pickleBall: bannerIcon.pickleBall,
+    squash: bannerIcon.squash,
+    tennis: bannerIcon.tennis,
+  };
+
+  const getBannerImages = (sportTitle) => {
+    if (bannerImages[sportTitle]) {
+      return bannerImages[sportTitle];
+    } else {
+      return bannerImages.general;
+    }
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
+      <View
+        style={{
+          backgroundColor: "#EAEBEA",
+          width: vh * 90,
+          height: vh * 90,
+          right: -vw * 65,
+          position: "absolute",
+          zIndex: 2,
+          borderRadius: vh * 100,
+          top: -vh * 44,
+        }}
+      >
+        <Animated.Image
+          source={getBannerImages(
+            SelectedSport?.sportServiceSetting.title?.toLowerCase()
+          )}
+          style={{
+            width: vh * 30,
+            height: vh * 30,
+            resizeMode: "contain",
+            position: "absolute",
+            bottom: 20,
+            left: "32%",
+            opacity: 0.5,
+            transform: [{ scale: scaleAnim }, { translateX }, { translateY }],
+            // right: 0,
+          }}
+        />
+
+        <Animated.Image
+          source={getBannerImages(
+            SelectedSport?.sportServiceSetting.title?.toLowerCase()
+          )}
+          style={{
+            width: vh * 30,
+            height: vh * 30,
+            resizeMode: "contain",
+            position: "absolute",
+            bottom: 20,
+            left: "32%",
+            opacity: 0.5,
+            transform: [
+              { scale: scale2Anim },
+              { translateX: translate2X },
+              { translateY: translate2Y },
+            ],
+            // right: 0,
+          }}
+        />
+      </View>
       <HomeHeader
         onNotificationPress={onNotificationPress}
         allSports={sports}
@@ -252,14 +412,7 @@ const LandingScreen = () => {
         setSelectedSport={setSelectedSport}
         selectedSport={SelectedSport}
       />
-      {/* <HomeHeaderBeta allSports={AllSports} label={"Tennis Booking"} /> */}
-      {/* <ScrollView
-        style={{ flex: 1, marginTop: 10 }}
-        contentContainerStyle={{
-          paddingLeft: 20,
-          paddingBottom: calendarData?.timeSlots?.length * 30 || 100,
-        }}
-      > */}
+
       <ScreenWrapper noPadding={true}>
         {calendarData ? (
           <BookingCalendarVersion2
@@ -270,8 +423,7 @@ const LandingScreen = () => {
           />
         ) : null}
       </ScreenWrapper>
-      {/* <AvailableSlots handleBooking={handleBooking} /> */}
-      {/* </ScrollView> */}
+
       <ConfirmationPopup
         reference={confirmationPopup}
         selectedSport={SelectedSport?.sportServiceSetting?.title}

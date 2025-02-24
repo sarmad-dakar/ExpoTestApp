@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     paddingHorizontal: 25,
+    // zIndex: 40,
   },
   shadowContainer: {
     height: "4%",

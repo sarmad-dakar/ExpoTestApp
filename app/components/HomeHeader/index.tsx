@@ -22,7 +22,7 @@ import SlidingDrawer from "../SlidingDrawer";
 import SelectDropDown, { SelectDropdownRef } from "../Dropdown";
 import { ConfirmationPopupRef } from "../ConfirmationPopup";
 // import DatePicker from 'react-native-date-picker'
-
+import WalletContainer from "@/app/components/WalletContainer";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
@@ -35,6 +35,7 @@ import ArchivoRegular from "../TextWrapper/ArchivoRegular";
 import { LinearGradient } from "expo-linear-gradient";
 import ArchivoMedium from "../TextWrapper/ArchivoMedium";
 import DatePickerCustomModal from "../../components/DatePickerCustomModal";
+import DropdownField from "../DropDownField";
 interface Sport {
   sportServiceSetting: {
     title: string;
@@ -182,12 +183,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
         >
           {selectedSport?.sportServiceSetting?.title} Bookings
         </BerlingskeMedium>
-        {/* <TouchableOpacity
-          onPress={onNotificationPress}
-          style={styles.iconContainer}
-        >
-          <Image source={icons.notificationIcon} style={styles.icon} />
-        </TouchableOpacity> */}
+
         <Pressable
           onPress={handlePress}
           style={{
@@ -197,42 +193,11 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
             flexDirection: "row",
           }}
         >
-          {/* <View style={{ backgroundColor: "red", marginRight: 10 }}>
-            <Image source={icons.wallet} style={styles.backIcon} />
-          </View> */}
-
-          <Image
-            source={icons.euro}
-            style={{
-              width: vh * 1.5,
-              height: vh * 1.5,
-              resizeMode: "contain",
-              marginRight: 5,
-              tintColor: "white",
-            }}
-          />
-          <ArchivoRegular style={{ color: "white", fontSize: vh * 1.5 }}>
-            {balance ? balance?.toFixed(2) : "0"}
-          </ArchivoRegular>
-          <Image
-            source={icons.dropdown}
-            style={{
-              width: vh * 1.5,
-              height: vh * 1.5,
-              resizeMode: "contain",
-              tintColor: "white",
-              marginLeft: 4,
-            }}
-          />
+          <WalletContainer />
         </Pressable>
       </View>
 
-      <View
-        style={[
-          styles.bottomHeaderContainer,
-          // { maxHeight: OtherSports.length * 22 },
-        ]}
-      >
+      <View style={[styles.bottomHeaderContainer]}>
         <View style={styles.sideBar}>
           <ScrollView>
             {[...OtherSports].map((item, index) => {
@@ -262,41 +227,83 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
             })}
           </ScrollView>
         </View>
-        <View style={styles.slotWrapper}>
-          <View style={styles.slotContainer}>
+        <LinearGradient
+          start={{ x: 0.08, y: 0 }}
+          end={{ x: 0.3, y: 0.4 }}
+          colors={[colors.primary, "white", "white", "#ffffff00", "#ffffff00"]}
+          style={styles.slotWrapper}
+        >
+          <LinearGradient
+            colors={["white", "#ffffff00", "#ffffff00"]}
+            start={{ x: 0.2, y: 0 }}
+            end={{ x: 0.4, y: 0.3 }}
+            style={styles.slotContainer}
+          >
             <BerlingskeMedium style={styles.slotTitle}>
               Find Your Slot
             </BerlingskeMedium>
-            <InputField
+            {/* <InputField
               // style={{ width: 250 }}
               dropdown={true}
               onPress={() => setShowDatePicker(true)}
               icon={icons.calendar}
               rightIcon={icons.dropdown}
               value={moment(selectedDate).format("DD/MM/YYYY")}
-            />
+            /> */}
+            {/* <DropdownField value={"sdsds"} /> */}
 
-            {/* For Ios Only */}
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={() => setShowDatePicker(true)}
+              style={{
+                height: vh * 4.8,
+                backgroundColor: "white",
+                borderRadius: 5,
+                justifyContent: "space-between",
+                alignItems: "center",
+                flexDirection: "row",
+                paddingHorizontal: "4%",
+                marginVertical: vh * 0.5,
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 4,
+                },
+                shadowOpacity: 0.3,
+                shadowRadius: 4.65,
 
-            {/* {Platform.OS == "ios" ? (
-              <View style={styles.datePickerField}>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Image source={icons.calendar} style={styles.inputIcon} />
-                  <View style={{ transform: [{ scale: 0.8 }] }}>
-                    <DateTimePicker
-                      value={selectedDate}
-                      mode="date"
-                      key={moment(selectedDate).format("DD/MM/YYYY")}
-                      display="calendar"
-                      onChange={onChangeDate}
-                      style={{ top: 0, left: 1 }}
-                    />
-                  </View>
-                </View>
-
-                <Image source={icons.dropdown} style={styles.inputIcon} />
+                elevation: 8,
+              }}
+            >
+              <View
+                style={{
+                  alignItems: "center",
+                  flexDirection: "row",
+                }}
+              >
+                <Image
+                  source={icons.calendar}
+                  style={{
+                    height: vh * 1.8,
+                    width: vh * 1.8,
+                    resizeMode: "contain",
+                    tintColor: "#5F645D",
+                  }}
+                />
+                <ArchivoRegular style={{ fontSize: vh * 1.6 }}>
+                  {moment(selectedDate).format("DD/MM/YYYY")}
+                </ArchivoRegular>
               </View>
-            ) : null} */}
+              <Image
+                source={icons.dropdown2}
+                style={{
+                  height: vh * 1.8,
+                  width: vh * 1.8,
+                  resizeMode: "contain",
+                  tintColor: "#5F645D",
+                }}
+              />
+            </TouchableOpacity>
 
             <DatePickerCustomModal
               selectedDate={selectedDate}
@@ -304,18 +311,12 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
               onRequestClose={() => setShowDatePicker(false)}
               onChangeDate={onChangeDate}
             />
-            {/* <MainButton
-              onPress={onSearchPress}
-              style={{ height: 40 }}
-              title="Search Now"
-            /> */}
+
             <LinearGradient
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 2 }}
               colors={["#E9FDF9", "#F2F1F4", "#FFE0EE"]}
               style={{
-                // flexDirection: "row",
-                // alignItems: "center",
                 height: vh * 12,
                 marginTop: 5,
                 backgroundColor: "red",
@@ -324,22 +325,14 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
                 shadowColor: "#000",
                 shadowOffset: {
                   width: 0,
-                  height: 1,
+                  height: 4,
                 },
-                shadowOpacity: 0.2,
-                shadowRadius: 1.41,
+                shadowOpacity: 0.3,
+                shadowRadius: 4.65,
 
-                elevation: 2,
-                // paddingLeft: "5%",
-                // justifyContent: "space-between",
+                elevation: 8,
               }}
             >
-              {/* <Image source={icons.court} style={styles.courtIcon} /> */}
-              {/* <Text style={{ color: "black", fontSize: vh * 1.5 }}>
-                {`${club?.title}\n${
-                  selectedSport?.sportServiceSetting?.title
-                } Booking\n ${moment(selectedDate).format("DD MMM YYYY")}`}
-              </Text> */}
               <View style={{ paddingLeft: "4%" }}>
                 <View style={styles.bar}></View>
                 <ArchivoRegular
@@ -375,8 +368,8 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
                 </ArchivoMedium>
               </View>
             </LinearGradient>
-          </View>
-        </View>
+          </LinearGradient>
+        </LinearGradient>
       </View>
       <SelectDropDown
         reference={dropdown}
@@ -405,6 +398,7 @@ const MyStyles = () => {
       alignItems: "center",
       paddingHorizontal: 20,
       paddingTop: Platform.OS == "ios" ? 25 : 10,
+      zIndex: 30,
     },
     logo: {
       height: vh * 4,
@@ -420,8 +414,9 @@ const MyStyles = () => {
     bottomHeaderContainer: {
       flexDirection: "row",
       height: vh * 28,
-      backgroundColor: "white",
+      // backgroundColor: "white",
       width: "100%",
+      zIndex: 30,
     },
     sideBar: {
       backgroundColor: colors.primary,
@@ -431,10 +426,10 @@ const MyStyles = () => {
       justifyContent: "space-between",
       paddingBottom: 20,
       height: vh * 27,
+
       // alignItems: "center",
     },
     slotWrapper: {
-      backgroundColor: colors.primary,
       // height: vh * 25,
 
       width: "70%",
@@ -442,7 +437,7 @@ const MyStyles = () => {
     slotContainer: {
       height: "100%",
       width: "100%",
-      backgroundColor: "white",
+      // backgroundColor: "red",
       borderTopLeftRadius: 30,
       paddingLeft: "8%",
       paddingTop: "6%",

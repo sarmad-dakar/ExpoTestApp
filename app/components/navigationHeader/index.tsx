@@ -21,6 +21,7 @@ import { ConfirmationPopupRef } from "../ConfirmationPopup";
 import { useTheme } from "@react-navigation/native";
 import ArchivoRegular from "../TextWrapper/ArchivoRegular";
 import ArchivoExtraLight from "../TextWrapper/ArchivoExtraLight";
+import WalletContainer from "../WalletContainer";
 
 type headerProps = {
   title: string;
@@ -67,29 +68,7 @@ const NavigationHeader = ({ title, back, sport, color }: headerProps) => {
               justifyContent: "flex-end",
             }}
           >
-            <Image
-              source={icons.euro}
-              style={{
-                width: vh * 1.5,
-                height: vh * 1.5,
-                resizeMode: "contain",
-                marginRight: 5,
-                tintColor: "white",
-              }}
-            />
-            <ArchivoRegular style={{ color: "white", fontSize: vh * 1.5 }}>
-              {balance ? balance?.toFixed(2) : "0"}
-            </ArchivoRegular>
-            <Image
-              source={icons.dropdown}
-              style={{
-                height: vh * 1.5,
-                width: 12,
-                resizeMode: "contain",
-                tintColor: "white",
-                marginLeft: 4,
-              }}
-            />
+            <WalletContainer />
           </Pressable>
         ) : (
           <View style={{ width: 60 }} />

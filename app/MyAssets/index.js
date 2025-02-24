@@ -16,6 +16,8 @@ export const icons = {
   tennis: require("../MyAssets/icons/tennis-green.png"),
   court: require("../MyAssets/icons/court.png"),
   court2: require("../MyAssets/icons/court2.png"),
+  court3: require("../MyAssets/icons/court3.png"),
+
   dropdown: require("../MyAssets/icons/arrow-circle-down.png"),
   dropdown2: require("../MyAssets/icons/dropdown2.png"),
   trash: require("../MyAssets/icons/Trash.png"),
@@ -92,6 +94,14 @@ export const icons = {
   gym: require("./icons/gym.png"),
   boxing: require("./icons/boxing-gloves.png"),
   running: require("./icons/running.png"),
+  dots: require("./icons/dots.png"),
+  upSplash: require("./icons/upSplash.png"),
+  downSplash: require("./icons/downSplash.png"),
+  tennisCourt: require("./icons/tennis.png"),
+  squashBall: require("./icons/squashBall.png"),
+  switchChange: require("./icons/changeSwitch.png"),
+  euro3: require("./icons/euro3.png"),
+  upArrow: require("./icons/upArrow.png"),
 };
 
 export const images = {
@@ -113,4 +123,22 @@ export const images = {
   backgroundDummy: require("../MyAssets/images/backgroundDummy.png"),
   jugaar: require("../MyAssets/images/shape.png"),
   linesBackground: require("../MyAssets/images/pngLines.png"),
+};
+
+export const sportsIcon = {
+  cricket: require("../MyAssets/sports/Circket.png"),
+  general: require("../MyAssets/sports/General.png"),
+  paddle: require("../MyAssets/sports/Paddle.png"),
+  pickleBall: require("../MyAssets/sports/Pickleball.png"),
+  squash: require("../MyAssets/sports/Squash.png"),
+  tennis: require("../MyAssets/sports/tennis.png"),
+};
+
+export const bannerIcon = {
+  cricket: require("../MyAssets/bannerIcons/circket.png"),
+  general: require("../MyAssets/bannerIcons/General.png"),
+  paddle: require("../MyAssets/bannerIcons/Padel.png"),
+  pickleBall: require("../MyAssets/bannerIcons/pickleball.png"),
+  squash: require("../MyAssets/bannerIcons/Squash.png"),
+  tennis: require("../MyAssets/bannerIcons/tennis.png"),
 };
