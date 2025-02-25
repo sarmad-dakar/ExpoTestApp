@@ -513,10 +513,10 @@ const MyStyles = () => {
         width: 0,
         height: 1,
       },
-      shadowOpacity: 0.2,
-      shadowRadius: 1.41,
+      shadowOpacity: 0.22,
+      shadowRadius: 2.22,
 
-      elevation: 2,
+      elevation: 3,
     },
     backIcon: {
       height: 30,
