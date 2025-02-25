@@ -741,20 +741,43 @@ const BookingDetailScreen = () => {
               <Text style={styles.playerName}>Include A/C</Text>
             </View>
           ) : null} */}
-                <View style={[styles.rowDirection, { marginVertical: vh * 0 }]}>
+                <View style={[styles.rowDirection, { marginBottom: vh * 1 }]}>
                   <BerlingskeMedium
                     style={{ color: themeColors.primary, fontSize: 17 }}
                   >
                     Players
                   </BerlingskeMedium>
                   {enableAddPlayers ? (
-                    <MainButton
-                      title="Add Players"
-                      style={styles.addPlayer}
-                      icon={icons.add}
-                      onPress={() => addPlayerPopup.current?.show()}
-                    />
-                  ) : null}
+                    <Animated.View
+                      entering={SlideInRight.duration(750).delay(300)}
+                      style={{
+                        alignItems: "center",
+                        width: vw * 15,
+                        marginRight: vw * 1,
+                      }}
+                    >
+                      <TouchableOpacity
+                        onPress={() => addPlayerPopup.current?.show()}
+                        style={[styles.circle, { backgroundColor: "#E6E6E6" }]}
+                      >
+                        <Image
+                          style={{
+                            width: "50%",
+                            height: "50%",
+                            resizeMode: "contain",
+                            tintColor: "black",
+                          }}
+                          source={icons.add}
+                        />
+                      </TouchableOpacity>
+                    </Animated.View>
+                  ) : // <MainButton
+                  //   title="Add Players"
+                  //   style={styles.addPlayer}
+                  //   icon={icons.add}
+                  //   onPress={() => addPlayerPopup.current?.show()}
+                  // />
+                  null}
                 </View>
 
                 {newFavList?.length ? (
@@ -808,37 +831,6 @@ const BookingDetailScreen = () => {
                         </Animated.View>
                       );
                     })}
-                    {/* <Animated.View
-                    entering={SlideInRight.duration(750).delay(300)}
-                    style={{
-                      alignItems: "center",
-                      width: vw * 15,
-                    }}
-                  >
-                    <TouchableOpacity
-                      onPress={() => addPlayerPopup.current?.show()}
-                      style={[
-                        styles.circle,
-                        { backgroundColor: themeColors.secondary },
-                      ]}
-                    >
-                      <Image
-                        style={{
-                          width: "50%",
-                          height: "50%",
-                          resizeMode: "contain",
-                          tintColor: "black",
-                        }}
-                        source={icons.add}
-                      />
-                    </TouchableOpacity>
-                    <ArchivoRegular
-                      numberOfLines={2}
-                      style={{ fontSize: vh * 1.4, textAlign: "center" }}
-                    >
-                      More Players
-                    </ArchivoRegular>
-                  </Animated.View> */}
                   </View>
                 ) : null}
 
@@ -1033,7 +1025,7 @@ const BookingDetailScreen = () => {
                           onPress={() => handleRemovePlayers(item)}
                           style={{
                             // paddingHorizontal: 5,
-                            width: 30,
+                            width: vw * 8,
                             justifyContent: "center",
                             alignItems: "center",
                             height: "100%",
@@ -1184,7 +1176,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   sessionContainer: {
-    height: vh * 15,
+    // height: vh * 15,
   },
   playerContainer: {
     flexDirection: "row",
@@ -1198,7 +1190,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   greenContainer: {
-    width: 61,
+    width: vw * 15,
     justifyContent: "center",
     // paddingHorizontal: 15,
     height: "100%",

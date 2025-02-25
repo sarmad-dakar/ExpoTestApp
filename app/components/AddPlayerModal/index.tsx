@@ -30,6 +30,7 @@ import { vh } from "@/app/utils/units";
 import { AddToFavorite } from "@/app/api/Bookings";
 import ArchivoLight from "../TextWrapper/ArchivoLight";
 import ArchivoRegular from "../TextWrapper/ArchivoRegular";
+import { useSelector } from "react-redux";
 
 // Get screen dimensions
 const { height } = Dimensions.get("window");
@@ -70,7 +71,7 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
     const [searchText, setSearchText] = useState("");
     const [addFavEnable, setAddFavEnable] = useState(false);
     const [removeFavEnable, setRemoveFavEnable] = useState(false);
-
+    const user = useSelector((state) => state?.user?.user);
     useEffect(() => {
       const favMembers = props.allPlayers.filter((item) => item.isFavourite);
       setFavoriteMembers(favMembers);
@@ -328,71 +329,75 @@ const AddPlayerModal = forwardRef<addplayerPopupRef, addplayerPopupProps>(
                       </View>
                     )}
                     renderItem={({ item, index }) => {
-                      return (
-                        <View
-                          style={[
-                            styles.listTile,
-                            {
-                              backgroundColor:
-                                index % 2 !== 0
-                                  ? "white"
-                                  : themeColors.lightShade,
-                            },
-                          ]}
-                        >
+                      if (item?.memberCode !== user.memberCode) {
+                        return (
                           <View
-                            style={{
-                              flexDirection: "row",
-                              alignItems: "center",
-                            }}
+                            style={[
+                              styles.listTile,
+                              {
+                                backgroundColor:
+                                  index % 2 !== 0
+                                    ? "white"
+                                    : themeColors.lightShade,
+                              },
+                            ]}
                           >
-                            <TouchableOpacity
-                              hitSlop={{
-                                top: 20,
-                                bottom: 20,
-                                left: 20,
-                                right: 20,
-                              }} // Adjust hitSlop as needed
-                              onPress={() => handleSelection(item)}
-                              style={styles.checkbox}
+                            <View
+                              style={{
+                                flexDirection: "row",
+                                alignItems: "center",
+                              }}
                             >
-                              {handleCheckIsExist(item) && (
+                              <TouchableOpacity
+                                hitSlop={{
+                                  top: 20,
+                                  bottom: 20,
+                                  left: 20,
+                                  right: 20,
+                                }} // Adjust hitSlop as needed
+                                onPress={() => handleSelection(item)}
+                                style={styles.checkbox}
+                              >
+                                {handleCheckIsExist(item) && (
+                                  <Image
+                                    source={icons.tick}
+                                    style={{
+                                      width: "60%",
+                                      height: "60%",
+                                      resizeMode: "contain",
+                                    }}
+                                  />
+                                )}
+                              </TouchableOpacity>
+                              <View style={styles.divider} />
+                              <Text style={styles.playerName}>
+                                {item.name} ({item.memberCode})
+                              </Text>
+                            </View>
+                            {handleCheckFavorite(item) ? (
+                              <TouchableOpacity
+                                onPress={() => onAddFavorite(item)}
+                              >
                                 <Image
-                                  source={icons.tick}
-                                  style={{
-                                    width: "60%",
-                                    height: "60%",
-                                    resizeMode: "contain",
-                                  }}
+                                  source={icons.starFilled}
+                                  style={styles.icon}
                                 />
-                              )}
-                            </TouchableOpacity>
-                            <View style={styles.divider} />
-                            <Text style={styles.playerName}>
-                              {item.name} ({item.memberCode})
-                            </Text>
+                              </TouchableOpacity>
+                            ) : (
+                              <TouchableOpacity
+                                onPress={() => onAddFavorite(item)}
+                              >
+                                <Image
+                                  source={icons.starUnfilled}
+                                  style={styles.icon}
+                                />
+                              </TouchableOpacity>
+                            )}
                           </View>
-                          {handleCheckFavorite(item) ? (
-                            <TouchableOpacity
-                              onPress={() => onAddFavorite(item)}
-                            >
-                              <Image
-                                source={icons.starFilled}
-                                style={styles.icon}
-                              />
-                            </TouchableOpacity>
-                          ) : (
-                            <TouchableOpacity
-                              onPress={() => onAddFavorite(item)}
-                            >
-                              <Image
-                                source={icons.starUnfilled}
-                                style={styles.icon}
-                              />
-                            </TouchableOpacity>
-                          )}
-                        </View>
-                      );
+                        );
+                      } else {
+                        return null;
+                      }
                     }}
                   />
                 </View>

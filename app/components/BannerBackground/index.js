@@ -74,8 +74,8 @@ const BannerBackground = ({ date, court, name, handleSwitch }) => {
           <View
             style={{
               flexDirection: "row",
-              justifyContent: "space-between",
-              paddingRight: "4%",
+              // justifyContent: "space-between",
+              // paddingRight: vw * 3,
             }}
           >
             <ArchivoMedium style={styles.title}>
@@ -120,7 +120,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     // marginTop: 10,
-    height: vh * 15,
+    height: vh * 14,
+    marginVertical: vh * 1,
     // paddingHorizontal: "5%",
     overflow: "hidden",
     // alignItems: "center",
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
     zIndex: 100,
     borderTopLeftRadius: 55,
     overflow: "hidden",
-    top: -10,
+    top: -6,
 
     // transform: [{ rotate: "15deg" }], // Skew to match the design
   },
@@ -193,25 +194,27 @@ const styles = StyleSheet.create({
   rectangleContainer: {
     // width: "50%",
     // flex: 1,
-    width: "100%",
+    width: "90%",
     height: 94,
     overflow: "hidden",
     left: -80,
     top: 5,
     flexDirection: "row",
     alignItems: "flex-end",
+    // backgroundColor: "red",
   },
   rectangle: {
     zIndex: 50,
-    backgroundColor: "green",
+    // backgroundColor: "green",
     backgroundColor: "#E2AD50",
 
     height: "101%",
-    width: "80%",
+    width: "90%",
     position: "absolute",
     marginLeft: "5%",
-    paddingLeft: "15%",
-    paddingVertical: "3%",
+    paddingLeft: 55,
+    paddingTop: 10,
+    // paddingVertical: "3%",
   },
   title: {
     fontSize: vh * 2,
@@ -239,6 +242,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
+    marginLeft: vw * 7,
   },
   switchIcon: {
     width: "80%",

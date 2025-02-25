@@ -271,7 +271,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
                 },
                 shadowOpacity: 0.23,
                 shadowRadius: 2.62,
-                
+
                 elevation: 4,
               }}
             >
@@ -312,70 +312,75 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
               onChangeDate={onChangeDate}
             />
 
-           <View 
-           style={{
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 2,
-            },
-            shadowOpacity: 0.23,
-            shadowRadius: 2.62,
-            
-            elevation: 4,
-
-           }}
-           >
-           <LinearGradient
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 2 }}
-              colors={["#E9FDF9", "#F2F1F4", "#FFE0EE"]}
+            <View
               style={{
-                height: vh * 12,
-                marginTop: 5,
-                backgroundColor: "red",
-                borderRadius: 10,
-                justifyContent: "center",
-        
-             
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.23,
+                shadowRadius: 2.62,
+
+                elevation: 4,
               }}
             >
-              <View style={{ paddingLeft: "4%" }}>
-                <View style={styles.bar}></View>
-                <ArchivoRegular
-                  style={{ fontSize: vh * 1.5, color: "#2A2F28" }}
-                >
-                  {club?.title}
-                </ArchivoRegular>
-                <ArchivoRegular
-                  style={{ fontSize: vh * 1.5, color: "#888888" }}
-                >
-                  {selectedSport?.sportServiceSetting?.title} Booking
-                </ArchivoRegular>
-              </View>
-              <View
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 2 }}
+                colors={["#E9FDF9", "#F2F1F4", "#FFE0EE"]}
                 style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  paddingLeft: "4%",
-                  marginTop: vh * 0.5,
+                  height: vh * 12,
+                  marginTop: 5,
+                  backgroundColor: "red",
+                  borderRadius: 10,
+                  justifyContent: "center",
+                  shadowOffset: {
+                    width: 0,
+                    height: 2,
+                  },
+                  shadowOpacity: 0.23,
+                  shadowRadius: 2.62,
+
+                  elevation: 4,
                 }}
               >
-                <Image
-                  source={icons.calendar}
+                <View style={{ paddingLeft: "4%" }}>
+                  <View style={styles.bar}></View>
+                  <ArchivoRegular
+                    style={{ fontSize: vh * 1.5, color: "#2A2F28" }}
+                  >
+                    {club?.title}
+                  </ArchivoRegular>
+                  <ArchivoRegular
+                    style={{ fontSize: vh * 1.5, color: "#888888" }}
+                  >
+                    {selectedSport?.sportServiceSetting?.title} Booking
+                  </ArchivoRegular>
+                </View>
+                <View
                   style={{
-                    width: vh * 2,
-                    height: vh * 2,
-                    resizeMode: "contain",
-                    marginRight: vw * 1.5,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    paddingLeft: "4%",
+                    marginTop: vh * 0.5,
                   }}
-                />
-                <ArchivoMedium style={{ fontSize: vh * 1.6, color: "black" }}>
-                  {moment(selectedDate).format("DD MMM YYYY")}
-                </ArchivoMedium>
-              </View>
-            </LinearGradient>
-           </View>
+                >
+                  <Image
+                    source={icons.calendar}
+                    style={{
+                      width: vh * 2,
+                      height: vh * 2,
+                      resizeMode: "contain",
+                      marginRight: vw * 1.5,
+                    }}
+                  />
+                  <ArchivoMedium style={{ fontSize: vh * 1.6, color: "black" }}>
+                    {moment(selectedDate).format("DD MMM YYYY")}
+                  </ArchivoMedium>
+                </View>
+              </LinearGradient>
+            </View>
           </LinearGradient>
         </LinearGradient>
       </View>
