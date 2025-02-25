@@ -267,12 +267,12 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
                 shadowColor: "#000",
                 shadowOffset: {
                   width: 0,
-                  height: 4,
+                  height: 2,
                 },
-                shadowOpacity: 0.3,
-                shadowRadius: 4.65,
-
-                elevation: 8,
+                shadowOpacity: 0.23,
+                shadowRadius: 2.62,
+                
+                elevation: 4,
               }}
             >
               <View
@@ -312,7 +312,21 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
               onChangeDate={onChangeDate}
             />
 
-            <LinearGradient
+           <View 
+           style={{
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.23,
+            shadowRadius: 2.62,
+            
+            elevation: 4,
+
+           }}
+           >
+           <LinearGradient
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 2 }}
               colors={["#E9FDF9", "#F2F1F4", "#FFE0EE"]}
@@ -322,15 +336,8 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
                 backgroundColor: "red",
                 borderRadius: 10,
                 justifyContent: "center",
-                shadowColor: "#000",
-                shadowOffset: {
-                  width: 0,
-                  height: 4,
-                },
-                shadowOpacity: 0.3,
-                shadowRadius: 4.65,
-
-                elevation: 8,
+        
+             
               }}
             >
               <View style={{ paddingLeft: "4%" }}>
@@ -368,6 +375,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
                 </ArchivoMedium>
               </View>
             </LinearGradient>
+           </View>
           </LinearGradient>
         </LinearGradient>
       </View>
