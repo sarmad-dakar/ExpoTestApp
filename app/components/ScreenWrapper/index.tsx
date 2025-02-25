@@ -7,12 +7,14 @@ type ScreenWrapperProps = {
   children: ReactNode;
   noPadding?: Boolean;
   hideShadow?: Boolean;
+  transparent: Boolean;
 };
 
 const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
   children,
   noPadding,
   hideShadow,
+  transparent,
 }) => {
   return hideShadow ? (
     <View style={[styles.container, noPadding && { paddingHorizontal: 0 }]}>
@@ -24,6 +26,7 @@ const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
         styles.container,
         { flex: 1 },
         noPadding && { paddingHorizontal: 0 },
+        transparent && { backgroundColor: "transparent" },
       ]}
     >
       {children}

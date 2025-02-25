@@ -359,7 +359,7 @@ const LandingScreen = () => {
           height: vh * 90,
           right: -vw * 65,
           position: "absolute",
-          zIndex: 2,
+          zIndex: 0,
           borderRadius: vh * 100,
           top: -vh * 44,
         }}
@@ -413,7 +413,7 @@ const LandingScreen = () => {
         selectedSport={SelectedSport}
       />
 
-      <ScreenWrapper noPadding={true}>
+      <ScreenWrapper transparent={true} noPadding={true}>
         {calendarData ? (
           <BookingCalendarVersion2
             onBookingPress={onBookingPress}
