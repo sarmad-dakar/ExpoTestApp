@@ -23,6 +23,7 @@ import ArchivoRegular from "@/app/components/TextWrapper/ArchivoRegular";
 import BerlingskeBold from "@/app/components/TextWrapper/BerlingskeBold";
 import { vh, vw } from "@/app/utils/units";
 import {
+  setAllClubs,
   setClubConfig,
   switchUser,
   toggleBtnLoader,
@@ -154,8 +155,12 @@ const AppNavigationScreen = () => {
       return;
     }
     const response = await getGeneralAllClubs();
+    const allClubs = response.data;
+    dispatch(setAllClubs(allClubs));
+    const removedClubs = allClubs.filter((item) => item?.title !== club?.title);
+    setClubs([...clubs, ...removedClubs]);
     // setClubs(clubs);
-    getEachClubData(response.data, 0);
+    // getEachClubData(response.data, 0);
   };
 
   const handleClubPress = (obj) => {

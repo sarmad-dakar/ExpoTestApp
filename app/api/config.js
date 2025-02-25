@@ -4,7 +4,6 @@ export const endpoints = {
   getMyProfile: "Account/user/profile/info/record",
   validate: "Authentication/user/validate",
   refresh: "Authentication/user/refresh/token",
-
   getAccountInfo: "Booking/sport/bookings/info",
   getSubscriptionData: "Subscription/sport/member/subscription/info",
   getNotifications: "Notification/sport/member/notifications",

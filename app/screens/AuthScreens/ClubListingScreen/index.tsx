@@ -71,35 +71,41 @@ const index = () => {
       return;
     }
     const response = await getAllClubs();
-    const clubs = response.data;
-    setClubs(clubs);
-    getEachClubData(clubs, 0);
-    console.log(clubs, "response of clubs");
+    console.log(response.data, "response of clubs");
+    const allClubs = response?.data;
+    dispatch(setAllClubs(allClubs));
+    setClubs(allClubs); // Update state once all clubs are processed
+
+    return;
+    // const clubs = response.data;
+    // setClubs(clubs);
+    // getEachClubData(clubs, 0);
+    // console.log(clubs, "response of clubs");
   };
 
-  const getEachClubData = async (allClubs, index, clubsData = []) => {
-    if (index >= allClubs.length) {
-      setClubs(clubsData); // Update state once all clubs are processed
-      console.log(clubsData, "Finished processing all clubs.");
-      dispatch(setAllClubs(clubsData));
-      return;
-    }
+  // const getEachClubData = async (allClubs, index, clubsData = []) => {
+  //   if (index >= allClubs.length) {
+  //     setClubs(clubsData); // Update state once all clubs are processed
+  //     console.log(clubsData, "Finished processing all clubs.");
+  //     dispatch(setAllClubs(clubsData));
+  //     return;
+  //   }
 
-    const currentUrl = allClubs[index];
+  //   const currentUrl = allClubs[index];
 
-    try {
-      const response = await axios.get(
-        `${currentUrl}/api/v1/SportServices/sport/club/services`
-      );
-      const clubDetails = response.data;
+  //   try {
+  //     const response = await axios.get(
+  //       `${currentUrl}/api/v1/SportServices/sport/club/services`
+  //     );
+  //     const clubDetails = response.data;
 
-      // Recursively process the next club
-      await getEachClubData(allClubs, index + 1, [...clubsData, clubDetails]);
-    } catch (error) {
-      console.error(`Error fetching data for club at ${currentUrl}:`, error);
-      await getEachClubData(allClubs, index + 1, [...clubsData, null]); // Keep track of failed requests
-    }
-  };
+  //     // Recursively process the next club
+  //     await getEachClubData(allClubs, index + 1, [...clubsData, clubDetails]);
+  //   } catch (error) {
+  //     console.error(`Error fetching data for club at ${currentUrl}:`, error);
+  //     await getEachClubData(allClubs, index + 1, [...clubsData, null]); // Keep track of failed requests
+  //   }
+  // };
 
   const handleClubPress = (item) => {
     try {

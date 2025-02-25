@@ -25,6 +25,14 @@ const BannerBackground = ({ date, court, name, handleSwitch }) => {
     tennis: sportsIcon.tennis,
   };
 
+  const extractIcon = (title) => {
+    if (myicons[title]) {
+      return myicons[title];
+    } else {
+      return myicons.general;
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Animated.View
@@ -35,7 +43,7 @@ const BannerBackground = ({ date, court, name, handleSwitch }) => {
         <Image source={icons.downSplash} style={styles.downSplash} />
         <View style={styles.imageContainer}>
           <Image
-            source={myicons[name.toLowerCase()]}
+            source={extractIcon(name?.toLowerCase())}
             style={styles.squareImage}
           />
         </View>

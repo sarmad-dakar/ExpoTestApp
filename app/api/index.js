@@ -9,7 +9,7 @@ import { toggleGeneralLoader } from "../store/slices/generalSlice";
 
 export const version = "v1/";
 export const liveUrl = "https://api.mscbookings.com/";
-export const generalApi = "https://unionclubapi.dakarhr.com/";
+export const generalApi = "https://gateway.dakarclubs.com/";
 export const testUrl = "https://mscapi.dakarhr.com/";
 const instance = axios.create({
   baseURL: generalApi + "api/" + version,

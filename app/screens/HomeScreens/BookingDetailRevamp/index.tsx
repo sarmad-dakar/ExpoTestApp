@@ -539,7 +539,7 @@ const BookingDetailScreen = () => {
         }}
       >
         <ScreenWrapper>
-          <View style={{ height: 20 }} />
+          <View style={{ height: vh * 2 }} />
           <ScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{
@@ -680,7 +680,9 @@ const BookingDetailScreen = () => {
                                 />
                               ) : null}
                             </TouchableOpacity>
-                            <Text style={styles.playerName}>{item?.title}</Text>
+                            <ArchivoRegular style={styles.playerName}>
+                              {item?.title}
+                            </ArchivoRegular>
                           </View>
                         );
                       }
