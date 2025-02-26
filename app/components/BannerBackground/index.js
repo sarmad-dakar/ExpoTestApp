@@ -13,7 +13,7 @@ import Animated, {
   ZoomIn,
 } from "react-native-reanimated";
 
-const BannerBackground = ({ date, court, name, handleSwitch }) => {
+const BannerBackground = ({ date, court, name, handleSwitch, time }) => {
   const myicons = {
     cricket: sportsIcon.cricket,
     general: sportsIcon.general,
@@ -90,7 +90,9 @@ const BannerBackground = ({ date, court, name, handleSwitch }) => {
           </View>
           <View style={styles.rowDirection}>
             <Image source={icons.calendar} style={styles.icon} />
-            <ArchivoRegular style={styles.date}>{date}</ArchivoRegular>
+            <ArchivoRegular style={styles.date}>
+              {date} , {time}
+            </ArchivoRegular>
           </View>
           <View style={styles.rowDirection}>
             <Image source={icons.court3} style={styles.icon} />

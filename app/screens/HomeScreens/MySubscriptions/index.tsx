@@ -373,6 +373,7 @@ const MySubscriptionScreen = () => {
 
         <FlatList
           data={subscriptionData}
+          contentContainerStyle={{ paddingBottom: 50 }}
           ItemSeparatorComponent={() => <View style={{ marginVertical: 5 }} />}
           ListEmptyComponent={() => {
             return (

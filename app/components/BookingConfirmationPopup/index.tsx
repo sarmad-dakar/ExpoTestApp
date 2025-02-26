@@ -55,6 +55,7 @@ const BookingConfirmationPopup = forwardRef<
 
   const hide = () => {
     setVisible(false);
+    setPinCode("");
   };
 
   const show = () => {
