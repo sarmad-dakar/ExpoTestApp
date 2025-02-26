@@ -259,7 +259,7 @@ const MyAccountScreen = () => {
         </View>
 
         {/* Scrollable Content */}
-        <View style={{ flex: 0.95 }}>
+        <View style={{ flex: 0.95, paddingTop: 10 }}>
           <FlatList
             data={dataForList}
             ListEmptyComponent={() => (
@@ -395,6 +395,15 @@ const MyStyles = () => {
       backgroundColor: colors.primary,
       marginTop: 14,
       borderRadius: 6,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+
+      elevation: 5,
     },
     activeTabText: {
       color: colors.secondary,

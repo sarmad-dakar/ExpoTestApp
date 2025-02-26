@@ -313,7 +313,7 @@ const MyBookingsScreen: React.FC = () => {
             />
           </View>
         </View>
-        <View style={{ flex: 0.9 }}>
+        <View style={{ flex: 0.9, paddingTop: 10 }}>
           <FlatList
             data={dataForList}
             ListEmptyComponent={() => (
@@ -405,6 +405,15 @@ const MyStyles = () => {
       backgroundColor: colors.primary,
       marginTop: 14,
       borderRadius: 6,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 3,
+      },
+      shadowOpacity: 0.27,
+      shadowRadius: 4.65,
+
+      elevation: 6,
     },
     tabButton: {
       alignItems: "center",
@@ -433,6 +442,15 @@ const MyStyles = () => {
       paddingVertical: 10,
       marginTop: 15,
       borderRadius: 10,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+
+      elevation: 5,
     },
   });
   return styles;
