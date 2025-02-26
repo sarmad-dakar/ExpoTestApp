@@ -668,6 +668,12 @@ const BookingDetailScreen = () => {
                             <TouchableOpacity
                               onPress={() => onChangeServicesOption(item.id)}
                               style={styles.checkbox}
+                              hitSlop={{
+                                top: 10,
+                                bottom: 10,
+                                left: 10,
+                                right: 10,
+                              }} // Adjust hitSlop as needed
                             >
                               {checkTickMark(item.id) ? (
                                 <Image
@@ -939,6 +945,12 @@ const BookingDetailScreen = () => {
                           <TouchableOpacity
                             onPress={() => handleAddPlayer(item)}
                             style={styles.checkbox}
+                            hitSlop={{
+                              top: 10,
+                              bottom: 10,
+                              left: 10,
+                              right: 10,
+                            }} // Adjust hitSlop as needed
                           >
                             {item?.isChecked && (
                               <Image
