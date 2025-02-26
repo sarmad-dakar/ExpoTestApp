@@ -44,7 +44,7 @@ import { router } from "expo-router";
 import moment from "moment";
 
 const index = () => {
-  const [clubs, setClubs] = useState([]);
+  const [clubs, setClubs] = useState([1, 2]);
   const dispatch = useAppDispatch();
   const loader = useSelector((state: any) => state.general.generalLoader);
   const allClubsInRedux = useSelector((state: any) => state.general.allClubs);
@@ -64,19 +64,24 @@ const index = () => {
   }, []);
 
   const fetchClubs = async () => {
-    const isDatePassed = moment().isBefore(moment(nextFetchDate));
-    if (allClubsInRedux && isDatePassed) {
-      console.log(nextFetchDate, "nextFetchDate");
-      setClubs(allClubsInRedux);
-      return;
-    }
-    const response = await getAllClubs();
-    console.log(response.data, "response of clubs");
-    const allClubs = response?.data;
-    dispatch(setAllClubs(allClubs));
-    setClubs(allClubs); // Update state once all clubs are processed
+    try {
+      setLocalLoader(true);
+      const isDatePassed = moment().isBefore(moment(nextFetchDate));
+      if (allClubsInRedux && isDatePassed) {
+        setLocalLoader(false);
+        console.log(nextFetchDate, "nextFetchDate");
+        setClubs(allClubsInRedux);
+        return;
+      }
+      const response = await getAllClubs();
 
-    return;
+      console.log(response.data, "response of clubs");
+      const allClubs = response?.data;
+      dispatch(setAllClubs(allClubs));
+      setClubs(allClubs); // Update state once all clubs are processed
+      setLocalLoader(false);
+    } catch (error) {}
+
     // const clubs = response.data;
     // setClubs(clubs);
     // getEachClubData(clubs, 0);
@@ -397,8 +402,6 @@ const index = () => {
       imageStyle={{ width: "100%", height: "100%", resizeMode: "cover" }}
       style={styles.container}
     >
-      {localLoader ? <LoaderComponent /> : null}
-
       <GeneralHeader disable={true} title="Sports Clubs" color={"#2A2F28"} />
       <ImageGalleryViewerPopup reference={imageGalleryRef} />
       <ImageView
@@ -427,7 +430,7 @@ const index = () => {
           ListEmptyComponent={() => {
             return (
               <View>
-                {loader ? (
+                {localLoader ? (
                   <ActivityIndicator
                     size={"small"}
                     color={themeColors.primary}

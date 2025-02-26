@@ -109,7 +109,9 @@ const GeneralHeader = ({ title, back, sport, color, disable }: headerProps) => {
       ) : (
         <View style={{ width: "25%" }} />
       )}
-      <TopupConfirmationPopup reference={topupConfirmationRef} />
+      {!disable ? (
+        <TopupConfirmationPopup reference={topupConfirmationRef} />
+      ) : null}
     </View>
   );
 };
