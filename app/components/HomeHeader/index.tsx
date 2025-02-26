@@ -288,6 +288,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
                     width: vh * 1.8,
                     resizeMode: "contain",
                     tintColor: "#5F645D",
+                    marginRight: vw * 2,
                   }}
                 />
                 <ArchivoRegular style={{ fontSize: vh * 1.6 }}>
