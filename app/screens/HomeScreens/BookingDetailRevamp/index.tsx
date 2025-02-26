@@ -390,6 +390,8 @@ const BookingDetailScreen = () => {
   };
 
   const onBookingConfirmation = async (pinCode: string) => {
+    const splitPlayers = selectedPlayers.filter((item) => item?.isChecked);
+
     let data = {
       BookingKey: bookingData?.sessionDetail?.key,
       BookingType: bookingType?.key,
@@ -401,13 +403,14 @@ const BookingDetailScreen = () => {
       Service:
         bookingData?.selectedSport?.sportServiceSetting.title.toLowerCase(),
     };
-    if (checkedPlayers.length) {
+    if (splitPlayers.length) {
       let currentPayers = data.PayerCode;
-      checkedPlayers.map((item) => {
+      splitPlayers.map((item) => {
         currentPayers += `,${item.memberCode}`;
       });
       data.PayerCode = currentPayers;
     }
+
     if (selectedPlayers.length) {
       let currentPlayers = data.PlayerCodes;
       selectedPlayers.map((item) => {
@@ -519,6 +522,7 @@ const BookingDetailScreen = () => {
           court={`${bookingData.courtDetail.title} (${bookingData.courtDetail.courtType})`}
           name={bookingData?.selectedSport?.sportServiceSetting?.title}
           handleSwitch={() => router.back()}
+          time={bookingData?.sessionDetail?.slot}
         />
       </View>
 
