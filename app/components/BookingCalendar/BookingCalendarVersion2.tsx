@@ -1,6 +1,7 @@
 import {
   Image,
   PanResponder,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -478,7 +479,10 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
 
           <ScrollView
             contentContainerStyle={{
-              paddingBottom: data?.timeSlots?.length*1.4,
+              paddingBottom:
+                Platform.OS == "ios"
+                  ? data?.timeSlots?.length * 1.4
+                  : data?.timeSlots?.length * 1.8,
             }}
             // style={{flex : 1}}
           >

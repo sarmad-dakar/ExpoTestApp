@@ -185,6 +185,7 @@ const ImageGalleryViewerPopup = forwardRef<
             <Swiper
               dotColor="white"
               activeDotColor={colors.secondary}
+              removeClippedSubviews={false} // Prevents flickering
               // renderPagination={(index, total, context) => {
               //   return (
               //     <Text style={{ alignSelf: "center", marginTop: 10 }}>
