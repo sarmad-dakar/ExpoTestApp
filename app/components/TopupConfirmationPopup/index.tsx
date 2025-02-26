@@ -151,6 +151,7 @@ const TopupConfirmationPopup = forwardRef<
 
       console.log(result.data, "amount");
       // hide();
+      setLocalLoader(false);
 
       if (result.data?.data?.isok) {
         const paymentUrl = result.data?.data?.url;
@@ -158,7 +159,6 @@ const TopupConfirmationPopup = forwardRef<
 
         setUrl(paymentUrl);
         setSteps(2);
-        setLocalLoader(false);
         // let webResponse = await WebBrowser.openBrowserAsync(paymentUrl, {});
         // console.log(webResponse, "web response");
         // Linking.openURL(result.data?.data?.url);

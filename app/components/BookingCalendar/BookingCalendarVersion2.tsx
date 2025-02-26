@@ -476,7 +476,11 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
             ))}
           </View>
 
-          <ScrollView contentContainerStyle={{ paddingBottom: 10 }}>
+          <ScrollView
+            contentContainerStyle={{
+              paddingBottom: 60,
+            }}
+          >
             <View
               style={{
                 flex: 1,
