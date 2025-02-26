@@ -19,16 +19,16 @@ const WalletContainer = () => {
         paddingVertical: 5,
         borderRadius: 5,
         borderBottomWidth: 1,
-        borderColor: "#ffffff2e",
-        shadowColor: "#ffffff36",
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.23,
-        shadowRadius: 2.62,
+        borderColor: "#ffffff42",
+        // shadowColor: "#ffffff36",
+        // shadowOffset: {
+        //   width: 0,
+        //   height: 2,
+        // },
+        // shadowOpacity: 0.23,
+        // shadowRadius: 2.62,
 
-        elevation: 4,
+        // elevation: 4,
       }}
     >
       <Image
