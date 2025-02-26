@@ -63,7 +63,7 @@ const DatePickerCustomModal = ({
                 borderTopLeftRadius: 20,
                 borderTopRightRadius: 20,
                 width: "100%",
-                paddingBottom: 50,
+                paddingBottom: 20,
               }}
             >
               <DateTimePicker
@@ -89,5 +89,6 @@ const styles = StyleSheet.create({
     // backgroundColor: 'red',
     justifyContent: "flex-end",
     alignItems: "center",
+    // paddingBottom : 10
   },
 });
