@@ -14,13 +14,13 @@ const WalletContainer = () => {
       style={{
         flexDirection: "row",
         alignItems: "center",
-        backgroundColor: "#585F55",
+        backgroundColor: "#ffffff36",
         paddingHorizontal: 5,
         paddingVertical: 5,
         borderRadius: 5,
         borderBottomWidth: 1,
         borderColor: "#ffffff2e",
-        shadowColor: "white",
+        shadowColor: "#ffffff36",
         shadowOffset: {
           width: 0,
           height: 2,

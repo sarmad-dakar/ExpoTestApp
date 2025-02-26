@@ -59,6 +59,7 @@ import Toast from "react-native-toast-message";
 import ArchivoMedium from "@/app/components/TextWrapper/ArchivoMedium";
 import DropdownField from "@/app/components/DropDownField";
 import BannerBackground from "@/app/components/BannerBackground";
+import { useTheme } from "@react-navigation/native";
 interface Player {
   gender: string;
   name: string;
@@ -114,6 +115,7 @@ const BookingDetailScreen = () => {
   const profile = useSelector((state: any) => state.user.user);
   const [newFavList, setNewFavList] = useState([]);
   const btnLoader = useSelector((state: RootState) => state.general.btnLoader);
+  const { colors } = useTheme();
   console.log(
     bookingData?.selectedSport,
     "bookingData?.selectedSport?.sportServiceSetting"
@@ -814,7 +816,7 @@ const BookingDetailScreen = () => {
                               styles.circle,
                               isAddedInList(item) && {
                                 borderWidth: 2,
-                                borderColor: themeColors.secondary,
+                                borderColor: colors.secondary,
                               },
                             ]}
                           >
