@@ -61,6 +61,10 @@ const InputField = (props) => {
         props.reference.current.focus();
       } else {
         inputRef.current.focus();
+
+        inputRef.current.setNativeProps({
+          selection: { start: props.value.length, end: props.value.length },
+        });
       }
     }
     if (props.onPress) {
