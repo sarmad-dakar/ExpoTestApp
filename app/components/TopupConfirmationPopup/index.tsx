@@ -137,7 +137,7 @@ const TopupConfirmationPopup = forwardRef<
       setLocalLoader(true);
       let data = {
         Amount: topupAmount,
-        IsMobile: 1,
+        RequestMediumId: 1,
         Comment: "",
         PinCode: "",
       };
