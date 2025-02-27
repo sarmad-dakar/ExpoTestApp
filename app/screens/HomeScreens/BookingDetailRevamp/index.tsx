@@ -1031,6 +1031,27 @@ const BookingDetailScreen = () => {
                               },
                             ]}
                           >
+                            {validateAmount(
+                              playersAmountData[`p${index + 2}AmountDue`],
+                              playersAmountData[`p${index + 2}BalanceAmount`]
+                            ) ? (
+                              <Image
+                                source={icons.ban}
+                                style={[
+                                  {
+                                    position: "absolute",
+                                    height: "85%",
+                                    width: "85%",
+                                    resizeMode: "contain",
+                                    tintColor: "white",
+                                    alignSelf: "center",
+                                    opacity: 0.5,
+                                    zIndex: 20,
+                                  },
+                                ]}
+                              />
+                            ) : null}
+
                             <Image source={icons.euro} style={styles.euro} />
                             <ArchivoMedium style={styles.euroText}>
                               {String(

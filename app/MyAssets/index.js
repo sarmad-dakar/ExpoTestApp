@@ -17,7 +17,6 @@ export const icons = {
   court: require("../MyAssets/icons/court.png"),
   court2: require("../MyAssets/icons/court2.png"),
   court3: require("../MyAssets/icons/court3.png"),
-
   dropdown: require("../MyAssets/icons/arrow-circle-down.png"),
   dropdown2: require("../MyAssets/icons/dropdown2.png"),
   trash: require("../MyAssets/icons/Trash.png"),
@@ -102,6 +101,7 @@ export const icons = {
   switchChange: require("./icons/changeSwitch.png"),
   euro3: require("./icons/euro3.png"),
   upArrow: require("./icons/upArrow.png"),
+  ban: require("./icons/ban.png"),
 };
 
 export const images = {

@@ -254,7 +254,8 @@ const index = () => {
                       }}
                       renderItem={({ item: element }) => {
                         return (
-                          <Pressable
+                          <TouchableOpacity
+                            disabled={element?.gallery?.length ? false : true}
                             onPress={() => {
                               if (element.gallery?.length) {
                                 imageGalleryRef.current?.show(
@@ -276,7 +277,7 @@ const index = () => {
                                 tintColor: "black",
                               }}
                             />
-                          </Pressable>
+                          </TouchableOpacity>
                         );
                       }}
                     />

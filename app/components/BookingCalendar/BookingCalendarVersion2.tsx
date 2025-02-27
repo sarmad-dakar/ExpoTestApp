@@ -479,16 +479,15 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
 
           <ScrollView
             contentContainerStyle={{
-              paddingBottom:
-                Platform.OS == "ios"
-                  ? data?.timeSlots?.length * 1.4
-                  : data?.timeSlots?.length * 1.8,
+              flexGrow: 1,
+              // minHeight: "100%",
+              paddingBottom: 50,
             }}
-            // style={{flex : 1}}
+            // style={{ flex: 1 }}
           >
             <View
               style={{
-                flex: 1,
+                // flex: 1,
                 backgroundColor: "#E0E0E0",
                 flexDirection: "row",
                 overflow: "hidden",
@@ -528,12 +527,6 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
                           item.rows == 2 && { height: 66 },
                         ]}
                       >
-                        {/* {item.icon && (
-                        <Image
-                          source={{ uri: item.icon }}
-                          style={styles.icon}
-                        />
-                      )} */}
                         <Text
                           style={{
                             fontSize: 10,
