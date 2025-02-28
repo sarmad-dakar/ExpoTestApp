@@ -76,7 +76,7 @@ const ForgotPasswordScreen = () => {
     }
     const result = await forgotPassword(membershipNumber);
     if (result.data?.msgCode == "200") {
-      showInfoToast(result.data.data);
+      // showInfoToast(result.data.data);
       setMessage(result.data.data);
       setStep(2);
       // setTimeout(() => {
