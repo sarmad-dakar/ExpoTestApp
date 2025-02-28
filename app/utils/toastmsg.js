@@ -22,5 +22,6 @@ export const showInfoToast = (message) => {
     type: "info",
     text1: "Info",
     text2: message,
+    text2Style: { fontSize: vh * 1.2 },
   });
 };

@@ -36,6 +36,7 @@ const ForgotPasswordScreen = () => {
   const [membershipNumber, setMemberShipNumber] = useState("");
   const [showPoweredBy, setShowPoweredBy] = useState(true);
   const webviewRef = useRef();
+  const [message, setMessage] = useState("");
   const club = useSelector((state) => state.general.clubConfig);
 
   const loading = useSelector(
@@ -76,9 +77,11 @@ const ForgotPasswordScreen = () => {
     const result = await forgotPassword(membershipNumber);
     if (result.data?.msgCode == "200") {
       showInfoToast(result.data.data);
-      setTimeout(() => {
-        router.navigate("/login");
-      }, 2000);
+      setMessage(result.data.data);
+      setStep(2);
+      // setTimeout(() => {
+      //   router.navigate("/login");
+      // }, 2000);
     }
   };
 
@@ -132,10 +135,15 @@ const ForgotPasswordScreen = () => {
                 marginBottom: vh * 2,
               }}
             >
-              "Congratulations" Password Send to your Email Address
+              {message}
             </BerlingskeMedium>
             <Image source={icons.email} style={styles.icon} />
-            <TouchableOpacity onPress={() => router.replace("/login")}>
+            <TouchableOpacity
+              onPress={() => {
+                router.replace("/login");
+                setStep(1);
+              }}
+            >
               <Text style={styles.login}>Go Back to Login</Text>
             </TouchableOpacity>
           </View>
