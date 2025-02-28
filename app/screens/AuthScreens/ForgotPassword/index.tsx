@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MainButton from "@/app/components/MainButton";
 import LogoHeader from "@/app/components/LogoHeader";
 import InputField from "@/app/components/InputField";
@@ -29,11 +29,14 @@ import Animated, {
   FadeOut,
   SlideOutDown,
 } from "react-native-reanimated";
+import PaymentWebviewPopup from "@/app/components/PaymentWebView";
 
 const ForgotPasswordScreen = () => {
   const [step, setStep] = useState(1);
   const [membershipNumber, setMemberShipNumber] = useState("");
   const [showPoweredBy, setShowPoweredBy] = useState(true);
+  const webviewRef = useRef();
+  const club = useSelector((state) => state.general.clubConfig);
 
   const loading = useSelector(
     (state: RootState) => state?.general?.generalLoader
@@ -76,6 +79,14 @@ const ForgotPasswordScreen = () => {
       setTimeout(() => {
         router.navigate("/login");
       }, 2000);
+    }
+  };
+
+  const showBar = () => {
+    if (club?.termsURL && club?.privacyURL) {
+      return true;
+    } else {
+      return false;
     }
   };
 
@@ -133,9 +144,41 @@ const ForgotPasswordScreen = () => {
           By signing in, you are agreeing to the online Terms and Conditions of
           the Marsa Sports Club booking regulations.
         </ArchivoExtraLight>
-        <ArchivoLight style={styles.termsHeading}>
+        {/* <ArchivoLight style={styles.termsHeading}>
           Terms & Conditions | Privacy Policy
-        </ArchivoLight>
+        </ArchivoLight> */}
+
+        <View
+          style={[
+            styles.termsContainer,
+            showBar() && { justifyContent: "space-between" },
+          ]}
+        >
+          {club?.termsURL ? (
+            <TouchableOpacity
+              hitSlop={{
+                top: 20,
+                bottom: 20,
+                left: 20,
+                right: 20,
+              }} // Adjust hitSlop as needed
+              onPress={() => webviewRef?.current?.show(club?.termsURL)}
+            >
+              <ArchivoLight style={styles.termsHeading}>
+                Terms & Conditions
+              </ArchivoLight>
+            </TouchableOpacity>
+          ) : null}
+          {showBar() ? <Text>|</Text> : null}
+          {club?.privacyURL ? (
+            <TouchableOpacity
+              style={{}}
+              onPress={() => webviewRef?.current?.show(club?.privacyURL)}
+            >
+              <ArchivoLight> Privacy Policy</ArchivoLight>
+            </TouchableOpacity>
+          ) : null}
+        </View>
         {showPoweredBy ? (
           <Animated.View
             exiting={SlideOutDown.duration(300)}
@@ -146,6 +189,7 @@ const ForgotPasswordScreen = () => {
           </Animated.View>
         ) : null}
       </View>
+      <PaymentWebviewPopup reference={webviewRef} />
     </ScreenWrapper>
   );
 };
@@ -163,6 +207,15 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: vh * 2.5,
   },
+  termsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 30,
+    paddingHorizontal: "12%",
+    zIndex: 100,
+    // backgroundColor : "red"
+  },
   terms: {
     color: themeColors.darkText,
     textAlign: "center",
@@ -173,10 +226,10 @@ const styles = StyleSheet.create({
     fontWeight: "300",
   },
   termsHeading: {
-    alignSelf: "center",
-    marginTop: 30,
-    fontSize: vh * 2,
-    fontWeight: "300",
+    // alignSelf: "center",
+    // marginTop: 30,
+    // fontSize: vh * 2,
+    // fontWeight: "300",
   },
   icon: {
     height: vh * 20,

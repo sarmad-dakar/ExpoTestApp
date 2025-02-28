@@ -19,7 +19,8 @@ export const showErrorToast = (message) => {
 
 export const showInfoToast = (message) => {
   Toast.show({
-    type: "error",
-    text1: message,
+    type: "info",
+    text1: "Info",
+    text2: message,
   });
 };
