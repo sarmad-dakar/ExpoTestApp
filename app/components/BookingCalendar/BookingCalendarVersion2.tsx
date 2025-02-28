@@ -480,8 +480,8 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
           <ScrollView
             contentContainerStyle={{
               flexGrow: 1,
-              // minHeight: "100%",
-              paddingBottom: 50,
+              minHeight: "100%",
+              paddingBottom: data?.timeSlots?.length * 2.2,
             }}
             // style={{ flex: 1 }}
           >
