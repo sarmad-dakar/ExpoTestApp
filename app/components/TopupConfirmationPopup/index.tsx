@@ -453,9 +453,25 @@ const TopupConfirmationPopup = forwardRef<
         ) : (
           <View style={styles.content}>
             <View style={styles.webHeder}>
-              <TouchableOpacity onPress={hide}>
-                <Image source={icons.cross} style={styles.backIcon} />
+              <TouchableOpacity style={styles.backIcon} onPress={hide}>
+                <Image
+                  source={icons.cross}
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                    resizeMode: "contain",
+                    tintColor: "white",
+                  }}
+                />
               </TouchableOpacity>
+              <ArchivoRegular style={{ color: "white" }}>
+                Proceed to Payment
+              </ArchivoRegular>
+              <View
+                style={{
+                  width: 30,
+                }}
+              ></View>
             </View>
 
             <View />
@@ -529,9 +545,13 @@ const MyStyles = () => {
     webHeder: {
       height: vh * 12,
       backgroundColor: colors.primary,
-      justifyContent: "center",
-      paddingLeft: "5%",
-      paddingTop: "4%",
+      alignItems: "center",
+      justifyContent: "space-between",
+      flexDirection: "row",
+      paddingTop: 10,
+      paddingHorizontal: "5%",
+      // paddingLeft: "5%",
+      // paddingTop: "4%",
     },
     crossIconContainer: {
       position: "absolute",

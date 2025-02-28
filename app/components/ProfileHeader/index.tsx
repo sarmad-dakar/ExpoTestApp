@@ -39,15 +39,16 @@ const ProfileHeader = ({
   enableSave,
   onSavepress,
 }: headerProps) => {
-  const [profilePic, setProfilePic] = useState({ uri: "" });
+  const [profilePic, setProfilePic] = useState(null);
   const dispatch = useAppDispatch();
   const user = useSelector((state: any) => state.user.profile);
   const loading = useSelector((state: RootState) => state.general.btnLoader);
   const styles = MyStyles();
   const [imageLoaded, setImageLoaded] = useState(false);
-
+  console.log(imageLoaded, "profile imagess");
   useEffect(() => {
     if (image) {
+      console.log(image, "are we here? ");
       setProfilePic({ uri: image });
     }
   }, [image]);
@@ -118,11 +119,13 @@ const ProfileHeader = ({
             <Image source={icons.dummyUser2} style={styles.image} />
           )}
 
-          <Image
-            source={profilePic}
-            style={[styles.image, imageLoaded ? {} : { display: "none" }]} // Hide until loaded
-            onLoad={() => setImageLoaded(true)}
-          />
+          {profilePic ? (
+            <Image
+              source={profilePic}
+              style={[styles.image, imageLoaded ? {} : { display: "none" }]} // Hide until loaded
+              onLoad={() => setImageLoaded(true)}
+            />
+          ) : null}
           <TouchableOpacity
             onPress={onCameraPress}
             style={styles.cameraContainer}
