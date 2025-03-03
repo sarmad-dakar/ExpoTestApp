@@ -38,13 +38,19 @@ const NavigationHeader = ({ title, back, sport, color }: headerProps) => {
   const topupConfirmationRef = useRef<ConfirmationPopupRef>(null);
   const profile = useSelector((state: any) => state.user?.user);
   const user = useSelector((state: any) => state.user.profile);
+  const club = useSelector((state: RootState) => state.general.clubConfig);
+
   const [imageLoaded, setImageLoaded] = useState(false);
   console.log(imageLoaded, "image loaded");
   const styles = MyStyles();
   const { colors } = useTheme();
   console.log(profile?.profilePic);
   const handlePress = () => {
-    topupConfirmationRef.current?.show();
+    if (club?.paymentSettings?.showPayment) {
+      topupConfirmationRef.current?.show();
+    } else {
+      return null;
+    }
   };
   console.log(balance, "here ...");
   return (

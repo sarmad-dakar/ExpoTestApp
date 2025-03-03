@@ -22,6 +22,7 @@ import { useTheme } from "@react-navigation/native";
 import ArchivoRegular from "../TextWrapper/ArchivoRegular";
 import ArchivoMedium from "../TextWrapper/ArchivoMedium";
 import WalletContainer from "../WalletContainer";
+import { RootState } from "@/app/store";
 
 type headerProps = {
   title: string;
@@ -44,11 +45,16 @@ const GeneralHeader = ({
 }: headerProps) => {
   const balance = useSelector((state: any) => state.account.balance);
   const topupConfirmationRef = useRef<ConfirmationPopupRef>(null);
+  const club = useSelector((state: RootState) => state.general.clubConfig);
   const styles = MyStyles();
   const { colors } = useTheme();
 
   const handlePress = () => {
-    topupConfirmationRef.current?.show();
+    if (club?.paymentSettings?.showPayment) {
+      topupConfirmationRef.current?.show();
+    } else {
+      return null;
+    }
   };
 
   const showBalance = () => {

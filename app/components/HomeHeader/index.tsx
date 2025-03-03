@@ -100,6 +100,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
   const styles = MyStyles();
   const dropdown = useRef<SelectDropdownRef>(null);
   const { colors } = useTheme();
+
   useEffect(() => {
     if (allSports?.length) {
       if (selectedSport) {
@@ -135,7 +136,11 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
   };
 
   const handlePress = () => {
-    topupConfirmationRef.current?.show();
+    if (club?.paymentSettings?.showPayment) {
+      topupConfirmationRef.current?.show();
+    } else {
+      return null;
+    }
   };
 
   return (
