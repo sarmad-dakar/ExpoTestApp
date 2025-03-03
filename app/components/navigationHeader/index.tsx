@@ -150,12 +150,13 @@ const MyStyles = () => {
   const styles = StyleSheet.create({
     container: {
       backgroundColor: colors.primary,
-      height: vh * 22,
+      // height: vh * 25,
       borderBottomRightRadius: 30,
       borderBottomLeftRadius: 30,
       //   alignItems: "center",
       paddingHorizontal: 20,
       paddingTop: Platform.OS == "ios" ? 25 : 10,
+      paddingBottom: 5,
     },
     logo: {
       height: vh * 4,
