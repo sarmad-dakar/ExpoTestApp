@@ -39,7 +39,7 @@ const NavigationHeader = ({ title, back, sport, color }: headerProps) => {
   const profile = useSelector((state: any) => state.user?.user);
   const user = useSelector((state: any) => state.user.profile);
   const [imageLoaded, setImageLoaded] = useState(false);
-
+  console.log(imageLoaded, "image loaded");
   const styles = MyStyles();
   const { colors } = useTheme();
   console.log(profile?.profilePic);
@@ -84,14 +84,13 @@ const NavigationHeader = ({ title, back, sport, color }: headerProps) => {
               <Image source={icons.dummyUser2} style={styles.profile} />
             )}
 
-          {
-            profile?.profilePic ? 
+            {profile?.profilePic ? (
               <Image
-              source={{ uri: profile?.profilePic }}
-              style={[styles.profile, ]} // Hide until loaded
-              onLoad={() => setImageLoaded(true)}
-            /> : null
-          }
+                source={{ uri: profile?.profilePic }}
+                style={[styles.profile]} // Hide until loaded
+                onLoad={() => setImageLoaded(true)}
+              />
+            ) : null}
           </View>
         </Pressable>
         <View style={styles.detailContainer}>
