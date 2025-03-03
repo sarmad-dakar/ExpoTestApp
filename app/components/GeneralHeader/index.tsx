@@ -34,7 +34,14 @@ type headerProps = {
   disable?: boolean;
 };
 
-const GeneralHeader = ({ title, back, sport, color, disable }: headerProps) => {
+const GeneralHeader = ({
+  title,
+  back,
+  sport,
+  color,
+  disable,
+  time,
+}: headerProps) => {
   const balance = useSelector((state: any) => state.account.balance);
   const topupConfirmationRef = useRef<ConfirmationPopupRef>(null);
   const styles = MyStyles();

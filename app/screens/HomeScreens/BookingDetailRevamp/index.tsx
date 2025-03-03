@@ -116,10 +116,7 @@ const BookingDetailScreen = () => {
   const [newFavList, setNewFavList] = useState([]);
   const btnLoader = useSelector((state: RootState) => state.general.btnLoader);
   const { colors } = useTheme();
-  console.log(
-    bookingData?.selectedSport,
-    "bookingData?.selectedSport?.sportServiceSetting"
-  );
+
   useEffect(() => {
     getMembers();
     calculateMaxPlayers();
@@ -227,6 +224,7 @@ const BookingDetailScreen = () => {
           });
           data.PlayerCodes = currentPlayers;
         }
+        console.log(servicesOption, "here ?");
         if (servicesOption.length) {
           let currentFacilities = servicesOption.join(",");
           data["sportServiceOptions"] = currentFacilities;
@@ -418,6 +416,12 @@ const BookingDetailScreen = () => {
       });
       data.PlayerCodes = currentPlayers;
     }
+
+    if (servicesOption.length) {
+      let currentFacilities = servicesOption.join(",");
+      data["sportServiceOptions"] = currentFacilities;
+    }
+
     const response = await CreateBooking(data);
     dispatch(fetchRemainingBalance());
 
