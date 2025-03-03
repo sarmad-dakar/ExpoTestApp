@@ -451,7 +451,7 @@ const TopupConfirmationPopup = forwardRef<
             </View>
           </ImageBackground>
         ) : (
-          <View style={styles.content}>
+          <View style={[styles.content, { paddingTop: 0 }]}>
             <View style={styles.webHeder}>
               <TouchableOpacity style={styles.backIcon} onPress={hide}>
                 <Image

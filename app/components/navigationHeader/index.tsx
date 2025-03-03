@@ -177,7 +177,7 @@ const MyStyles = () => {
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "space-between",
-      marginTop: vh * 3,
+      marginTop: vh * 4,
     },
     profileContainer: {
       flexDirection: "row",
