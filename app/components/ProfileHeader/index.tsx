@@ -119,13 +119,14 @@ const ProfileHeader = ({
             <Image source={icons.dummyUser2} style={styles.image} />
           )}
 
-          {profilePic ? (
+          {
+            profilePic ? 
             <Image
-              source={profilePic}
-              style={[styles.image, imageLoaded ? {} : { display: "none" }]} // Hide until loaded
-              onLoad={() => setImageLoaded(true)}
-            />
-          ) : null}
+            source={profilePic}
+            style={[styles.image, ]} // Hide until loaded
+            onLoad={() => setImageLoaded(true)}
+          /> : null
+          }
           <TouchableOpacity
             onPress={onCameraPress}
             style={styles.cameraContainer}

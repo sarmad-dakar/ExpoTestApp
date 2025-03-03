@@ -84,11 +84,14 @@ const NavigationHeader = ({ title, back, sport, color }: headerProps) => {
               <Image source={icons.dummyUser2} style={styles.profile} />
             )}
 
-            <Image
+          {
+            profile?.profilePic ? 
+              <Image
               source={{ uri: profile?.profilePic }}
-              style={[styles.profile, imageLoaded ? {} : { display: "none" }]} // Hide until loaded
+              style={[styles.profile, ]} // Hide until loaded
               onLoad={() => setImageLoaded(true)}
-            />
+            /> : null
+          }
           </View>
         </Pressable>
         <View style={styles.detailContainer}>
