@@ -13,6 +13,7 @@ const initialState = {
   notificationsData: [],
   sportsData: [],
   balance: 0,
+  subscriptionBalance: 0,
 };
 
 export const fetchMyAccount = createAsyncThunk("myAccount", async (data) => {
@@ -77,6 +78,7 @@ const slice = createSlice({
     });
     builder.addCase(fetchMySubscription.fulfilled, (state, action) => {
       state.subscriptionData = action.payload.data.details;
+      state.subscriptionBalance = action.payload.data?.balance;
     });
     builder.addCase(fetchMyNotifications.fulfilled, (state, action) => {
       state.notificationsData = action.payload.data;

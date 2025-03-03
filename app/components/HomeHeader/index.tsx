@@ -102,7 +102,16 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
   const { colors } = useTheme();
   useEffect(() => {
     if (allSports?.length) {
-      SetOtherSports(allSports.slice(1));
+      if (selectedSport) {
+        const otherThanSelected = allSports.filter(
+          (item) =>
+            item.sportServiceSetting.title !==
+            selectedSport.sportServiceSetting.title
+        );
+        SetOtherSports(otherThanSelected);
+      } else {
+        SetOtherSports(allSports.slice(1));
+      }
     }
   }, [allSports]);
 

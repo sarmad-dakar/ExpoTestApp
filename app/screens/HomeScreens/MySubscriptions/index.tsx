@@ -57,6 +57,9 @@ const MySubscriptionScreen = () => {
   const subscriptionData = useSelector(
     (state) => state.account.subscriptionData
   );
+  const subscriptionBalance = useSelector(
+    (state) => state.account.subscriptionBalance
+  );
   const recieptRef = useRef();
   console.log(subscriptionData, "subscription Datt");
   const token = useSelector((state: RootState) => state.user?.token);
@@ -265,11 +268,27 @@ const MySubscriptionScreen = () => {
         <PaymentWebviewPopup reference={webviewRef} />
 
         {subscriptionData?.length ? (
-          <MainButton
-            style={styles.viewRecieptBtn}
-            title="Subscription Receipts"
-            onPress={() => recieptRef?.current?.show()}
-          />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            {/* <MainButton
+              style={styles.viewRecieptBtn}
+              title={`Balance €${subscriptionBalance}`}
+              // onPress={() => recieptRef?.current?.show()}
+            /> */}
+            <ArchivoMedium style={styles.balance}>
+              Balance €{subscriptionBalance}
+            </ArchivoMedium>
+            <MainButton
+              style={styles.viewRecieptBtn}
+              title="Subscription Receipts"
+              onPress={() => recieptRef?.current?.show()}
+            />
+          </View>
         ) : null}
 
         {/* Scrollable Content */}
@@ -452,7 +471,7 @@ const styles = StyleSheet.create({
   },
   viewRecieptBtn: {
     height: vh * 4,
-    width: "50%",
+    width: "48%",
     alignSelf: "flex-end",
   },
   bold: {
@@ -500,5 +519,10 @@ const styles = StyleSheet.create({
   iconContainer: {
     height: vh * 3,
     width: vh * 3,
+  },
+  balance: {
+    fontSize: vh * 1.7,
+    color: "black",
+    textDecorationLine: "underline",
   },
 });

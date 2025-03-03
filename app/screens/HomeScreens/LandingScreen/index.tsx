@@ -213,6 +213,8 @@ const LandingScreen = () => {
   };
   useEffect(() => {
     if (sports?.length) {
+      console.log("bagair Sports wala useeffect");
+
       setSelectedSport(sports[0]);
     }
   }, []);
@@ -225,7 +227,10 @@ const LandingScreen = () => {
 
   useEffect(() => {
     if (sports?.length) {
-      setSelectedSport(sports[0]);
+      console.log("Sports wala useeffect");
+      if (!SelectedSport) {
+        setSelectedSport(sports[0]);
+      }
     }
   }, [sports]);
 
