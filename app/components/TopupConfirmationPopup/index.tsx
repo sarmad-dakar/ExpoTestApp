@@ -186,12 +186,13 @@ const TopupConfirmationPopup = forwardRef<
     if (Platform.OS == "ios") {
       if (club?.paymentSettings?.showApplePay == "1") {
         let obj = {
-          Id: "Gpay",
-          CardNumber: "Google Pay",
+          Id: "ApplePay",
+          CardNumber: "Apple Pay",
         };
         cardListArray.push(obj);
       }
     }
+
     let paymentInfoArray = JSON.parse(profile?.payInfo);
     if (paymentInfoArray?.length) {
       cardListArray.push(...paymentInfoArray);
