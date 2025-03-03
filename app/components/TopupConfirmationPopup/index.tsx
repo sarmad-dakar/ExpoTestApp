@@ -78,6 +78,7 @@ const TopupConfirmationPopup = forwardRef<
   const { colors } = useTheme();
   const styles = MyStyles();
   // const savedCards = JSON.parse(profile?.payInfo) || [];
+  const club = useSelector((state: RootState) => state.general.clubConfig);
 
   const dispatch = useAppDispatch();
   useImperativeHandle(ref || props.reference, () => ({
@@ -169,6 +170,36 @@ const TopupConfirmationPopup = forwardRef<
     }
   };
 
+  const generateListData = () => {
+    let cardListArray = [{ Id: "Add", CardNumber: "Add" }];
+
+    if (Platform.OS == "android") {
+      if (club?.paymentSettings?.showGoogleWallet == "1") {
+        let obj = {
+          Id: "Gpay",
+          CardNumber: "Google Pay",
+        };
+        cardListArray.push(obj);
+      }
+    }
+
+    if (Platform.OS == "ios") {
+      if (club?.paymentSettings?.showApplePay == "1") {
+        let obj = {
+          Id: "Gpay",
+          CardNumber: "Google Pay",
+        };
+        cardListArray.push(obj);
+      }
+    }
+    let paymentInfoArray = JSON.parse(profile?.payInfo);
+    if (paymentInfoArray?.length) {
+      cardListArray.push(...paymentInfoArray);
+    }
+
+    return cardListArray;
+  };
+
   return (
     <Modal
       transparent
@@ -219,7 +250,7 @@ const TopupConfirmationPopup = forwardRef<
               amount.
             </ArchivoRegular>
 
-            {profile?.payInfo ? (
+            {true ? (
               <View
                 style={{
                   marginTop: 10,
@@ -227,16 +258,7 @@ const TopupConfirmationPopup = forwardRef<
                 }}
               >
                 <FlatList
-                  data={[
-                    { Id: "Add", CardNumber: "Add" },
-                    {
-                      Id: Platform.OS == "android" ? "Gpay" : "ApplePay",
-                      CardNumber:
-                        Platform.OS == "android" ? "Google Pay" : "Apple Pay",
-                    },
-
-                    ...JSON.parse(profile?.payInfo),
-                  ]}
+                  data={generateListData()}
                   horizontal
                   showsHorizontalScrollIndicator={false}
                   renderItem={({ item, index }) => {
@@ -327,51 +349,6 @@ const TopupConfirmationPopup = forwardRef<
                 />
               </View>
             ) : null}
-
-            {/* Saved Cards as Radio Buttons */}
-            {/* {profile?.payInfo
-              ? JSON.parse(profile?.payInfo).map((card: any) => (
-                  <TouchableOpacity
-                    key={card.Id}
-                    style={styles.cardContainer}
-                    onPress={() => {
-                      setSelectedCardId(card.Id);
-                      setAmount(""); // Clear input when a card is selected
-                    }}
-                  >
-                    <View
-                      style={{ flexDirection: "row", alignItems: "center" }}
-                    >
-                      <View style={styles.radio}>
-                        {selectedCardId === card.Id && (
-                          <View style={styles.radioInner} />
-                        )}
-                      </View>
-                      <Text style={styles.cardText}>
-                        {card.CardNumber} {"    "} (Exp: {card.CardExpiryDate})
-                      </Text>
-                    </View>
-                    <Image source={icons.card} style={styles.cardIcon} />
-                  </TouchableOpacity>
-                ))
-              : null} */}
-
-            {/* <TouchableOpacity
-              style={styles.cardContainer}
-              onPress={() => {
-                setSelectedCardId("other");
-                setAmount(""); // Clear input when a card is selected
-              }}
-            >
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <View style={styles.radio}>
-                  {selectedCardId === "other" && (
-                    <View style={styles.radioInner} />
-                  )}
-                </View>
-                <Text style={styles.cardText}>Add New Card</Text>
-              </View>
-            </TouchableOpacity> */}
 
             <View
               pointerEvents={selectedAmountType == "Other" ? "auto" : "none"}

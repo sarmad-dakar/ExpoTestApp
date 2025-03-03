@@ -248,7 +248,7 @@ const LandingScreen = () => {
   const getCalendarData = async (date: Date, sport?: Sport): Promise<void> => {
     try {
       dispatch(toggleBtnLoader(true));
-
+      console.log(sport, "sport222");
       const formattedDate = moment(date).format("DD-MM-YYYY");
       let data = {
         date: formattedDate,

@@ -63,6 +63,8 @@ const index = () => {
     fetchClubs();
   }, []);
 
+  console.log(clubs, "all clubs");
+
   const fetchClubs = async () => {
     try {
       setLocalLoader(true);
