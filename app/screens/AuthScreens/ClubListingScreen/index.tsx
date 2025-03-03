@@ -16,7 +16,7 @@ import { vh, vw } from "@/app/utils/units";
 
 import { setBaseURL } from "@/app/api";
 import { useAppDispatch } from "../../HomeScreens/LandingScreen";
-import { getAllClubs } from "@/app/api/Auth";
+import { getAllClubs, getGeneralAllClubs } from "@/app/api/Auth";
 import {
   setAllClubs,
   setClubConfig,
@@ -73,7 +73,7 @@ const index = () => {
         setClubs(allClubsInRedux);
         return;
       }
-      const response = await getAllClubs();
+      const response = await getGeneralAllClubs();
 
       console.log(response.data, "response of clubs");
       const allClubs = response?.data;

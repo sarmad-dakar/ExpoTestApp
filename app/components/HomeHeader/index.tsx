@@ -112,6 +112,8 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
       } else {
         SetOtherSports(allSports.slice(1));
       }
+    } else {
+      SetOtherSports([]);
     }
   }, [allSports]);
 

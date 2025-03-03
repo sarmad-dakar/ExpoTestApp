@@ -211,6 +211,7 @@ const LandingScreen = () => {
   const getSports = async (): Promise<void> => {
     dispatch(fetchCurrentSports());
   };
+
   useEffect(() => {
     if (sports?.length) {
       console.log("bagair Sports wala useeffect");
@@ -231,6 +232,8 @@ const LandingScreen = () => {
       if (!SelectedSport) {
         setSelectedSport(sports[0]);
       }
+    } else {
+      setSelectedSport(null);
     }
   }, [sports]);
 
