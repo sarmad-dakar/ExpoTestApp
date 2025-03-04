@@ -62,6 +62,25 @@ const user = createSlice({
     saveMultipleUsers: (state, action) => {
       state.multipleUsers = [...state.multipleUsers, action.payload];
     },
+    updateTokenOfClubs: (state, action) => {
+      const updatedToken = action.payload.token;
+      const currentClub = action.payload.club;
+      const updateWithTokens = state.multipleUsers.map((item) => {
+        if (item.club?.title === currentClub.title) {
+          console.log(updatedToken, "abcds");
+          return {
+            ...item,
+            user: {
+              ...item.user,
+              token: updatedToken, // Assign new token without mutating original object
+            },
+          };
+        }
+        return item;
+      });
+      console.log(updateWithTokens);
+      state.multipleUsers = updateWithTokens;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchMyProfile.fulfilled, (state, action) => {
@@ -104,4 +123,5 @@ export const {
   saveLoginDetails,
   saveMultipleUsers,
   removeLoginDetails,
+  updateTokenOfClubs,
 } = user.actions;

@@ -4,6 +4,7 @@ import {
   fetchnewToken,
   fetchuserProfile,
   logout,
+  updateTokenOfClubs,
 } from "../store/slices/userSlice";
 import { toggleGeneralLoader } from "../store/slices/generalSlice";
 
@@ -68,7 +69,7 @@ instance.interceptors.response.use(
     const state = store.getState();
 
     const originalRequest = error.config;
-    console.log(JSON.stringify(error.response), "api error");
+    // console.log(JSON.stringify(error.response), "api error");
     if (
       error.response &&
       error.response.status === 401 &&
@@ -98,9 +99,17 @@ instance.interceptors.response.use(
         const previousToken = {
           token: state.user.token,
         };
-        await store.dispatch(fetchnewToken(previousToken)); // Refresh the token
-        const newToken = state.user?.token;
+        const result = await store.dispatch(fetchnewToken(previousToken)); // Refresh the token
+        const newToken = result?.payload?.data?.token;
+        const currentClub = state.general.clubConfig;
+        let objUpdate = {
+          token: newToken,
+          club: currentClub,
+        };
+        console.log(newToken, "New Token");
+        console.log(previousToken, "Previous Token");
 
+        await store.dispatch(updateTokenOfClubs(objUpdate));
         processQueue(null, newToken);
 
         if (newToken) {

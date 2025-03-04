@@ -114,7 +114,7 @@ const index = () => {
   //   }
   // };
 
-  const handleClubPress = (item) => {
+  const handleClubPress = async (item) => {
     try {
       // setLocalLoader(true);
       let isExist = multipleUsers?.find(
@@ -125,7 +125,7 @@ const index = () => {
       dispatch(setClubConfig(item));
       console.log(isExist, "existing user");
       if (isExist?.user) {
-        dispatch(saveLoginDetails(isExist?.user));
+        await dispatch(saveLoginDetails(isExist?.user));
         setTimeout(() => {
           setLocalLoader(false);
           router.replace("/(tabs)/homestack/");
