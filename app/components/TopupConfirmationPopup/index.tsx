@@ -193,9 +193,11 @@ const TopupConfirmationPopup = forwardRef<
       }
     }
 
-    let paymentInfoArray = JSON.parse(profile?.payInfo);
-    if (paymentInfoArray?.length) {
-      cardListArray.push(...paymentInfoArray);
+    if (profile?.payInfo) {
+      let paymentInfoArray = JSON.parse(profile?.payInfo);
+      if (paymentInfoArray?.length) {
+        cardListArray.push(...paymentInfoArray);
+      }
     }
 
     return cardListArray;
