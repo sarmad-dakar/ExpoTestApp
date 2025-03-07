@@ -28,6 +28,7 @@ import BookingConfirmationPopup, {
 import { toggleBtnLoader } from "@/app/store/slices/generalSlice";
 import { useTheme } from "@react-navigation/native";
 import LoaderComponent from "@/app/components/Loader";
+import { EventRegister } from "react-native-event-listeners";
 
 // Define types for calendar data and booking sessions
 interface CalendarData {
@@ -61,7 +62,7 @@ const LandingScreen = () => {
   const [calendarData, setCalendarData] = useState<CalendarData | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [SelectedSport, setSelectedSport] = useState<Sport>();
-
+  const [calendarFetchCount, setCalendarFetchCount] = useState(1);
   const [selectedBookingKey, setSelectedBookingKey] = useState("");
 
   const bookingConfirmationRef = useRef<ConfirmationPopupRef>(null);
@@ -85,6 +86,21 @@ const LandingScreen = () => {
     getSports();
     dispatch(toggleBtnLoader(true));
   }, []);
+
+  useEffect(() => {
+    let refreshEvent = EventRegister.addEventListener("tokenRefresh", () => {
+      setCalendarFetchCount((prev) => prev + 1);
+    });
+    return () => {
+      EventRegister.removeEventListener(refreshEvent);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (calendarFetchCount > 1) {
+      getCalendarData(selectedDate, SelectedSport);
+    }
+  }, [calendarFetchCount]);
 
   useFocusEffect(
     useCallback(() => {
@@ -261,7 +277,7 @@ const LandingScreen = () => {
       }
       setTimeout(() => {
         dispatch(toggleBtnLoader(false));
-      }, 1000);
+      }, 200);
     } catch (error) {
       dispatch(toggleBtnLoader(false));
     }

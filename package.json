@@ -43,6 +43,7 @@
     "react-native": "0.74.3",
     "react-native-blob-util": "^0.19.11",
     "react-native-date-picker": "^5.0.7",
+    "react-native-event-listeners": "^1.0.7",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "~2.16.1",
     "react-native-image-viewing": "^0.2.2",
