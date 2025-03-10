@@ -7,6 +7,7 @@ import {
   updateTokenOfClubs,
 } from "../store/slices/userSlice";
 import { toggleGeneralLoader } from "../store/slices/generalSlice";
+import { EventRegister } from "react-native-event-listeners";
 
 export const version = "v1/";
 export const liveUrl = "https://api.mscbookings.com/";
@@ -110,6 +111,7 @@ instance.interceptors.response.use(
         console.log(previousToken, "Previous Token");
 
         await store.dispatch(updateTokenOfClubs(objUpdate));
+
         processQueue(null, newToken);
 
         if (newToken) {
@@ -126,6 +128,7 @@ instance.interceptors.response.use(
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;
+        EventRegister.emit("tokenRefresh");
       }
     }
 

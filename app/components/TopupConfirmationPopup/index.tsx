@@ -135,10 +135,10 @@ const TopupConfirmationPopup = forwardRef<
         showErrorToast("Minimum topup amount should be 20");
         return;
       }
-      setLocalLoader(true);
+      // setLocalLoader(true);
       let data = {
         Amount: topupAmount,
-        RequestMediumId: 1,
+        RequestMediumId: 1, //
         Comment: "",
         PinCode: "",
       };
@@ -148,6 +148,12 @@ const TopupConfirmationPopup = forwardRef<
         selectedCardId !== "ApplePay"
       ) {
         data.PaymentId = selectedCardId;
+      }
+      if (selectedCardId == "ApplePay") {
+        data.RequestMediumId = 2;
+      }
+      if (selectedCardId == "Gpay") {
+        data.RequestMediumId = 3;
       }
       const result = await TopupBalance(data);
 
