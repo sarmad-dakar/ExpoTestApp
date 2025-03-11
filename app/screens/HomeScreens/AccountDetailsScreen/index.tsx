@@ -107,9 +107,7 @@ const AccountDetailScreen = () => {
       section: capitalizeFirstLetter(bookingData?.sport),
     };
     const response = await CancelBooking(data);
-    setTimeout(() => {
-      dispatch(fetchRemainingBalance());
-    }, 200);
+    dispatch(fetchRemainingBalance());
     console.log(response.data, "Response of cancel");
     if (response.data.msgCode == "200") {
       console.log("fetch again");
