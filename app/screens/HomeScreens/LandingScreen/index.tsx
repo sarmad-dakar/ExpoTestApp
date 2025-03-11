@@ -83,6 +83,7 @@ const LandingScreen = () => {
   useEffect(() => {
     // handleNavigation();
     getProfile();
+    dispatch(fetchRemainingBalance());
     getSports();
     dispatch(toggleBtnLoader(true));
   }, []);
@@ -91,8 +92,13 @@ const LandingScreen = () => {
     let refreshEvent = EventRegister.addEventListener("tokenRefresh", () => {
       setCalendarFetchCount((prev) => prev + 1);
     });
+    let switchCaseEvent = EventRegister.addEventListener("switchCase", () => {
+      console.log("FetchRemaining");
+      dispatch(fetchRemainingBalance());
+    });
     return () => {
       EventRegister.removeEventListener(refreshEvent);
+      EventRegister.removeEventListener(switchCaseEvent);
     };
   }, []);
 
@@ -257,7 +263,6 @@ const LandingScreen = () => {
   const getProfile = async (): Promise<void> => {
     dispatch(fetchMyProfile());
     dispatch(fetchuserProfile());
-    dispatch(fetchRemainingBalance());
   };
 
   // Define the type of 'date' as Date and return type as Promise<void>
@@ -334,9 +339,7 @@ const LandingScreen = () => {
       section: SelectedSport?.sportServiceSetting.title,
     };
     const response = await CancelBooking(data);
-    setTimeout(() => {
-      dispatch(fetchRemainingBalance());
-    }, 1000);
+    dispatch(fetchRemainingBalance());
     if (response.data.msgCode == "200") {
       console.log("fetch again");
       getCalendarData(selectedDate, SelectedSport);

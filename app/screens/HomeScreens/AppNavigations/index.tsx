@@ -40,6 +40,7 @@ import PoweredBy from "@/app/components/PoweredBy";
 import Animated, { FadeIn, SlideInLeft } from "react-native-reanimated";
 import NavigationHeader from "@/app/components/navigationHeader";
 import moment from "moment";
+import { EventRegister } from "react-native-event-listeners";
 
 const AppNavigationScreen = () => {
   const activeOpacity = 0.5;
@@ -174,6 +175,7 @@ const AppNavigationScreen = () => {
     if (isExist) {
       dispatch(saveLoginDetails(isExist?.user));
       setTimeout(() => {
+        EventRegister.emit("switchCase");
         router.push("/homestack");
       }, 300);
     } else {

@@ -69,12 +69,12 @@ const index = () => {
     try {
       setLocalLoader(true);
       const isDatePassed = moment().isBefore(moment(nextFetchDate));
-      if (allClubsInRedux && isDatePassed) {
-        setLocalLoader(false);
-        console.log(nextFetchDate, "nextFetchDate");
-        setClubs(allClubsInRedux);
-        return;
-      }
+      // if (allClubsInRedux && isDatePassed) {
+      //   setLocalLoader(false);
+      //   console.log(nextFetchDate, "nextFetchDate");
+      //   setClubs(allClubsInRedux);
+      //   return;
+      // }
       const response = await getGeneralAllClubs();
 
       console.log(response.data, "response of clubs");

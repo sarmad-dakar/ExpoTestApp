@@ -213,9 +213,7 @@ const MyBookingsScreen: React.FC = () => {
       section: selectedTab?.name,
     };
     const response = await CancelBooking(data);
-    setTimeout(() => {
-      dispatch(fetchRemainingBalance());
-    }, 1000);
+    dispatch(fetchRemainingBalance());
     if (response.data.msgCode == "200") {
       console.log("fetch again");
       fetchData(selectedTab.name, selectedDate);
