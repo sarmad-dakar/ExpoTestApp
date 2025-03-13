@@ -19,7 +19,7 @@ const DatePickerCustomModal = ({
   isVisible,
   onRequestClose,
 }) => {
-  const {colors} = useTheme()
+  const { colors } = useTheme();
   return (
     <View>
       {Platform.OS == "android" ? (
@@ -53,11 +53,10 @@ const DatePickerCustomModal = ({
               onPress={onRequestClose}
             />
             <LinearGradient
-            // colors={["#0003" , colors.secondary]}
-            colors={[colors.secondary,  "#FFE0EE", ]}
-
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 2 }}
+              // colors={["#0003" , colors.secondary]}
+              colors={[colors.secondary, "#FFE0EE"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 2 }}
               style={{
                 backgroundColor: colors.secondary,
                 borderTopLeftRadius: 20,
@@ -71,6 +70,7 @@ const DatePickerCustomModal = ({
                 mode="date"
                 display="inline"
                 accentColor={"black"}
+                themeVariant="light"
                 onChange={onChangeDate}
               />
             </LinearGradient>
