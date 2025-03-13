@@ -527,6 +527,12 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
                           item.rows == 2 && { height: 66 },
                         ]}
                       >
+                        {item.icon && (
+                          <Image
+                            source={{ uri: item.icon }}
+                            style={styles.icon}
+                          />
+                        )}
                         <Text
                           style={{
                             fontSize: 10,
