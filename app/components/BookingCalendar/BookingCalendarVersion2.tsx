@@ -177,7 +177,11 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
     }
 
     if (!item.isAvailable && item.icon) {
-      return themeColors.booked;
+      if (item?.players) {
+        return themeColors.booked;
+      } else {
+        return themeColors.othersBooking;
+      }
     }
 
     const currentDay = moment(date).format("DD-MM-YYYY");
@@ -203,7 +207,11 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
     }
 
     if (!item.isAvailable && item.icon) {
-      return "Booked";
+      if (item?.players) {
+        return "My Booking";
+      } else {
+        return "Booked";
+      }
     }
 
     const currentDay = moment(date).format("DD-MM-YYYY");
@@ -228,7 +236,11 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
     }
 
     if (!item.isAvailable && item.icon) {
-      return "#6B9C26";
+      if (item?.players) {
+        return "#6B9C26";
+      } else {
+        return "#0008";
+      }
     }
 
     const currentDay = moment(date).format("DD-MM-YYYY");
@@ -527,12 +539,12 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
                           item.rows == 2 && { height: 66 },
                         ]}
                       >
-                        {item.icon && (
+                        {/* {item.icon && (
                           <Image
                             source={{ uri: item.icon }}
                             style={styles.icon}
                           />
-                        )}
+                        )} */}
                         <Text
                           style={{
                             fontSize: 10,

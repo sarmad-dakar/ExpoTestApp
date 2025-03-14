@@ -47,7 +47,9 @@ const SplashScreen = ({ navigation }) => {
         }
 
         if (token) {
-          router.replace("/(tabs)/homestack/");
+          setTimeout(() => {
+            router.replace("/(tabs)/homestack/");
+          }, 200);
         } else {
           if (!club?.appURL && intoSkip) {
             router.replace("/clublisting");
