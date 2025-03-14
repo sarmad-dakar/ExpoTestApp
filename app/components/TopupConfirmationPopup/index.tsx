@@ -155,6 +155,7 @@ const TopupConfirmationPopup = forwardRef<
       if (selectedCardId == "Gpay") {
         data.RequestMediumId = 3;
       }
+      console.log(data , "topup balance")
       const result = await TopupBalance(data);
 
       console.log(result.data, "amount");
