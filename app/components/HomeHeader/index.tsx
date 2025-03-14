@@ -427,7 +427,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
                     }}
                   />
                   <ArchivoMedium style={{ fontSize: vh * 1.6, color: "black" }}>
-                    {moment(selectedDate).format("DD MMM YYYY")}
+                    {moment(selectedDate).format("DD MMM YYYY , dddd")}
                   </ArchivoMedium>
                 </View>
               </LinearGradient>
