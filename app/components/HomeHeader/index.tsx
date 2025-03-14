@@ -36,6 +36,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import ArchivoMedium from "../TextWrapper/ArchivoMedium";
 import DatePickerCustomModal from "../../components/DatePickerCustomModal";
 import DropdownField from "../DropDownField";
+import ArchivoLight from "../TextWrapper/ArchivoLight";
 interface Sport {
   sportServiceSetting: {
     title: string;
@@ -120,11 +121,11 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
 
   const handleSelectedSport = (sport: Sport) => {
     setSelectedSport(sport);
-    const otherSports = allSports.filter(
-      (item) =>
-        item.sportServiceSetting?.title !== sport.sportServiceSetting?.title
-    );
-    SetOtherSports(otherSports);
+    // const otherSports = allSports.filter(
+    //   (item) =>
+    //     item.sportServiceSetting?.title !== sport.sportServiceSetting?.title
+    // );
+    // SetOtherSports(otherSports);
   };
 
   const onChangeDate = (event: DateTimePickerEvent, selectedDate?: Date) => {
@@ -143,17 +144,41 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
     }
   };
 
+  const isSportSelected = (item) => {
+    if (
+      item?.sportServiceSetting?.title ==
+      selectedSport?.sportServiceSetting?.title
+    ) {
+      return colors.secondary;
+    } else {
+      return themeColors.white;
+    }
+  };
+
+  const getFontFamilySport = (item) => {
+    if (
+      item?.sportServiceSetting?.title ==
+      selectedSport?.sportServiceSetting?.title
+    ) {
+      return "FiraSans-Medium";
+    } else {
+      return "FiraSans-Light";
+    }
+  };
+
   return (
     <View>
       <SlidingDrawer
         isVisible={drawerVisible}
         onClose={() => setDrawerVisible(false)}
       >
+        <ArchivoLight />
         <Text>Here is the drawer content!</Text>
       </SlidingDrawer>
 
       <View style={styles.container}>
-        <View
+        <TouchableOpacity
+          onPress={() => handleSelectedSport(allSports[0])}
           style={{
             alignItems: "center",
             width: 60,
@@ -168,31 +193,32 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
             <Image
               source={
                 sportsIcon[
-                  `${selectedSport?.sportServiceSetting?.title?.toLowerCase()}`
+                  `${allSports[0].sportServiceSetting?.title?.toLowerCase()}`
                 ]
               }
               style={[
                 styles.logo,
                 {
-                  tintColor: colors.secondary,
+                  tintColor: isSportSelected(allSports[0]),
                 },
               ]}
             />
           )}
           {selectedSport && (
-            <ArchivoMedium
+            <Text
               style={[
                 styles.selectedSport,
                 {
-                  color: colors.secondary,
+                  color: isSportSelected(allSports[0]),
                   fontSize: vh * 1.5,
+                  fontFamily: getFontFamilySport(allSports[0]),
                 },
               ]}
             >
-              {selectedSport?.sportServiceSetting?.title}
-            </ArchivoMedium>
+              {allSports[0].sportServiceSetting?.title}
+            </Text>
           )}
-        </View>
+        </TouchableOpacity>
 
         <BerlingskeMedium
           style={[styles.selectedSport, { fontSize: vh * 2.5 }]}
@@ -233,9 +259,17 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
                         `${item?.sportServiceSetting?.title?.toLowerCase()}`
                       ]
                     }
-                    style={styles.logo}
+                    style={[styles.logo, { tintColor: isSportSelected(item) }]}
                   />
-                  <Text style={styles.selectedSport}>
+                  <Text
+                    style={[
+                      styles.selectedSport,
+                      {
+                        color: isSportSelected(item),
+                        fontFamily: getFontFamilySport(item),
+                      },
+                    ]}
+                  >
                     {item?.sportServiceSetting?.title}
                   </Text>
                 </TouchableOpacity>
