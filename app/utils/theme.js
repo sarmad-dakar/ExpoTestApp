@@ -17,8 +17,9 @@ export const themeColors = {
   cyan: "#91d3d5",
   lightGray: "#e3e3e3",
   unAvailable: "#F6CECE",
-  booked: "#EBFFCF",
+  booked: "#69ff58",
   expiredSeesion: "#E8E8E8",
   available: "white",
   darkText: "#2A3029",
+  othersBooking: "#f0f0f0",
 };
