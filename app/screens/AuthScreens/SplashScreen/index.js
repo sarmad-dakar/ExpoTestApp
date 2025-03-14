@@ -18,7 +18,7 @@ import {
 } from "../../../store/slices/generalSlice";
 import { images } from "../../../MyAssets/index";
 import { router } from "expo-router";
-import { setBaseURL } from "@/app/api";
+import { setBaseURL, testUrl } from "@/app/api";
 import NetInfo from "@react-native-community/netinfo";
 
 const SplashScreen = ({ navigation }) => {
@@ -45,6 +45,7 @@ const SplashScreen = ({ navigation }) => {
         if (club?.apiURL) {
           setBaseURL(club?.apiURL);
         }
+        // setBaseURL(testUrl)
 
         if (token) {
           setTimeout(() => {
