@@ -201,6 +201,17 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
     }
   };
 
+  const getBorderColor = (item: SessionItem) => {
+    if (!item.isAvailable && item.icon) {
+      if (item?.players) {
+        return "#0008";
+      } else {
+        return "red";
+      }
+    }
+    return null;
+  };
+
   const getText = (item: SessionItem) => {
     if (!item.isAvailable && !item.icon) {
       return "UnAvailable";
@@ -304,7 +315,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
     if (condition == "+") {
       return false;
     }
-    if (condition == "Booked") {
+    if (condition == "My Booking") {
       if (item.players) {
         return false;
       } else {
@@ -545,6 +556,9 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
                             style={styles.icon}
                           />
                         )} */}
+                        {/* {getText(item) == "My Booking" ? (
+                          <View style={styles.greenBookingLight}></View>
+                        ) : null} */}
                         <Text
                           style={{
                             fontSize: 10,
@@ -632,6 +646,15 @@ const MyStyles = () => {
     },
     greenLight: {
       backgroundColor: "#AAFF00",
+      height: vh * 1,
+      width: vh * 1,
+      borderRadius: 100,
+      position: "absolute",
+      top: 5,
+      right: 5,
+    },
+    greenBookingLight: {
+      backgroundColor: "#7eff0d",
       height: vh * 1,
       width: vh * 1,
       borderRadius: 100,
