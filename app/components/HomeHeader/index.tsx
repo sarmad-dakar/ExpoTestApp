@@ -193,7 +193,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
             <Image
               source={
                 sportsIcon[
-                  `${allSports[0].sportServiceSetting?.title?.toLowerCase()}`
+                  `${allSports[0]?.sportServiceSetting?.title?.toLowerCase()}`
                 ]
               }
               style={[
@@ -215,7 +215,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
                 },
               ]}
             >
-              {allSports[0].sportServiceSetting?.title}
+              {allSports[0]?.sportServiceSetting?.title}
             </Text>
           )}
         </TouchableOpacity>
