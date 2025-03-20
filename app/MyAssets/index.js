@@ -102,6 +102,7 @@ export const icons = {
   euro3: require("./icons/euro3.png"),
   upArrow: require("./icons/upArrow.png"),
   ban: require("./icons/ban.png"),
+  pickleBall: require("./icons/pickleball.png"),
 };
 
 export const images = {
@@ -123,6 +124,7 @@ export const images = {
   backgroundDummy: require("../MyAssets/images/backgroundDummy.png"),
   jugaar: require("../MyAssets/images/shape.png"),
   linesBackground: require("../MyAssets/images/pngLines.png"),
+  backgroundDakar: require("../MyAssets/images/background-dakar.jpg"),
 };
 
 export const sportsIcon = {

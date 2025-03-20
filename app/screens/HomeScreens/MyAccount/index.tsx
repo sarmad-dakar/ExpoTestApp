@@ -80,7 +80,7 @@ const MyAccountScreen = () => {
   }
 
   const sortAccountData = (data) => {
-    let unique = ["All"];
+    let unique = ["All", "Topup"];
     data.forEach((item) => {
       if (item?.section) {
         if (!unique.includes(item?.section)) {
@@ -96,6 +96,12 @@ const MyAccountScreen = () => {
   const onTabSelection = (item) => {
     if (item == "All") {
       return setDataForList(accountData);
+    }
+    if (item == "Topup") {
+      const sortedCategory = accountData.filter(
+        (item) => item?.category?.toLowerCase() == "playing fees"
+      );
+      return setDataForList(sortedCategory);
     }
 
     const sortedList = accountData.filter(

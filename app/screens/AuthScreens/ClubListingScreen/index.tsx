@@ -26,7 +26,7 @@ import { useSelector } from "react-redux";
 import ArchivoMedium from "@/app/components/TextWrapper/ArchivoMedium";
 import { LinearGradient } from "expo-linear-gradient";
 import BerlingskeBold from "@/app/components/TextWrapper/BerlingskeBold";
-import GeneralHeader from "@/app/components/GeneralHeader";
+import DakarHeader from "@/app/components/DakarHeader";
 import axios from "axios";
 import { sportsIcon } from "@/app/components/HomeHeader";
 import Skeleton from "react-native-reanimated-skeleton";
@@ -223,7 +223,7 @@ const index = () => {
                   paddingHorizontal: "5%",
                   zIndex: 10,
                 }}
-                colors={["#5A564E", "#5A564E", "#2F2F2D"]}
+                colors={["#2c2c4b", "#04162c", "#2F2F2D"]}
                 start={{ x: 1, y: 0 }}
                 end={{ x: 1, y: 1 }}
               >
@@ -405,7 +405,7 @@ const index = () => {
       imageStyle={{ width: "100%", height: "100%", resizeMode: "cover" }}
       style={styles.container}
     >
-      <GeneralHeader disable={true} title="Sports Clubs" color={"#2A2F28"} />
+      <DakarHeader />
       <ImageGalleryViewerPopup reference={imageGalleryRef} />
       <ImageView
         images={galleryImages}
@@ -539,16 +539,18 @@ const styles = StyleSheet.create({
     height: vh * 4.5,
     width: vh * 4.5,
     borderRadius: 100,
-    backgroundColor: "#CCFF05",
+    backgroundColor: "white",
     marginRight: 10,
     justifyContent: "center",
     alignItems: "center",
+    borderWidth: 2.5,
+    borderColor: "#ee3a5c",
   },
   loginBtn: {
     width: vh * 5,
     height: vh * 5,
     borderRadius: 10,
-    backgroundColor: "white",
+    backgroundColor: "#ee3a5c",
     justifyContent: "center",
     alignItems: "center",
   },

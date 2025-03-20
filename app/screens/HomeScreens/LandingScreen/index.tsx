@@ -67,7 +67,7 @@ const LandingScreen = () => {
   const [calendarFetchCount, setCalendarFetchCount] = useState(1);
   const [selectedBookingKey, setSelectedBookingKey] = useState("");
   const [getSignalRData, setSignalRData] = React.useState(false);
-
+  const [connection, setConnection] = useState(null);
   const bookingConfirmationRef = useRef<ConfirmationPopupRef>(null);
 
   const loader = useSelector((state: RootState) => state.general?.btnLoader);
@@ -252,13 +252,19 @@ const LandingScreen = () => {
         newConnection.onclose(() =>
           setTimeout(startSignalRConnection(newConnection), 5000)
         );
-        startSignalRConnection(newConnection);
+        setConnection(newConnection);
       }
     } catch (error) {
       console.log("something went wrong");
     }
     // setConnection(newConnection);
   }, [club]);
+
+  useEffect(() => {
+    if (connection) {
+      startSignalRConnection(connection);
+    }
+  }, [connection]);
 
   const startSignalRConnection = (connectionP) => {
     try {
