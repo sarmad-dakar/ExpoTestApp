@@ -26,7 +26,7 @@ const SplashScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.user.token);
   const club = useSelector((state) => state.general.clubConfig);
-  const intoSkip = useSelector((state) => state.general.skipIntro);
+  const introSkip = useSelector((state) => state.general.skipIntro);
   const animatedStyles = useAnimatedStyle(() => ({
     // transform: [{ scale: offset.value }],
     opacity: offset.value,
@@ -52,13 +52,13 @@ const SplashScreen = ({ navigation }) => {
             router.replace("/(tabs)/homestack/");
           }, 200);
         } else {
-          if (!club?.appURL && intoSkip) {
+          if (!club?.appURL && introSkip) {
             router.replace("/clublisting");
           }
-          if (!club?.appURL && !intoSkip) {
+          if (!club?.appURL && !introSkip) {
             router.replace("/onboarding");
           }
-          if (club?.appURL && intoSkip) {
+          if (club?.appURL && introSkip) {
             console.log("here?");
             router.replace("/login");
           }
