@@ -239,38 +239,46 @@ const LandingScreen = () => {
     }
   }, [getSignalRData]);
   useEffect(() => {
-    if (club) {
-      const apiurl = club?.apiURL;
+    try {
+      if (club) {
+        const apiurl = club?.apiURL;
 
-      const newConnection = new HubConnectionBuilder()
-        .withUrl(`${apiurl}hub/Booking/status/update`)
-        .withAutomaticReconnect()
-        .build();
+        const newConnection = new HubConnectionBuilder()
+          .withUrl(`${apiurl}hub/Booking/status/update`)
+          .withAutomaticReconnect()
+          .build();
 
-      // re-establish the connection if connection dropped
-      newConnection.onclose(() =>
-        setTimeout(startSignalRConnection(newConnection), 5000)
-      );
-      startSignalRConnection(newConnection);
+        // re-establish the connection if connection dropped
+        newConnection.onclose(() =>
+          setTimeout(startSignalRConnection(newConnection), 5000)
+        );
+        startSignalRConnection(newConnection);
+      }
+    } catch (error) {
+      console.log("something went wrong");
     }
     // setConnection(newConnection);
   }, [club]);
 
   const startSignalRConnection = (connectionP) => {
-    if (connectionP) {
-      connectionP
-        .start()
-        .then((result) => {
-          console.log("SignalR Connected!");
-          connectionP.on("BookedSessionMessage", (message) => {
-            console.log(JSON.stringify(message));
-            // updateCalendardataFromSocket(message);
-            setSignalRData(message);
+    try {
+      if (connectionP) {
+        connectionP
+          .start()
+          .then((result) => {
+            console.log("SignalR Connected!");
+            connectionP.on("BookedSessionMessage", (message) => {
+              console.log(JSON.stringify(message));
+              // updateCalendardataFromSocket(message);
+              setSignalRData(message);
+            });
+          })
+          .catch((e) => {
+            //console.log('SignalR Connection failed: ', e)
           });
-        })
-        .catch((e) => {
-          //console.log('SignalR Connection failed: ', e)
-        });
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
