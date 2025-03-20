@@ -69,6 +69,7 @@ export const sportsIcon = {
   running: icons.running,
   karate: icons.karate,
   boxing: icons.boxing,
+  pickleball: icons.pickleBall,
 };
 
 interface HomeHeaderProps {
@@ -104,16 +105,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
 
   useEffect(() => {
     if (allSports?.length) {
-      if (selectedSport) {
-        const otherThanSelected = allSports.filter(
-          (item) =>
-            item.sportServiceSetting.title !==
-            selectedSport.sportServiceSetting.title
-        );
-        SetOtherSports(otherThanSelected);
-      } else {
-        SetOtherSports(allSports.slice(1));
-      }
+      SetOtherSports(allSports.slice(1));
     } else {
       SetOtherSports([]);
     }
@@ -490,7 +482,6 @@ const MyStyles = () => {
       justifyContent: "space-between",
       paddingBottom: 20,
       height: vh * 27,
-
       // alignItems: "center",
     },
     slotWrapper: {
