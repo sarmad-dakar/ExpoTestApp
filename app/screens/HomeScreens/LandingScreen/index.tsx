@@ -29,6 +29,8 @@ import { toggleBtnLoader } from "@/app/store/slices/generalSlice";
 import { useTheme } from "@react-navigation/native";
 import LoaderComponent from "@/app/components/Loader";
 import { EventRegister } from "react-native-event-listeners";
+import { HubConnectionBuilder } from "@microsoft/signalr";
+import { liveUrl, testUrl } from "@/app/api";
 
 // Define types for calendar data and booking sessions
 interface CalendarData {
@@ -64,6 +66,7 @@ const LandingScreen = () => {
   const [SelectedSport, setSelectedSport] = useState<Sport>();
   const [calendarFetchCount, setCalendarFetchCount] = useState(1);
   const [selectedBookingKey, setSelectedBookingKey] = useState("");
+  const [getSignalRData, setSignalRData] = React.useState(false);
 
   const bookingConfirmationRef = useRef<ConfirmationPopupRef>(null);
 
@@ -230,6 +233,111 @@ const LandingScreen = () => {
     ).start();
   }, []);
 
+  useEffect(() => {
+    if (getSignalRData) {
+      updateCalendardataFromSocket(getSignalRData);
+    }
+  }, [getSignalRData]);
+  useEffect(() => {
+    if (club) {
+      const apiurl = club?.apiURL;
+
+      const newConnection = new HubConnectionBuilder()
+        .withUrl(`${apiurl}hub/Booking/status/update`)
+        .withAutomaticReconnect()
+        .build();
+
+      // re-establish the connection if connection dropped
+      newConnection.onclose(() =>
+        setTimeout(startSignalRConnection(newConnection), 5000)
+      );
+      startSignalRConnection(newConnection);
+    }
+    // setConnection(newConnection);
+  }, [club]);
+
+  const startSignalRConnection = (connectionP) => {
+    if (connectionP) {
+      connectionP
+        .start()
+        .then((result) => {
+          console.log("SignalR Connected!");
+          connectionP.on("BookedSessionMessage", (message) => {
+            console.log(JSON.stringify(message));
+            // updateCalendardataFromSocket(message);
+            setSignalRData(message);
+          });
+        })
+        .catch((e) => {
+          //console.log('SignalR Connection failed: ', e)
+        });
+    }
+  };
+
+  const updateCalendardataFromSocket = (message) => {
+    let bookingData = calendarData?.bookingSessions;
+    console.log("are we here ? ");
+    console.log(
+      message.service.trim().toLowerCase(),
+      SelectedSport?.sportServiceSetting?.title?.toLowerCase()
+    );
+    if (message != "") {
+      if (
+        message.service.trim().toLowerCase() ==
+        SelectedSport?.sportServiceSetting?.title?.toLowerCase()
+      ) {
+        if (message.key.includes("*")) {
+          let splitKey = message.key.split("*");
+          let courtNo = parseInt(splitKey[1]) - 1;
+          let sessionNo = parseInt(splitKey[2]) - 1;
+          if (
+            courtNo != undefined &&
+            courtNo >= 0 &&
+            sessionNo != undefined &&
+            sessionNo >= 0
+          ) {
+            if (bookingData.length > 0 && bookingData != undefined) {
+              let isExist =
+                bookingData[courtNo].session.filter((x) => x.key == message.key)
+                  .length > 0
+                  ? true
+                  : false;
+              if (isExist) {
+                if (
+                  bookingData[courtNo].session[sessionNo] &&
+                  bookingData[courtNo] != undefined &&
+                  bookingData[courtNo].session[sessionNo] != undefined
+                ) {
+                  let tempBooking = bookingData[courtNo];
+                  let changeTempBooking = tempBooking.session[sessionNo];
+
+                  if (message.isBooking) {
+                    changeTempBooking.icon = `assets/images/sports-content/${SelectedSport.sportTheme.folder.toLowerCase()}/sport_schedule_ball_hidden.png`;
+                    changeTempBooking.isAvailable = 0;
+                    changeTempBooking.bcolor = "";
+                    changeTempBooking.rows = message.isHalfSession ? 2 : 0;
+                  } else {
+                    changeTempBooking.rows = 0;
+                    changeTempBooking.bcolor = "";
+                    changeTempBooking.icon = "";
+                    changeTempBooking.isAvailable = 1;
+                    changeTempBooking.players = "";
+                  }
+
+                  bookingData[courtNo] = tempBooking;
+                  console.log(bookingData);
+                  setCalendarData({
+                    ...calendarData,
+                    bookingSessions: bookingData,
+                  });
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  };
   const getSports = async (): Promise<void> => {
     dispatch(fetchCurrentSports());
   };

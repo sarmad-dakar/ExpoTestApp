@@ -44,8 +44,8 @@ const SplashScreen = ({ navigation }) => {
       validatingTimeout = setTimeout(() => {
         if (club?.apiURL) {
           setBaseURL(club?.apiURL);
+          // setBaseURL(testUrl);
         }
-        // setBaseURL(testUrl)
 
         if (token) {
           setTimeout(() => {

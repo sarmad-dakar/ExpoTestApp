@@ -108,7 +108,7 @@ export const images = {
   appLogo: require("../MyAssets/images/applogo.png"),
   AppLogov2: require("../MyAssets/images/Marsa-logo.png"),
   AppLogov3: require("../MyAssets/images/logoV3.png"),
-  dakarLogo: require("./images/DakarRoundLogo.png"),
+  dakarLogo: require("./images/DakarSportLogo.png"),
   dakarDefaulLogo: require("./images/dakarLogo.png"),
   tennis: require("../MyAssets/images/tennis.png"),
   padel: require("../MyAssets/images/padel.png"),
