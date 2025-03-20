@@ -69,7 +69,8 @@ const DakarHeader = ({
   };
 
   return (
-    <ImageBackground source={images.backgroundDakar} style={[styles.container]}>
+    <ImageBackground source={images.backgroundDakar}
+    style={[styles.container]}>
       <Image source={images.dakarLogo} style={styles.logo} />
     </ImageBackground>
   );
@@ -83,7 +84,7 @@ const MyStyles = () => {
   const styles = StyleSheet.create({
     container: {
       backgroundColor: colors.primary,
-      height: vh * 15,
+      height: Platform.OS == "ios" ? vh * 17: vh * 15,
       borderBottomRightRadius: 30,
       borderBottomLeftRadius: 30,
       justifyContent: "center",
