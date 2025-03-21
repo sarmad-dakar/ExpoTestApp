@@ -13,11 +13,14 @@ import DateTimePicker, {
 import { themeColors } from "@/app/utils/theme";
 import { LinearGradient } from "expo-linear-gradient";
 import { useTheme } from "@react-navigation/native";
+import moment from "moment";
+import { vh } from "@/app/utils/units";
 const DatePickerCustomModal = ({
   selectedDate,
   onChangeDate,
   isVisible,
   onRequestClose,
+  handleResetDate
 }) => {
   const { colors } = useTheme();
   return (
@@ -65,6 +68,13 @@ const DatePickerCustomModal = ({
                 paddingBottom: 20,
               }}
             >
+             <Pressable
+             onPress={handleResetDate}
+             style={{marginTop : 20 , marginLeft : 30}}>
+             <Text 
+             style={{fontSize : vh * 1.7}}
+             >{moment().format("ddd MMM DD")}</Text>
+             </Pressable>
               <DateTimePicker
                 value={selectedDate}
                 mode="date"

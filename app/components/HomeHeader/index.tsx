@@ -128,6 +128,11 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
     // setDate(currentDate);
   };
 
+  const onResetDate = ()=> { 
+    setShowDatePicker(false)
+    setSelectedDate(new Date())
+  }
+
   const handlePress = () => {
     if (club?.paymentSettings?.showPayment) {
       topupConfirmationRef.current?.show();
@@ -352,6 +357,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
               isVisible={showDatePicker}
               onRequestClose={() => setShowDatePicker(false)}
               onChangeDate={onChangeDate}
+              handleResetDate = {onResetDate}
             />
 
             <Pressable
