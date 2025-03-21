@@ -290,7 +290,7 @@ const index = () => {
                     onPress={() => handleClubPress(item)}
                     style={styles.loginBtn}
                   >
-                    <Image source={icons.enterLogin} style={[styles.btnIcon]} />
+                    <Image source={icons.logout} style={[styles.btnIcon]} />
                   </Pressable>
                 </View>
               </LinearGradient>
@@ -558,6 +558,7 @@ const styles = StyleSheet.create({
     height: "55%",
     width: "55%",
     resizeMode: "contain",
+    tintColor: "black",
   },
   circle: {
     height: 140,

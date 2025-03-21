@@ -19,15 +19,15 @@
 
    <style name="MyDatePickerDialogTheme" parent="android:Theme.Material.Light.Dialog">
       <!-- If you want you can override only colorAccent -->
-      <item name="colorPrimary">#353535</item>
-      <item name="colorPrimaryDark">#353535</item>
-      <item name="android:colorAccent">#353535</item>
+      <item name="colorPrimary">#2c2c4b</item>
+      <item name="colorPrimaryDark">#2c2c4b</item>
+      <item name="android:colorAccent">#2c2c4b</item>
       
       <!-- Or you can change very item color -->
    </style>
    <style name="Dialog.Theme" parent="Theme.AppCompat.Light.Dialog">
 <!-- BackgroundColor of the date modal -->
-<item name="colorAccent">#353535</item>
+<item name="colorAccent">#2c2c4b</item>
 <!-- Change textColor of the date modal -->
 <item name="android:textColorPrimary">#000000</item>
 </style>

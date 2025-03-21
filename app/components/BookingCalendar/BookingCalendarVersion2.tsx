@@ -214,7 +214,7 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
 
   const getText = (item: SessionItem) => {
     if (!item.isAvailable && !item.icon) {
-      return "UnAvailable";
+      return "Unavailable";
     }
 
     if (!item.isAvailable && item.icon) {
@@ -347,6 +347,25 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
   const handleGalleryPress = () => {
     imageGalleryRef.current.show(galleryImages, `${selectedSport}`);
     // setGalleryViewer(true);
+  };
+
+  const isMybookingIncludes = (index, timeslot) => {
+    const bookingSession = data?.bookingSessions;
+
+    let result = false;
+    for (let i = 0; i < bookingSession.length; i++) {
+      const element = bookingSession[i];
+      const currentSession = element.session[index];
+
+      const textResult = getText(currentSession);
+      if (textResult == "My Booking") {
+        console.log(element, "element");
+        console.log(timeslot, "element");
+
+        return (result = true);
+      }
+    }
+    return result;
   };
 
   return (
@@ -522,7 +541,10 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
                     {isAvailableTimeSlot(timeSlot, data.timeSlots) && (
                       <View style={styles.greenLight} />
                     )}
-                    <Text style={styles.timeFont}>{timeSlot || "N/A"}</Text>
+                    {isMybookingIncludes(index) && (
+                      <View style={styles.greenBorder} />
+                    )}
+                    <Text style={[styles.timeFont]}>{timeSlot || "N/A"}</Text>
                   </View>
                 ))}
               </View>
@@ -652,6 +674,14 @@ const MyStyles = () => {
       position: "absolute",
       top: 5,
       right: 5,
+    },
+    greenBorder: {
+      backgroundColor: "#AAFF00",
+      height: "100%",
+      width: 7,
+      position: "absolute",
+      // top: 5,
+      left: 0,
     },
     greenBookingLight: {
       backgroundColor: "#7eff0d",

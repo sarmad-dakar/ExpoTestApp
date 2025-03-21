@@ -57,6 +57,7 @@ const user = createSlice({
     },
     removeLoginDetails: (state) => {
       state.user = null;
+      state.profile = null;
       state.token = null;
     },
     saveMultipleUsers: (state, action) => {

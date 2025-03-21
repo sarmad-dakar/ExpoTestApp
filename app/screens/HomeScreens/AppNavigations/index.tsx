@@ -260,7 +260,7 @@ const AppNavigationScreen = () => {
               <Image source={icons.terms} style={styles.icon} />
 
               <ArchivoRegular style={{ fontSize: vh * 1.7, color: "#3B5049" }}>
-                Terms & Condition
+                Terms & Conditions
               </ArchivoRegular>
             </TouchableOpacity>
           ) : null}
@@ -292,7 +292,10 @@ const AppNavigationScreen = () => {
           activeOpacity={activeOpacity}
           style={[styles.subHeading, { borderTopWidth: 0 }]}
         >
-          <Image source={icons.logout} style={styles.icon} />
+          <Image
+            source={icons.enterLogin}
+            style={[styles.icon, { tintColor: themeColors.red }]}
+          />
 
           <ArchivoRegular
             style={{ fontSize: vh * 1.7, color: themeColors.red }}

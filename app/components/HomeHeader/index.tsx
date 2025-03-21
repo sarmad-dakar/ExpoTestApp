@@ -174,7 +174,6 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
           style={{
             alignItems: "center",
             width: 60,
-
             // Border Glow
             // borderWidth: 2,
             // borderColor: "rgba(255,255,255,0.5)", // Slight glow effect
@@ -294,7 +293,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
             /> */}
             {/* <DropdownField value={"sdsds"} /> */}
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
               activeOpacity={0.5}
               onPress={() => setShowDatePicker(true)}
               style={{
@@ -346,7 +345,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
                   tintColor: "#5F645D",
                 }}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <DatePickerCustomModal
               selectedDate={selectedDate}
@@ -355,7 +354,8 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
               onChangeDate={onChangeDate}
             />
 
-            <View
+            <Pressable
+              onPress={() => setShowDatePicker(true)}
               style={{
                 shadowColor: "#000",
                 shadowOffset: {
@@ -405,8 +405,10 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
-                    paddingLeft: "4%",
+                    marginLeft: "4%",
                     marginTop: vh * 0.5,
+                    borderBottomWidth: 1,
+                    width: "70%",
                   }}
                 >
                   <Image
@@ -421,9 +423,18 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
                   <ArchivoMedium style={{ fontSize: vh * 1.6, color: "black" }}>
                     {moment(selectedDate).format("DD MMM YYYY , dddd")}
                   </ArchivoMedium>
+                  <Image
+                    source={icons.dropdown}
+                    style={{
+                      width: vh * 1.5,
+                      height: vh * 1.5,
+                      resizeMode: "contain",
+                      marginLeft: vw * 2,
+                    }}
+                  />
                 </View>
               </LinearGradient>
-            </View>
+            </Pressable>
           </LinearGradient>
         </LinearGradient>
       </View>
@@ -452,7 +463,7 @@ const MyStyles = () => {
       justifyContent: "space-between",
       flexDirection: "row",
       alignItems: "center",
-      paddingHorizontal: 20,
+      paddingHorizontal: 15,
       paddingTop: Platform.OS == "ios" ? 25 : 10,
       zIndex: 30,
     },

@@ -312,18 +312,19 @@ const LandingScreen = () => {
           ) {
             if (bookingData.length > 0 && bookingData != undefined) {
               let isExist =
-                bookingData[courtNo].session.filter((x) => x.key == message.key)
-                  .length > 0
+                bookingData[courtNo]?.session?.filter(
+                  (x) => x.key == message.key
+                ).length > 0
                   ? true
                   : false;
               if (isExist) {
                 if (
-                  bookingData[courtNo].session[sessionNo] &&
+                  bookingData[courtNo]?.session[sessionNo] &&
                   bookingData[courtNo] != undefined &&
                   bookingData[courtNo].session[sessionNo] != undefined
                 ) {
                   let tempBooking = bookingData[courtNo];
-                  let changeTempBooking = tempBooking.session[sessionNo];
+                  let changeTempBooking = tempBooking?.session[sessionNo];
 
                   if (message.isBooking) {
                     changeTempBooking.icon = `assets/images/sports-content/${SelectedSport.sportTheme.folder.toLowerCase()}/sport_schedule_ball_hidden.png`;
