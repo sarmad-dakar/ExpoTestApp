@@ -150,7 +150,7 @@ const ForgotPasswordScreen = () => {
         )}
         <ArchivoExtraLight style={styles.terms}>
           By signing in, you are agreeing to the online Terms and Conditions of
-          the Marsa Sports Club booking regulations.
+          the {club?.title} booking regulations.
         </ArchivoExtraLight>
         {/* <ArchivoLight style={styles.termsHeading}>
           Terms & Conditions | Privacy Policy

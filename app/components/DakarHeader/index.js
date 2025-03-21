@@ -84,7 +84,7 @@ const MyStyles = () => {
   const styles = StyleSheet.create({
     container: {
       backgroundColor: colors.primary,
-      height: Platform.OS == "ios" ? vh * 17: vh * 15,
+      height: Platform.OS == "ios" ? vh * 20: vh * 15,
       borderBottomRightRadius: 30,
       borderBottomLeftRadius: 30,
       justifyContent: "center",

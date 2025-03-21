@@ -26,5 +26,6 @@ const styles = StyleSheet.create({
     width: vh * 20,
     height: vh * 20,
     resizeMode: "contain",
+    marginTop : vh * 2
   },
 });

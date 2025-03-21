@@ -482,7 +482,7 @@ const styles = StyleSheet.create({
   },
   clubCard: {
     // width: vw * 42,
-    height: vh * 35,
+    height: vh * 34,
     marginBottom: 20,
     backgroundColor: themeColors.lightGray,
     borderRadius: vh * 2.5,
