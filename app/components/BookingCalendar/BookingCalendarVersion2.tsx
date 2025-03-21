@@ -26,6 +26,7 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import ImageGalleryViewerPopup from "../ImageGalleryViewer";
+import ArchivoMedium from "../TextWrapper/ArchivoMedium";
 
 // Define interfaces for the item and data props
 interface SessionItem {
@@ -373,9 +374,55 @@ const BookingCalendarVersion2: React.FC<BookingCalendarProps> = ({
       entering={FadeIn.duration(500)}
       style={{ height: vh * 40, width: "100%", paddingHorizontal: "5%" }}
     >
-      <BerlingskeMedium style={styles.heading}>
-        Book Your Slots
-      </BerlingskeMedium>
+      <View
+        style={{
+          flexDirection: "row",
+          marginVertical: vh * 1,
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <BerlingskeMedium>Book Your Slots</BerlingskeMedium>
+        {/* <View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                height: 10,
+                width: 10,
+                borderRadius: 100,
+                backgroundColor: "green",
+                marginRight: 5,
+              }}
+            ></View>
+            <ArchivoMedium style={{ fontSize: vh * 1.3 }}>
+              Booking availability starts
+            </ArchivoMedium>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                height: 20,
+                width: 5,
+                marginRight: 5,
+                backgroundColor: "green",
+              }}
+            ></View>
+            <ArchivoMedium style={{ fontSize: vh * 1.3 }}>
+              Your Bookings
+            </ArchivoMedium>
+          </View>
+        </View> */}
+      </View>
       <ImageView
         images={selectedCourtResources}
         imageIndex={0}
@@ -620,9 +667,7 @@ const MyStyles = () => {
       overflow: "hidden",
       //
     },
-    heading: {
-      marginVertical: vh * 1,
-    },
+    heading: {},
     time: {
       width: "100%",
       backgroundColor: colors.primary,
