@@ -119,7 +119,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({
     // );
     // SetOtherSports(otherSports);
   };
-
+  console.log(vw , "vertical width")
   const onChangeDate = (event: DateTimePickerEvent, selectedDate?: Date) => {
     setShowDatePicker(false); // Close the picker
     console.log(moment(selectedDate).format("hh:mm"));
@@ -493,7 +493,7 @@ const MyStyles = () => {
     },
     sideBar: {
       backgroundColor: colors.primary,
-      width: 90,
+      width: vw > 7 ?  120 : 90,
       borderBottomRightRadius: 40,
       paddingLeft: 18,
       justifyContent: "space-between",
@@ -517,7 +517,7 @@ const MyStyles = () => {
     sidebarTabs: {
       justifyContent: "center",
       alignItems: "center",
-      width: 55,
+      width: vw > 7 ?  75 : 55,
       marginTop: vh * 2,
     },
     slotTitle: {

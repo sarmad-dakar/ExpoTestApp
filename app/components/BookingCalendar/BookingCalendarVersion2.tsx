@@ -14,7 +14,7 @@ import BerlingskeBold from "../TextWrapper/BerlingskeBold";
 import { themeColors } from "@/app/utils/theme";
 import moment from "moment";
 import { icons } from "@/app/MyAssets";
-import { vh } from "@/app/utils/units";
+import { vh, vw } from "@/app/utils/units";
 import ImageView from "react-native-image-viewing";
 import BerlingskeMedium from "../TextWrapper/BerlingskeMedium";
 import { useTheme } from "@react-navigation/native";
@@ -671,7 +671,7 @@ const MyStyles = () => {
     time: {
       width: "100%",
       backgroundColor: colors.primary,
-      height: 33,
+      height: vw > 7 ? 55 :   33,
       justifyContent: "center",
       alignItems: "center",
       borderWidth: 1,
